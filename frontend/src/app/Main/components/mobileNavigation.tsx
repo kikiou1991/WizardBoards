@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import Dropdown from "../components/dropDown";
+
 import { Divider } from "@nextui-org/react";
 
 export interface MenuItem {
@@ -52,9 +52,6 @@ export default function NavigationMobile() {
         {menuItems.map((item) => {
           return item.hasOwnProperty("children") ? (
             <>
-              <Dropdown item={item} />
-              
-            
             </>
         
           ) : (

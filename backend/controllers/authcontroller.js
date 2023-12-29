@@ -7,7 +7,7 @@ module.exports.Signup = async (req, res, next) => {
         const { email, password, username, createdAt } = req.body;
         const existingUser = await User.findOne({ email });
         if (existingUser) {
-            return res.jon({ message: "User already exist, pleas Sign In" });
+            return res.json({ message: "User already exist, pleas Sign In" });
         }
         const user = await User.create({ email, password, username, createdAt });
         const token = createSecretToken(user._id);

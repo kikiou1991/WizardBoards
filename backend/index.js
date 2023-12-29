@@ -19,7 +19,11 @@ app.get('/users', (request, response) => {
 });
 
 mongoose
-    .connect(process.env.mongoDBURL)
+    .connect(process.env.mongoDBURL, {
+
+
+        writeConcern: { w: 'majority', wtimeout: 0 }
+    })
     .then(() => {
         console.log('App is connected to the MongoDB database');
 
