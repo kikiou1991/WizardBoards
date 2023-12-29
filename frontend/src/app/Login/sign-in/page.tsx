@@ -9,7 +9,7 @@ const Login = () => {
   return (
     <div className='relaitve flex h-full flex-row'>
       
-        <div className='md:basis-2/3 hidden  bg-gradient-to-r from-[#602ee4] to-[#14a0eb]'>
+        <div className='md:basis-2/3 hidden md:flex bg-gradient-to-r from-[#602ee4] to-[#14a0eb]'>
           <Icon name='shape'/>
         </div>
         <div className='md:basis-1/3 w-full flex flex-col justify-center items-center gap-2 py-5 px-5 bg-gradient-to-r from-[#66a6db] to-[#c9d7e7]'>
