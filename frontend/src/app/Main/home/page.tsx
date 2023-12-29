@@ -1,6 +1,5 @@
 import React from 'react'
 import NavbarTop from '../components/navbar/navbar'
-import FakeBar from '../components/dropDown'
 import Sidebar from '../components/sidebar/sidebar'
 import Project from '../projects/page'
 const Home = () => {
