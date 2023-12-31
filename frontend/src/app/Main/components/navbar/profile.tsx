@@ -10,7 +10,7 @@ interface Props {
 
 const Profile = ({name, location, email}: Props) => {
   return (
-    <Navbar className='bg-[#292f46]'>
+    <Navbar className='bg-inherit'>
     
           <NavbarContent as="div" className='items-center'>
               <Dropdown className='bg-slate-100' placement='bottom-end'>

@@ -26,7 +26,7 @@ const NavbarTop = () => {
   return (
     <Navbar
       isBordered
-      className='w-full border-b-[2px] border-slate-300 text-[#a8b0d3] bg-[#292f46]'
+      className='w-full border-b-[2px] border-slate-300 text-[#a8b0d3] bg-secondaryBG'
       classNames={{ base: 'w-screen', wrapper: 'w-screen max-w-none' }}
     >
       {/* Mobile Menu */}
@@ -39,12 +39,11 @@ const NavbarTop = () => {
 
       {/* Left navigation section icon, header, and add button */}
       <NavbarContent className="items-center flex flex-grow-0 gap-1">
-
         {/* File / Other Products / Navigation */}
 
       <Dropdown className="bg-slate-100" placement="bottom-start">
           <DropdownTrigger>
-            <Button className="bg-[#292f46] hover:bg-[#3d51a1]" size="sm" isIconOnly>
+            <Button className="bg-inherit hover:bg-[#3d51a1]" size="sm" isIconOnly>
               <Icon name="menu" />
             </Button>
           </DropdownTrigger>
@@ -86,7 +85,7 @@ const NavbarTop = () => {
 
         <Dropdown className="bg-slate-100" placement="bottom-start">
           <DropdownTrigger>
-            <Button className="bg-[#292f46] hover:bg-[#3d51a1]" size="sm" isIconOnly>
+            <Button className="bg-inherit hover:bg-[#3d51a1]" size="sm" isIconOnly>
               <Icon name="addIcon" />
             </Button>
           </DropdownTrigger>
@@ -109,12 +108,12 @@ const NavbarTop = () => {
         <MyModal />
 
       {/* Calendar and Notifications */}
-        <Button className="bg-[#292f46] hover:bg-[#3d51a1]" size="sm" isIconOnly>
+        <Button className="bg-inherit hover:bg-[#3d51a1]" size="sm" isIconOnly>
           <Icon name="calendar" />
         </Button>
         <Dropdown className="bg-slate-100" placement="bottom-end">
           <DropdownTrigger>
-            <Button className="bg-[#292f46] hover:bg-[#3d51a1]" size="sm" isIconOnly>
+            <Button className="bg-inherit hover:bg-[#3d51a1]" size="sm" isIconOnly>
               <Icon name="notiBell" />
             </Button>
           </DropdownTrigger>

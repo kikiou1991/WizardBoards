@@ -10,17 +10,17 @@ const authRoute = require("./routes/authroute");
 
 
 
-app.get('/', (request, response) => {
+app.get('/api/', (request, response) => {
     console.log(request);
     return response.status(234).send('Welcome to my MERN App!');
 });
 
-app.get('/login', (request, response) => {
+app.get('/api/login', (request, response) => {
     console.log(request);
     return response.status(200).send('Here is the login API');
 });
 
-app.get('/signup', (request, response) => {
+app.get('/api/signup', (request, response) => {
     console.log(request);
     return response.status(200).send("here is the signup API")
 })
@@ -58,4 +58,4 @@ app.use(express.json())
 
 app.use(cookieParser());
 
-app.use("/", authRoute);
+app.use("/api/", authRoute);
