@@ -42,9 +42,9 @@ mongoose
 
 app.use(
     cors({
-        origin: ["https://gadorjani.co.uk/wizardboards"],
+        origin: ["https://gadorjani.co.uk"],
         methods: ["GET", "POST", "PUT", "DELETE"],
-        credentials: include,
+        credentials: true,
     })
 );
 
