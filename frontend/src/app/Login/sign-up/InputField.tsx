@@ -76,7 +76,7 @@ const InputField = () => {
       alert("All done")
   
       try {
-        const response = await fetch("http://localhost:3001/signup", {
+        const response = await fetch("https://gadorjani.co.uk/api/signup", {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -90,7 +90,7 @@ const InputField = () => {
       });
         if (response.ok) {
           // Handle successful response
-          router.replace("http://localhost:3000/wizardboards/Login/sign-in");
+          router.replace("https://gadorjani.co.uk/wizardboards/Login/sign-in");
         } else {
           // Handle error response
           errorMessage = "Sign up failed. Please try again.";
