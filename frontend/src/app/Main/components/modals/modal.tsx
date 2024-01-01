@@ -26,7 +26,7 @@ const MyModal = () => {
                 mainWrapper: "h-full ",
                 input: "text-small",
                 
-                inputWrapper: "data-[hover=true]:bg-[#3d51a1] h-full font-normal text-slate-100 bg-[#3d51a1]/50 hover:bg-sky-700",
+                inputWrapper: "data-[hover=true]:bg-[#3d51a1] h-full font-normal text-[#E5EAF3] bg-[#143F88] hover:bg-[#143F88]",
                 
             }}
             placeholder="Type to search..."

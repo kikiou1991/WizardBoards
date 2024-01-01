@@ -13,7 +13,7 @@ const Profile = ({name, location, email}: Props) => {
     <Navbar className='bg-inherit'>
     
           <NavbarContent as="div" className='items-center'>
-              <Dropdown className='bg-slate-100' placement='bottom-end'>
+              <Dropdown className='bg-[#041A42]' placement='bottom-end'>
                 <DropdownTrigger>
                   <Avatar
                           isBordered
@@ -27,16 +27,16 @@ const Profile = ({name, location, email}: Props) => {
 
                 </DropdownTrigger>
                 <DropdownMenu >
-                  <DropdownSection>
-                    <DropdownItem>
+                  <DropdownSection className='text-[#E5EAF3]'>
+                    <DropdownItem className='data-[hover=true]:bg-[#143F88]'>
                       <p className="font-semibold">Signed in as</p>
                       <p className="font-semibold">{email}</p></DropdownItem>
-                    <DropdownItem>{name}</DropdownItem>
-                    <DropdownItem>{location}</DropdownItem>
-                    <DropdownItem>
+                    <DropdownItem className='data-[hover=true]:bg-[#143F88]'>{name}</DropdownItem>
+                    <DropdownItem className='data-[hover=true]:bg-[#143F88]'>{location}</DropdownItem>
+                    <DropdownItem className='data-[hover=true]:bg-[#143F88]'>
                       <p className=''>Settings</p>
                     </DropdownItem>
-                    <DropdownItem>
+                    <DropdownItem className='data-[hover=true]:bg-[#143F88]'>
                       <p className=''>Logout</p>
                     </DropdownItem>
 

@@ -21,7 +21,13 @@ const userSchema = new mongoose.Schema({
     lastSeen: {
         type: Date,
 
-    }
+    },
+    workspaces: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Workspace",
+        },
+    ],
 });
 
 userSchema.pre("save", async function () {

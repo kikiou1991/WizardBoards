@@ -41,7 +41,7 @@ const NavbarTop = () => {
       <NavbarContent className="items-center flex flex-grow-0 gap-1">
         {/* File / Other Products / Navigation */}
 
-      <Dropdown className="bg-slate-100" placement="bottom-start">
+      <Dropdown className="bg-[#041A42] text-[#E5EAF3]" placement="bottom-start">
           <DropdownTrigger>
             <Button className="bg-inherit hover:bg-[#3d51a1]" size="sm" isIconOnly>
               <Icon name="menu" classname={"bg-white"}/>
@@ -49,9 +49,9 @@ const NavbarTop = () => {
           </DropdownTrigger>
           <DropdownMenu>
             <DropdownSection>
-              <DropdownItem>Menu Item #1</DropdownItem>
-              <DropdownItem>Menu Item #2</DropdownItem>
-              <DropdownItem>Menu Item #3</DropdownItem>
+              <DropdownItem className='data-[hover=true]:bg-[#143F88]'>Menu Item #1</DropdownItem>
+              <DropdownItem className='data-[hover=true]:bg-[#143F88]'>Menu Item #2</DropdownItem>
+              <DropdownItem className='data-[hover=true]:bg-[#143F88]'>Menu Item #3</DropdownItem>
             </DropdownSection>
           </DropdownMenu>
         </Dropdown>
@@ -64,7 +64,7 @@ const NavbarTop = () => {
         {/*DropDown Navigation */}
         
         {navBarItems.map((navbar) => (
-        <Dropdown key={navbar.id} className='bg-slate-100' placement='bottom-start'>
+        <Dropdown key={navbar.id} className='bg-[#041A42]' placement='bottom-start'>
           <DropdownTrigger>
             <div className='flex gap-1 items-center'>
               <Button size='md' className='bg-inherit' endContent={<Icon name='downarrow' classname={"bg-white"}/>}>
@@ -74,16 +74,18 @@ const NavbarTop = () => {
           </DropdownTrigger>
           <DropdownMenu>
             <DropdownSection>
-              {navbar.submenu.map((submenuItem) => (
-                <DropdownItem key={submenuItem.id}>{submenuItem.name}</DropdownItem>
-              ))}
+                {navbar.submenu.map((submenuItem) => (
+                  <DropdownItem key={submenuItem.id}>
+                    {submenuItem.name}
+                  </DropdownItem>
+        ))}
             </DropdownSection>
           </DropdownMenu>
         </Dropdown>
       ))}
                 
 
-        <Dropdown className="bg-slate-100" placement="bottom-start">
+        <Dropdown className="bg-[#041A42] text-[#E5EAF3]" placement="bottom-start">
           <DropdownTrigger>
             <Button className="bg-inherit hover:bg-[#3d51a1]" size="sm" isIconOnly>
               <Icon name="addIcon"  classname={"bg-white"}/>
@@ -91,8 +93,8 @@ const NavbarTop = () => {
           </DropdownTrigger>
           <DropdownMenu>
             <DropdownSection>
-              <DropdownItem>Something</DropdownItem>
-              <DropdownItem>This is a notification</DropdownItem>
+              <DropdownItem className='data-[hover=true]:bg-[#143F88]'>Something</DropdownItem>
+              <DropdownItem className='data-[hover=true]:bg-[#143F88]'>This is a notification</DropdownItem>
             </DropdownSection>
           </DropdownMenu>
         </Dropdown>
@@ -111,16 +113,16 @@ const NavbarTop = () => {
         <Button className="bg-inherit hover:bg-[#3d51a1]" size="sm" isIconOnly>
           <Icon name="calendar" classname={"bg-white"}/>
         </Button>
-        <Dropdown className="bg-slate-100" placement="bottom-end">
+        <Dropdown className="bg-[#041A42]" placement="bottom-end">
           <DropdownTrigger>
             <Button className="bg-inherit hover:bg-[#3d51a1]" size="sm" isIconOnly>
               <Icon name="notiBell" classname={"bg-white"} />
             </Button>
           </DropdownTrigger>
-          <DropdownMenu>
+          <DropdownMenu className='text-[#E5EAF3]'>
             <DropdownSection>
-              <DropdownItem>Something</DropdownItem>
-              <DropdownItem>This is a notification</DropdownItem>
+              <DropdownItem className='data-[hover=true]:bg-[#143F88]'>Something</DropdownItem>
+              <DropdownItem className='data-[hover=true]:bg-[#143F88]'>This is a notification</DropdownItem>
             </DropdownSection>
           </DropdownMenu>
         </Dropdown>
