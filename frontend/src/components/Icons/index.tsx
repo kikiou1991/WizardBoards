@@ -3,7 +3,7 @@ import React from "react";
 interface Props {
     name: string;
     onClick?: () => void;
-    classname: string;
+    classname?: string;
 }
 
 interface Icons {
