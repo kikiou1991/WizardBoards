@@ -31,7 +31,7 @@ const MyModal = () => {
             }}
             placeholder="Type to search..."
             size="md"
-            startContent={<Icon name="searchIcon" />}
+            startContent={<Icon name="searchIcon" classname='white'/>}
             type="search"
             onClick={openModal}
 />
@@ -44,10 +44,10 @@ const MyModal = () => {
             radius='lg'
             classNames={{
                 body: "py-6",
-                backdrop: "bg-[#292f46]/50 backdrop-opacity-40",
-                base: "border-[#292f46] bg-[#19172c] dark:bg-[#19172c] text-[#a8b0d3]",
-                header: "border-b-[1px] border-[#292f46]",
-                footer: "border-t-[1px] border-[#292f46]",
+                backdrop: "bg-[#041A42]/50 backdrop-opacity-40",
+                base: "border-[#041A42] bg-[#041A42] dark:bg-[#19172c] text-[#a8b0d3]",
+                header: "border-b-[1px] border-[#041A42]",
+                footer: "border-t-[1px] border-[#041A42]",
                 closeButton: "hover:bg-white/5 active:bg-white/10",
               }}
               scrollBehavior={scrollBehavior}
@@ -63,7 +63,7 @@ const MyModal = () => {
             }}
             placeholder="Type to search..."
             size="md"
-            startContent={<Icon name="searchIcon" />}
+            startContent={<Icon name="searchIcon" classname='white'/>}
             type="search"
             onClick={openModal}
 />

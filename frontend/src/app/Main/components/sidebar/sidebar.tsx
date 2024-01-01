@@ -6,7 +6,7 @@ import YourBoards from './components/yourboards'
 
 const Sidebar = () => {
   return (
-    <div className='h-full  w-100%  text-[#a8b0d3] flex flex-col bg-[#052d43]'>
+    <div className='h-full  w-100%  text-[#a8b0d3] flex flex-col bg-[#143F88]'>
       <div className='flex-grow gap-3 items-center min-h-10  border-r-[2px] border-slate-300'>
         <div className='border-b-[1px] border-slate-300'>
           <CurrentProject/>

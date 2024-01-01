@@ -26,7 +26,7 @@ const NavbarTop = () => {
   return (
     <Navbar
       isBordered
-      className='w-full border-b-[2px] border-slate-300 text-[#a8b0d3] bg-secondaryBG'
+      className='w-full border-b-[2px] border-slate-300 text-[#E5EAF3] bg-[#041A42]'
       classNames={{ base: 'w-screen', wrapper: 'w-screen max-w-none' }}
     >
       {/* Mobile Menu */}
@@ -44,7 +44,7 @@ const NavbarTop = () => {
       <Dropdown className="bg-slate-100" placement="bottom-start">
           <DropdownTrigger>
             <Button className="bg-inherit hover:bg-[#3d51a1]" size="sm" isIconOnly>
-              <Icon name="menu" />
+              <Icon name="menu" classname={"bg-white"}/>
             </Button>
           </DropdownTrigger>
           <DropdownMenu>
@@ -58,7 +58,7 @@ const NavbarTop = () => {
 
         {/* Logo */}
 
-        <Icon name="projectIcon" />
+        <Icon name="projectIcon" classname={"bg-white"}/>
       
        
         {/*DropDown Navigation */}
@@ -67,7 +67,7 @@ const NavbarTop = () => {
         <Dropdown key={navbar.id} className='bg-slate-100' placement='bottom-start'>
           <DropdownTrigger>
             <div className='flex gap-1 items-center'>
-              <Button size='md' className='bg-inherit' endContent={<Icon name='downarrow' />}>
+              <Button size='md' className='bg-inherit' endContent={<Icon name='downarrow' classname={"bg-white"}/>}>
                 <p>{navbar.name}</p>
               </Button>
             </div>
@@ -86,7 +86,7 @@ const NavbarTop = () => {
         <Dropdown className="bg-slate-100" placement="bottom-start">
           <DropdownTrigger>
             <Button className="bg-inherit hover:bg-[#3d51a1]" size="sm" isIconOnly>
-              <Icon name="addIcon" />
+              <Icon name="addIcon"  classname={"bg-white"}/>
             </Button>
           </DropdownTrigger>
           <DropdownMenu>
@@ -102,19 +102,19 @@ const NavbarTop = () => {
       <div className="flex-grow"></div>
 
       {/* Right section with modal, calendar, notification, and profile */}
-      <NavbarContent className="items-center flex flex-grow-0 flex-wrap-0">
+      <NavbarContent className="items-center flex flex-grow-0 flex-wrap-0 bg-inherit">
 
         {/* Model Section SearchBar */}
         <MyModal />
 
       {/* Calendar and Notifications */}
         <Button className="bg-inherit hover:bg-[#3d51a1]" size="sm" isIconOnly>
-          <Icon name="calendar" />
+          <Icon name="calendar" classname={"bg-white"}/>
         </Button>
         <Dropdown className="bg-slate-100" placement="bottom-end">
           <DropdownTrigger>
             <Button className="bg-inherit hover:bg-[#3d51a1]" size="sm" isIconOnly>
-              <Icon name="notiBell" />
+              <Icon name="notiBell" classname={"bg-white"} />
             </Button>
           </DropdownTrigger>
           <DropdownMenu>
