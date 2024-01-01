@@ -15,15 +15,15 @@ app.get('/api/', (request, response) => {
     return response.status(234).send('Welcome to my MERN App!');
 });
 
-app.get('/api/login', (request, response) => {
-    console.log(request);
-    return response.status(200).send('Here is the login API');
-});
+// app.get('/api/login', (request, response) => {
+//     console.log(request);
+//     return response.status(200).send('Here is the login API');
+// });
 
-app.get('/api/signup', (request, response) => {
-    console.log(request);
-    return response.status(200).send("here is the signup API")
-})
+// app.get('/api/signup', (request, response) => {
+//     console.log(request);
+//     return response.status(200).send("here is the signup API")
+// })
 
 mongoose
     .connect(process.env.mongoDBURL, {
