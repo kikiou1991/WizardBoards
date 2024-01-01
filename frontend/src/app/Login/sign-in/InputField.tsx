@@ -40,7 +40,7 @@ const InputField = () => {
   const handleLogin = async (e:any) => {
     
     try {
-      const response = await fetch("http://gadorjani.co.uk/wizardboards/api/login", {
+      const response = await fetch("https://gadorjani.co.uk/wizardboards/api/login", {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -58,7 +58,7 @@ const InputField = () => {
         if (result.success) {
           // Successful login
           console.log("succes")
-          router.replace("http://gadorjani.co.uk/wizardboards/Main/home");
+          router.replace("https://gadorjani.co.uk/wizardboards/Main/home");
           
         } else {
           // Incorrect credentials
