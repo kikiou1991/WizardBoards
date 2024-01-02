@@ -1,6 +1,6 @@
 "use client"
 import React, { useState } from 'react';
-import { Modal, ModalContent, ModalHeader, ModalProps,ModalBody, ModalFooter, Button, Input, DropdownTrigger, DropdownSection, DropdownMenu, DropdownItem, Dropdown } from "@nextui-org/react";
+import { Modal, ModalContent, ModalHeader, ModalProps,ModalBody, ModalFooter, Button, Input, DropdownTrigger, DropdownSection, DropdownMenu, DropdownItem, Dropdown, Select, SelectItem } from "@nextui-org/react";
 import Icon from '@/components/Icons'
 
 const MyModalNewBoard = () => {
@@ -16,11 +16,23 @@ const MyModalNewBoard = () => {
 
   const [scrollBehavior, setScrollBehavior] = React.useState<ModalProps["scrollBehavior"]>("inside");
 
+
+  const items = [
+    {
+      "name": "Number One",
+      "id": 2,
+    },
+    {
+      "name": "Number Two",
+      "id": 3,
+    }
+  ]
+
   return (
     <>
     
     {/* <Icon name="addIcon" onClick={openModal}/> */}
-   
+      
       <Icon name="addIcon" onClick={openModal}/>
 
                             
@@ -51,38 +63,34 @@ const MyModalNewBoard = () => {
                 type="email"
                 label="Board Title"
                 description="Name your new board"
-                className="max-w-xs font-semibold text-slate-100"
+                className="max-w-xs font-semibold text-[#e5eaf3]"
                 color='default'
                 
                 labelPlacement='outside'
               />
-                <Dropdown className="bg-slate-100" placement="bottom">
-                <DropdownTrigger>
+              
                     <div className='flex flex-row items-center'>
-                        <Input
-                            isRequired
-                            type="workspace"
-                            label="Workspace"
-                            labelPlacement='outside'
-                            placeholder="Hogwarts Workplace"
-                            description="Select Workplace"
-                            className="max-w-xs text-slate-100 font-semibold"
-                            color='default'
-                            endContent={<Icon name="downarrow"/>}
-                        />
+                    <Select
+                      isRequired
+                      size='sm'
+                      items={items}
+                      label="Workspace"
+                      placeholder="Select a workspace"
+                      className="max-w-xs text-[#e5eaf3] "
+                      classNames={{
+                       
+                      
+                    
+                      }}
+                    >
+                      {(item) => <SelectItem className='text-[#e5eaf3]' key={item.id}>{item.name}</SelectItem>}
+                    </Select>
 
                            
                      
 
                     </div>
-                </DropdownTrigger>
-                <DropdownMenu>
-                    <DropdownSection>
-                    <DropdownItem>Something</DropdownItem>
-                    <DropdownItem>This is a notification</DropdownItem>
-                    </DropdownSection>
-                </DropdownMenu>
-                </Dropdown>
+               
            
           </ModalBody>
           <ModalFooter>

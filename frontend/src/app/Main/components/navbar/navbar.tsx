@@ -21,6 +21,7 @@ import Socials from '../socials';
 
 
 import navBarItems from '../navbar/navbardata'
+import MyWorkSpaceModal from '../modals/newworkspace_modal';
 
 const NavbarTop = () => {
   return (
@@ -85,19 +86,10 @@ const NavbarTop = () => {
       ))}
                 
 
-        <Dropdown className="bg-[#041A42] text-[#E5EAF3]" placement="bottom-start">
-          <DropdownTrigger>
-            <Button className="bg-inherit hover:bg-[#3d51a1]" size="sm" isIconOnly>
-              <Icon name="addIcon"  classname={"bg-white"}/>
-            </Button>
-          </DropdownTrigger>
-          <DropdownMenu>
-            <DropdownSection>
-              <DropdownItem className='data-[hover=true]:bg-[#143F88]'>Something</DropdownItem>
-              <DropdownItem className='data-[hover=true]:bg-[#143F88]'>This is a notification</DropdownItem>
-            </DropdownSection>
-          </DropdownMenu>
-        </Dropdown>
+       <MyWorkSpaceModal/>
+             
+                  
+               
       </NavbarContent>
 
       {/* Empty space between left and right sections */}
