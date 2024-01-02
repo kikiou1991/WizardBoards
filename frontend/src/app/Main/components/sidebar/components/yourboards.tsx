@@ -39,7 +39,7 @@ const YourBoards = () => {
                     <div 
                         key={project.id}
                         title={project.title}
-                        className='px-2 py-1 flex flex-row items-center gap-2 hover:bg-[#602ee4]'
+                        className='px-2 py-1 flex flex-row items-center gap-2 hover:bg-[#86a8e2]'
                     >
                         <Image 
                             src={project.image}
