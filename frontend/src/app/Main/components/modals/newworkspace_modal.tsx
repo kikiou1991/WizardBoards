@@ -1,18 +1,22 @@
-import React, { useEffect, useState } from 'react';
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Input, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, DropdownSection, Select, SelectItem } from "@nextui-org/react";
 import Icon from '@/components/Icons';
 import { Image } from '@nextui-org/react';
+import React, { useContext, useEffect, useState } from 'react';
+import { UserContext, UserContextType } from '../../contexts/Usercontext';
+
 
 interface Workspace {
   _id: string;
   name: string;
-  // Add other properties if needed
+  
 }
 
 const MyWorkSpaceModal = () => {
   const [isBoardModalOpen, setBoardModalOpen] = useState(false);
   const [isWorkspaceModalOpen, setWorkspaceModalOpen] = useState(false);
-  const [userWorkSpaces, setUserWorkspaces] = useState<Workspace[]>([]);
+  // const [userWorkSpaces, setUserWorkspaces] = useState<Workspace[]>([]);
+
+  const { workspaces, fetchWorkspaces } = useContext<UserContextType | null>(UserContext);
 
   const openBoardModal = () => {
     setBoardModalOpen(true);
@@ -29,35 +33,42 @@ const MyWorkSpaceModal = () => {
     setWorkspaceModalOpen(false);
   };
 
-  const fetchUserWorkspaces = async () => {
-    try {
-      const token = localStorage.getItem('token');
-
-      if (!token) {
-        console.log('Failed to fetch token!');
-        return;
-      }
-
-      const response = await fetch("https://gadorjani.co.uk/api/workspaces", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (response.ok) {
-        const workspaceData = await response.json();
-        setUserWorkspaces(workspaceData.workspaces);
-      } else {
-        console.error('Failed to fetch user workspaces', response.statusText);
-      }
-    } catch (error) {
-      console.error('Failed to fetch user workspaces', error);
-    }
-  };
-
   useEffect(() => {
-    fetchUserWorkspaces();
-  }, []);
+    // Fetch user workspaces when the modal is opened
+    if (isWorkspaceModalOpen) {
+      fetchWorkspaces();
+    }
+  }, [isWorkspaceModalOpen, fetchWorkspaces]);
+
+  // const fetchUserWorkspaces = async () => {
+  //   try {
+  //     const token = localStorage.getItem('token');
+
+  //     if (!token) {
+  //       console.log('Failed to fetch token!');
+  //       return;
+  //     }
+
+  //     const response = await fetch("https://gadorjani.co.uk/api/workspaces", {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     });
+
+  //     if (response.ok) {
+  //       const workspaceData = await response.json();
+  //       setUserWorkspaces(workspaceData.workspaces);
+  //     } else {
+  //       console.error('Failed to fetch user workspaces', response.statusText);
+  //     }
+  //   } catch (error) {
+  //     console.error('Failed to fetch user workspaces', error);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   fetchUserWorkspaces();
+  // }, []);
 
 
   
@@ -127,7 +138,7 @@ const MyWorkSpaceModal = () => {
                     <Select
                       isRequired
                       size='sm'
-                      items={userWorkSpaces}
+                      items={workspaces}
                       label="Workspace"
                       placeholder="Select a workspace"
                       className="max-w-xs text-[#e5eaf3] "
@@ -137,7 +148,11 @@ const MyWorkSpaceModal = () => {
                     
                       }}
                     >
-                      {(workspace) => <SelectItem className='text-[#e5eaf3]' key={workspace._id}>{workspace.name}</SelectItem>}
+                      {(workspace: Workspace) => (
+                        <SelectItem className='text-[#e5eaf3]' key={workspace._id}>
+                          {workspace.name}
+                        </SelectItem>
+  )}
                     </Select>
 
                            
