@@ -36,7 +36,7 @@ const InputField = () => {
 
   const handleLogin = async (e: any) => {
     try {
-      const response = await fetch('https://gadorjani.co.uk/api/login/me', {
+      const response = await fetch('https://gadorjani.co.uk/api/login/', {
         method: 'POST',
         headers: {
           Accept: 'application/json',
