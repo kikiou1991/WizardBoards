@@ -59,6 +59,10 @@ const InputField = () => {
           // Successful login
          
           console.log("success")
+
+          //store the token in local storage
+          localStorage.setItem("token", result.token);
+
           router.replace("https://gadorjani.co.uk/wizardboards/Main/home");
           
         } else {
