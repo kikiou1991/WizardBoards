@@ -34,3 +34,20 @@ module.exports.GetUserById = async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
+
+module.exports.GetAuthenticatedUser = async (req, res) => {
+    try {
+        const authenticatedUser = req.user;
+
+        //if the user data is not attached
+        if (!authenticatedUser) {
+            return res.status(401).json({ error: "Unathorized access" })
+        }
+
+        res.json(authenticatedUser);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ Error: "Internal Server Error" })
+
+    }
+}
