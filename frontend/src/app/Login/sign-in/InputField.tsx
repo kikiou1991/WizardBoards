@@ -57,7 +57,8 @@ const InputField = () => {
         console.log("result is good", result)
         if (result.success) {
           // Successful login
-          console.log("succes")
+          console.log(result)
+          console.log("success")
           router.replace("https://gadorjani.co.uk/wizardboards/Main/home");
           
         } else {
