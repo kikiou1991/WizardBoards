@@ -33,10 +33,28 @@ const NavbarTop = () => {
   useEffect(() => {
     const fetchUserData = async() => {
       try {
-        const response = await fetch("https://gadorjani.co.uk/api/users/:userId");
-        const userData = await response.json();
+        //retrieve the stored token
+        const token = localStorage.getItem('token');
 
-        setUser(userData);
+        if(!token) {
+          console.log('Failed to fetch token!')
+        }
+        //use the token to get the user info
+        const response = await fetch("https://gadorjani.co.uk/api/users/:userId", {
+          headers: {
+            Authorization: 'Bearer ${token}',
+          },
+        });
+        if(response.ok) {
+          //fetch the user data 
+          const userData = await response.json();
+          
+          setUser(userData);
+        } else {
+          //handle user fetch errors
+          console.error('Failed to fetch user data', response.statusText)
+        }
+
       } catch (error) {
         console.error('Failed to fetch user data', error)
       }
