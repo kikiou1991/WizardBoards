@@ -1,5 +1,5 @@
 "use client"
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Navbar,
   NavbarContent,
@@ -13,17 +13,37 @@ import {
   DropdownItem,
 } from '@nextui-org/react';
 import Icon from '@/components/Icons';
-
 import Profile from './profile';
 import NavigationMobile from '../mobileNavigation';
 import MyModal from '../modals/modal';
 import Socials from '../socials';
-
-
 import navBarItems from '../navbar/navbardata'
 import MyWorkSpaceModal from '../modals/newworkspace_modal';
 
+interface UserData {
+  name: string;
+  email: string;
+  // Add other properties if needed
+}
+
+
 const NavbarTop = () => {
+  const [user, setUser] = React.useState<UserData | null>(null);
+
+  useEffect(() => {
+    const fetchUserData = async() => {
+      try {
+        const response = await fetch("https://gadorjani.co.uk/api/");
+        const userData = await response.json();
+
+        setUser(userData);
+      } catch (error) {
+        console.error('Failed to fetch user data', error)
+      }
+    };
+    fetchUserData();
+  }, [])
+
   return (
     <Navbar
       isBordered
@@ -124,7 +144,7 @@ const NavbarTop = () => {
 
       {/*Profile Navigation / Logout / Profile settings */}
       
-        <Profile name="Gabor Adorjani" location="Bristol, UK" email='gadorjani@windowslive.com' />
+        <Profile name="Gabor Adorjani" location="Bristol, UK" email={user ? user.email : 'Loading...'} />
       </NavbarContent>
     </Navbar>
   );
