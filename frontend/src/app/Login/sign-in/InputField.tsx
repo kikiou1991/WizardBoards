@@ -1,18 +1,15 @@
-"use client";
-import { Button, Input } from '@nextui-org/react';
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
+'use client';
+import {Button, Input} from '@nextui-org/react';
+import {useRouter} from 'next/navigation';
+import React from 'react';
 
 const InputField = () => {
-  
   const [buttonDisabled, setButtonDisabled] = React.useState(true);
   const [inputValue, setInputValue] = React.useState({
-    email: "",
-    password: "",
+    email: '',
+    password: '',
   });
   const router = useRouter();
-
-  
 
   const handleEmailChange = (e: any) => {
     const newEmail = e.target.value;
@@ -37,83 +34,62 @@ const InputField = () => {
     setButtonDisabled(!(newEmail.trim() !== '' && newPassword.trim() !== ''));
   };
 
-  const handleLogin = async (e:any) => {
-    
+  const handleLogin = async (e: any) => {
     try {
-      const response = await fetch("https://gadorjani.co.uk/api/login", {
-        method: "POST",
+      const response = await fetch('https://gadorjani.co.uk/api/login', {
+        method: 'POST',
         headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           email: inputValue.email,
           password: inputValue.password,
         }),
       });
+      console.log('result is good', inputValue);
 
       if (response.ok) {
         const result = await response.json();
-        console.log("result is good", result)
+        console.log('result is good', result);
         if (result.success) {
           // Successful login
-         
-          console.log("success")
+
+          console.log('success');
 
           //store the token in local storage
-          localStorage.setItem("token", result.token);
+          localStorage.setItem('token', result.token);
 
-          router.replace("https://gadorjani.co.uk/wizardboards/Main/home");
-          
+          router.replace('https://gadorjani.co.uk/wizardboards/Main/home');
         } else {
           // Incorrect credentials
-          console.log("the response was not succesful")
+          console.log('the response was not succesful');
           alert(result.message);
         }
       } else {
         // Handle other error responses
         const result = await response.json();
-        alert("something has gone wrong");
+        alert('something has gone wrong');
       }
     } catch (error: any) {
       // Handle fetch error
-      console.error("Failed to log in user", error.message);
-      alert("Failed to log in. Please try again.");
+      console.error('Failed to log in user', error.message);
+      alert('Failed to log in. Please try again.');
     } finally {
       // Reset input fields
       setInputValue({
-        email: "",
-        password: "",
+        email: '',
+        password: '',
       });
     }
-    
   };
 
   return (
     <>
-      <Input
-        onChange={(e) => handleEmailChange(e)}
-        type="email"
-        label="Email"
-        placeholder="junior@nextui.org"
-        className="max-w-xs"
-        isRequired
-      />
-      <Input
-        onChange={(e) => handlePasswordChange(e)}
-        isRequired
-        type='password'
-        label="Password"
-        className='max-w-xs'
-        placeholder='Enter your password'
-      />
+      <Input onChange={(e) => handleEmailChange(e)} type='email' label='Email' placeholder='junior@nextui.org' className='max-w-xs' isRequired />
+      <Input onChange={(e) => handlePasswordChange(e)} isRequired type='password' label='Password' className='max-w-xs' placeholder='Enter your password' />
 
-      <Button
-        color='primary'
-        className='max-w-xs'
-        isDisabled={buttonDisabled}
-        onPressEnd={handleLogin}
-      >
+      <Button color='primary' className='max-w-xs' isDisabled={buttonDisabled} onPressEnd={handleLogin}>
         Login
       </Button>
     </>
