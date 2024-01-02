@@ -4,7 +4,7 @@ import Icon from '@/components/Icons';
 import { Image } from '@nextui-org/react';
 
 interface Workspace {
-  id: string;
+  _id: string;
   name: string;
   // Add other properties if needed
 }
@@ -137,7 +137,7 @@ const MyWorkSpaceModal = () => {
                     
                       }}
                     >
-                      {(workspace) => <SelectItem className='text-[#e5eaf3]' key={workspace.id}>{workspace.name}</SelectItem>}
+                      {(workspace) => <SelectItem className='text-[#e5eaf3]' key={workspace._id}>{workspace.name}</SelectItem>}
                     </Select>
 
                            
@@ -191,6 +191,7 @@ const MyWorkSpaceModal = () => {
                   inputWrapper: "data-[hover=true]:bg-[#143f88] h-full font-normal text-[#090607] bg-[#143f88] hover:bg-[#86a8e2]",
                 }}
               />
+              
               <div className='pt-7 items-center align-center max-w-full'>
                 <Button
                   size="md"
