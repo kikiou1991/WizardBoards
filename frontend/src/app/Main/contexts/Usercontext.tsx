@@ -5,14 +5,14 @@ interface Workspace {
   name: string;
   // Add other properties if needed
 }
-interface UserContextType {
+export interface UserContextType {
   token: string | null;
   setToken: (token: string | null) => void;
   workspaces: Workspace[]; 
   fetchWorkspaces: () => Promise<void>;
 }
 
-const UserContext = createContext<UserContextType | null>(null);
+export const UserContext = createContext<UserContextType | null>(null);
 
 interface UserContextProviderProps {
   children: ReactNode;
@@ -47,7 +47,7 @@ const UserContextProvider = ({ children }: UserContextProviderProps) => {
 
 
 
-  const contextValue: UserContextType = {
+  export const contextValue: UserContextType = {
     token,
     setToken,
     workspaces,
@@ -61,4 +61,4 @@ const UserContextProvider = ({ children }: UserContextProviderProps) => {
   );
 };
 
-export { UserContext, UserContextProvider };
+export {UserContextProvider};

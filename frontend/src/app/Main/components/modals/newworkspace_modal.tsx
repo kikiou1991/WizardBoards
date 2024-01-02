@@ -14,9 +14,8 @@ interface Workspace {
 const MyWorkSpaceModal = () => {
   const [isBoardModalOpen, setBoardModalOpen] = useState(false);
   const [isWorkspaceModalOpen, setWorkspaceModalOpen] = useState(false);
-  // const [userWorkSpaces, setUserWorkspaces] = useState<Workspace[]>([]);
+  const [userWorkSpaces, setUserWorkspaces] = useState<Workspace[]>([]);
 
-  const { workspaces, fetchWorkspaces } = useContext<UserContextType | null>(UserContext);
 
   const openBoardModal = () => {
     setBoardModalOpen(true);
@@ -33,42 +32,42 @@ const MyWorkSpaceModal = () => {
     setWorkspaceModalOpen(false);
   };
 
-  useEffect(() => {
-    // Fetch user workspaces when the modal is opened
-    if (isWorkspaceModalOpen) {
-      fetchWorkspaces();
-    }
-  }, [isWorkspaceModalOpen, fetchWorkspaces]);
-
-  // const fetchUserWorkspaces = async () => {
-  //   try {
-  //     const token = localStorage.getItem('token');
-
-  //     if (!token) {
-  //       console.log('Failed to fetch token!');
-  //       return;
-  //     }
-
-  //     const response = await fetch("https://gadorjani.co.uk/api/workspaces", {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //     });
-
-  //     if (response.ok) {
-  //       const workspaceData = await response.json();
-  //       setUserWorkspaces(workspaceData.workspaces);
-  //     } else {
-  //       console.error('Failed to fetch user workspaces', response.statusText);
-  //     }
-  //   } catch (error) {
-  //     console.error('Failed to fetch user workspaces', error);
-  //   }
-  // };
-
   // useEffect(() => {
-  //   fetchUserWorkspaces();
-  // }, []);
+  //   // Fetch user workspaces when the modal is opened
+  //   if (isWorkspaceModalOpen) {
+  //     fetchWorkspaces();
+  //   }
+  // }, [isWorkspaceModalOpen, fetchWorkspaces]);
+
+  const fetchUserWorkspaces = async () => {
+    try {
+      const token = localStorage.getItem('token');
+
+      if (!token) {
+        console.log('Failed to fetch token!');
+        return;
+      }
+
+      const response = await fetch("https://gadorjani.co.uk/api/workspaces", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        const workspaceData = await response.json();
+        setUserWorkspaces(workspaceData.workspaces);
+      } else {
+        console.error('Failed to fetch user workspaces', response.statusText);
+      }
+    } catch (error) {
+      console.error('Failed to fetch user workspaces', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserWorkspaces();
+  }, []);
 
 
   
@@ -138,7 +137,7 @@ const MyWorkSpaceModal = () => {
                     <Select
                       isRequired
                       size='sm'
-                      items={workspaces}
+                      items={userWorkSpaces}
                       label="Workspace"
                       placeholder="Select a workspace"
                       className="max-w-xs text-[#e5eaf3] "
