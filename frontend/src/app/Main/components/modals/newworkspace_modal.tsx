@@ -1,11 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Input, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, DropdownSection, Select, SelectItem } from "@nextui-org/react";
 import Icon from '@/components/Icons';
 import { Image } from '@nextui-org/react';
 
+interface Workspace {
+  id: string;
+  name: string;
+  // Add other properties if needed
+}
+
 const MyWorkSpaceModal = () => {
   const [isBoardModalOpen, setBoardModalOpen] = useState(false);
   const [isWorkspaceModalOpen, setWorkspaceModalOpen] = useState(false);
+  const [userWorkSpaces, setUserWorkspaces] = useState<Workspace[]>([]);
 
   const openBoardModal = () => {
     setBoardModalOpen(true);
@@ -22,16 +29,40 @@ const MyWorkSpaceModal = () => {
     setWorkspaceModalOpen(false);
   };
 
-  const items = [
-    {
-      "name": "Number One",
-      "id": 2,
-    },
-    {
-      "name": "Number Two",
-      "id": 3,
+  const fetchUserWorkspaces = async () => {
+    try {
+      const token = localStorage.getItem('token');
+
+      if (!token) {
+        console.log('Failed to fetch token!');
+        return;
+      }
+
+      const response = await fetch("https://gadorjani.co.uk/api/workspaces", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        const workspaceData = await response.json();
+        setUserWorkspaces(workspaceData.workspaces);
+      } else {
+        console.error('Failed to fetch user workspaces', response.statusText);
+      }
+    } catch (error) {
+      console.error('Failed to fetch user workspaces', error);
     }
-  ]
+  };
+
+  useEffect(() => {
+    fetchUserWorkspaces();
+  }, []);
+
+
+  
+
+ 
 
   return (
     <>
@@ -96,7 +127,7 @@ const MyWorkSpaceModal = () => {
                     <Select
                       isRequired
                       size='sm'
-                      items={items}
+                      items={userWorkSpaces}
                       label="Workspace"
                       placeholder="Select a workspace"
                       className="max-w-xs text-[#e5eaf3] "
@@ -106,7 +137,7 @@ const MyWorkSpaceModal = () => {
                     
                       }}
                     >
-                      {(item) => <SelectItem className='text-[#e5eaf3]' key={item.id}>{item.name}</SelectItem>}
+                      {(workspace) => <SelectItem className='text-[#e5eaf3]' key={workspace.id}>{workspace.name}</SelectItem>}
                     </Select>
 
                            
