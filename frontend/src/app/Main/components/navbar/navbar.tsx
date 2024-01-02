@@ -42,7 +42,7 @@ const NavbarTop = () => {
         //use the token to get the user info
         const response = await fetch("https://gadorjani.co.uk/api/users/", {
           headers: {
-            Authorization: 'Bearer ${token}',
+            Authorization: `Bearer ${token}`,
           },
         });
         if(response.ok) {
