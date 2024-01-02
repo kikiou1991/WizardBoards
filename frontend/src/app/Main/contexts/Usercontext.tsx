@@ -47,7 +47,7 @@ const UserContextProvider = ({ children }: UserContextProviderProps) => {
 
 
 
-  export const contextValue: UserContextType = {
+  const contextValue: UserContextType = {
     token,
     setToken,
     workspaces,
