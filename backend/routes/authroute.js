@@ -16,6 +16,6 @@ router.post("/api/workspaces", userVerification, CreateWorkspace);
 
 //Get user by ID/all users
 router.get("/api/users/:userId", userVerification, GetUserById);
-router.get("/api/users", userVerification, GetAllUsers);
+router.get("/api/users/", userVerification, GetAllUsers);
 
 module.exports = router;

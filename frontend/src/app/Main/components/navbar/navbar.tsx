@@ -33,7 +33,7 @@ const NavbarTop = () => {
   useEffect(() => {
     const fetchUserData = async() => {
       try {
-        const response = await fetch("https://gadorjani.co.uk/api/");
+        const response = await fetch("https://gadorjani.co.uk/api/users/:userId");
         const userData = await response.json();
 
         setUser(userData);
