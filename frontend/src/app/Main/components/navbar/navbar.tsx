@@ -40,7 +40,7 @@ const NavbarTop = () => {
           console.log('Failed to fetch token!')
         }
         //use the token to get the user info
-        const response = await fetch("https://gadorjani.co.uk/api/users/:userId", {
+        const response = await fetch("https://gadorjani.co.uk/api/users/", {
           headers: {
             Authorization: 'Bearer ${token}',
           },
