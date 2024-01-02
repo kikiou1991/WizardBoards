@@ -1,4 +1,6 @@
-const User = require('../models/usermodel');
+
+const Workspace = require('../models/workspacemode.js')
+
 
 module.exports.CreateWorkspace = async (req, res, next) => {
     try {
@@ -11,7 +13,7 @@ module.exports.CreateWorkspace = async (req, res, next) => {
         }
 
         const workspace = await Workspace.create({ name, users: [user._id] });
-        user.workspace.push(workspace._id);
+        user.workspaces.push(workspace._id);
         await user.save();
 
         res.status(201).json({ message: "Workspace created successfully", workspace });
