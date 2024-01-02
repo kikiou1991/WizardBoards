@@ -62,6 +62,7 @@ const InputField = () => {
 
           //store the token in local storage
           localStorage.setItem("token", result.token);
+          console.log(result.token)
 
           router.replace("https://gadorjani.co.uk/wizardboards/Main/home");
           
