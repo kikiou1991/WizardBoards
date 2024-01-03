@@ -1,7 +1,8 @@
 'use client';
+import {UserContext} from '@/contexts/Usercontext';
 import {Button, Input} from '@nextui-org/react';
 import {useRouter} from 'next/navigation';
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import toast from 'react-hot-toast';
 
 // Import statements...
@@ -15,7 +16,13 @@ const InputField = () => {
     password: '',
     passwordConfirm: '',
   });
+  const router = useRouter();
 
+  const {authenticated} = useContext(UserContext);
+
+  if (authenticated) {
+    router.replace(`/workspace/home`);
+  }
   const validateEmail = (email: string) => {
     if (email === '') return null;
     setValidationState(email?.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i) ? 'valid' : 'invalid');
@@ -37,7 +44,6 @@ const InputField = () => {
     setUser({...user, passwordConfirm: value});
     setButtonDisabled(validationState === 'valid' && value === user.password ? false : true);
   };
-  const router = useRouter();
 
   const signUp = async () => {
     let errorMessage = '';

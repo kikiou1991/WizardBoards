@@ -1,7 +1,8 @@
 'use client';
+import {UserContext} from '@/contexts/Usercontext';
 import {Button, Input} from '@nextui-org/react';
 import {useRouter} from 'next/navigation';
-import React from 'react';
+import React, {useContext} from 'react';
 import toast from 'react-hot-toast';
 
 const InputField = () => {
@@ -11,7 +12,10 @@ const InputField = () => {
     password: '',
   });
   const router = useRouter();
-
+  const {authenticated} = useContext(UserContext);
+  if (authenticated) {
+    router.replace(`/workspace/home`);
+  }
   const handleEmailChange = (e: any) => {
     const newEmail = e;
     setInputValue({
@@ -94,7 +98,7 @@ const InputField = () => {
       });
     }
   };
-  console.log('input value', inputValue);
+  console.log('input value', authenticated);
   return (
     <>
       <Input value={inputValue?.email} onValueChange={(e) => handleEmailChange(e)} type='email' label='Email' placeholder='junior@nextui.org' className='max-w-xs' isRequired />
