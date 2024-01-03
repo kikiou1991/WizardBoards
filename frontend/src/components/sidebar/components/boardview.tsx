@@ -1,57 +1,47 @@
-"use client"
-import Icon from '@/components/Icons'
-import React from 'react'
+'use client';
+import Icon from '@/components/Icons';
 
-import {Dropdown, Button, DropdownItem, DropdownMenu, DropdownSection, DropdownTrigger } from '@nextui-org/react'
+import {Button, Dropdown, DropdownItem, DropdownMenu, DropdownSection, DropdownTrigger} from '@nextui-org/react';
 
-import MyModalEmail from '../sidebarmodal/newmember_modal'
-
+import MyModalEmail from '../sidebarmodal/newmember_modal';
 
 const BoardView = () => {
   return (
-    <div className='gap-1 flex flex-col '> 
-        <div className='h-8 flex flex-row gap-2 hover:bg-[#86a8e2] items-center  px-2'>
-            <Icon name="board"/>
-            <p>Boards</p>
+    <div className='gap-1 flex flex-col '>
+      <div className='h-8 flex flex-row gap-2 hover:bg-primary items-center  px-2'>
+        <Icon name='board' />
+        <p>Boards</p>
+      </div>
+      <div className='h-8 flex flex-row gap-2 items-center hover:bg-primary px-2'>
+        <div className='flex flex-row gap-2 flex-grow items-center'>
+          <Icon name='members' />
+          <p>Members</p>
         </div>
-        <div className='h-8 flex flex-row gap-2 items-center hover:bg-[#86a8e2] px-2'>
-            <div className='flex flex-row gap-2 flex-grow items-center'>
-                <Icon name="members"/>
-                <p>Members</p>
-            </div>
-                <MyModalEmail/>
-            
-                
-               
-
-                   
-           
-
+        <MyModalEmail />
+      </div>
+      <div className='h-8 flex flex-row  hover:bg-primary  px-2 '>
+        <div className='flex flex-row gap-2 flex-grow'>
+          <Icon name='settings' />
+          <p className='font-semibold'>Settings</p>
         </div>
-        <div className='h-8 flex flex-row  hover:bg-[#86a8e2]  px-2 '>
-            <div className='flex flex-row gap-2 flex-grow'>
-                <Icon name="settings"/>
-                <p className='font-semibold'>Settings</p>
-            </div>
-            <div className='items-center'>
-                <Dropdown className="bg-[#041A42] text-[#E5EAF3]" placement="bottom-start">
-                    <DropdownTrigger>
-                        <Button className="bg-inherit hover:bg-[#86a8e2]" size="sm" isIconOnly>
-                        <Icon name="downarrow" />
-                        </Button>
-                    </DropdownTrigger>
-                    <DropdownMenu className='bg-[#041A42]'>
-                        <DropdownSection >
-                        <DropdownItem className='data-[hover=true]:bg-[#86a8e2]'>Something</DropdownItem>
-                        <DropdownItem className='data-[hover=true]:bg-[#86a8e2]'>This is a notification</DropdownItem>
-                        </DropdownSection>
-                    </DropdownMenu>
-                </Dropdown>
-            </div>
-
+        <div className='items-center'>
+          <Dropdown className='bg-[#041A42] text-[#E5EAF3]' placement='bottom-start'>
+            <DropdownTrigger>
+              <Button className='bg-inherit hover:bg-primary' size='sm' isIconOnly>
+                <Icon name='downarrow' />
+              </Button>
+            </DropdownTrigger>
+            <DropdownMenu className='bg-[#041A42]'>
+              <DropdownSection>
+                <DropdownItem className='data-[hover=true]:bg-primary'>Something</DropdownItem>
+                <DropdownItem className='data-[hover=true]:bg-primary'>This is a notification</DropdownItem>
+              </DropdownSection>
+            </DropdownMenu>
+          </Dropdown>
         </div>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default BoardView
+export default BoardView;

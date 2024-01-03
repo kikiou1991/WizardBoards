@@ -30,12 +30,12 @@ const Icon: React.FC<Props> = ({name, onClick, classname}) => {
     ),
     calendar: (
       <svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
-        <path d='M8 2V5' stroke='#E5EAF3' strokeWidth='1.5' strokeMiterlimit='10' strokeLinecap='round' strokeLinejoin='round' />
-        <path d='M16 2V5' stroke='#E5EAF3' strokeWidth='1.5' strokeMiterlimit='10' strokeLinecap='round' strokeLinejoin='round' />
-        <path d='M3.5 9.09H20.5' stroke='#E5EAF3' strokeWidth='1.5' strokeMiterlimit='10' strokeLinecap='round' strokeLinejoin='round' />
-        <path d='M21 8.5V17C21 20 19.5 22 16 22H8C4.5 22 3 20 3 17V8.5C3 5.5 4.5 3.5 8 3.5H16C19.5 3.5 21 5.5 21 8.5Z' stroke='#E5EAF3' strokeWidth='1.5' strokeMiterlimit='10' strokeLinecap='round' strokeLinejoin='round' />
-        <path d='M11.9955 13.7H12.0045' stroke='#E5EAF3' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' />
-        <path d='M8.29431 13.7H8.30329' stroke='#E5EAF3' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' />
+        <path d='M8 2V5' stroke='#E5EAF3' strokeWidth='1.5' strokeMiterlimit='10' strokeLinecap='round' strokeLinejoin='round' className={classname} />
+        <path d='M16 2V5' stroke='#E5EAF3' strokeWidth='1.5' strokeMiterlimit='10' strokeLinecap='round' strokeLinejoin='round' className={classname} />
+        <path d='M3.5 9.09H20.5' stroke='#E5EAF3' strokeWidth='1.5' strokeMiterlimit='10' strokeLinecap='round' strokeLinejoin='round' className={classname} />
+        <path d='M21 8.5V17C21 20 19.5 22 16 22H8C4.5 22 3 20 3 17V8.5C3 5.5 4.5 3.5 8 3.5H16C19.5 3.5 21 5.5 21 8.5Z' stroke='#E5EAF3' strokeWidth='1.5' strokeMiterlimit='10' strokeLinecap='round' strokeLinejoin='round' className={classname} />
+        <path d='M11.9955 13.7H12.0045' stroke='#E5EAF3' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' className={classname} />
+        <path d='M8.29431 13.7H8.30329' stroke='#E5EAF3' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' className={classname} />
         <path d='M8.29431 16.7H8.30329' stroke='#E5EAF3' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' className={classname} />
       </svg>
     ),
@@ -47,9 +47,10 @@ const Icon: React.FC<Props> = ({name, onClick, classname}) => {
           strokeWidth='1.5'
           strokeMiterlimit='10'
           strokeLinecap='round'
+          className={classname}
         />
-        <path d='M13.87 3.2C13.56 3.11 13.24 3.04 12.91 3C11.95 2.88 11.03 2.95 10.17 3.2C10.46 2.46 11.18 1.94 12.02 1.94C12.86 1.94 13.58 2.46 13.87 3.2Z' stroke='#E5EAF3' strokeWidth='1.5' strokeMiterlimit='10' strokeLinecap='round' strokeLinejoin='round' />
-        <path d='M15.02 19.06C15.02 20.71 13.67 22.06 12.02 22.06C11.2 22.06 10.44 21.72 9.89999 21.18C9.35999 20.64 9.01999 19.88 9.01999 19.06' stroke='#E5EAF3' strokeWidth='1.5' strokeMiterlimit='10' />
+        <path className={classname} d='M13.87 3.2C13.56 3.11 13.24 3.04 12.91 3C11.95 2.88 11.03 2.95 10.17 3.2C10.46 2.46 11.18 1.94 12.02 1.94C12.86 1.94 13.58 2.46 13.87 3.2Z' stroke='#E5EAF3' strokeWidth='1.5' strokeMiterlimit='10' strokeLinecap='round' strokeLinejoin='round' />
+        <path d='M15.02 19.06C15.02 20.71 13.67 22.06 12.02 22.06C11.2 22.06 10.44 21.72 9.89999 21.18C9.35999 20.64 9.01999 19.88 9.01999 19.06' stroke='#E5EAF3' strokeWidth='1.5' strokeMiterlimit='10' className={classname} />
         {/* <circle cx="18" cy="4" r="3" fill="#D8727D"/> */}
       </svg>
     ),
@@ -90,6 +91,7 @@ const Icon: React.FC<Props> = ({name, onClick, classname}) => {
         <path
           d='M42 8.64706V39.3529C42 40.055 41.7211 40.7283 41.2247 41.2247C40.7283 41.7211 40.055 42 39.3529 42H8.64706C7.94502 42 7.27173 41.7211 6.77531 41.2247C6.27889 40.7283 6 40.055 6 39.3529V8.64706C6 7.94502 6.27889 7.27173 6.77531 6.77531C7.27173 6.27889 7.94502 6 8.64706 6H39.3529C40.055 6 40.7283 6.27889 41.2247 6.77531C41.7211 7.27173 42 7.94502 42 8.64706ZM16.5882 19.7647H11.2941V36.7059H16.5882V19.7647ZM17.0647 13.9412C17.0675 13.5407 16.9914 13.1436 16.8407 12.7726C16.69 12.4016 16.4677 12.0638 16.1866 11.7787C15.9054 11.4936 15.5707 11.2666 15.2018 11.1108C14.8329 10.955 14.4369 10.8734 14.0365 10.8706H13.9412C13.1268 10.8706 12.3458 11.1941 11.7699 11.7699C11.1941 12.3458 10.8706 13.1268 10.8706 13.9412C10.8706 14.7555 11.1941 15.5366 11.7699 16.1124C12.3458 16.6883 13.1268 17.0118 13.9412 17.0118C14.3417 17.0216 14.7402 16.9525 15.1139 16.8083C15.4877 16.664 15.8293 16.4476 16.1194 16.1713C16.4095 15.895 16.6423 15.5642 16.8045 15.1979C16.9667 14.8316 17.0551 14.437 17.0647 14.0365V13.9412ZM36.7059 26.4141C36.7059 21.3212 33.4659 19.3412 30.2471 19.3412C29.1932 19.2884 28.1438 19.5129 27.2037 19.9922C26.2637 20.4715 25.4657 21.189 24.8894 22.0729H24.7412V19.7647H19.7647V36.7059H25.0588V27.6953C24.9823 26.7725 25.273 25.8567 25.8678 25.1469C26.4625 24.4372 27.3133 23.9908 28.2353 23.9047H28.4365C30.12 23.9047 31.3694 24.9635 31.3694 27.6318V36.7059H36.6635L36.7059 26.4141Z'
           fill='#E5EAF3'
+          className={classname}
         />
       </svg>
     ),
@@ -100,6 +102,7 @@ const Icon: React.FC<Props> = ({name, onClick, classname}) => {
           clipRule='evenodd'
           d='M24.0165 4.33325C12.9479 4.33325 4 13.3471 4 24.4985C4 33.4124 9.73324 40.9579 17.6868 43.6284C18.6812 43.8292 19.0454 43.1945 19.0454 42.6607C19.0454 42.1932 19.0126 40.5908 19.0126 38.9211C13.4445 40.1233 12.285 36.5173 12.285 36.5173C11.3902 34.1803 10.0643 33.5796 10.0643 33.5796C8.24185 32.3443 10.197 32.3443 10.197 32.3443C12.2186 32.4779 13.2794 34.4142 13.2794 34.4142C15.0686 37.4855 17.9518 36.6177 19.1118 36.0834C19.2773 34.7813 19.8079 33.8799 20.3713 33.3792C15.9303 32.9118 11.2578 31.1758 11.2578 23.43C11.2578 21.2265 12.0527 19.4237 13.3122 18.0216C13.1134 17.521 12.4173 15.4506 13.5113 12.6797C13.5113 12.6797 15.2014 12.1454 19.0122 14.7496C20.6438 14.3082 22.3263 14.0837 24.0165 14.0818C25.7067 14.0818 27.4295 14.3157 29.0205 14.7496C32.8317 12.1454 34.5218 12.6797 34.5218 12.6797C35.6158 15.4506 34.9192 17.521 34.7205 18.0216C36.0132 19.4237 36.7753 21.2265 36.7753 23.43C36.7753 31.1758 32.1028 32.8782 27.6287 33.3792C28.358 34.0135 28.9873 35.2152 28.9873 37.1184C28.9873 39.8225 28.9545 41.9928 28.9545 42.6603C28.9545 43.1945 29.3192 43.8292 30.3132 43.6288C38.2667 40.9575 43.9999 33.4124 43.9999 24.4985C44.0327 13.3471 35.052 4.33325 24.0165 4.33325Z'
           fill='#E5EAF3'
+          className={classname}
         />
       </svg>
     ),

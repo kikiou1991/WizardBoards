@@ -154,7 +154,7 @@ const MyWorkSpaceModal = () => {
                   base: 'max-w-full sm:max-w-[20rem] h-10',
                   mainWrapper: 'h-full ',
                   input: 'text-small',
-                  inputWrapper: 'data-[hover=true]:bg-[#143f88] h-full font-normal text-[#090607] bg-[#143f88] hover:bg-[#86a8e2]',
+                  inputWrapper: 'data-[hover=true]:bg-[#143f88] h-full font-normal text-[#090607] bg-[#143f88] hover:bg-primary',
                 }}
               />
 

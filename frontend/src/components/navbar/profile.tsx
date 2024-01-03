@@ -1,46 +1,36 @@
-"use client"
-import { Avatar, Dropdown, DropdownItem, DropdownMenu, DropdownSection, DropdownTrigger, Navbar, NavbarContent } from '@nextui-org/react'
-import React from 'react'
+'use client';
+import {Avatar, Dropdown, DropdownItem, DropdownMenu, DropdownSection, DropdownTrigger, Navbar, NavbarContent} from '@nextui-org/react';
 
 interface Props {
-  name: string,
-  location: string,
-  email: string
+  name: string;
+  location: string;
+  email: string;
 }
 
-const Profile = ({ name, location, email }: Props) => {
+const Profile = ({name, location, email}: Props) => {
   return (
     <Navbar className='bg-inherit'>
-
-      <NavbarContent as="div" className='items-center'>
-        <Dropdown className='bg-[#041A42]' placement='bottom-end'>
+      <NavbarContent as='div' className='items-center'>
+        <Dropdown className='text-foreground' placement='bottom-end'>
           <DropdownTrigger>
-            <Avatar
-              isBordered
-              as="button"
-              className="transition-transform"
-              color="secondary"
-              name={name}
-              size="sm"
-              src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
-            />
+            <Avatar isBordered as='button' className='transition-transform' color='secondary' name={name} size='sm' src='https://i.pravatar.cc/150?u=a042581f4e29026704d' />
           </DropdownTrigger>
           <DropdownMenu>
-            <DropdownSection className='text-[#E5EAF3]'>
-              <DropdownItem className='data-[hover=true]:bg-[#143F88]'>
-                <p className="font-semibold">Signed in as</p>
-                <p className="font-semibold">{email}</p>
+            <DropdownSection className='text-current'>
+              <DropdownItem className=''>
+                <p className='font-semibold'>Signed in as</p>
+                <p className='font-semibold'>{email}</p>
               </DropdownItem>
-              <DropdownItem className='data-[hover=true]:bg-[#143F88]'>
+              <DropdownItem className=''>
                 <p className='font-semibold'>{name}</p>
               </DropdownItem>
-              <DropdownItem className='data-[hover=true]:bg-[#143F88]'>
+              <DropdownItem className=''>
                 <p className='font-semibold'>{location}</p>
               </DropdownItem>
-              <DropdownItem className='data-[hover=true]:bg-[#143F88]'>
+              <DropdownItem className=''>
                 <p className='font-semibold'>Settings</p>
               </DropdownItem>
-              <DropdownItem className='data-[hover=true]:bg-[#143F88]'>
+              <DropdownItem className=''>
                 <p className='font-semibold'>Logout</p>
               </DropdownItem>
             </DropdownSection>
@@ -48,7 +38,7 @@ const Profile = ({ name, location, email }: Props) => {
         </Dropdown>
       </NavbarContent>
     </Navbar>
-  )
-}
+  );
+};
 
 export default Profile;
