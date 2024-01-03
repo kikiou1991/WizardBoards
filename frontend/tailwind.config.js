@@ -1,4 +1,4 @@
-const {nextui} = require('@nextui-org/react');
+const { nextui } = require('@nextui-org/react');
 
 /** @type {import('tailwindcss').Config} */
 
@@ -28,6 +28,14 @@ const config = {
             secondaryBG: '#282828',
           },
         },
+        blue: {
+          colors: {
+            background: '#041A42',
+            foreground: '#86a8e2',
+            secondaryBG: '#143f88',
+            border: '#383940'
+          }
+        }
       },
     }),
   ],

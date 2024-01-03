@@ -5,7 +5,7 @@ import {userWorkspaces} from '@/lib/workspaces';
 import {Modal, ModalBody, ModalContent, ModalHeader} from '@nextui-org/modal';
 import {Button, Link} from '@nextui-org/react';
 import {usePathname, useRouter} from 'next/navigation';
-import {ReactNode, createContext, useEffect, useState} from 'react';
+import {ReactNode, createContext, useContext, useEffect, useState} from 'react';
 
 // Interfaces Section
 interface Workspace {
@@ -35,10 +35,11 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
   const [authenticatedLoaded, setAuthenticatedLoaded] = useState<boolean>(false);
   const pathname = usePathname();
 
+ 
   const router = useRouter();
   const fetchWorkspaces = async (token: any) => {
     let res = await userWorkspaces.fetchWorkspaces(token);
-    setWorkspaces(res.workspaces);
+    setWorkspaces(res?.data?.workspaces);
   };
   const validateToken = async (token: any) => {
     let res = await userAuth.validateToken(token);

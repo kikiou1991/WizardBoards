@@ -1,5 +1,5 @@
 'use client';
-import {UserContext} from '@/contexts/Usercontext';
+import { UserContext } from '@/contexts/Usercontext';
 import {Avatar, Dropdown, DropdownItem, DropdownMenu, DropdownSection, DropdownTrigger, Navbar, NavbarContent} from '@nextui-org/react';
 import {useContext} from 'react';
 
