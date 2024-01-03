@@ -26,7 +26,11 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
 
   const fetchWorkspaces = async () => {
     try {
-      const response = await fetch('https://gadorjani.co.uk/api/workspaces');
+      const response = await fetch('https://gadorjani.co.uk/api/workspaces', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       const data = await response.json();
       setWorkspaces(data.workspaces);
     } catch (error) {
