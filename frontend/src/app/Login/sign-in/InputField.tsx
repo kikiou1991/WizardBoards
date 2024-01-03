@@ -12,7 +12,7 @@ const InputField = () => {
   const router = useRouter();
 
   const handleEmailChange = (e: any) => {
-    const newEmail = e.target.value;
+    const newEmail = e;
     setInputValue({
       ...inputValue,
       email: newEmail,
@@ -21,7 +21,7 @@ const InputField = () => {
   };
 
   const handlePasswordChange = (e: any) => {
-    const newPassword = e.target.value;
+    const newPassword = e;
     setInputValue({
       ...inputValue,
       password: newPassword,
@@ -60,7 +60,7 @@ const InputField = () => {
           //store the token in local storage
           localStorage.setItem('token', result.token);
 
-          router.replace('https://gadorjani.co.uk/wizardboards/Main/home');
+          router.push('/workspace/home');
         } else {
           // Incorrect credentials
           console.log('the response was not succesful');
@@ -83,11 +83,11 @@ const InputField = () => {
       });
     }
   };
-
+  console.log('input value', inputValue);
   return (
     <>
-      <Input onChange={(e) => handleEmailChange(e)} type='email' label='Email' placeholder='junior@nextui.org' className='max-w-xs' isRequired />
-      <Input onChange={(e) => handlePasswordChange(e)} isRequired type='password' label='Password' className='max-w-xs' placeholder='Enter your password' />
+      <Input onValueChange={(e) => handleEmailChange(e)} type='email' label='Email' placeholder='junior@nextui.org' className='max-w-xs' isRequired />
+      <Input onValueChange={(e) => handlePasswordChange(e)} isRequired type='password' label='Password' className='max-w-xs' placeholder='Enter your password' />
 
       <Button color='primary' className='max-w-xs' isDisabled={buttonDisabled} onPressEnd={handleLogin}>
         Login
