@@ -1,7 +1,8 @@
 const User = require('../models/usermodel');
 const {createSecretToken} = require('../utils/secretToken');
 const bcrypt = require('bcrypt');
-
+require('dotenv').config();
+const jwt = require('jsonwebtoken');
 module.exports.Signup = async (req, res, next) => {
   try {
     console.log('Request body: ', req.body);
@@ -51,10 +52,6 @@ module.exports.Login = async (req, res, next) => {
     console.error(error, 'Failed to login in user');
   }
 };
-
-const User = require('../models/usermodel');
-require('dotenv').config();
-const jwt = require('jsonwebtoken');
 
 module.exports.verifyToken = async (req, res) => {
   try {
