@@ -65,7 +65,7 @@ const InputField = () => {
         });
         if (response.ok) {
           // Handle successful response
-          router.push('/login/sign-in');
+          router.push('/auth/sign-in');
         } else {
           // Handle error response
           errorMessage = 'Sign up failed. Please try again.';
