@@ -1,4 +1,5 @@
-import { createContext, useState, useEffect, ReactNode } from "react";
+'use client';
+import {ReactNode, createContext, useEffect, useState} from 'react';
 
 // Interfaces Section
 interface Workspace {
@@ -8,30 +9,28 @@ interface Workspace {
 export interface UserContextType {
   token: string | null;
   setToken: (token: string | null) => void;
-  workspaces: Workspace[]; 
-  fetchWorkspaces: () => Promise<void>; 
+  workspaces: Workspace[];
+  fetchWorkspaces: () => Promise<void>;
 }
 interface UserContextProviderProps {
   children: ReactNode;
 }
 //call the useContext
-export const UserContext = createContext<UserContextType | null>(null);
+const UserContext = createContext<UserContextType | null>(null);
 
-
-const UserContextProvider = ({ children }: UserContextProviderProps) => {
-  const [token, setToken] = useState<string | null>(null); 
+const UserContextProvider = ({children}: UserContextProviderProps) => {
+  const [token, setToken] = useState<string | null>(null);
   const [workspaces, setWorkspaces] = useState<any[]>([]);
 
   //function to fetch the workspaces
 
   const fetchWorkspaces = async () => {
     try {
-      
-      const response = await fetch("https://gadorjani.co.uk/api/workspaces");
+      const response = await fetch('https://gadorjani.co.uk/api/workspaces');
       const data = await response.json();
       setWorkspaces(data.workspaces);
     } catch (error) {
-      console.error("Error fetching workspaces", error);
+      console.error('Error fetching workspaces', error);
     }
   };
 
@@ -41,11 +40,8 @@ const UserContextProvider = ({ children }: UserContextProviderProps) => {
   }, []);
 
   //function to fetch the token and store it locally
-  
-  
+
   //
-
-
 
   const contextValue: UserContextType = {
     token,
@@ -54,11 +50,7 @@ const UserContextProvider = ({ children }: UserContextProviderProps) => {
     fetchWorkspaces,
   };
 
-  return (
-    <UserContext.Provider value={contextValue}>
-      {children}
-    </UserContext.Provider>
-  );
+  return <UserContext.Provider value={contextValue}>{children}</UserContext.Provider>;
 };
 
-export {UserContextProvider};
+export {UserContext, UserContextProvider};
