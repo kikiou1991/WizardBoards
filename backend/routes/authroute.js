@@ -1,7 +1,7 @@
 // routes.js
 const express = require('express');
 const router = express.Router();
-const {Signup, Login} = require('../controllers/authcontroller');
+const {Signup, Login, verifyToken} = require('../controllers/authcontroller');
 const {userVerification} = require('../middlewares/authmiddleware');
 const {CreateWorkspace, GetUserWorkspace} = require('../controllers/createworkspace.js');
 const {GetUserById, GetAllUsers, GetAuthenticatedUser} = require('../controllers/usercontrollers.js');
@@ -9,7 +9,7 @@ const {GetUserById, GetAllUsers, GetAuthenticatedUser} = require('../controllers
 router.post('/api/signup', Signup);
 router.post('/api/login', Login);
 router.post('/api/', userVerification);
-router.post('/api/auth/validate', userVerification);
+router.post('/api/auth/validate', verifyToken);
 
 // Workspace routes
 router.get('/api/workspaces', userVerification, GetUserWorkspace);

@@ -1,25 +1,25 @@
 const User = require('../models/usermodel');
-const { createSecretToken } = require('../utils/secretToken');
+const {createSecretToken} = require('../utils/secretToken');
 const bcrypt = require('bcrypt');
 
 module.exports.Signup = async (req, res, next) => {
   try {
     console.log('Request body: ', req.body);
-    const { email, password, createdAt } = req.body;
-    const existingUser = await User.findOne({ email });
+    const {email, password, createdAt} = req.body;
+    const existingUser = await User.findOne({email});
     if (existingUser) {
-      return res.json({ message: 'User already exist, please sign in' }); //check is the user already exists in the DB
+      return res.json({message: 'User already exist, please sign in'}); //check is the user already exists in the DB
     }
 
     const hashedPassword = await bcrypt.hash(password, 12);
 
-    const user = await User.create({ email, password: hashedPassword, createdAt }); //if not create a new user
+    const user = await User.create({email, password: hashedPassword, createdAt}); //if not create a new user
     const token = createSecretToken(user._id); //create the user token
     res.cookie('token', token, {
       withCredentials: true,
       httpOnly: false,
     });
-    res.status(201).json({ message: 'User signed in successfully', success: true, user });
+    res.status(201).json({message: 'User signed in successfully', success: true, user});
     next();
   } catch (error) {
     console.log(error, 'Failed to signup user');
@@ -28,26 +28,66 @@ module.exports.Signup = async (req, res, next) => {
 
 module.exports.Login = async (req, res, next) => {
   try {
-    const { email, password } = req.body;
+    const {email, password} = req.body;
     if (!email || !password) {
-      return res.json({ message: 'All fields are required' });
+      return res.json({message: 'All fields are required'});
     }
-    const user = await User.findOne({ email }); //check if the user exists
+    const user = await User.findOne({email}); //check if the user exists
     if (!user) {
-      return res.json({ message: 'No user exist with that email' });
+      return res.json({message: 'No user exist with that email'});
     }
     const auth = await bcrypt.compare(password, user.password); //compare the passwords
     if (!auth) {
-      return res.json({ message: 'The password is incorrect' });
+      return res.json({message: 'The password is incorrect'});
     }
     const token = createSecretToken(user._id);
     res.cookie('token', token, {
       withCredentials: true,
       httpOnly: false,
     });
-    res.status(201).json({ message: 'User logged in succesfully', success: true, token: token });
+    res.status(201).json({message: 'User logged in succesfully', success: true, token: token});
     next();
   } catch (error) {
     console.error(error, 'Failed to login in user');
+  }
+};
+
+const User = require('../models/usermodel');
+require('dotenv').config();
+const jwt = require('jsonwebtoken');
+
+module.exports.verifyToken = async (req, res) => {
+  try {
+    const token = req.headers?.authorization?.split(' ')[1];
+    if (!token) {
+      return res.status(401).json({status: false, message: 'No token provided'});
+    }
+
+    jwt.verify(token, process.env.TOKEN_KEY, async (err, data) => {
+      if (err) {
+        return res.status(401).json({status: false, message: 'Token verification failed'});
+      } else {
+        try {
+          const user = await User.findById(data.id);
+          if (user) {
+            return res.status(200).json({
+              status: true,
+              message: 'Token verified',
+              data: {
+                user,
+              },
+            });
+          } else {
+            return res.status(404).json({status: false, message: 'User not found'});
+          }
+        } catch (error) {
+          console.error('User retrieval error:', error);
+          return res.status(500).json({status: false, message: 'Internal Server Error'});
+        }
+      }
+    });
+  } catch (error) {
+    console.error('Unexpected error:', error);
+    return res.status(500).json({status: false, message: 'Internal Server Error'});
   }
 };
