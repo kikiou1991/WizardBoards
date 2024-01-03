@@ -9,7 +9,7 @@ const {GetUserById, GetAllUsers, GetAuthenticatedUser} = require('../controllers
 router.post('/api/signup', Signup);
 router.post('/api/login', Login);
 router.post('/api/', userVerification);
-router.post('/api/auth/validate', verifyToken);
+router.get('/api/auth/validate', verifyToken);
 
 // Workspace routes
 router.get('/api/workspaces', userVerification, GetUserWorkspace);
