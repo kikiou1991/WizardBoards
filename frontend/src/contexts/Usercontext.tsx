@@ -29,7 +29,7 @@ const UserContext = createContext<UserContextType | null>(null);
 
 const UserContextProvider = ({children}: UserContextProviderProps) => {
   const [token, setToken] = useState<string | null>(null);
-  const [workspaces, setWorkspaces] = useState<any[]>([]);
+  const [workspaces, setWorkspaces] = useState<Workspace[]>([]);
   const [authenticated, setAuthenticated] = useState<boolean>(false);
   const [user, setUser] = useState<any>(null);
   const [authenticatedLoaded, setAuthenticatedLoaded] = useState<boolean>(false);

@@ -20,12 +20,12 @@ const YourBoards = () => {
         <MyModalNewBoard />
       </div>
       <div className='pt-2 flex flex-col'>
-      {workspaces.map((workspace: Workspace) => (
+      {/* {workspaces.map((workspace: Workspace) => (
           <div key={workspace._id} className='bg-[#041A42]'>
            
             <p>{workspace.name}</p>
           </div>
-        ))}
+        ))} */}
       </div>
     </div>
   );

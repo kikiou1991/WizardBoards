@@ -67,7 +67,7 @@ const InputField = () => {
 
       if (response.ok) {
         const result = await response.json();
-        console.log('result is good', result);
+        
         if (result.success) {
           // Successful login
 
@@ -90,13 +90,7 @@ const InputField = () => {
       // Handle fetch error
       console.error('Failed to log in user', error.message);
       toast.error('Failed to log in user');
-    } finally {
-      // Reset input fields
-      setInputValue({
-        email: '',
-        password: '',
-      });
-    }
+    } 
   };
   console.log('input value', authenticated);
   return (
