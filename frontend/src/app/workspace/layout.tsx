@@ -22,7 +22,7 @@ export default function WorkspaceLayout({
         <div className='w-1/6 h-full'>
           <Sidebar />
         </div>
-        <div className='w-5/6 h-full'>{children}</div>
+        <div className='w-5/6 h-full flex flex-col'>{children}</div>
       </div>
     </div>
   );

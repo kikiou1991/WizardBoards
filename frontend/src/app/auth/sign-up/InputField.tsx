@@ -44,11 +44,11 @@ const InputField = () => {
 
     if (email == null || validationState === 'invalid' || user.password !== user.passwordConfirm) {
       errorMessage = 'Please try again';
-      alert(errorMessage);
+      toast.error(errorMessage);
     } else {
       setLoading(true);
       setButtonDisabled(false);
-      alert('All done');
+      toast.success('All done');
 
       try {
         const response = await fetch('https://gadorjani.co.uk/api/signup', {

@@ -1,15 +1,14 @@
 // app/providers.tsx
-'use client'
+'use client';
 
-import {NextUIProvider} from '@nextui-org/react'
+import {NextUIProvider} from '@nextui-org/react';
+import {Toaster} from 'react-hot-toast';
 
-export function Providers({children}: { children: React.ReactNode }) {
+export function Providers({children}: {children: React.ReactNode}) {
   return (
     <NextUIProvider>
-      <div className='w-screen h-screen overflow-hidden'>
-        {children}
-
-      </div>
+      <Toaster position='top-center' reverseOrder={false} />
+      <div className='w-screen h-screen overflow-hidden'>{children}</div>
     </NextUIProvider>
-  )
+  );
 }
