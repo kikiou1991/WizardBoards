@@ -20,7 +20,7 @@ const Login = () => {
           </div>
           <Button
             color="primary" variant="light"
-          ><Link href="/Login/sign-up">Register</Link></Button>
+          ><Link href="/auth/sign-up">Register</Link></Button>
         </div>
       
     </div>
