@@ -16,9 +16,8 @@ const config = {
           colors: {
             background: '#FFFFFF',
             foreground: '#101828',
+            secondaryBg: '#FAFAFA',
             border: '#EAECF0',
-            svgOnSecondary: '#263238',
-            topBar: '#FFFFFF',
           },
         },
         dark: {
@@ -26,8 +25,7 @@ const config = {
             background: '#212123',
             foreground: '#E8E8E8',
             border: '#383940',
-            svgOnSecondary: '#585858',
-            topBar: '#212123',
+            secondaryBG: '#282828',
           },
         },
       },
