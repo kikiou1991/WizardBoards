@@ -1,5 +1,5 @@
 'use client';
-import { UserContext } from '@/contexts/Usercontext';
+import { UserContext, UserContextType } from '@/contexts/Usercontext';
 import {Avatar, Dropdown, DropdownItem, DropdownMenu, DropdownSection, DropdownTrigger, Navbar, NavbarContent} from '@nextui-org/react';
 import {useContext} from 'react';
 
@@ -10,7 +10,7 @@ interface Props {
 }
 
 const Profile = ({name, location, email}: Props) => {
-  const {handleLogout} = useContext(UserContext);
+  const {handleLogout} = useContext(UserContext) as UserContextType
   return (
     <Navbar className='bg-inherit'>
       <NavbarContent as='div' className='items-center'>
