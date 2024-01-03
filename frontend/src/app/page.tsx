@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation'
 
 export default function Home() {
   return (
-    redirect('/Login/sign-in')
+    redirect('/login/sign-in')
   )
 }
 
