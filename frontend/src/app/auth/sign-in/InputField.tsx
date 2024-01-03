@@ -98,7 +98,7 @@ const InputField = () => {
       <Input value={inputValue?.email} onValueChange={(e) => handleEmailChange(e)} type='email' label='Email' placeholder='junior@nextui.org' className='max-w-xs' isRequired />
       <Input value={inputValue?.password} onValueChange={(e) => handlePasswordChange(e)} isRequired type='password' label='Password' className='max-w-xs' placeholder='Enter your password' />
 
-      <Button color='primary' className='max-w-xs' isDisabled={buttonDisabled} onPressEnd={handleLogin}>
+      <Button color='primary' className='max-w-xs' isDisabled={buttonDisabled} onPress={handleLogin}>
         Login
       </Button>
     </>
