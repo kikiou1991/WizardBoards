@@ -23,7 +23,6 @@ import MyWorkSpaceModal from '../modals/newworkspace_modal';
 interface UserData {
   name: string;
   email: string;
-  // Add other properties if needed
 }
 
 

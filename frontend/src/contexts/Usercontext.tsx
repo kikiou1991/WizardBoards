@@ -1,25 +1,25 @@
 import { createContext, useState, useEffect, ReactNode } from "react";
 
+// Interfaces Section
 interface Workspace {
   _id: string;
   name: string;
-  // Add other properties if needed
 }
 export interface UserContextType {
   token: string | null;
   setToken: (token: string | null) => void;
   workspaces: Workspace[]; 
-  fetchWorkspaces: () => Promise<void>;
+  fetchWorkspaces: () => Promise<void>; 
 }
-
-export const UserContext = createContext<UserContextType | null>(null);
-
 interface UserContextProviderProps {
   children: ReactNode;
 }
+//call the useContext
+export const UserContext = createContext<UserContextType | null>(null);
+
 
 const UserContextProvider = ({ children }: UserContextProviderProps) => {
-  const [token, setToken] = useState<string | null>(null);
+  const [token, setToken] = useState<string | null>(null); 
   const [workspaces, setWorkspaces] = useState<any[]>([]);
 
   //function to fetch the workspaces

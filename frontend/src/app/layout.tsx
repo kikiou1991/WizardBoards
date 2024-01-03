@@ -1,5 +1,6 @@
 // app/layout.tsx
-import {Providers} from "../components/providers";
+import {Providers} from "./providers";
+import { UserContextProvider } from "./Main/contexts/Usercontext";
 import "./globals.css";
 import {Playfair_Display} from 'next/font/google'
 
@@ -14,10 +15,13 @@ export default function RootLayout({children}: { children: React.ReactNode }) {
     <html lang="en" className='dark'>
       <body 
       className={playFair.className}>
-        <Providers>
-          {children}
-        </Providers>
+        <UserContextProvider>
+          <Providers>
+            {children}
+          </Providers>
+        </UserContextProvider>
       </body>
     </html>
   );
 }
+
