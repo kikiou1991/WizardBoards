@@ -1,5 +1,5 @@
 'use client';
-import {UserContext} from '@/contexts/Usercontext';
+import {UserContext, UserContextType} from '@/contexts/Usercontext';
 import {Button, Input} from '@nextui-org/react';
 import {useRouter} from 'next/navigation';
 import React, {useContext, useState} from 'react';
@@ -18,7 +18,7 @@ const InputField = () => {
   });
   const router = useRouter();
 
-  const {authenticated} = useContext(UserContext);
+  const {authenticated} = useContext(UserContext) as UserContextType
 
   if (authenticated) {
     router.replace(`/workspace/home`);

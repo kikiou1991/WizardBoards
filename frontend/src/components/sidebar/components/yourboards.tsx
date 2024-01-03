@@ -1,7 +1,7 @@
 'use client';
 import MyModalNewBoard from '../sidebarmodal/new_board_modal';
 import { useContext } from 'react';
-import { UserContext } from '@/contexts/Usercontext';
+import { UserContext, UserContextType } from '@/contexts/Usercontext';
 
 
 
@@ -12,7 +12,7 @@ interface Workspace {
 
 
 const YourBoards = () => {
-  const {workspaces} = useContext(UserContext)
+  const {workspaces} = useContext(UserContext) as UserContextType
   return (
     <div>
       <div className='flex flex-row px-2 pt-2'>
@@ -20,7 +20,7 @@ const YourBoards = () => {
         <MyModalNewBoard />
       </div>
       <div className='pt-2 flex flex-col'>
-      {workspaces?.map((workspace: Workspace) => (
+      {workspaces.map((workspace: Workspace) => (
           <div key={workspace._id} className='bg-[#041A42]'>
            
             <p>{workspace.name}</p>
