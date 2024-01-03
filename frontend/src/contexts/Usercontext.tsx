@@ -1,4 +1,5 @@
 'use client';
+import {userWorkspaces} from '@/lib/workspaces';
 import {ReactNode, createContext, useEffect, useState} from 'react';
 
 // Interfaces Section
@@ -25,17 +26,8 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
   //function to fetch the workspaces
 
   const fetchWorkspaces = async () => {
-    try {
-      const response = await fetch('https://gadorjani.co.uk/api/workspaces', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const data = await response.json();
-      setWorkspaces(data.workspaces);
-    } catch (error) {
-      console.error('Error fetching workspaces', error);
-    }
+    let res = await userWorkspaces.fetchWorkspaces(token);
+    setWorkspaces(res.workspaces);
   };
 
   useEffect(() => {
