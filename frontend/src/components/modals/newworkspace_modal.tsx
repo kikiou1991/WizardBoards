@@ -1,6 +1,7 @@
 import Icon from '@/components/Icons';
+import {UserContext} from '@/contexts/Usercontext';
 import {Button, Dropdown, DropdownItem, DropdownMenu, DropdownSection, DropdownTrigger, Image, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Select, SelectItem} from '@nextui-org/react';
-import {useEffect, useState} from 'react';
+import {useContext, useState} from 'react';
 
 interface Workspace {
   _id: string;
@@ -10,8 +11,7 @@ interface Workspace {
 const MyWorkSpaceModal = () => {
   const [isBoardModalOpen, setBoardModalOpen] = useState(false);
   const [isWorkspaceModalOpen, setWorkspaceModalOpen] = useState(false);
-  const [userWorkSpaces, setUserWorkspaces] = useState<Workspace[]>([]);
-
+  const context = useContext(UserContext);
   const openBoardModal = () => {
     setBoardModalOpen(true);
     setWorkspaceModalOpen(false);
@@ -26,44 +26,8 @@ const MyWorkSpaceModal = () => {
     setBoardModalOpen(false);
     setWorkspaceModalOpen(false);
   };
-
-  // useEffect(() => {
-  //   // Fetch user workspaces when the modal is opened
-  //   if (isWorkspaceModalOpen) {
-  //     fetchWorkspaces();
-  //   }
-  // }, [isWorkspaceModalOpen, fetchWorkspaces]);
-
-  const fetchUserWorkspaces = async () => {
-    try {
-      const token = localStorage.getItem('token');
-
-      if (!token) {
-        console.log('Failed to fetch token!');
-        return;
-      }
-
-      const response = await fetch('https://gadorjani.co.uk/api/workspaces', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (response.ok) {
-        const workspaceData = await response.json();
-        setUserWorkspaces(workspaceData.workspaces);
-      } else {
-        console.error('Failed to fetch user workspaces', response.statusText);
-      }
-    } catch (error) {
-      console.error('Failed to fetch user workspaces', error);
-    }
-  };
-
-  useEffect(() => {
-    fetchUserWorkspaces();
-  }, []);
-
+  console.log(context?.workspaces);
+  if (!context) return null;
   return (
     <>
       <Dropdown className='bg-[#041A42] text-[#E5EAF3] w-' placement='bottom-start'>
@@ -105,7 +69,7 @@ const MyWorkSpaceModal = () => {
           <ModalBody>
             <Input isRequired type='email' label='Board Title' description='Name your new board' className='max-w-xs font-semibold text-slate-100' color='default' labelPlacement='outside' />
             <div className='flex flex-row items-center'>
-              <Select isRequired size='sm' items={userWorkSpaces} label='Workspace' placeholder='Select a workspace' className='max-w-xs text-[#e5eaf3] ' classNames={{}}>
+              <Select isRequired size='sm' items={context?.workspaces} label='Workspace' placeholder='Select a workspace' className='max-w-xs text-[#e5eaf3] ' classNames={{}}>
                 {(workspace: Workspace) => (
                   <SelectItem className='text-[#e5eaf3]' key={workspace._id}>
                     {workspace.name}

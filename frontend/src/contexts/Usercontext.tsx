@@ -11,7 +11,7 @@ export interface UserContextType {
   token: string | null;
   setToken: (token: string | null) => void;
   workspaces: Workspace[];
-  fetchWorkspaces: () => Promise<void>;
+  fetchWorkspaces: (token: any | null) => Promise<void>;
 }
 interface UserContextProviderProps {
   children: ReactNode;
@@ -25,14 +25,20 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
 
   //function to fetch the workspaces
 
-  const fetchWorkspaces = async () => {
+  const fetchWorkspaces = async (token: any) => {
     let res = await userWorkspaces.fetchWorkspaces(token);
     setWorkspaces(res.workspaces);
   };
 
   useEffect(() => {
-    // Fetch workspaces when the component mounts
-    fetchWorkspaces();
+    if (token) {
+      fetchWorkspaces(token);
+    }
+  }, [token]);
+  useEffect(() => {
+    if (localStorage['token']) {
+      setToken(localStorage['token']);
+    }
   }, []);
 
   //function to fetch the token and store it locally
@@ -45,7 +51,6 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
     workspaces,
     fetchWorkspaces,
   };
-
   return <UserContext.Provider value={contextValue}>{children}</UserContext.Provider>;
 };
 

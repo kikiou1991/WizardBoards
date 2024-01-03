@@ -28,7 +28,7 @@ export default function ThemeSwitcher({}: Props) {
       color='success'
       startContent={<SunIcon />}
       endContent={<MoonIcon />}
-      isSelected={theme === 'light'}
+      isSelected={theme === 'light' ? true : false}
       onValueChange={(value) => {
         setTheme(value ? 'light' : 'dark');
       }}></Switch>
