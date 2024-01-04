@@ -4,7 +4,7 @@ import {Button, Dropdown, DropdownItem, DropdownMenu, DropdownSection, DropdownT
 import {useContext, useState} from 'react';
 
 interface Workspace {
-  _id: string;
+  uuid: string;
   name: string;
 }
 
@@ -71,7 +71,7 @@ const MyWorkSpaceModal = () => {
             <div className='flex flex-row items-center'>
               <Select isRequired size='sm' items={context?.workspaces} label='Workspace' placeholder='Select a workspace' className='max-w-xs text-[#e5eaf3] ' classNames={{}}>
                 {(workspace: Workspace) => (
-                  <SelectItem className='text-[#e5eaf3]' key={workspace._id}>
+                  <SelectItem className='text-[#e5eaf3]' key={workspace.uuid}>
                     {workspace.name}
                   </SelectItem>
                 )}
