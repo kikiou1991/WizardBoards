@@ -69,15 +69,15 @@ const MyWorkSpaceModal = () => {
           </ModalHeader>
           <ModalBody>
             <Input isRequired type='email' label='Board Title' description='Name your new board' className='max-w-xs font-semibold text-slate-100' color='default' labelPlacement='outside' />
-            {/* <div className='flex flex-row items-center'>
-              <Select isRequired size='sm' items={workspaces} label='Workspace' placeholder='Select a workspace' className='max-w-xs text-[#e5eaf3] ' classNames={{}}>
-                {(workspace: Workspace) => (
-                  <SelectItem className='text-[#e5eaf3]' key={workspace.uuid}>
-                    {workspace.name}
-                  </SelectItem>
-                )}
+            <div className='flex flex-row items-center'>
+              <Select isRequired size='sm'  label='Workspace' placeholder='Select a workspace' className='max-w-xs text-[#e5eaf3] ' classNames={{}}>
+              {workspaces.map((workspace) => (
+                    <SelectItem key={workspace.uuid}>
+                      {workspace.name}
+                    </SelectItem>
+                  ))}
               </Select>
-            </div> */}
+            </div>
             {/* Additional content specific to the board modal */}
           </ModalBody>
           <ModalFooter>
