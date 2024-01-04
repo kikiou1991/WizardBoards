@@ -64,7 +64,7 @@ module.exports.verifyToken = async (req, res) => {
 
     jwt.verify(token, process.env.TOKEN_KEY, async (err, data) => {
       if (err) {
-        return res.status(401).json({ status: false, message: 'Token verification failed' });
+        return res.status(401).json({ status: false, message: 'Token verification failed', error: err.message });
       } else {
         try {
           const user = await User.findById(data.id);
