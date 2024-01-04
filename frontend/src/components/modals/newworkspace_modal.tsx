@@ -4,7 +4,7 @@ import {Button, Dropdown, DropdownItem, DropdownMenu, DropdownSection, DropdownT
 import {useContext, useState} from 'react';
 
 interface Workspace {
-  uuid: string;
+  _id: string;
   name: string;
 }
 
@@ -83,7 +83,7 @@ const MyWorkSpaceModal = () => {
             >
               
               {workspaces.map((workspace) => (
-                <SelectItem key={workspace.uuid} value={workspace.name}>
+                <SelectItem key={workspace._id} value={workspace.name}>
                   {workspace.name}
                 </SelectItem>
               ))}
