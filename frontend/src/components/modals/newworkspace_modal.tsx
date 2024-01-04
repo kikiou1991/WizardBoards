@@ -83,7 +83,7 @@ const MyWorkSpaceModal = () => {
             >
               
               {workspaces.map((workspace) => (
-                <SelectItem key={workspace.uuid}>
+                <SelectItem key={workspace.uuid} value={workspace.name}>
                   {workspace.name}
                 </SelectItem>
               ))}
