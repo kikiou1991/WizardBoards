@@ -12,7 +12,7 @@ const InputField = () => {
     password: '',
   });
   const router = useRouter();
-  const {authenticated} = useContext(UserContext) as UserContextType
+  const {authenticated, setAuthenticated} = useContext(UserContext) as UserContextType;
   if (authenticated) {
     router.replace(`/workspace/home`);
   }
@@ -55,7 +55,6 @@ const InputField = () => {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-
           Authorization: 'Bearer ' + localStorage.getItem('token'),
         },
         body: JSON.stringify({
@@ -67,7 +66,7 @@ const InputField = () => {
 
       if (response.ok) {
         const result = await response.json();
-        
+
         if (result.success) {
           // Successful login
 
@@ -75,6 +74,7 @@ const InputField = () => {
 
           //store the token in local storage
           localStorage.setItem('token', result.token);
+          setAuthenticated(true);
 
           router.push('/workspace/home');
         } else {
@@ -90,9 +90,8 @@ const InputField = () => {
       // Handle fetch error
       console.error('Failed to log in user', error.message);
       toast.error('Failed to log in user');
-    } 
+    }
   };
-  console.log('input value', authenticated);
   return (
     <>
       <Input value={inputValue?.email} onValueChange={(e) => handleEmailChange(e)} type='email' label='Email' placeholder='junior@nextui.org' className='max-w-xs' isRequired />
