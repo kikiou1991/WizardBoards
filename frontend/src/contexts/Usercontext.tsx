@@ -53,8 +53,8 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
   };
   useEffect(() => {
     if (token) {
-      fetchWorkspaces(token);
       validateToken(token);
+      fetchWorkspaces(token);
     }
   }, [token]);
   useEffect(() => {
