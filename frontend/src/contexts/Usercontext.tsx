@@ -34,40 +34,49 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
   const [authenticated, setAuthenticated] = useState<boolean>(false);
   const [user, setUser] = useState<any>(null);
   const [authenticatedLoaded, setAuthenticatedLoaded] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState(true);
   const pathname = usePathname();
-
   const router = useRouter();
+
   const fetchWorkspaces = async (token: any) => {
-    let res = await userWorkspaces.fetchWorkspaces(token);
-    setWorkspaces(res?.data?.workspaces);
+    try {
+      let res = await userWorkspaces.fetchWorkspaces(token);
+      setWorkspaces(res?.data?.workspaces || []);
+    } catch (error) {
+      // Handle error if needed
+      console.error('Error fetching workspaces:', error);
+    } finally {
+      setIsLoading(false);
+    }
   };
+
   const validateToken = async (token: any) => {
-    let res = await userAuth.validateToken(token);
-    if (res?.status === true) {
-      setAuthenticated(true);
-      setUser(res?.data?.user);
-      setAuthenticatedLoaded(true);
-    } else {
+    try {
+      let res = await userAuth.validateToken(token);
+      if (res?.status === true) {
+        setAuthenticated(true);
+        setUser(res?.data?.user);
+      }
+    } catch (error) {
+      // Handle error if needed
+      console.error('Error validating token:', error);
+    } finally {
       setAuthenticatedLoaded(true);
     }
   };
+
   useEffect(() => {
-    if (token) {
-      validateToken(token);
-      fetchWorkspaces(token);
-    }
-  }, [token]);
-  useEffect(() => {
-    if (localStorage['token']) {
-      setToken(localStorage['token']);
-    } else {
-      setAuthenticatedLoaded(true);
-    }
+    const init = async () => {
+      if (localStorage['token']) {
+        setToken(localStorage['token']);
+        await validateToken(localStorage['token']);
+        await fetchWorkspaces(localStorage['token']);
+      }
+    };
+
+    init();
   }, []);
 
-  //function to fetch the token and store it locally
-
-  //
   const handleLogout = async () => {
     localStorage.clear();
     setWorkspaces([]);
@@ -76,6 +85,7 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
     setAuthenticatedLoaded(false);
     router.replace('/auth/sign-in');
   };
+
   const contextValue: UserContextType = {
     token,
     setToken,

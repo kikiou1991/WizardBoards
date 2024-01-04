@@ -28,9 +28,7 @@ const MyWorkSpaceModal = () => {
     setWorkspaceModalOpen(false);
   };
 
-  if (!context || !Array.isArray(workspaces) || workspaces.length === 0) {
-    return null; // or render some loading state
-  }
+
 
 
   console.log(context?.workspaces);
