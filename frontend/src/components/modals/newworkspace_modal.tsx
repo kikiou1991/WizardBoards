@@ -1,5 +1,5 @@
 import Icon from '@/components/Icons';
-import {UserContext} from '@/contexts/Usercontext';
+import {UserContext, UserContextType} from '@/contexts/Usercontext';
 import {Button, Dropdown, DropdownItem, DropdownMenu, DropdownSection, DropdownTrigger, Image, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Select, SelectItem} from '@nextui-org/react';
 import {useContext, useState} from 'react';
 
@@ -69,7 +69,7 @@ const MyWorkSpaceModal = () => {
           <ModalBody>
             <Input isRequired type='email' label='Board Title' description='Name your new board' className='max-w-xs font-semibold text-slate-100' color='default' labelPlacement='outside' />
             <div className='flex flex-row items-center'>
-              <Select isRequired size='sm' items={context?.workspaces} label='Workspace' placeholder='Select a workspace' className='max-w-xs text-[#e5eaf3] ' classNames={{}}>
+              <Select isRequired size='sm' items={context.workspaces} label='Workspace' placeholder='Select a workspace' className='max-w-xs text-[#e5eaf3] ' classNames={{}}>
                 {(workspace: Workspace) => (
                   <SelectItem className='text-[#e5eaf3]' key={workspace.uuid}>
                     {workspace.name}
