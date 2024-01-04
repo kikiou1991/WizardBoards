@@ -9,7 +9,7 @@ import {ReactNode, createContext, useEffect, useState} from 'react';
 
 // Interfaces Section
 interface Workspace {
-  uuid: string;
+  _id: string;
   name: string;
 }
 export interface UserContextType {
