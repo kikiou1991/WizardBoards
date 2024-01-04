@@ -11,6 +11,7 @@ import {ReactNode, createContext, useEffect, useState} from 'react';
 interface Workspace {
   _id: string;
   name: string;
+  uuid: string;
 }
 export interface UserContextType {
   token: string | null;
@@ -41,7 +42,8 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
   const fetchWorkspaces = async (token: any) => {
     try {
       let res = await userWorkspaces.fetchWorkspaces(token);
-      setWorkspaces(res?.data?.workspaces || []);
+      console.log(res);
+      setWorkspaces(res?.data || []);
     } catch (error) {
       // Handle error if needed
       console.error('Error fetching workspaces:', error);
@@ -66,15 +68,11 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
   };
 
   useEffect(() => {
-    const init = async () => {
-      if (localStorage['token']) {
-        setToken(localStorage['token']);
-        await validateToken(localStorage['token']);
-        await fetchWorkspaces(localStorage['token']);
-      }
-    };
-
-    init();
+    if (localStorage['token']) {
+      setToken(localStorage['token']);
+      validateToken(localStorage['token']);
+      fetchWorkspaces(localStorage['token']);
+    }
   }, []);
 
   const handleLogout = async () => {
