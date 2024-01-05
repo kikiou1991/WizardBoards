@@ -60,17 +60,17 @@ const NavbarTop = () => {
       {/* Left navigation section icon, header, and add button */}
       <NavbarContent className='items-center flex flex-grow-0 gap-1'>
         {/* File / Other Products / Navigation */}
-        <Dropdown className='bg-secondaryBG text-foreground' placement='bottom-start'>
+        <Dropdown className='bg-background  text-foreground' placement='bottom-start'>
           <DropdownTrigger>
-            <Button className='bg-inherit hover:bg-primary' size='sm' isIconOnly>
-              <Icon name='menu' classname={'bg-white'} />
+            <Button className='bg-inherit hover:bg-secondaryBG' size='sm' isIconOnly>
+              <Icon name='menu' classname={'bg-white data-[hover=true]:bg-background'} />
             </Button>
           </DropdownTrigger>
           <DropdownMenu>
             <DropdownSection>
-              <DropdownItem className='data-[hover=true]:bg-[#143F88]'>Menu Item #1</DropdownItem>
-              <DropdownItem className='data-[hover=true]:bg-[#143F88]'>Menu Item #2</DropdownItem>
-              <DropdownItem className='data-[hover=true]:bg-[#143F88]'>Menu Item #3</DropdownItem>
+              <DropdownItem className='data-[hover=true]:bg-secondaryBG'>Menu Item #1</DropdownItem>
+              <DropdownItem className='data-[hover=true]:bg-secondaryBG'>Menu Item #2</DropdownItem>
+              <DropdownItem className='data-[hover=true]:bg-secondaryBG'>Menu Item #3</DropdownItem>
             </DropdownSection>
           </DropdownMenu>
         </Dropdown>
@@ -79,7 +79,7 @@ const NavbarTop = () => {
         <Icon name='projectIcon' classname={'bg-white'} />
         {/*DropDown Navigation */}
         {navBarItems.map((navbar) => (
-          <Dropdown key={navbar.id} className='bg-[#041A42]' placement='bottom-start'>
+          <Dropdown key={navbar.id} className='bg-primary' placement='bottom-start'>
             <DropdownTrigger>
               <div className='flex gap-1 items-center'>
                 <Button size='md' className='bg-inherit' endContent={<Icon name='downarrow' classname={'bg-white'} />}>
@@ -108,19 +108,19 @@ const NavbarTop = () => {
         <MyModal />
 
         {/* Calendar and Notifications */}
-        <Button className='bg-inherit hover:bg-primary/50' size='sm' isIconOnly>
-          <Icon name='calendar' classname={'stroke-current'} />
+        <Button className='bg-inherit hover:bg-secondaryBG' size='sm' isIconOnly>
+          <Icon name='calendar' classname={'stroke-current hover:bg-secondaryBG'} />
         </Button>
-        <Dropdown className='bg-[#041A42]' placement='bottom-end'>
+        <Dropdown className='bg-background' placement='bottom-end'>
           <DropdownTrigger>
-            <Button className='bg-inherit hover:bg-primary/50' size='sm' isIconOnly>
-              <Icon name='notiBell' classname={'stroke-current'} />
+            <Button className='bg-inherit hover:bg-secondaryBG' size='sm' isIconOnly>
+              <Icon name='notiBell' classname={'stroke-current '} />
             </Button>
           </DropdownTrigger>
           <DropdownMenu className='text-foreground'>
             <DropdownSection>
-              <DropdownItem className='data-[hover=true]:bg-[#143F88]'>Something</DropdownItem>
-              <DropdownItem className='data-[hover=true]:bg-[#143F88]'>This is a notification</DropdownItem>
+              <DropdownItem className='data-[hover=true]:bg-secondaryBG'>Something</DropdownItem>
+              <DropdownItem className='data-[hover=true]:bg-secondaryBG'>This is a notification</DropdownItem>
             </DropdownSection>
           </DropdownMenu>
         </Dropdown>

@@ -41,11 +41,11 @@ const MyModalNewBoard = () => {
             backdrop='blur'
             radius='lg'
             classNames={{
-                body: "py-6",
-                backdrop: "bg-[#292f46]/50 backdrop-opacity-40",
-                base: "border-primary bg-primary dark:bg-background text-foreground",
-                header: "border-b-[1px] border-primary",
-                footer: "border-t-[1px] border-primary",
+                body: "py-6 border-foreground",
+                backdrop: "bg-secondayBG/50 backdrop-opacity-40",
+                base: "border-foreground bg-primary dark:bg-background text-foreground",
+                header: "border-b-[1px] border-border",
+                footer: "border-t-[1px] border-border",
                 closeButton: "hover:bg-white/5 active:bg-transparent",
               }}             
         >
@@ -53,7 +53,7 @@ const MyModalNewBoard = () => {
           <ModalHeader className="flex flex-col gap-1 items-center align-middle">
               <h1 className=''>Create Board</h1>
           </ModalHeader>
-          <ModalBody>
+          <ModalBody className=''>
               <Input
                 isRequired
                 type="email"

@@ -35,18 +35,18 @@ const MyWorkSpaceModal = () => {
   if (!context) return null;
   return (
     <>
-      <Dropdown className='bg-[#041A42] text-[#E5EAF3] w-' placement='bottom-start'>
+      <Dropdown className='bg-background text-[#E5EAF3] w-' placement='bottom-start'>
         <DropdownTrigger>
-          <Button className='bg-inherit hover:bg-[#3d51a1]' size='sm' isIconOnly>
+          <Button className='bg-inherit hover:bg-secondaryBG' size='sm' isIconOnly>
             <Icon name='addIcon' classname={'bg-white'} />
           </Button>
         </DropdownTrigger>
         <DropdownMenu>
           <DropdownSection>
-            <DropdownItem className='data-[hover=true]:bg-[#143F88]' description='A board is made up of cards ordered on lists.' startContent={<Icon name='addBoard' />} onClick={openBoardModal}>
+            <DropdownItem className='data-[hover=true]:bg-secondaryBG' description='A board is made up of cards ordered on lists.' startContent={<Icon name='addBoard' />} onClick={openBoardModal}>
               <p>Create new board</p>
             </DropdownItem>
-            <DropdownItem className='data-[hover=true]:bg-[#143F88]' description='A workspace is a group of boards and people.' startContent={<Icon name='addWorkspace' />} onClick={openWorkspaceModal}>
+            <DropdownItem className='data-[hover=true]:bg-secondaryBG' description='A workspace is a group of boards and people.' startContent={<Icon name='addWorkspace' />} onClick={openWorkspaceModal}>
               <p>Create Workspace</p>
             </DropdownItem>
           </DropdownSection>
@@ -60,12 +60,12 @@ const MyWorkSpaceModal = () => {
         backdrop='blur'
         radius='lg'
         classNames={{
-          body: 'py-6',
-          backdrop: 'bg-[#292f46]/50 backdrop-opacity-40',
-          base: 'border-[#292f46] bg-[#19172c] dark:bg-[#19172c] text-[#a8b0d3]',
-          header: 'border-b-[1px] border-[#292f46]',
-          footer: 'border-t-[1px] border-[#292f46]',
-          closeButton: 'hover:bg-white/5 active:bg-transparent',
+          body: "py-6",
+          backdrop: "bg-[#292f46]/50 backdrop-opacity-40",
+          base: "border-primary bg-primary dark:bg-background text-foreground",
+          header: "border-b-[1px] border-primary",
+          footer: "border-t-[1px] border-primary",
+          closeButton: "hover:bg-white/5 active:bg-transparent",
         }}>
         <ModalContent>
           <ModalHeader className='flex flex-col gap-1 items-center align-middle'>
@@ -79,11 +79,11 @@ const MyWorkSpaceModal = () => {
               size='sm'
               label='Workspace'
               placeholder='Select a workspace'
-              className='max-w-xs text-[#e5eaf3] '
+              className='max-w-xs text-foreground '
             >
               
               {workspaces.map((workspace) => (
-                <SelectItem key={workspace.uuid} value={workspace.name}>
+                <SelectItem className="text-foreground" key={workspace.uuid} value={workspace.name}>
                   {workspace.name}
                 </SelectItem>
               ))}

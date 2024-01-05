@@ -6,11 +6,11 @@ const WorkspaceView = () => {
       <div className='px-2'>
         <h2 className='font-semibold py-1 pr-0 ml-0'>Workspace View</h2>
       </div>
-      <div className='h-8 gap-2 flex flex-row hover:bg-primary items-center px-2'>
+      <div className='h-8 gap-2 flex flex-row hover:bg-secondaryBG items-center px-2'>
         <Icon name='table' />
-        <p className='italic'>Table</p>
+        <p className='italic '>Table</p>
       </div>
-      <div className='h-8 gap-2 flex flex-row hover:bg-primary items-center px-2'>
+      <div className='h-8 gap-2 flex flex-row hover:bg-secondaryBG items-center px-2'>
         <Icon name='calendar2' />
         <p className='italic'>Calendar</p>
       </div>
