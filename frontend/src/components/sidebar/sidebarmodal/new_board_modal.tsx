@@ -59,7 +59,7 @@ const MyModalNewBoard = () => {
                 type="email"
                 label="Board Title"
                 description="Name your new board"
-                className="max-w-xs font-semibold text-[#e5eaf3]"
+                className="max-w-xs font-semibold text-foreground"
                 color='default'                
                 labelPlacement='outside'
               />              
@@ -69,10 +69,10 @@ const MyModalNewBoard = () => {
                         size='sm'
                         label='Workspace'
                         placeholder='Select a workspace'
-                        className='max-w-xs text-[#e5eaf3] '
+                        className='max-w-xs text-foreground '
                       >              
                           {workspaces.map((workspace) => (
-                            <SelectItem key={workspace.uuid} value={workspace.name}>
+                            <SelectItem className="text-foreground" key={workspace.uuid} value={workspace.name}>
                               {workspace.name}
                             </SelectItem>
                           ))}
