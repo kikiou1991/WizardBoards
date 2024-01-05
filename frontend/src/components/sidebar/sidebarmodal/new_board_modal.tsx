@@ -1,45 +1,49 @@
 "use client"
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Modal, ModalContent, ModalHeader, ModalProps,ModalBody, ModalFooter, Button, Input, DropdownTrigger, DropdownSection, DropdownMenu, DropdownItem, Dropdown, Select, SelectItem } from "@nextui-org/react";
 import Icon from '@/components/Icons'
+import { UserContext, UserContextType } from '@/contexts/Usercontext';
+
+interface Workspace {
+  uuid: string;
+  name: string;
+}
 
 const MyModalNewBoard = () => {
-  const [isOpen, setIsOpen] = useState(false);
-//Handle the Modal Opening
-  const openModal = () => {
-    setIsOpen(true);
+  const [isBoardModalOpen, setBoardModalOpen] = useState(false);
+  const [isWorkspaceModalOpen, setWorkspaceModalOpen] = useState(false);
+  const context = useContext(UserContext);
+  const {workspaces} = useContext(UserContext) as UserContextType
+  const openBoardModal = () => {
+    setBoardModalOpen(true);
+    setWorkspaceModalOpen(false);
   };
-//handle the Modal Closing
-  const closeModal = () => {
-    setIsOpen(false);
+
+  const openWorkspaceModal = () => {
+    setBoardModalOpen(false);
+    setWorkspaceModalOpen(true);
   };
 
-  const [scrollBehavior, setScrollBehavior] = React.useState<ModalProps["scrollBehavior"]>("inside");
+  const closeModals = () => {
+    setBoardModalOpen(false);
+    setWorkspaceModalOpen(false);
+  };
 
-
-  const items = [
-    {
-      "name": "Number One",
-      "id": 2,
-    },
-    {
-      "name": "Number Two",
-      "id": 3,
-    }
-  ]
-
+ 
+  if (!context) return null;
+  
   return (
     <>
     
     {/* <Icon name="addIcon" onClick={openModal}/> */}
+    <Icon name="addIcon" onClick={openBoardModal}/>
       
-      <Icon name="addIcon" onClick={openModal}/>
 
                             
                             
       <Modal 
-            isOpen={isOpen}
-            onClose={closeModal}
+            isOpen={isBoardModalOpen}
+            onClose={closeModals}
             backdrop='blur'
             radius='lg'
             classNames={{
@@ -50,7 +54,7 @@ const MyModalNewBoard = () => {
                 footer: "border-t-[1px] border-[#292f46]",
                 closeButton: "hover:bg-white/5 active:bg-transparent",
               }}
-              scrollBehavior={scrollBehavior}
+             
         >
         <ModalContent>
           <ModalHeader className="flex flex-col gap-1 items-center align-middle">
@@ -73,21 +77,19 @@ const MyModalNewBoard = () => {
                     <Select
                       isRequired
                       size='sm'
-                      items={items}
-                      label="Workspace"
-                      placeholder="Select a workspace"
-                      className="max-w-xs text-[#e5eaf3] "
-                      classNames={{
-                       
-                      
-                    
-                      }}
+                      label='Workspace'
+                      placeholder='Select a workspace'
+                      className='max-w-xs text-[#e5eaf3] '
                     >
-                      {(item) => <SelectItem className='text-[#e5eaf3]' key={item.id}>{item.name}</SelectItem>}
-                    </Select>
+              
+                        {workspaces.map((workspace) => (
+                          <SelectItem key={workspace.uuid} value={workspace.name}>
+                            {workspace.name}
+                          </SelectItem>
+                        ))}
 
+                  </Select>
                            
-                     
 
                     </div>
                
