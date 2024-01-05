@@ -42,7 +42,7 @@ const MyModalNewBoard = () => {
             radius='lg'
             classNames={{
                 body: "py-6",
-                backdrop: "bg-primary/50 backdrop-opacity-40",
+                backdrop: "bg-[#292f46]/50 backdrop-opacity-40",
                 base: "border-primary bg-primary dark:bg-background text-foreground",
                 header: "border-b-[1px] border-primary",
                 footer: "border-t-[1px] border-primary",
