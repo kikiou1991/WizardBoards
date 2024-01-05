@@ -34,13 +34,7 @@ const MyModalNewBoard = () => {
   
   return (
     <>
-    
-    {/* <Icon name="addIcon" onClick={openModal}/> */}
-    <Icon name="addIcon" onClick={openBoardModal}/>
-      
-
-                            
-                            
+      <Icon name="addIcon" onClick={openBoardModal}/>   
       <Modal 
             isOpen={isBoardModalOpen}
             onClose={closeModals}
@@ -48,18 +42,16 @@ const MyModalNewBoard = () => {
             radius='lg'
             classNames={{
                 body: "py-6",
-                backdrop: "bg-[#292f46]/50 backdrop-opacity-40",
-                base: "border-[#292f46] bg-[#19172c] dark:bg-[#19172c] text-[#a8b0d3]",
-                header: "border-b-[1px] border-[#292f46]",
-                footer: "border-t-[1px] border-[#292f46]",
+                backdrop: "bg-primary/50 backdrop-opacity-40",
+                base: "border-primary bg-primary dark:bg-background text-foreground",
+                header: "border-b-[1px] border-primary",
+                footer: "border-t-[1px] border-primary",
                 closeButton: "hover:bg-white/5 active:bg-transparent",
-              }}
-             
+              }}             
         >
         <ModalContent>
           <ModalHeader className="flex flex-col gap-1 items-center align-middle">
               <h1 className=''>Create Board</h1>
-
           </ModalHeader>
           <ModalBody>
               <Input
@@ -68,31 +60,25 @@ const MyModalNewBoard = () => {
                 label="Board Title"
                 description="Name your new board"
                 className="max-w-xs font-semibold text-[#e5eaf3]"
-                color='default'
-                
+                color='default'                
                 labelPlacement='outside'
-              />
-              
+              />              
                     <div className='flex flex-row items-center'>
-                    <Select
-                      isRequired
-                      size='sm'
-                      label='Workspace'
-                      placeholder='Select a workspace'
-                      className='max-w-xs text-[#e5eaf3] '
-                    >
-              
-                        {workspaces.map((workspace) => (
-                          <SelectItem key={workspace.uuid} value={workspace.name}>
-                            {workspace.name}
-                          </SelectItem>
-                        ))}
+                      <Select
+                        isRequired
+                        size='sm'
+                        label='Workspace'
+                        placeholder='Select a workspace'
+                        className='max-w-xs text-[#e5eaf3] '
+                      >              
+                          {workspaces.map((workspace) => (
+                            <SelectItem key={workspace.uuid} value={workspace.name}>
+                              {workspace.name}
+                            </SelectItem>
+                          ))}
+                      </Select>                         
+                    </div> 
 
-                  </Select>
-                           
-
-                    </div>
-               
            
           </ModalBody>
           <ModalFooter>
@@ -106,3 +92,5 @@ const MyModalNewBoard = () => {
 }
 
 export default MyModalNewBoard;
+    
+                                               
