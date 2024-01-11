@@ -7,6 +7,9 @@ export const userWorkspaces = {
           Authorization: `Bearer ${token}`,
         },
       });
+      if(!response.ok) {
+        throw new Error('Failed to fetch workspaces. Status: ${response.status')
+      }
       let data = await response.json();
       return data;
     } catch (error) {
