@@ -35,7 +35,7 @@ const MyWorkSpaceModal = () => {
   if (!context) return null;
   return (
     <>
-      <Dropdown className='bg-background text-[#E5EAF3] w-' placement='bottom-start'>
+      <Dropdown className='bg-background text-foreground w-' placement='bottom-start'>
         <DropdownTrigger>
           <Button className='bg-inherit hover:bg-secondaryBG' size='sm' isIconOnly>
             <Icon name='addIcon' classname={'bg-white'} />

@@ -16,7 +16,7 @@ const config = {
           colors: {
             background: '#FFFFFF',
             foreground: '#101828',
-            secondaryBG: '#FAFAFA',
+            secondaryBG: '#B5B3D4',
             border: '#EAECF0',
           },
         },

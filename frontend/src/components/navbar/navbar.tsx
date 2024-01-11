@@ -11,6 +11,7 @@ import Profile from './profile';
 interface UserData {
   name: string;
   email: string;
+  fullName: string;
 }
 
 const NavbarTop = () => {
@@ -33,6 +34,7 @@ const NavbarTop = () => {
         });
         if (response.ok) {
           //fetch the user data
+          console.log(response, "This is your response object")
           const userData = await response.json();
 
           setUser(userData);
@@ -130,7 +132,7 @@ const NavbarTop = () => {
 
         {/*Profile Navigation / Logout / Profile settings */}
 
-        <Profile name='Gabor Adorjani' location='Bristol, UK' email={user ? user.email : 'Loading...'} />
+        <Profile name={user ? user.fullName : 'Anonymus...'} location='Bristol, UK' email={user ? user.email : 'Loading...'} />
       </NavbarContent>
     </Navbar>
   );

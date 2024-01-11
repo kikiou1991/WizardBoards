@@ -8,7 +8,10 @@ const jwt = require('jsonwebtoken');
 module.exports.Signup = async (req, res, next) => {
   try {
     console.log('Request body: ', req.body);
-    const { email, password, createdAt } = req.body;
+    const { email, password, createdAt, fullName } = req.body;
+
+    console.log('Extracted values:', email, password, createdAt, fullName);
+
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.json({ message: 'User already exist, please sign in' }); //check is the user already exists in the DB
@@ -16,13 +19,21 @@ module.exports.Signup = async (req, res, next) => {
 
     const hashedPassword = await bcrypt.hash(password, 12);
 
-    const user = await User.create({ email, password: hashedPassword, createdAt }); //if not create a new user
+    const user = await User.create({ email, password: hashedPassword, fullName, createdAt }); //if not create a new user
+    console.log(user.fullName)
     const token = createSecretToken(user._id); //create the user token
     res.cookie('token', token, {
       withCredentials: true,
       httpOnly: false,
     });
-    res.status(201).json({ message: 'User signed in successfully', success: true, user });
+    res.status(201).json({
+      message: 'User signed up successfully',
+      success: true,
+      user: {
+        email: user.email,
+        fullName: user.fullName
+      }
+    });
     next();
   } catch (error) {
     console.log(error, 'Failed to signup user');

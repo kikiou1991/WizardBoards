@@ -28,6 +28,20 @@ const userSchema = new mongoose.Schema({
             ref: "Workspace",
         },
     ],
+    boards: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Boards',
+        }
+    ]
+    ,
+    avatar: {
+        type: String,
+    },
+    fullName: {
+        type: String,
+        required: [true, "You must enter your full name"]
+    }
 });
 
 

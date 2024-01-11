@@ -12,7 +12,7 @@ interface Props {
 const Profile = ({name, location, email}: Props) => {
   const {handleLogout} = useContext(UserContext) as UserContextType
   return (
-    <Navbar className='bg-inherit'>
+    <Navbar className='bg-background'>
       <NavbarContent as='div' className='items-center'>
         <Dropdown className='text-foreground' placement='bottom-end'>
           <DropdownTrigger>
@@ -20,20 +20,20 @@ const Profile = ({name, location, email}: Props) => {
           </DropdownTrigger>
           <DropdownMenu>
             <DropdownSection className='text-current'>
-              <DropdownItem className=''>
+              <DropdownItem className='hover:bg-secondaryBG'>
                 <p className='font-semibold'>Signed in as</p>
                 <p className='font-semibold'>{email}</p>
               </DropdownItem>
-              <DropdownItem className=''>
+              <DropdownItem className='hover:bg-secondaryBG'>
                 <p className='font-semibold'>{name}</p>
               </DropdownItem>
-              <DropdownItem className=''>
+              <DropdownItem className='hover:bg-secondaryBG'>
                 <p className='font-semibold'>{location}</p>
               </DropdownItem>
-              <DropdownItem className=''>
+              <DropdownItem className='hover:bg-secondaryBG'>
                 <p className='font-semibold'>Settings</p>
               </DropdownItem>
-              <DropdownItem className='' onClick={handleLogout}>
+              <DropdownItem className='hover:bg-secondaryBG' onClick={handleLogout}>
                 <p className='font-semibold'>Logout</p>
               </DropdownItem>
             </DropdownSection>

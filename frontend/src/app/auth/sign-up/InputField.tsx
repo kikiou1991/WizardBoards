@@ -11,6 +11,7 @@ const InputField = () => {
   const [loading, setLoading] = React.useState(false);
   const [validationState, setValidationState] = useState('valid');
   const [buttonDisabled, setButtonDisabled] = React.useState(true);
+  const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [user, setUser] = React.useState({
     password: '',
@@ -45,16 +46,31 @@ const InputField = () => {
     setButtonDisabled(validationState === 'valid' && value === user.password ? false : true);
   };
 
+  //name change input function handler
+
+  const handleChangeFullName = (value: string) => {
+    setFullName(value);
+    setButtonDisabled(validationState === 'valid' && value !== '' ? false : true)
+  }
+
   const signUp = async () => {
     let errorMessage = '';
 
-    if (email == null || validationState === 'invalid' || user.password !== user.passwordConfirm) {
+    if (email == null || validationState === 'invalid' || user.password !== user.passwordConfirm || fullName.trim() === '') {
       errorMessage = 'Please try again';
       toast.error(errorMessage);
     } else {
       setLoading(true);
       setButtonDisabled(false);
       toast.success('All done');
+
+      const requestBody = {
+        email: email,
+        password: user.password,
+        fullName: fullName,
+      };
+      
+      console.log('Request Body:', requestBody);
 
       try {
         const response = await fetch('https://gadorjani.co.uk/api/signup', {
@@ -68,10 +84,13 @@ const InputField = () => {
           body: JSON.stringify({
             email: email,
             password: user.password,
+            fullName: fullName,
           }),
         });
+        console.log('This is the body of the JSON response',response.body)
         if (response.ok) {
           // Handle successful response
+          
           router.push('/auth/sign-in');
         } else {
           // Handle error response
@@ -93,6 +112,7 @@ const InputField = () => {
   return (
     <>
       <Input onChange={(e) => handleChangeEmail(e.target.value)} type='email' label='Email' placeholder='junior@nextui.org' className='max-w-xs' isRequired isClearable />
+      <Input onChange={(e) => handleChangeFullName(e.target.value)} isRequired isClearable type="text" label="Fullname" className='max-w-xs' placeholder='Enter your full name'/>
       <Input onChange={(e) => handleChangePassword(e.target.value)} isRequired isClearable type='password' label='Password' className='max-w-xs' placeholder='Enter your password' />
       <Input onChange={(e) => handleChangePasswordConfirm(e.target.value)} isRequired isClearable type='password' label='Confirm Password' className='max-w-xs' placeholder='Re-enter your password' />
 
