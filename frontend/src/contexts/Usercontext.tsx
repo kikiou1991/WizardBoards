@@ -1,6 +1,7 @@
 'use client';
 import InputField from '@/app/auth/sign-in/InputField';
 import {userAuth} from '@/lib/auth/auth';
+import { workspaceBoards } from '@/lib/boards';
 import {userWorkspaces} from '@/lib/workspaces';
 import {Modal, ModalBody, ModalContent, ModalHeader} from '@nextui-org/modal';
 import {Button, Link} from '@nextui-org/react';
@@ -9,6 +10,11 @@ import {ReactNode, createContext, useEffect, useState} from 'react';
 
 // Interfaces Section
 interface Workspace {
+  _id: string;
+  name: string;
+  uuid: string;
+}
+interface Boards {
   _id: string;
   name: string;
   uuid: string;
@@ -22,6 +28,7 @@ export interface UserContextType {
   authenticated: boolean | false;
   userData: any;
   setAuthenticated: (authenticated: boolean) => void;
+  createBoard: (token: any, boardData: any) => Promise<void>;
 }
 interface UserContextProviderProps {
   children: ReactNode;
@@ -32,12 +39,29 @@ const UserContext = createContext<UserContextType | null>(null);
 const UserContextProvider = ({children}: UserContextProviderProps) => {
   const [token, setToken] = useState<string | null>(null);
   const [workspaces, setWorkspaces] = useState<Workspace[]>([]);
+  const [boards, setBoards] = useState<Boards[]>([]);
   const [authenticated, setAuthenticated] = useState<boolean>(false);
   const [user, setUser] = useState<any>(null);
   const [authenticatedLoaded, setAuthenticatedLoaded] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(true);
   const pathname = usePathname();
   const router = useRouter();
+
+//create boards
+  const createBoard = async (token: any, boardData: any) => {
+    try {
+      const res = await workspaceBoards.createBoard(boardData, token);
+      console.log(res);
+  
+      if (res && res.newBoard) {
+        setBoards([res.newBoard, ...boards]);
+      }
+    } catch (error) {
+      // handle errors if needed
+      console.error('Error creating the board', error);
+    }
+  };
+  
 
   const fetchWorkspaces = async (token: any) => {
     try {
@@ -93,6 +117,7 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
     setAuthenticated,
     userData: user,
     handleLogout,
+    createBoard,
   };
   return (
     <UserContext.Provider value={contextValue}>

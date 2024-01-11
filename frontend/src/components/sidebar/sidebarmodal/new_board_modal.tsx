@@ -12,8 +12,10 @@ interface Workspace {
 const MyModalNewBoard = () => {
   const [isBoardModalOpen, setBoardModalOpen] = useState(false);
   const [isWorkspaceModalOpen, setWorkspaceModalOpen] = useState(false);
+  const [boardTitle, setBoardTitle] = useState("");
+  const [selectedWorkspace, setSelectedWorkspace] = useState<string | null>("");
   const context = useContext(UserContext);
-  const {workspaces} = useContext(UserContext) as UserContextType
+  const {workspaces, createBoard} = useContext(UserContext) as UserContextType;
   const openBoardModal = () => {
     setBoardModalOpen(true);
     setWorkspaceModalOpen(false);
@@ -28,7 +30,20 @@ const MyModalNewBoard = () => {
     setBoardModalOpen(false);
     setWorkspaceModalOpen(false);
   };
+  const handleCreateBoard = async () => {
+    if (!boardTitle || !selectedWorkspace) {
+      console.log('Something has gone wrong')
+      return;
+    }
 
+    try {
+      await createBoard(context?.token, { title: boardTitle, workspace: selectedWorkspace });
+      closeModals(); // Close the modal after successful creation
+    } catch (error) {
+      // Handle error if needed
+      console.error('Error creating board:', error);
+    }
+  };
  
   if (!context) return null;
   
@@ -62,6 +77,8 @@ const MyModalNewBoard = () => {
                 className="max-w-xs font-semibold text-foreground"
                 color='default'                
                 labelPlacement='outside'
+                value={boardTitle}
+                onChange={(e) => setBoardTitle(e.target.value)}
               />              
                     <div className='flex flex-row items-center'>
                       <Select
@@ -69,7 +86,8 @@ const MyModalNewBoard = () => {
                         size='sm'
                         label='Workspace'
                         placeholder='Select a workspace'
-                        className='max-w-xs text-foreground '
+                        className='max-w-xs text-foreground'
+                        onChange={(value:any) => setSelectedWorkspace(value)}
                       >              
                           {workspaces.map((workspace) => (
                             <SelectItem className="text-foreground" key={workspace.uuid} value={workspace.name}>
@@ -83,7 +101,7 @@ const MyModalNewBoard = () => {
           </ModalBody>
           <ModalFooter>
             {/* Sumbit button so add new */}
-              <Button onSubmit={() => {}} className="items-center" color='primary' variant='solid'>Create</Button>
+              <Button onSubmit={handleCreateBoard} className="items-center" color='primary' variant='solid'>Create</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
