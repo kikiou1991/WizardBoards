@@ -30,6 +30,7 @@ const MyModalNewBoard = () => {
     setBoardModalOpen(false);
     setWorkspaceModalOpen(false);
   };
+
   const handleCreateBoard = async () => {
     if (!boardTitle || !selectedWorkspace) {
       console.log('Something has gone wrong')
@@ -38,9 +39,9 @@ const MyModalNewBoard = () => {
 
     try {
       await createBoard(context?.token, { title: boardTitle, workspace: selectedWorkspace });
-      closeModals(); // Close the modal after successful creation
+      closeModals(); 
     } catch (error) {
-      // Handle error if needed
+      
       console.error('Error creating board:', error);
     }
   };

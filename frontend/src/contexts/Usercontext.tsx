@@ -57,11 +57,12 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
         setBoards([res.newBoard, ...boards]);
       }
     } catch (error) {
-      // handle errors if needed
+     
       console.error('Error creating the board', error);
     }
   };
   
+ //fetch workspaces
 
   const fetchWorkspaces = async (token: any) => {
     try {
