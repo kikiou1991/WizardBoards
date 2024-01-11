@@ -1,10 +1,11 @@
 // routes.js
 const express = require('express');
 const router = express.Router();
-const {Signup, Login, verifyToken} = require('../controllers/authcontroller');
-const {userVerification} = require('../middlewares/authmiddleware');
-const {CreateWorkspace, GetUserWorkspace, GetWorkspace} = require('../controllers/createworkspace.js');
-const {GetUserById, GetAllUsers, GetAuthenticatedUser} = require('../controllers/usercontrollers.js');
+const { Signup, Login, verifyToken } = require('../controllers/authcontroller');
+const { userVerification } = require('../middlewares/authmiddleware');
+const { CreateWorkspace, GetUserWorkspace, GetWorkspace } = require('../controllers/createworkspace.js');
+const { GetUserById, GetAllUsers, GetAuthenticatedUser } = require('../controllers/usercontrollers.js');
+const { CreateBoard } = require('../controllers/createBoard.js');
 
 router.post('/api/signup', Signup);
 router.post('/api/login', Login);
@@ -19,5 +20,9 @@ router.post('/api/workspaces', userVerification, CreateWorkspace);
 //Get user by ID/all users
 router.get('/api/users/me', userVerification, GetAuthenticatedUser);
 router.get('/api/users/', userVerification, GetAllUsers);
+
+//Get board routes
+router.post('/api/boards', userVerification, CreateBoard)
+
 
 module.exports = router;

@@ -15,6 +15,12 @@ const workspaceSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  boards: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Board'
+    }
+  ]
 });
 
 module.exports = mongoose.model('Workspace', workspaceSchema);
