@@ -131,7 +131,7 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
                   <InputField />
                   <div>Or</div>
                   <Button color='primary' variant='light'>
-                    <Link href='/auth/sign-up'>Register</Link>
+                    <Link href='/auth/sign-up'>Sign Up</Link>
                   </Button>
                 </ModalBody>
               </>
