@@ -28,7 +28,7 @@ const CurrentProject = () => {
   };
 
   return (
-    <div className='flex flex-row py-3 px-3 items-center '>
+    <div className='flex flex-row py-2 px-3 items-center '>
       <p className='flex-grow'>{workspaces.length > 0 && workspaces.find((w) => w.uuid === selectedWorkspace)?.name}</p>
       <div className='items-center'>
         <Dropdown className='bg-background text-[#E5EAF3]' placement='bottom-start'>

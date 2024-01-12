@@ -70,9 +70,9 @@ const NavbarTop = () => {
           </DropdownTrigger>
           <DropdownMenu>
             <DropdownSection>
-              <DropdownItem className='data-[hover=true]:bg-secondaryBG'>Menu Item #1</DropdownItem>
-              <DropdownItem className='data-[hover=true]:bg-secondaryBG'>Menu Item #2</DropdownItem>
-              <DropdownItem className='data-[hover=true]:bg-secondaryBG'>Menu Item #3</DropdownItem>
+              <DropdownItem className='data-[hover=true]:bg-secondaryBG'>Contact us</DropdownItem>
+              <DropdownItem className='data-[hover=true]:bg-secondaryBG'>Subscribe</DropdownItem>
+              <DropdownItem className='data-[hover=true]:bg-secondaryBG'>Sign out</DropdownItem>
             </DropdownSection>
           </DropdownMenu>
         </Dropdown>
@@ -105,14 +105,12 @@ const NavbarTop = () => {
       <div className='flex-grow'></div>
 
       {/* Right section with modal, calendar, notification, and profile */}
-      <NavbarContent className='items-center flex flex-grow-0 flex-wrap-0 bg-inherit'>
+      <NavbarContent className=' flex bg-inherit'>
         {/* Model Section SearchBar */}
         <MyModal />
 
         {/* Calendar and Notifications */}
-        <Button className='bg-inherit hover:bg-secondaryBG' size='sm' isIconOnly>
-          <Icon name='calendar' classname={'stroke-current hover:bg-secondaryBG'} />
-        </Button>
+       
         <Dropdown className='bg-background' placement='bottom-end'>
           <DropdownTrigger>
             <Button className='bg-inherit hover:bg-secondaryBG' size='sm' isIconOnly>

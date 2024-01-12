@@ -14,6 +14,8 @@ const YourBoards = () => {
     }
   }, [currentWorkspace, token, fetchBoard]);
 
+  console.log()
+
   return (
     <div>
       <div className='flex flex-row px-2 pt-2'>

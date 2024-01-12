@@ -12,16 +12,16 @@ const BoardView = () => {
         <Icon name='board' />
         <p>Boards</p>
       </div>
-      <div className='h-8 flex flex-row gap-2 items-center hover:bg-secondaryBG px-2'>
-        <div className='flex flex-row gap-2 flex-grow items-center'>
+      <div className='h-8 flex flex-row gap-2 items-center hover:bg-secondaryBG pl-2'>
+        <div className='flex flex-row gap-2 flex-grow '>
           <Icon name='members' />
           <p>Members</p>
         </div>
         <MyModalEmail />
       </div>
-      <div className='h-8 flex flex-row  hover:bg-secondaryBG  px-2 '>
+      <div className='h-8 flex flex-row  hover:bg-secondaryBG  pl-2 '>
         <div className='flex flex-row gap-2 flex-grow'>
-          <Icon name='settings' />
+          <Icon name='settings' classname='p-1'/>
           <p className='font-semibold'>Settings</p>
         </div>
         <div className='items-center'>

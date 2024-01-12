@@ -16,7 +16,7 @@ const Profile = ({name, location, email}: Props) => {
       <NavbarContent as='div' className='items-center'>
         <Dropdown className='text-foreground' placement='bottom-end'>
           <DropdownTrigger>
-            <Avatar isBordered as='button' className='transition-transform' color='secondary' name={name} size='sm' src='https://i.pravatar.cc/150?u=a042581f4e29026704d' />
+            <Avatar isBordered as='button' className='transition-transform p' color='secondary' name={name} size='sm' src='https://i.pravatar.cc/150?u=a042581f4e29026704d' />
           </DropdownTrigger>
           <DropdownMenu>
             <DropdownSection className='text-current'>
