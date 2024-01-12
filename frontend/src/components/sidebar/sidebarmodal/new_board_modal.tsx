@@ -102,7 +102,7 @@ const MyModalNewBoard = () => {
           </ModalBody>
           <ModalFooter>
             {/* Sumbit button so add new */}
-              <Button onPress={handleCreateBoard} className="items-center" color='primary' variant='solid'>Create</Button>
+              <Button onPress={() => console.log('button clicked')} className="items-center" color='primary' variant='solid'>Create</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
