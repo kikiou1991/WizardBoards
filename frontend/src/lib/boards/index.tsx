@@ -1,5 +1,5 @@
 export const workspaceBoards = {
-    createBoard: async(boardData: any, token: any) => {
+    createBoard: async( token: any, boardData: any) => {
         try {
             const response = await fetch('https://gadorjani.co.uk/api/boards', {
                 method: 'POST',

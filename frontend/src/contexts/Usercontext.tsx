@@ -50,7 +50,7 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
 //create boards
   const createBoard = async (token: any, boardData: any) => {
     try {
-      const res = await workspaceBoards.createBoard(boardData, token);
+      const res = await workspaceBoards.createBoard(token, boardData);
       console.log(res);
   
       if (res && res.newBoard) {

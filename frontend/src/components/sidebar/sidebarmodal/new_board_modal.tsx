@@ -1,6 +1,6 @@
 "use client"
 import React, { useContext, useState } from 'react';
-import { Modal, ModalContent, ModalHeader, ModalProps,ModalBody, ModalFooter, Button, Input, DropdownTrigger, DropdownSection, DropdownMenu, DropdownItem, Dropdown, Select, SelectItem } from "@nextui-org/react";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Input, Select, SelectItem } from "@nextui-org/react";
 import Icon from '@/components/Icons'
 import { UserContext, UserContextType } from '@/contexts/Usercontext';
 
@@ -32,8 +32,12 @@ const MyModalNewBoard = () => {
   };
 
   const handleCreateBoard = async () => {
-    if (!boardTitle || !selectedWorkspace) {
-      console.log('Something has gone wrong')
+    if (!boardTitle) {
+      console.log('Please createa title')
+      return;
+    }
+    if(!selectedWorkspace) {
+      console.log('Please select a workspace');
       return;
     }
 
@@ -88,7 +92,7 @@ const MyModalNewBoard = () => {
                         label='Workspace'
                         placeholder='Select a workspace'
                         className='max-w-xs text-foreground'
-                        onChange={(value:any) => setSelectedWorkspace(value)}
+                        onChange={(key:any) => setSelectedWorkspace(key)}
                       >              
                           {workspaces.map((workspace) => (
                             <SelectItem className="text-foreground" key={workspace.uuid} value={workspace.name}>
@@ -102,7 +106,7 @@ const MyModalNewBoard = () => {
           </ModalBody>
           <ModalFooter>
             {/* Sumbit button so add new */}
-              <Button onPress={() => console.log('button clicked')} className="items-center" color='primary' variant='solid'>Create</Button>
+              <Button onPress={handleCreateBoard} className="items-center" color='primary' variant='solid'>Create</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
