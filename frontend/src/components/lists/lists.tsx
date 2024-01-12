@@ -1,8 +1,12 @@
 import React from 'react'
 
-const Lists = () => {
+interface Props {
+    name: string,
+}
+
+const Lists = ({name}: Props) => {
     return (
-        <div className='text-foreground'>Lists</div>
+        <div className='text-black w-48 rounded min-h-80 border-solid border-2 border-foreground bg-[#f1f2f4] px-2 py-2 items-center'>{name}</div>
     )
 }
 
