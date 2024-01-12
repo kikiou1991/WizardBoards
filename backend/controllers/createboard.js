@@ -38,3 +38,42 @@ module.exports.CreateBoard = async (req, res, next) => {
         console.error(error, 'Failed to create board')
     }
 }
+
+module.exports.GetBoards = async (req, res, next) => {
+    try {
+        const { workspaceUuid } = req.body;
+        const user = req.user;
+
+        if (!workspaceUuid) {
+            return res.status(400).json({ message: 'Invalid workspace ID' })
+        }
+
+        if (!user || !user._id) {
+            return res.status(400).json({ message: 'Invalid user information' })
+        }
+
+        //find the workspac by the uuid and check if the user has access
+        const workspace = await Workspace.findOne({
+            uuid: workspaceUuid,
+            users: { $in: [user._id] },
+        });
+
+        if (!workspace) {
+            return res.status(400).json({ message: 'Workspace not found' })
+        }
+        //Fetch the bards associated with the given workspace
+
+        const boards = await Board.find({ uuid: { $in: workspace.boards } });
+        res.status(200).josn({
+            succes: true,
+            data: boards,
+        })
+
+    } catch (error) {
+        console.error(error, 'Failed to get boards');
+        next(error);
+    }
+
+
+
+}
