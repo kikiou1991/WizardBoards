@@ -5,7 +5,7 @@ const { Signup, Login, verifyToken } = require('../controllers/authcontroller');
 const { userVerification } = require('../middlewares/authmiddleware');
 const { CreateWorkspace, GetUserWorkspace, GetWorkspace } = require('../controllers/createworkspace.js');
 const { GetUserById, GetAllUsers, GetAuthenticatedUser } = require('../controllers/usercontrollers.js');
-const { CreateBoard } = require('../controllers/createBoard.js');
+const { CreateBoard } = require('../controllers/createboard.js');
 
 router.post('/api/signup', Signup);
 router.post('/api/login', Login);
