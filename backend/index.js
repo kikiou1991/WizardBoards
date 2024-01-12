@@ -7,14 +7,12 @@ const app = express();
 const cookieParser = require('cookie-parser');
 const authRoute = require('./routes/authroute');
 
-const { createProxyMiddleware } = require('http-proxy-middleware');
 
 app.get('/api/', (request, response) => {
   console.log(request);
   return response.status(234).send('Welcome to my MERN App!');
 });
 
-app.use('/api', createProxyMiddleware({ target: 'https://gadorjani.co.uk', changeOrigin: true }));
 
 mongoose
   .connect(process.env.mongoDBURL, { writeConcern: { w: 'majority', wtimeout: 0 } })
