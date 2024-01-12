@@ -73,7 +73,7 @@ const NavbarTop = () => {
   }, []);
 
   return (
-    <Navbar isBordered className='w-full border-b-[2px] border-border text-foreground bg-background' classNames={{base: 'w-screen', wrapper: 'w-screen max-w-none'}}>
+    <Navbar isBordered className='border-b-[2px] border-border text-foreground bg-background' classNames={{base: 'w-screen', wrapper: 'w-screen max-w-none'}}>
       {/* Mobile Menu */}
       {/* <NavbarContent className="sm:hidden flex flex-grow-0 ">
         <NavbarMenuToggle aria-label="Open menu" />
@@ -132,7 +132,7 @@ const NavbarTop = () => {
       <div className='flex-grow'></div>
 
       {/* Right section with modal, calendar, notification, and profile */}
-      <NavbarContent className=' flex bg-inherit'>
+      <NavbarContent className=' flex flex-grow-0 bg-inherit'>
         {/* Model Section SearchBar */}
         <MyModal />
 

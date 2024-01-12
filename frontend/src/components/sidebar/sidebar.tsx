@@ -8,7 +8,7 @@ const Sidebar = () => {
   return (
     <div className='h-full  w-full  text-foreground flex flex-col bg-background'>
       <div className='flex-grow gap-3 items-center min-h-10  border-r-[2px] border-border'>
-        <div className='border-b-[1px] border-border'>
+        <div className='border-b-[1px] border-border py-3'>
           <CurrentProject />
         </div>
 
