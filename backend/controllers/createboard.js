@@ -62,9 +62,9 @@ module.exports.GetBoards = async (req, res, next) => {
             return res.status(400).json({ message: 'Workspace not found' })
         }
         //Fetch the bards associated with the given workspace
+        const boards = workspace.boards
 
-        const boards = await Board.find({ uuid: { $in: workspace.boards } });
-        res.status(200).josn({
+        res.status(200).json({
             succes: true,
             data: boards,
         })

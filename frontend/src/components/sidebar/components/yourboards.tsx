@@ -1,18 +1,19 @@
 'use client';
 import MyModalNewBoard from '../sidebarmodal/new_board_modal';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { UserContext, UserContextType } from '@/contexts/Usercontext';
 
-
-
-interface Workspace {
-  _id: string;
-  name: string;
-}
-
-
 const YourBoards = () => {
-  const {workspaces} = useContext(UserContext) as UserContextType
+  const { boards, fetchBoard, token, currentWorkspace } = useContext(UserContext) as UserContextType;
+  const [selectedWorkspace, setSelectedWorkspace] = useState('');
+
+  useEffect(() => {
+    // Fetch boards when the currentWorkspace changes
+    if (currentWorkspace && token) {
+      fetchBoard(token, currentWorkspace.uuid);
+    }
+  }, [currentWorkspace, token, fetchBoard]);
+
   return (
     <div>
       <div className='flex flex-row px-2 pt-2'>
@@ -20,7 +21,15 @@ const YourBoards = () => {
         <MyModalNewBoard />
       </div>
       <div className='pt-2 flex flex-col'>
-      
+        {currentWorkspace && (
+          <div>
+            <ul>
+              {boards.map((board: any) => (
+                <li key={board.uuid}>{board.name}</li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
     </div>
   );

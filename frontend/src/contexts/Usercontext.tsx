@@ -23,12 +23,16 @@ export interface UserContextType {
   token: string | null;
   setToken: (token: string | null) => void;
   workspaces: Workspace[];
+  boards: Boards[];
   fetchWorkspaces: (token: any | null) => Promise<void>;
+  currentWorkspace: Workspace | null;
+  setWorkspace: (workspace: Workspace | null) => void;
   handleLogout: (token: any | null) => Promise<void>;
   authenticated: boolean | false;
   userData: any;
   setAuthenticated: (authenticated: boolean) => void;
   createBoard: (token: any, boardData: any) => Promise<void>;
+  fetchBoard: (token: any, workspaceUuid: string) => Promise<void>;
 }
 interface UserContextProviderProps {
   children: ReactNode;
@@ -39,6 +43,7 @@ const UserContext = createContext<UserContextType | null>(null);
 const UserContextProvider = ({children}: UserContextProviderProps) => {
   const [token, setToken] = useState<string | null>(null);
   const [workspaces, setWorkspaces] = useState<Workspace[]>([]);
+  const [currentWorkspace, setCurrentWorkspace] = useState<Workspace | null>(null);
   const [boards, setBoards] = useState<Boards[]>([]);
   const [authenticated, setAuthenticated] = useState<boolean>(false);
   const [user, setUser] = useState<any>(null);
@@ -52,7 +57,7 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
     try {
       const res = await workspaceBoards.createBoard(token, boardData);
       console.log(res);
-  
+      
       if (res && res.newBoard) {
         setBoards([res.newBoard, ...boards]);
       }
@@ -61,13 +66,25 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
       console.error('Error creating the board', error);
     }
   };
+  // Fetch boards
+  const fetchBoard = async (token: any, workspaceUuid: string) => {
+    try {
+      const res = await workspaceBoards.fetchBoard(token, workspaceUuid);
+      console.log(res)
+      setBoards(res?.data || []);
+    } catch (error) {
+      //error handling
+
+      console.error('Failed to fetch boards', error)
+    }
+  }
   
  //fetch workspaces
 
   const fetchWorkspaces = async (token: any) => {
     try {
       let res = await userWorkspaces.fetchWorkspaces(token);
-      console.log(res);
+      
       setWorkspaces(res?.data || []);
     } catch (error) {
       // Handle error if needed
@@ -75,6 +92,12 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  //set workspaces
+
+  const setWorkspace = (workspace: Workspace | null) => {
+    setCurrentWorkspace(workspace);
   };
 
   const validateToken = async (token: any) => {
@@ -113,12 +136,16 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
     token,
     setToken,
     workspaces,
+    boards,
     fetchWorkspaces,
     authenticated,
     setAuthenticated,
     userData: user,
     handleLogout,
     createBoard,
+    fetchBoard,
+    currentWorkspace,
+    setWorkspace
   };
   return (
     <UserContext.Provider value={contextValue}>
