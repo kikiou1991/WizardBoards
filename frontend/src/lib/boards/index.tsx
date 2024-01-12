@@ -32,7 +32,7 @@ export const workspaceBoards = {
                 
             })
             if(!response.ok) {
-                throw new Error('Failed to fetch boards')
+                // throw new Error('Failed to fetch boards')
             }
 
             const data = await response.json();

@@ -5,34 +5,45 @@ import {useContext} from 'react';
 
 interface Props {
   name: string;
-  location: string;
+  
   email: string;
 }
 
-const Profile = ({name, location, email}: Props) => {
+const Profile = ({name,  email}: Props) => {
   const {handleLogout} = useContext(UserContext) as UserContextType
   return (
     <Navbar className='bg-background'>
       <NavbarContent as='div' className='items-center'>
         <Dropdown className='text-foreground' placement='bottom-end'>
           <DropdownTrigger>
-            <Avatar isBordered as='button' className='transition-transform p' color='secondary' name={name} size='sm' src='https://i.pravatar.cc/150?u=a042581f4e29026704d' />
+            <Avatar isBordered as='button' className='transition-transform p' color='primary' name={name} size='sm' src='https://i.pravatar.cc/150?u=a042581f4e29026704d' />
           </DropdownTrigger>
           <DropdownMenu>
-            <DropdownSection className='text-current'>
+            <DropdownSection>
+              <DropdownItem>
+                <p className='py-0 px-0'>Account</p>
+                </DropdownItem>
+            </DropdownSection>
+            <DropdownSection className='text-current' showDivider>
               <DropdownItem className='hover:bg-secondaryBG'>
                 <p className='font-semibold'>Signed in as</p>
-                <p className='font-semibold'>{email}</p>
+                <p className='font-semibold p-0'>{email}</p>
               </DropdownItem>
+              <DropdownItem></DropdownItem>
               <DropdownItem className='hover:bg-secondaryBG'>
-                <p className='font-semibold'>{name}</p>
+                <p className='font-semibold p-0'>{name}</p>
               </DropdownItem>
-              <DropdownItem className='hover:bg-secondaryBG'>
-                <p className='font-semibold'>{location}</p>
+              
+            </DropdownSection>
+            <DropdownSection showDivider>
+            <DropdownItem className='hover:bg-secondaryBG'>
+                <p className='font-semibold'>Help, feedback</p>
               </DropdownItem>
               <DropdownItem className='hover:bg-secondaryBG'>
                 <p className='font-semibold'>Settings</p>
               </DropdownItem>
+            </DropdownSection>
+            <DropdownSection>
               <DropdownItem className='hover:bg-secondaryBG' onClick={handleLogout}>
                 <p className='font-semibold'>Logout</p>
               </DropdownItem>

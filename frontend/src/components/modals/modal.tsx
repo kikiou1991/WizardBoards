@@ -20,12 +20,12 @@ const MyModal = () => {
     <>
       <Input
         classNames={{
-          base: 'max-w-full sm:max-w-[20rem] h-10',
+          base: 'max-w-full md:max-w-[20rem] h-10',
 
           mainWrapper: 'h-full ',
           input: 'text-small',
 
-          inputWrapper: 'data-[hover=true]:bg-content2 h-full font-normal text-current bg-secondaryBG hover:bg-content2',
+          inputWrapper: 'data-[hover=true]:bg-secondaryBG h-full font-normal text-foreground bg-secondaryBG hover:bg-background',
         }}
         placeholder='Type to search...'
         size='md'
@@ -41,10 +41,10 @@ const MyModal = () => {
         radius='lg'
         classNames={{
           body: 'py-6',
-          backdrop: 'bg-[#041A42]/50 backdrop-opacity-40',
-          base: 'border-[#041A42] bg-[#041A42] dark:bg-[#19172c] text-[#a8b0d3]',
-          header: 'border-b-[1px] border-[#041A42]',
-          footer: 'border-t-[1px] border-[#041A42]',
+          backdrop: 'bg-background/50 backdrop-opacity-50',
+          base: 'border-[#041A42] bg-background dark:bg-background text-[#a8b0d3]',
+          header: 'border-b-[1px] border-foreground',
+          footer: 'border-t-[1px] border-foreground',
           closeButton: 'hover:bg-white/5 active:bg-white/10',
         }}
         scrollBehavior={scrollBehavior}>
@@ -55,7 +55,7 @@ const MyModal = () => {
                 base: 'max-w-full sm:max-w-[24rem] h-10',
                 mainWrapper: 'h-full w-full',
                 input: 'text-small',
-                inputWrapper: 'data-[hover=true]:bg-[#3d51a1] h-full font-normal text-slate-100 bg-[#3d51a1]/50 hover:bg-sky-700',
+                inputWrapper: 'data-[hover=true]:bg-background h-full font-normal text-foreground bg-[#3d51a1]/50 hover:bg-secondaryBG',
               }}
               placeholder='Type to search...'
               size='md'
@@ -70,7 +70,7 @@ const MyModal = () => {
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam pulvinar risus non risus hendrerit venenatis. Pellentesque sit amet hendrerit risus, sed porttitor quam.</p>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam pulvinar risus non risus hendrerit venenatis. Pellentesque sit amet hendrerit risus, sed porttitor quam.</p>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam pulvinar risus non risus hendrerit venenatis. Pellentesque sit amet hendrerit risus, sed porttitor quam.</p>
-            {/* ... (other content) ... */}
+            
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam pulvinar risus non risus hendrerit venenatis. Pellentesque sit amet hendrerit risus, sed porttitor quam.</p>
           </ModalBody>
           <ModalFooter></ModalFooter>

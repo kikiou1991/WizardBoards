@@ -1,6 +1,6 @@
 'use client';
 import Icon from '@/components/Icons';
-import {Button, Dropdown, DropdownItem, DropdownMenu, DropdownSection, DropdownTrigger, Navbar, NavbarContent} from '@nextui-org/react';
+import {Button, Dropdown, DropdownItem, DropdownMenu, DropdownSection, DropdownTrigger, Navbar, NavbarContent, Switch} from '@nextui-org/react';
 import React, {useContext, useEffect, useState} from 'react';
 import MyModal from '../modals/modal';
 import MyWorkSpaceModal from '../modals/newworkspace_modal';
@@ -85,7 +85,7 @@ const NavbarTop = () => {
       {/* Left navigation section icon, header, and add button */}
       <NavbarContent className='items-center flex flex-grow-0 gap-3'>
         {/* File / Other Products / Navigation */}
-        <Dropdown className='bg-foreground  text-foreground' placement='bottom-start'>
+        <Dropdown className='bg-background text-foreground' placement='bottom-start'>
           <DropdownTrigger>
             <Button className='bg-inherit hover:bg-secondaryBG' size='sm' isIconOnly>
               <Icon name='menu' classname={'bg-white data-[hover=true]:bg-background'} />
@@ -104,7 +104,7 @@ const NavbarTop = () => {
         <Icon name='projectIcon' classname={'bg-white'} />
         {/*DropDown For WorkSpaces */}
         {workspaces.length > 0 && (
-          <Dropdown key="workspacesDropdown" className='bg-primary' placement='bottom-start'>
+          <Dropdown key="workspacesDropdown" className='bg-background text-foreground' placement='bottom-start'>
             <DropdownTrigger>
               <div className='flex gap-1 items-center'>
                   <p>Workspaces</p>
@@ -138,16 +138,38 @@ const NavbarTop = () => {
 
         {/* Calendar and Notifications */}
        
-        <Dropdown className='bg-background' placement='bottom-end'>
+        <Dropdown 
+            classNames={{
+              base: "before:bg-background",
+              content: "py-1 px-1 border border-default-200 bg-background dark:from-default-50 dark:to-black"
+            }}
+            placement='bottom-end'
+            closeOnSelect={false}
+            >
           <DropdownTrigger>
             <Button className='bg-inherit hover:bg-secondaryBG' size='sm' isIconOnly>
               <Icon name='notiBell' classname={'stroke-current '} />
             </Button>
           </DropdownTrigger>
           <DropdownMenu className='text-foreground'>
-            <DropdownSection>
+            <DropdownSection className='py-2 px-2 ' showDivider>
+              <DropdownItem>{"Notifications"}
+              <div className='flex flex-row gap-5'>
+                <p>Only show undread</p>
+                <Switch defaultSelected color="success" size='sm'></Switch>
+                <Button className='bg-inherit' size='sm' isIconOnly endContent={<Icon name="threeDots"/>}></Button>
+                
+              </div>
+              </DropdownItem>
+              
+             
+            </DropdownSection>
+            <DropdownSection showDivider>
               <DropdownItem className='data-[hover=true]:bg-secondaryBG'>Something</DropdownItem>
               <DropdownItem className='data-[hover=true]:bg-secondaryBG'>This is a notification</DropdownItem>
+            </DropdownSection>
+            <DropdownSection >
+              <DropdownItem></DropdownItem>
             </DropdownSection>
           </DropdownMenu>
         </Dropdown>
@@ -157,7 +179,7 @@ const NavbarTop = () => {
 
         {/*Profile Navigation / Logout / Profile settings */}
 
-        <Profile name={user ? user.fullName : 'Anonymus...'} location='Bristol, UK' email={user ? user.email : 'Loading...'} />
+        <Profile name={user ? user.fullName : 'Anonymus...'}   email={user ? user.email : 'Loading...'} />
       </NavbarContent>
     </Navbar>
   );

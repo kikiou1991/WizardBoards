@@ -32,10 +32,10 @@ const MyModalEmail = () => {
             radius='lg'
             classNames={{
               body: "py-6",
-              backdrop: "bg-[#292f46]/50 backdrop-opacity-40",
-              base: "border-primary bg-primary dark:bg-background text-foreground",
-              header: "border-b-[1px] border-border",
-              footer: "border-t-[1px] border-border",
+              backdrop: "bg-background/50 backdrop-opacity-40",
+              base: " bg-primary dark:bg-background text-foreground",
+              header: "border-b-[1px] border-foreground",
+              footer: "border-t-[1px] border-foreground",
               closeButton: "hover:bg-white/5 active:bg-transparent",
             }}             
              

@@ -63,8 +63,8 @@ const MyWorkSpaceModal = () => {
           body: "py-6",
           backdrop: "bg-[#292f46]/50 backdrop-opacity-40",
           base: "border-primary bg-primary dark:bg-background text-foreground",
-          header: "border-b-[1px] border-primary",
-          footer: "border-t-[1px] border-primary",
+          header: "border-b-[1px] border-foreground",
+          footer: "border-t-[1px] border-foreground",
           closeButton: "hover:bg-white/5 active:bg-transparent",
         }}>
         <ModalContent>
@@ -109,8 +109,8 @@ const MyWorkSpaceModal = () => {
         radius='lg'
         classNames={{
           body: 'py-6',
-          backdrop: 'bg-[#041A42]/50 backdrop-opacity-40',
-          base: 'border-[#041A42] bg-[#041A42] dark:bg-[#19172c] text-[#a8b0d3]',
+          backdrop: 'bg-background/50 backdrop-opacity-50',
+          base: 'border-foreground bg-bacckground dark:bg-background text-foreground',
           header: 'border-b-[1px] border-[#041A42]',
           footer: 'border-t-[1px] border-[#041A42]',
           closeButton: 'hover:bg-white/5 active:bg-white/10',
@@ -131,7 +131,7 @@ const MyWorkSpaceModal = () => {
                   base: 'max-w-full sm:max-w-[20rem] h-10',
                   mainWrapper: 'h-full ',
                   input: 'text-small',
-                  inputWrapper: 'data-[hover=true]:bg-[#143f88] h-full font-normal text-[#090607] bg-[#143f88] hover:bg-primary',
+                  inputWrapper: 'data-[hover=true]:bg-none h-full font-normal text-[#090607] bg-secondaryBG hover:bg-primary',
                 }}
               />
 
