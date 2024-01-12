@@ -1,19 +1,5 @@
 const navBarItems = [
-    {
-      name: "Projects",
-      id: 1,
-      iconName: "",
-      submenu: [
-        {
-          name: "Something",
-          id: 1
-        },
-        {
-          name: "Something Else",
-          id: 2
-        },
-      ]
-    },
+    
     {
       name: "Other Projects",
       id: 2,

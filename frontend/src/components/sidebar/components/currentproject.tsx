@@ -5,8 +5,8 @@ import { Dropdown, DropdownItem, DropdownTrigger, DropdownMenu, Button} from '@n
 import Icon from '@/components/Icons';
 
 const CurrentProject = () => {
-  const [selectedWorkspace, setSelectedWorkspace] = useState('');
-  const { workspaces, fetchWorkspaces, setWorkspace, token } = useContext(
+  
+  const { workspaces, fetchWorkspaces, setWorkspace, token, selectedWorkspace, setSelectedWorkspace } = useContext(
     UserContext
   ) as UserContextType;
 
@@ -30,27 +30,7 @@ const CurrentProject = () => {
   return (
     <div className='flex flex-row py-2 px-3 items-center '>
       <p className='flex-grow'>{workspaces.length > 0 && workspaces.find((w) => w.uuid === selectedWorkspace)?.name}</p>
-      <div className='items-center'>
-        <Dropdown className='bg-background text-[#E5EAF3]' placement='bottom-start'>
-          <DropdownTrigger>
-            <Button className='bg-inherit hover:bg-secondaryBG' size='sm' isIconOnly>
-              <Icon name='downarrow' />
-            </Button>
-          </DropdownTrigger>
-          <DropdownMenu>
-            {workspaces.map((workspace: any) => (
-              <DropdownItem
-                key={workspace.uuid}
-                onClick={() => {
-                  handleWorkspaceChange(workspace.uuid);
-                }}
-              >
-                {workspace.name}
-              </DropdownItem>
-            ))}
-          </DropdownMenu>
-        </Dropdown>
-      </div>
+      
     </div>
   );
 };

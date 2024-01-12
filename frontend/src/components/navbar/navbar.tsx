@@ -1,12 +1,13 @@
 'use client';
 import Icon from '@/components/Icons';
 import {Button, Dropdown, DropdownItem, DropdownMenu, DropdownSection, DropdownTrigger, Navbar, NavbarContent} from '@nextui-org/react';
-import React, {useEffect} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import MyModal from '../modals/modal';
 import MyWorkSpaceModal from '../modals/newworkspace_modal';
 import navBarItems from '../navbar/navbardata';
 import Socials from '../socials';
 import Profile from './profile';
+import { UserContext, UserContextType } from '@/contexts/Usercontext';
 
 interface UserData {
   name: string;
@@ -16,6 +17,28 @@ interface UserData {
 
 const NavbarTop = () => {
   const [user, setUser] = React.useState<UserData | null>(null);
+  
+  const { workspaces, fetchWorkspaces, setWorkspace, token, selectedWorkspace, setSelectedWorkspace } = useContext(
+    UserContext
+  ) as UserContextType;
+  
+  useEffect(() => {
+    fetchWorkspaces(token); // Fetch workspaces when the component mounts
+  }, [token]);
+
+  useEffect(() => {
+    // Set the default selectedWorkspace to the UUID of the first workspace if available
+    if (workspaces.length > 0) {
+      setSelectedWorkspace(workspaces[0].uuid);
+    }
+  }, [workspaces]); // Run this effect whenever workspaces change
+
+  const handleWorkspaceChange = (workspaceId: string) => {
+    setSelectedWorkspace(workspaceId);
+    const selectedWorkspaceObject = workspaces.find((workspace) => workspace.uuid === workspaceId);
+    setWorkspace(selectedWorkspaceObject || null); // Update the current workspace in the context
+  };
+
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -60,9 +83,9 @@ const NavbarTop = () => {
       </NavbarContent> */}
 
       {/* Left navigation section icon, header, and add button */}
-      <NavbarContent className='items-center flex flex-grow-0 gap-1'>
+      <NavbarContent className='items-center flex flex-grow-0 gap-3'>
         {/* File / Other Products / Navigation */}
-        <Dropdown className='bg-background  text-foreground' placement='bottom-start'>
+        <Dropdown className='bg-foreground  text-foreground' placement='bottom-start'>
           <DropdownTrigger>
             <Button className='bg-inherit hover:bg-secondaryBG' size='sm' isIconOnly>
               <Icon name='menu' classname={'bg-white data-[hover=true]:bg-background'} />
@@ -79,25 +102,29 @@ const NavbarTop = () => {
         {/* Logo */}
 
         <Icon name='projectIcon' classname={'bg-white'} />
-        {/*DropDown Navigation */}
-        {navBarItems.map((navbar) => (
-          <Dropdown key={navbar.id} className='bg-primary' placement='bottom-start'>
+        {/*DropDown For WorkSpaces */}
+        {workspaces.length > 0 && (
+          <Dropdown key="workspacesDropdown" className='bg-primary' placement='bottom-start'>
             <DropdownTrigger>
               <div className='flex gap-1 items-center'>
-                <Button size='md' className='bg-inherit' endContent={<Icon name='downarrow' classname={'bg-white'} />}>
-                  <p>{navbar.name}</p>
-                </Button>
+                  <p>Workspaces</p>
+                  <Icon name='downarrow' classname={'bg-white'} />
               </div>
             </DropdownTrigger>
             <DropdownMenu>
-              <DropdownSection>
-                {navbar.submenu.map((submenuItem) => (
-                  <DropdownItem key={submenuItem.id}>{submenuItem.name}</DropdownItem>
-                ))}
-              </DropdownSection>
+              {workspaces.map((workspace: any) => (
+                <DropdownItem
+                  key={workspace.uuid}
+                  onClick={() => {
+                    handleWorkspaceChange(workspace.uuid);
+                  }}
+                >
+                  {workspace.name}
+                </DropdownItem>
+              ))}
             </DropdownMenu>
           </Dropdown>
-        ))}
+        )}
         <MyWorkSpaceModal />
       </NavbarContent>
 

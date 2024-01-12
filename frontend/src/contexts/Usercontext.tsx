@@ -24,6 +24,8 @@ export interface UserContextType {
   setToken: (token: string | null) => void;
   workspaces: Workspace[];
   boards: Boards[];
+  selectedWorkspace: string;
+  setSelectedWorkspace: React.Dispatch<React.SetStateAction<string>>;
   fetchWorkspaces: (token: any | null) => Promise<void>;
   currentWorkspace: Workspace | null;
   setWorkspace: (workspace: Workspace | null) => void;
@@ -38,12 +40,14 @@ interface UserContextProviderProps {
   children: ReactNode;
 }
 //call the useContext
-const UserContext = createContext<UserContextType | null>(null);
+  const UserContext = createContext<UserContextType | null>(null);
 
-const UserContextProvider = ({children}: UserContextProviderProps) => {
+  const UserContextProvider = ({children}: UserContextProviderProps) => {
   const [token, setToken] = useState<string | null>(null);
   const [workspaces, setWorkspaces] = useState<Workspace[]>([]);
   const [currentWorkspace, setCurrentWorkspace] = useState<Workspace | null>(null);
+  const [selectedWorkspace, setSelectedWorkspace] = useState('');
+  
   const [boards, setBoards] = useState<Boards[]>([]);
   const [authenticated, setAuthenticated] = useState<boolean>(false);
   const [user, setUser] = useState<any>(null);
@@ -79,7 +83,7 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
     }
   }
   
- //fetch workspaces
+  //  fetch workspaces
 
   const fetchWorkspaces = async (token: any) => {
     try {
@@ -138,6 +142,8 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
     workspaces,
     boards,
     fetchWorkspaces,
+    selectedWorkspace,
+    setSelectedWorkspace,
     authenticated,
     setAuthenticated,
     userData: user,
