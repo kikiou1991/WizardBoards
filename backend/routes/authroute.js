@@ -5,7 +5,7 @@ const { Signup, Login, verifyToken } = require('../controllers/authcontroller');
 const { userVerification } = require('../middlewares/authmiddleware');
 const { CreateWorkspace, GetUserWorkspace, GetWorkspace } = require('../controllers/createworkspace.js');
 const { GetUserById, GetAllUsers, GetAuthenticatedUser } = require('../controllers/usercontrollers.js');
-const { CreateBoard } = require('../controllers/createboard.js');
+const { CreateBoard, GetBoards } = require('../controllers/createboard.js');
 
 router.post('/api/signup', Signup);
 router.post('/api/login', Login);
@@ -23,6 +23,7 @@ router.get('/api/users/', userVerification, GetAllUsers);
 
 //Get board routes
 router.post('/api/boards', userVerification, CreateBoard)
+router.get('/api/boards', userVerification, GetBoards)
 
 
 module.exports = router;
