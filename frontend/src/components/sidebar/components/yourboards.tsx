@@ -1,18 +1,17 @@
 'use client';
 import MyModalNewBoard from '../sidebarmodal/new_board_modal';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect} from 'react';
 import { UserContext, UserContextType } from '@/contexts/Usercontext';
 
 const YourBoards = () => {
   const { boards, fetchBoard, token, currentWorkspace } = useContext(UserContext) as UserContextType;
-  const [selectedWorkspace, setSelectedWorkspace] = useState('');
 
   useEffect(() => {
     // Fetch boards when the currentWorkspace changes
     if (currentWorkspace && token) {
       fetchBoard(token, currentWorkspace.uuid);
     }
-  }, [ token]);
+  }, [token, currentWorkspace]);
 
 
   return (

@@ -32,7 +32,7 @@ export const workspaceBoards = {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
-                body: JSON.stringify({ workspaceUuid}),
+                body: JSON.stringify(workspaceUuid),
             });
 
             if (!response.ok) {
