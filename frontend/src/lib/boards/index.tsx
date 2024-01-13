@@ -27,11 +27,12 @@ export const workspaceBoards = {
 
     fetchBoard: async(token: any, workspaceUuid: string) => {
         try {
-            const response = await fetch(`https://gadorjani.co.uk/api/boards?workspaceUuid=${workspaceUuid}`, {
+            const response = await fetch(`https://gadorjani.co.uk/api/boards`, {
                 method: 'GET',
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
+                body: JSON.stringify({ workspaceUuid}),
             });
 
             if (!response.ok) {
