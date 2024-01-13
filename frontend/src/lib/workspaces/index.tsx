@@ -8,7 +8,7 @@ export const userWorkspaces = {
         },
       });
       if(!response.ok) {
-        throw new Error('Failed to fetch workspaces. Status: ${response.status')
+        throw new Error(`Failed to fetch workspaces. Status: ${response.status}`)
       }
       let data = await response.json();
       return data;
