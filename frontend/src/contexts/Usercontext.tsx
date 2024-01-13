@@ -59,7 +59,7 @@ interface UserContextProviderProps {
 //create boards
   const createBoard = async (token: any, boardData: any) => {
     try {
-      const res = await workspaceBoards.createBoard(token, boardData);
+      const res = await workspaceBoards.createBoard(token, boardData, selectedWorkspace);
       console.log(res);
       
       if (res && res.newBoard) {
@@ -73,7 +73,7 @@ interface UserContextProviderProps {
   // Fetch boards
   const fetchBoard = async (token: any, workspaceUuid: string) => {
     try {
-      const res = await workspaceBoards.fetchBoard(token, workspaceUuid);
+      const res = await workspaceBoards.fetchBoard(token, selectedWorkspace);
       console.log(res)
       setBoards(res?.data || []);
     } catch (error) {

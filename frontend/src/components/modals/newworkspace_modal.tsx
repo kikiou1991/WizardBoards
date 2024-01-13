@@ -31,7 +31,6 @@ const MyWorkSpaceModal = () => {
 
 
 
-  console.log(context?.workspaces);
   if (!context) return null;
   return (
     <>

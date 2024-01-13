@@ -14,7 +14,7 @@ const YourBoards = () => {
     }
   }, [currentWorkspace, token, fetchBoard]);
 
-  console.log()
+  console.log(currentWorkspace?._id)
 
   return (
     <div>

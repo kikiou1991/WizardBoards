@@ -15,6 +15,10 @@ const boardSchema = new mongoose.Schema({
     isPublic: {
         type: Boolean,
         default: false
+    },
+    isStared: {
+        type: Boolean,
+        default: false
     }
 
 

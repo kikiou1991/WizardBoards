@@ -21,11 +21,7 @@ const CurrentProject = () => {
     }
   }, [workspaces]); // Run this effect whenever workspaces change
 
-  const handleWorkspaceChange = (workspaceId: string) => {
-    setSelectedWorkspace(workspaceId);
-    const selectedWorkspaceObject = workspaces.find((workspace) => workspace.uuid === workspaceId);
-    setWorkspace(selectedWorkspaceObject || null); // Update the current workspace in the context
-  };
+  
 
   return (
     <div className='flex flex-row py-2 px-3 items-center'>
