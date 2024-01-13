@@ -9,11 +9,15 @@ const BoardView = () => {
   return (
     <div className='gap-1 flex flex-col '>
       <div className='h-8 flex flex-row gap-2 hover:bg-secondaryBG items-center  px-2'>
-        <Icon name='board' />
-        <p>Boards</p>
+        <div className='flex flex-row gap-2 flex-grow '>
+          <Icon name='board' />
+          <p>Boards</p>
+
+        </div>
       </div>
       <div className='h-8 flex flex-row gap-2 items-center hover:bg-secondaryBG pl-2'>
         <div className='flex flex-row gap-2 flex-grow '>
+
           <Icon name='members' />
           <p>Members</p>
         </div>

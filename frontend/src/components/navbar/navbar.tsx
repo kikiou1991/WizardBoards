@@ -73,7 +73,7 @@ const NavbarTop = () => {
   }, []);
 
   return (
-    <Navbar isBordered className='border-b-[2px] border-border text-foreground bg-background' classNames={{base: 'w-screen', wrapper: 'w-screen max-w-none'}}>
+    <Navbar isBordered className='border-b-[2px] border-border text-foreground bg-background flex flex-row' classNames={{base: 'w-screen', wrapper: 'w-screen max-w-none'}}>
       {/* Mobile Menu */}
       {/* <NavbarContent className="sm:hidden flex flex-grow-0 ">
         <NavbarMenuToggle aria-label="Open menu" />

@@ -4,7 +4,7 @@ import {Divider} from '@nextui-org/react';
 
 const Project = () => {
   return (
-    <div className='grow bg-background flex flex-col'>
+    <div className='grow bg-background flex flex-col '>
       <div className='w-full py-2 border-b-1 items-center'>
         <BoardNav/>
       </div>
