@@ -14,7 +14,6 @@ const YourBoards = () => {
     }
   }, [currentWorkspace, token, fetchBoard]);
 
-  console.log(currentWorkspace?._id)
 
   return (
     <div>
@@ -27,7 +26,7 @@ const YourBoards = () => {
           <div>
             <ul>
               {boards.map((board: any) => (
-                <li key={board.uuid}>{board.name}</li>
+                <li key={board.uuid || board._id} >{board.name}</li>
               ))}
             </ul>
           </div>

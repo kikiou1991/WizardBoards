@@ -74,7 +74,6 @@ interface UserContextProviderProps {
   const fetchBoard = async (token: any, workspaceUuid: string) => {
     try {
       const res = await workspaceBoards.fetchBoard(token, workspaceUuid);
-      console.log(res)
       setBoards(res?.data || []);
     } catch (error) {
       //error handling

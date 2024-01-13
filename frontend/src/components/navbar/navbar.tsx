@@ -57,7 +57,6 @@ const NavbarTop = () => {
         });
         if (response.ok) {
           //fetch the user data
-          console.log(response, "This is your response object")
           const userData = await response.json();
 
           setUser(userData);
