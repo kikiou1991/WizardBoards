@@ -12,7 +12,7 @@ const YourBoards = () => {
     if (currentWorkspace && token) {
       fetchBoard(token, currentWorkspace.uuid);
     }
-  }, [currentWorkspace, token, fetchBoard]);
+  }, [ token]);
 
 
   return (
