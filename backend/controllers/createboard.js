@@ -41,7 +41,7 @@ module.exports.CreateBoard = async (req, res, next) => {
 
 module.exports.GetBoards = async (req, res, next) => {
     try {
-        const { workspaceUuid } = req.query.workspaceUuid;
+        const workspaceUuid = req.query.workspaceUuid;
         const user = req.user;
 
         if (!workspaceUuid) {
