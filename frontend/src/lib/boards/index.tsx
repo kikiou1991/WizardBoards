@@ -7,7 +7,8 @@ export const workspaceBoards = {
                     Authorization: `Bearer ${token}`,
                 },
                 body: JSON.stringify({
-                    body: boardData
+                    ...boardData,
+                    workspaceUuid: workspaceUuid,
                 }),
             })
             if(!response.ok) {
@@ -32,7 +33,8 @@ export const workspaceBoards = {
                 
             })
             if(!response.ok) {
-                // throw new Error('Failed to fetch boards')
+                throw new Error('Failed to fetch boards')
+
             }
 
             const data = await response.json();
