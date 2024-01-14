@@ -38,7 +38,6 @@ module.exports.GetUserById = async (req, res) => {
 module.exports.GetAuthenticatedUser = async (req, res) => {
     try {
         const authenticatedUser = req.user;
-
         //if the user data is not attached
         if (!authenticatedUser) {
             return res.status(401).json({ error: "Unathorized access" })

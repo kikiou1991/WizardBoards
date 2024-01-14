@@ -174,7 +174,10 @@ const NavbarTop = () => {
         </Dropdown>
 
         {/* Social Media Links */}
+        <div className='hidden sm:flex'>
         <Socials />
+
+        </div>
 
         {/*Profile Navigation / Logout / Profile settings */}
 

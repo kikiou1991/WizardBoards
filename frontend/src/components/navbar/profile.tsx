@@ -2,6 +2,7 @@
 import { UserContext, UserContextType } from '@/contexts/Usercontext';
 import {Avatar, Dropdown, DropdownItem, DropdownMenu, DropdownSection, DropdownTrigger, Navbar, NavbarContent} from '@nextui-org/react';
 import {useContext} from 'react';
+import Socials from '../socials';
 
 interface Props {
   name: string;
@@ -22,6 +23,9 @@ const Profile = ({name,  email}: Props) => {
             <DropdownSection>
               <DropdownItem>
                 <p className='py-0 px-0'>Account</p>
+                <div className='sm:hidden'>
+                  <Socials />
+                </div>
                 </DropdownItem>
             </DropdownSection>
             <DropdownSection className='text-current' showDivider>
@@ -44,7 +48,9 @@ const Profile = ({name,  email}: Props) => {
               </DropdownItem>
             </DropdownSection>
             <DropdownSection>
-              <DropdownItem className='hover:bg-secondaryBG' onClick={handleLogout}>
+              <DropdownItem className='hover:bg-secondaryBG flex flex-row' onClick={handleLogout}>
+                
+
                 <p className='font-semibold'>Logout</p>
               </DropdownItem>
             </DropdownSection>

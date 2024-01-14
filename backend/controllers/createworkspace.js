@@ -1,21 +1,21 @@
 const Workspace = require('../models/workspacemode.js');
-const {v4: uuidv4} = require('uuid');
+const { v4: uuidv4 } = require('uuid');
 
 module.exports.CreateWorkspace = async (req, res, next) => {
   try {
-    const {name} = req.body;
+    const { name } = req.body;
     const user = req.user;
-    console.log('name is: ', name, 'user is: ', user);
+
     // Check if user or user._id is undefined
     if (!user || !user._id) {
-      return res.status(400).json({message: 'Invalid user information'});
+      return res.status(400).json({ message: 'Invalid user information' });
     }
     let uuid = uuidv4();
-    const workspace = await Workspace.create({name, users: [user._id], uuid});
+    const workspace = await Workspace.create({ name, users: [user._id], uuid });
     user.workspaces.push(workspace._id);
     await user.save();
 
-    res.status(201).json({message: 'Workspace created successfully', data: workspace, workspace});
+    res.status(201).json({ message: 'Workspace created successfully', data: workspace, workspace });
   } catch (error) {
     console.error(error, 'Failed to create workspace');
     next(error);
@@ -28,10 +28,10 @@ module.exports.GetUserWorkspace = async (req, res, next) => {
 
     // Check if user or user._id is undefined
     if (!user || !user._id) {
-      return res.status(400).json({message: 'Invalid user information'});
+      return res.status(400).json({ message: 'Invalid user information' });
     }
 
-    const workspaces = await Workspace.find({users: user._id}).populate('users');
+    const workspaces = await Workspace.find({ users: user._id }).populate('users');
 
     res.status(200).json({
       success: true,
@@ -48,16 +48,16 @@ module.exports.GetWorkspace = async (req, res, next) => {
     const user = req.user;
 
     if (!user || !user._id) {
-      return res.status(400).json({message: 'Invalid user information'});
+      return res.status(400).json({ message: 'Invalid user information' });
     }
     let workspaceID = req.params.workspaceID;
     if (!workspaceID) {
-      return res.status(400).json({success: false, message: 'Invalid workspace ID'});
+      return res.status(400).json({ success: false, message: 'Invalid workspace ID' });
     }
-    console.log('workspaceID is: ', workspaceID);
 
-    const workspace = await Workspace.findOne({uuid: workspaceID}).populate('users');
-    console.log('workspaces is: ', workspace);
+
+    const workspace = await Workspace.findOne({ uuid: workspaceID }).populate('users');
+
     res.status(200).json({
       success: true,
       data: workspace,

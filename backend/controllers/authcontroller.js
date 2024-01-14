@@ -7,10 +7,10 @@ const jwt = require('jsonwebtoken');
 
 module.exports.Signup = async (req, res, next) => {
   try {
-    console.log('Request body: ', req.body);
+
     const { email, password, createdAt, fullName } = req.body;
 
-    console.log('Extracted values:', email, password, createdAt, fullName);
+
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
@@ -20,7 +20,7 @@ module.exports.Signup = async (req, res, next) => {
     const hashedPassword = await bcrypt.hash(password, 12);
 
     const user = await User.create({ email, password: hashedPassword, fullName, createdAt }); //if not create a new user
-    console.log(user.fullName)
+
     const token = createSecretToken(user._id); //create the user token
     res.cookie('token', token, {
       withCredentials: true,

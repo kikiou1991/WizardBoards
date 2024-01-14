@@ -1,6 +1,6 @@
 'use client';
 import Icon from '@/components/Icons';
-import {Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalProps} from '@nextui-org/react';
+import {Button, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalProps} from '@nextui-org/react';
 import React, {useState} from 'react';
 
 const MyModal = () => {
@@ -21,18 +21,24 @@ const MyModal = () => {
       <Input
         classNames={{
           base: 'max-w-full md:max-w-[20rem] h-10',
-
           mainWrapper: 'h-full ',
           input: 'text-small',
-
           inputWrapper: 'data-[hover=true]:bg-secondaryBG h-full font-normal text-foreground bg-secondaryBG hover:bg-background',
+
+
         }}
+        className='hidden sm:flex'
         placeholder='Type to search...'
         size='md'
         startContent={<Icon name='searchIcon' classname='white' />}
         type='search'
         onClick={openModal}
       />
+      <Button 
+        className='md:hidden bg-inherit'
+        isIconOnly size='sm'
+        onClick={openModal}
+      ><Icon name='searchIcon' classname='white' /></Button>
 
       <Modal
         isOpen={isOpen}
