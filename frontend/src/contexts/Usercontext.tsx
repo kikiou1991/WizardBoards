@@ -1,7 +1,7 @@
 'use client';
 import InputField from '@/app/auth/sign-in/InputField';
 import {userAuth} from '@/lib/auth/auth';
-import { workspaceBoards } from '@/lib/boards';
+import {workspaceBoards} from '@/lib/boards';
 import {userWorkspaces} from '@/lib/workspaces';
 import {Modal, ModalBody, ModalContent, ModalHeader} from '@nextui-org/modal';
 import {Button, Link} from '@nextui-org/react';
@@ -40,14 +40,14 @@ interface UserContextProviderProps {
   children: ReactNode;
 }
 //call the useContext
-  const UserContext = createContext<UserContextType | null>(null);
+const UserContext = createContext<UserContextType | null>(null);
 
-  const UserContextProvider = ({children}: UserContextProviderProps) => {
+const UserContextProvider = ({children}: UserContextProviderProps) => {
   const [token, setToken] = useState<string | null>(null);
   const [workspaces, setWorkspaces] = useState<Workspace[]>([]);
   const [currentWorkspace, setCurrentWorkspace] = useState<Workspace | null>(null);
   const [selectedWorkspace, setSelectedWorkspace] = useState('');
-  
+
   const [boards, setBoards] = useState<Boards[]>([]);
   const [authenticated, setAuthenticated] = useState<boolean>(false);
   const [user, setUser] = useState<any>(null);
@@ -55,22 +55,20 @@ interface UserContextProviderProps {
   const [isLoading, setIsLoading] = useState(true);
   const pathname = usePathname();
   const router = useRouter();
-
-//create boards
+  console.log('selectedWorkspace', selectedWorkspace);
+  //create boards
   const createBoard = async (token: any, boardData: any) => {
     try {
       const res = await workspaceBoards.createBoard(token, boardData, selectedWorkspace);
       console.log(res);
-      
+
       if (res && res.newBoard) {
         setBoards([res.newBoard, ...boards]);
       }
     } catch (error) {
-     
       console.error('Error creating the board', error);
     }
   };
-
 
   const validateToken = async (token: any) => {
     console.log('Validating token...');
@@ -78,6 +76,8 @@ interface UserContextProviderProps {
       let res = await userAuth.validateToken(token);
       if (res?.status === true) {
         setAuthenticated(true);
+        fetchWorkspaces(token);
+
         setUser(res?.data?.user);
       }
     } catch (error) {
@@ -85,68 +85,58 @@ interface UserContextProviderProps {
       console.error('Error validating token:', error);
       console.error('Error validating token:', error);
     } finally {
-      
       setAuthenticatedLoaded(true);
     }
   };
 
-
   // Fetch boards
   const fetchBoard = async (token: any, workspaceUuid: string) => {
     try {
-      
-      console.log('currentworkspace',currentWorkspace)
-      console.log('Fetching boards...', workspaceUuid);
       const res = await workspaceBoards.fetchBoard(token, workspaceUuid);
       setBoards(res?.data || []);
-      console.log('boards:',boards)
     } catch (error) {
       console.error('Failed to fetch boards', error);
     }
   };
-  
-  
+
   //  fetch workspaces
   const fetchWorkspaces = async (token: any) => {
-    if(!token) {
+    if (!token) {
       console.log('Token is missing');
     }
-    
+
     try {
       let res = await userWorkspaces.fetchWorkspaces(token);
+      console.log('workspaces', res?.data || []);
       setWorkspaces(res?.data || []);
-    } catch (error:any) {
+    } catch (error: any) {
       // Handle error if needed
       console.error('Error fetching workspaces:', error || error.message || error.response);
     } finally {
       setIsLoading(false);
     }
   };
-  
-  
-      
-      
 
   //set workspaces
-const setWorkspace = (workspace: Workspace | null) => {
-  setCurrentWorkspace(workspace);
-  
-};
-  
-   
-
+  const setWorkspace = (workspace: Workspace | null) => {
+    setCurrentWorkspace(workspace);
+  };
 
   useEffect(() => {
     if (localStorage['token']) {
       setToken(localStorage['token']);
-      validateToken(localStorage['token']);
-      fetchWorkspaces(localStorage['token']);
-      
-     fetchBoard(localStorage['token'], '65a03b1182ef13703bf7a4cd');
-    
     }
   }, []);
-
+  useEffect(() => {
+    if (token) {
+      validateToken(token);
+    }
+  }, [token]);
+  useEffect(() => {
+    if (localStorage['token'] && selectedWorkspace) {
+      fetchBoard(localStorage['token'], selectedWorkspace);
+    }
+  }, [selectedWorkspace]);
 
   const handleLogout = async () => {
     localStorage.clear();
@@ -172,7 +162,7 @@ const setWorkspace = (workspace: Workspace | null) => {
     createBoard,
     fetchBoard,
     currentWorkspace,
-    setWorkspace
+    setWorkspace,
   };
   return (
     <UserContext.Provider value={contextValue}>

@@ -1,10 +1,10 @@
 'use client';
+import {UserContext, UserContextType} from '@/contexts/Usercontext';
+import {useContext, useEffect, useState} from 'react';
 import MyModalNewBoard from '../sidebarmodal/new_board_modal';
-import { useContext, useEffect, useState } from 'react';
-import { UserContext, UserContextType } from '@/contexts/Usercontext';
 
 const YourBoards = () => {
-  const { boards} = useContext(UserContext) as UserContextType;
+  const {boards} = useContext(UserContext) as UserContextType;
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -13,7 +13,6 @@ const YourBoards = () => {
       setIsLoading(false);
     }
   }, [boards]);
-
 
   return (
     <div>
@@ -27,8 +26,8 @@ const YourBoards = () => {
         ) : (
           <div>
             <ul>
-              {boards.map((board: any) => (
-                <li key={board.uuid || board._id}>{board.name}</li>
+              {boards.map((board: any, index) => (
+                <li key={index}>{board.name}</li>
               ))}
             </ul>
           </div>
@@ -39,4 +38,3 @@ const YourBoards = () => {
 };
 
 export default YourBoards;
-
