@@ -62,7 +62,7 @@ module.exports.GetBoards = async (req, res, next) => {
             return res.status(400).json({ message: 'Workspace not found' })
         }
         //populate the boards array with the board objects
-        await workspace.populate('boards').execPopulate();
+        await workspace.populate('boards')
 
 
         //Fetch the bards associated with the given workspace
