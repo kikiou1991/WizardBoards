@@ -14,11 +14,11 @@ const YourBoards = () => {
       </div>
       <div className='pt-2 flex flex-col'>
         {boards && boards.length > 0 ? (
-          <ul>
-          {/* {boards.map((board: any) => {
+          <ul className='px-2'>
+          {boards.map((board: any) => {
               console.log(board.name);
-              return <li key={board.uuid}>{board.name}</li>;
-            })} */}
+              return <li className='py-1' key={board.uuid}>{board.name}</li>;
+            })}
            
           </ul>
         ) : (
