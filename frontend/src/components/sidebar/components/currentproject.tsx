@@ -6,13 +6,11 @@ import Icon from '@/components/Icons';
 
 const CurrentProject = () => {
   
-  const { workspaces, fetchWorkspaces, setWorkspace, token, selectedWorkspace, setSelectedWorkspace } = useContext(
+  const { workspaces, selectedWorkspace, setSelectedWorkspace } = useContext(
     UserContext
   ) as UserContextType;
 
-  useEffect(() => {
-    fetchWorkspaces(token); // Fetch workspaces when the component mounts
-  }, [token]);
+  
 
   useEffect(() => {
     // Set the default selectedWorkspace to the UUID of the first workspace if available

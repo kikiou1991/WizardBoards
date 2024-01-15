@@ -23,7 +23,7 @@ router.get('/api/users/', userVerification, GetAllUsers);
 
 //Get board routes
 router.post('/api/boards', userVerification, CreateBoard)
-router.get('/api/boards', userVerification, GetBoards)
+router.get('/api/boards/', userVerification, GetBoards)
 
 
 module.exports = router;

@@ -33,6 +33,7 @@ const MyModal = () => {
         startContent={<Icon name='searchIcon' classname='white' />}
         type='search'
         onClick={openModal}
+        
       />
       <Button 
         className='md:hidden bg-inherit'

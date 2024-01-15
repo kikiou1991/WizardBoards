@@ -49,7 +49,6 @@ const Profile = ({name,  email}: Props) => {
             </DropdownSection>
             <DropdownSection>
               <DropdownItem className='hover:bg-secondaryBG flex flex-row' onClick={handleLogout}>
-                
 
                 <p className='font-semibold'>Logout</p>
               </DropdownItem>

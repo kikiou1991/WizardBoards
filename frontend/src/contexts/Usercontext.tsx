@@ -70,6 +70,29 @@ interface UserContextProviderProps {
       console.error('Error creating the board', error);
     }
   };
+
+
+  const validateToken = async (token: any) => {
+    console.log('Validating token...');
+    try {
+      let res = await userAuth.validateToken(token);
+      if (res?.status === true) {
+        setAuthenticated(true);
+        setUser(res?.data?.user);
+      }
+    } catch (error) {
+      // Handle error if needed
+      console.error('Error validating token:', error);
+      console.error('Error validating token:', error);
+    } finally {
+      if(token){
+        console.log('Token is present');
+      }
+      setAuthenticatedLoaded(true);
+    }
+  };
+
+
   // Fetch boards
   const fetchBoard = async (token: any, workspaceUuid: string) => {
     try {
@@ -82,20 +105,27 @@ interface UserContextProviderProps {
     }
   }
   
+  
   //  fetch workspaces
-
   const fetchWorkspaces = async (token: any) => {
+    if(!token) {
+      console.log('Token is missing');
+    }
+    
     try {
       let res = await userWorkspaces.fetchWorkspaces(token);
-      
       setWorkspaces(res?.data || []);
-    } catch (error) {
+    } catch (error:any) {
       // Handle error if needed
-      console.error('Error fetching workspaces:', error);
+      console.error('Error fetching workspaces:', error || error.message || error.response);
     } finally {
       setIsLoading(false);
     }
   };
+
+      
+      
+      
 
   //set workspaces
 
@@ -103,20 +133,6 @@ interface UserContextProviderProps {
     setCurrentWorkspace(workspace);
   };
 
-  const validateToken = async (token: any) => {
-    try {
-      let res = await userAuth.validateToken(token);
-      if (res?.status === true) {
-        setAuthenticated(true);
-        setUser(res?.data?.user);
-      }
-    } catch (error) {
-      // Handle error if needed
-      console.error('Error validating token:', error);
-    } finally {
-      setAuthenticatedLoaded(true);
-    }
-  };
 
   useEffect(() => {
     if (localStorage['token']) {
