@@ -85,15 +85,25 @@ interface UserContextProviderProps {
       console.error('Error validating token:', error);
       console.error('Error validating token:', error);
     } finally {
-      if(token){
-        console.log('Token is present');
-      }
+      
       setAuthenticatedLoaded(true);
     }
   };
 
 
   // Fetch boards
+  const fetchBoard = async (token: any, workspaceUuid: string) => {
+    try {
+      
+      console.log('currentworkspace',currentWorkspace)
+      console.log('Fetching boards...', workspaceUuid);
+      const res = await workspaceBoards.fetchBoard(token, workspaceUuid);
+      setBoards(res?.data || []);
+      console.log('boards:',boards)
+    } catch (error) {
+      console.error('Failed to fetch boards', error);
+    }
+  };
   
   
   //  fetch workspaces
@@ -113,18 +123,6 @@ interface UserContextProviderProps {
     }
   };
   
-  const fetchBoard = async (token: any, workspaceUuid: string) => {
-    try {
-      
-      console.log(currentWorkspace)
-      console.log('Fetching boards...', workspaceUuid);
-      const res = await workspaceBoards.fetchBoard(token, workspaceUuid);
-      setBoards(res?.data || []);
-    } catch (error) {
-      console.error('Failed to fetch boards', error);
-    }
-  };
-  console.log(boards)
   
       
       
@@ -132,6 +130,7 @@ interface UserContextProviderProps {
   //set workspaces
 const setWorkspace = (workspace: Workspace | null) => {
   setCurrentWorkspace(workspace);
+  
 };
   
    
@@ -143,12 +142,10 @@ const setWorkspace = (workspace: Workspace | null) => {
       validateToken(localStorage['token']);
       fetchWorkspaces(localStorage['token']);
       
-      if (currentWorkspace && selectedWorkspace) {
-        fetchBoard(localStorage['token'], selectedWorkspace);
-      }
+     fetchBoard(localStorage['token'], '65a03b1182ef13703bf7a4cd');
     
     }
-  }, [selectedWorkspace]);
+  }, []);
 
 
   const handleLogout = async () => {

@@ -4,14 +4,16 @@ import { useContext, useEffect, useState } from 'react';
 import { UserContext, UserContextType } from '@/contexts/Usercontext';
 
 const YourBoards = () => {
-  const { boards, currentWorkspace, fetchBoard, token } = useContext(UserContext) as UserContextType;
+  const { boards} = useContext(UserContext) as UserContextType;
   const [isLoading, setIsLoading] = useState(true);
 
-  
+  useEffect(() => {
+    // Set isLoading to false when boards are available
+    if (boards && boards.length > 0) {
+      setIsLoading(false);
+    }
+  }, [boards]);
 
-  console.log('Component re-rendered. isLoading:', isLoading);
-  console.log('Current workspace:', currentWorkspace);
-  console.log('Boards:', boards);
 
   return (
     <div>
