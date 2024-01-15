@@ -18,7 +18,7 @@ interface UserData {
 const NavbarTop = () => {
   const [user, setUser] = React.useState<UserData | null>(null);
   
-  const { workspaces, fetchWorkspaces, setWorkspace, token, selectedWorkspace, setSelectedWorkspace } = useContext(
+  const { workspaces, setWorkspace, setSelectedWorkspace, selectedWorkspace } = useContext(
     UserContext
   ) as UserContextType;
   
@@ -28,10 +28,11 @@ const NavbarTop = () => {
     if (workspaces.length > 0) {
       setSelectedWorkspace(workspaces[0].uuid);
     }
-  }, [workspaces]); // Run this effect whenever workspaces change
+  }, [workspaces, selectedWorkspace]); // Run this effect whenever workspaces change
 
   const handleWorkspaceChange = (workspaceId: string) => {
     setSelectedWorkspace(workspaceId);
+    console.log(selectedWorkspace, 'hello')
     const selectedWorkspaceObject = workspaces.find((workspace) => workspace.uuid === workspaceId);
     setWorkspace(selectedWorkspaceObject || null); // Update the current workspace in the context
   };
@@ -151,7 +152,7 @@ const NavbarTop = () => {
             <DropdownSection className='py-2 px-2 ' showDivider>
               <DropdownItem>{"Notifications"}
               <div className='flex flex-row gap-5'>
-                <p>Only show undread</p>
+                <p>Only show unread</p>
                 <Switch defaultSelected color="success" size='sm'></Switch>
                 <Button className='bg-inherit' size='sm' isIconOnly endContent={<Icon name="threeDots"/>}></Button>
                 

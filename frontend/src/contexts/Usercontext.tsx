@@ -94,16 +94,6 @@ interface UserContextProviderProps {
 
 
   // Fetch boards
-  const fetchBoard = async (token: any, workspaceUuid: string) => {
-    try {
-      const res = await workspaceBoards.fetchBoard(token, workspaceUuid);
-      setBoards(res?.data || []);
-    } catch (error) {
-      //error handling
-
-      console.error('Failed to fetch boards', error)
-    }
-  }
   
   
   //  fetch workspaces
@@ -122,16 +112,29 @@ interface UserContextProviderProps {
       setIsLoading(false);
     }
   };
-
+  
+  const fetchBoard = async (token: any, workspaceUuid: string) => {
+    try {
       
+      console.log(currentWorkspace)
+      console.log('Fetching boards...', workspaceUuid);
+      const res = await workspaceBoards.fetchBoard(token, workspaceUuid);
+      setBoards(res?.data || []);
+    } catch (error) {
+      console.error('Failed to fetch boards', error);
+    }
+  };
+  console.log(boards)
+  
       
       
 
   //set workspaces
-
-  const setWorkspace = (workspace: Workspace | null) => {
-    setCurrentWorkspace(workspace);
-  };
+const setWorkspace = (workspace: Workspace | null) => {
+  setCurrentWorkspace(workspace);
+};
+  
+   
 
 
   useEffect(() => {
@@ -139,8 +142,14 @@ interface UserContextProviderProps {
       setToken(localStorage['token']);
       validateToken(localStorage['token']);
       fetchWorkspaces(localStorage['token']);
+      
+      if (currentWorkspace && selectedWorkspace) {
+        fetchBoard(localStorage['token'], selectedWorkspace);
+      }
+    
     }
-  }, []);
+  }, [selectedWorkspace]);
+
 
   const handleLogout = async () => {
     localStorage.clear();
