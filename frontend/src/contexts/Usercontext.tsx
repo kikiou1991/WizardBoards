@@ -98,7 +98,7 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
       console.error('Failed to fetch boards', error);
     }
   };
-
+  
   //  fetch workspaces
   const fetchWorkspaces = async (token: any) => {
     if (!token) {
@@ -131,12 +131,12 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
     if (token) {
       validateToken(token);
     }
-  }, [token]);
+  }, [token]); //if the token changes, validate it
   useEffect(() => {
     if (localStorage['token'] && selectedWorkspace) {
       fetchBoard(localStorage['token'], selectedWorkspace);
     }
-  }, [selectedWorkspace]);
+  }, [selectedWorkspace]); //if the selectedWorkspace changes, fetch the boards
 
   const handleLogout = async () => {
     localStorage.clear();

@@ -5,14 +5,6 @@ import MyModalNewBoard from '../sidebarmodal/new_board_modal';
 
 const YourBoards = () => {
   const {boards} = useContext(UserContext) as UserContextType;
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    // Set isLoading to false when boards are available
-    if (boards && boards.length > 0) {
-      setIsLoading(false);
-    }
-  }, [boards]);
 
   return (
     <div>
@@ -21,16 +13,16 @@ const YourBoards = () => {
         <MyModalNewBoard />
       </div>
       <div className='pt-2 flex flex-col'>
-        {isLoading ? (
-          <p>Loading...</p>
+        {boards && boards.length > 0 ? (
+          <ul>
+          {/* {boards.map((board: any) => {
+              console.log(board.name);
+              return <li key={board.uuid}>{board.name}</li>;
+            })} */}
+           
+          </ul>
         ) : (
-          <div>
-            <ul>
-              {boards.map((board: any, index) => (
-                <li key={index}>{board.name}</li>
-              ))}
-            </ul>
-          </div>
+          <p>Loading...</p>
         )}
       </div>
     </div>
