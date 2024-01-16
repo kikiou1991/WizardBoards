@@ -1,8 +1,7 @@
 export const workspaceBoards = {
     createBoard: async(token: any, boardData: any, workspaceUuid: string) => {
         try {
-            //convert boardData to plain object to avoid circular structure error
-            const plainBoardData = JSON.parse(JSON.stringify(boardData));
+            
 
 
             const response = await fetch('https://gadorjani.co.uk/api/boards', {
@@ -12,7 +11,7 @@ export const workspaceBoards = {
                     'Content-Type': 'application/json', // Add this line
                 },
                 body: JSON.stringify({
-                    ...plainBoardData,
+                    ...boardData,
                     workspaceUuid: workspaceUuid,
                 }),
             });

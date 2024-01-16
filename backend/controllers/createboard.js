@@ -22,28 +22,21 @@ module.exports.CreateBoard = async (req, res, next) => {
         //create the board itself, using the info above
         const board = await Board.create({ name, uuid, isPublic: false, isStared: false });
 
+        //Find thge workspace we need to add the board to by its UUID and push it
         const workspace = await Workspace.findOneAndUpdate(
-            { uuid: workspaceUuid, users: { $in: [user._id] } },
+            { uuid: workspaceUuid, users: { $in: [user._id] } }, //ensuring that the user has access to the board
             { $push: { boards: board._id } },
-            { new: true }
+            { new: true } //return the modified document
         );
 
-        // Check if the workspace exists
+        //check if the workspace exists
         if (!workspace) {
-            return res.status(404).json({ message: 'Workspace not found' });
+            return res.status(404).json({ message: 'Workspace not found' })
         }
-
-        // Convert the board object to a plain object using lean()
-        const plainBoard = await board.toObject({ getters: true, versionKey: false, lean: true });
-
-        res.status(201).json({
-            message: 'Board created successfully',
-            data: plainBoard,
-        });
+        res.status(201).json({ message: 'Board created succesfully', data: board })
 
     } catch (error) {
-        console.error(error, 'Failed to create board');
-        next(error);
+        console.error(error, 'Failed to create board')
     }
 }
 
