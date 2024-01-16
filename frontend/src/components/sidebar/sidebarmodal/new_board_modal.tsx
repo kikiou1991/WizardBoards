@@ -33,19 +33,18 @@ const MyModalNewBoard = () => {
 
   const handleCreateBoard = async () => {
     if (!boardTitle) {
-      console.log('Please createa title')
+      console.log('Please create a title');
       return;
     }
-    if(!selectedWorkspace) {
+    if (!selectedWorkspace) {
       console.log('Please select a workspace');
       return;
     }
-
+  
     try {
-      await createBoard(context?.token, { title: boardTitle, workspace: selectedWorkspace });
-      closeModals(); 
+      await createBoard(context?.token, { name: boardTitle, workspaceUuid: selectedWorkspace });
+      closeModals();
     } catch (error) {
-      
       console.error('Error creating board:', error);
     }
   };

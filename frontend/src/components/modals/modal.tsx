@@ -27,6 +27,7 @@ const MyModal = () => {
 
 
         }}
+        style={{minWidth: '120px'}}
         className='hidden sm:flex'
         placeholder='Type to search...'
         size='md'

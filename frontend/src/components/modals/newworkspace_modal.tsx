@@ -1,6 +1,7 @@
 import Icon from '@/components/Icons';
 import {UserContext, UserContextType} from '@/contexts/Usercontext';
 import {Button, Dropdown, DropdownItem, DropdownMenu, DropdownSection, DropdownTrigger, Image, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Select, SelectItem} from '@nextui-org/react';
+import { create } from 'domain';
 import {useContext, useState} from 'react';
 
 interface Workspace {
@@ -11,8 +12,9 @@ interface Workspace {
 const MyWorkSpaceModal = () => {
   const [isBoardModalOpen, setBoardModalOpen] = useState(false);
   const [isWorkspaceModalOpen, setWorkspaceModalOpen] = useState(false);
+  const [workSpaceTitle, setWorkSpaceTitle] = useState('');
   const context = useContext(UserContext);
-  const {workspaces} = useContext(UserContext) as UserContextType
+  const {workspaces, createWorkspace} = useContext(UserContext) as UserContextType
   const openBoardModal = () => {
     setBoardModalOpen(true);
     setWorkspaceModalOpen(false);
@@ -27,6 +29,20 @@ const MyWorkSpaceModal = () => {
     setBoardModalOpen(false);
     setWorkspaceModalOpen(false);
   };
+
+  const handleCreateWorkspace = async () => {
+    
+    if(!workSpaceTitle){
+      console.log('Please create a title');
+      return;
+    }
+    try {
+        await createWorkspace(context?.token, {name: workSpaceTitle});
+        closeModals();
+    } catch (error) {
+      console.error('Error creating workspace:', error);
+    }
+  }
 
 
 
@@ -132,11 +148,12 @@ const MyWorkSpaceModal = () => {
                   input: 'text-small',
                   inputWrapper: 'data-[hover=true]:bg-none h-full font-normal text-[#090607] bg-secondaryBG hover:bg-primary',
                 }}
+                onChange={(e) => setWorkSpaceTitle(e.target.value)}
               />
 
               <div className='pt-7 items-center align-center max-w-full'>
-                <Button size='md' color='primary' isDisabled={true}>
-                  Button
+                <Button onPress={handleCreateWorkspace} size='md' color='primary' isDisabled={false}>
+                  Create
                 </Button>
               </div>
             </div>

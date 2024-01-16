@@ -28,6 +28,7 @@ export interface UserContextType {
   setSelectedWorkspace: React.Dispatch<React.SetStateAction<string>>;
   fetchWorkspaces: (token: any | null) => Promise<void>;
   currentWorkspace: Workspace | null;
+  createWorkspace: (token: any, workspaceData: any) => Promise<void>;
   setWorkspace: (workspace: Workspace | null) => void;
   handleLogout: (token: any | null) => Promise<void>;
   authenticated: boolean | false;
@@ -59,7 +60,14 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
   //create boards
   const createBoard = async (token: any, boardData: any) => {
     try {
-      const res = await workspaceBoards.createBoard(token, boardData, selectedWorkspace);
+      const { name, workspaceUuid } = boardData;
+
+     if (!name) {
+      console.error('Board name is required');
+      return;
+      }
+
+      const res = await workspaceBoards.createBoard(token, {name, workspaceUuid}, selectedWorkspace);
       console.log(res);
 
       if (res && res.newBoard) {
@@ -117,6 +125,19 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
     }
   };
 
+  const createWorkspace = async (token: any, boardData: any) => {
+    
+    if(!token) {
+      console.log('Token is missing');
+    }
+    try {
+      let res = await userWorkspaces.createWorkspace(token, boardData);
+      console.log('workspaces', res?.data || []);
+      
+    } catch (error:any) {
+      // Handle error if needed
+      console.error('Error creating workspace:', error || error.message || error.response);    }
+  }
   //set workspaces
   const setWorkspace = (workspace: Workspace | null) => {
     setCurrentWorkspace(workspace);
@@ -153,6 +174,7 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
     workspaces,
     boards,
     fetchWorkspaces,
+    createWorkspace,
     selectedWorkspace,
     setSelectedWorkspace,
     authenticated,

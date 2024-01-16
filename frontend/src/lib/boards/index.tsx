@@ -1,22 +1,18 @@
 export const workspaceBoards = {
     createBoard: async(token: any, boardData: any, workspaceUuid: string) => {
+
+
         try {
-<<<<<<< HEAD
-            
-
-
-=======
->>>>>>> parent of fe1b282 (create board logic update)
-            const response = await fetch('https://gadorjani.co.uk/api/boards', {
+                const { name } = boardData;
+                const simplifiedBoardData = { name, workspaceUuid };
+                console.log(simplifiedBoardData);
+                const response = await fetch('https://gadorjani.co.uk/api/boards', {
                 method: 'POST',
                 headers: {
                     Authorization: `Bearer ${token}`,
                     'Content-Type': 'application/json', // Add this line
                 },
-                body: JSON.stringify({
-                    ...boardData,
-                    workspaceUuid: workspaceUuid,
-                }),
+                body: JSON.stringify(simplifiedBoardData),
             });
 
             if (!response.ok) {
