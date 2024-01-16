@@ -24,10 +24,9 @@ const MyModal = () => {
           mainWrapper: 'h-full ',
           input: 'text-small',
           inputWrapper: 'data-[hover=true]:bg-secondaryBG h-full font-normal text-foreground bg-secondaryBG hover:bg-background',
-          
+
 
         }}
-        style={{minWidth: '150px'}}
         className='hidden sm:flex'
         placeholder='Type to search...'
         size='md'
@@ -37,7 +36,7 @@ const MyModal = () => {
         
       />
       <Button 
-        className='sm:hidden bg-inherit'
+        className='md:hidden bg-inherit'
         isIconOnly size='sm'
         onClick={openModal}
       ><Icon name='searchIcon' classname='white' /></Button>

@@ -1,7 +1,6 @@
 const Board = require('../models/boardmodel.js');
 const Workspace = require('../models/workspacemode.js')
 const { v4: uuidv4 } = require('uuid');
-const CircularJSON = require('circular-json');
 
 module.exports.CreateBoard = async (req, res, next) => {
     try {
