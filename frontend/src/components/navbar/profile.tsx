@@ -13,11 +13,11 @@ interface Props {
 const Profile = ({name,  email}: Props) => {
   const {handleLogout} = useContext(UserContext) as UserContextType
   return (
-    <Navbar className='bg-background '>
+    <Navbar className='bg-background ' classNames={{ wrapper: "px-0" }}>
       <NavbarContent as='div' className='items-center'>
         <Dropdown className='text-foreground' placement='bottom-end'>
           <DropdownTrigger>
-            <Avatar isBordered as='button' className='transition-transform p' color='primary' name={name} size='sm' src='https://i.pravatar.cc/150?u=a042581f4e29026704d' />
+            <Avatar isBordered as='button'  className='transition-transform p' color='primary' name={name} size='sm' src='https://i.pravatar.cc/150?u=a042581f4e29026704d' />
           </DropdownTrigger>
           <DropdownMenu>
             <DropdownSection>

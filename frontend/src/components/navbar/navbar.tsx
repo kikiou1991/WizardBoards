@@ -66,7 +66,7 @@ const NavbarTop = () => {
   }, []);
 
   return (
-    <Navbar isBordered className='border-b-[2px] border-border text-foreground bg-background flex flex-row' classNames={{base: 'w-screen', wrapper: 'w-screen max-w-none'}}>
+    <Navbar isBordered className=' border-b-[2px] border-border text-foreground bg-background flex flex-row ' classNames={{base: 'w-screen', wrapper: 'w-screen max-w-none px-0'}}>
       {/* Mobile Menu */}
       {/* <NavbarContent className="sm:hidden flex flex-grow-0 ">
         <NavbarMenuToggle aria-label="Open menu" />
@@ -76,11 +76,11 @@ const NavbarTop = () => {
       </NavbarContent> */}
 
       {/* Left navigation section icon, header, and add button */}
-      <NavbarContent className='items-center flex flex-grow-0 gap-3'>
+      <NavbarContent className='items-center pl-2 flex flex-grow-0 gap-3 justify-start'>
         {/* File / Other Products / Navigation */}
         <Dropdown className='bg-background text-foreground' placement='bottom-start'>
           <DropdownTrigger>
-            <Button className='bg-inherit hover:bg-secondaryBG' size='sm' isIconOnly>
+            <Button className='bg-inherit hover:bg-secondaryBG ' size='sm' isIconOnly >
               <Icon name='menu' classname={'bg-white data-[hover=true]:bg-background'} />
             </Button>
           </DropdownTrigger>
@@ -125,7 +125,7 @@ const NavbarTop = () => {
       <div className='flex-grow'></div>
 
       {/* Right section with modal, calendar, notification, and profile */}
-      <NavbarContent className=' flex flex-grow-0 bg-inherit gap-1'>
+      <NavbarContent className=' flex flex-grow-0 bg-inherit gap-3 j'>
         {/* Model Section SearchBar */}
         <MyModal />
 
@@ -168,7 +168,7 @@ const NavbarTop = () => {
         </Dropdown>
 
         {/* Social Media Links */}
-        <div className='hidden sm:flex'>
+        <div className='hidden sm:flex pr-1' >
         <Socials />
 
         </div>

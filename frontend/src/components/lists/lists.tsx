@@ -6,7 +6,7 @@ interface Props {
 
 const Lists = ({name}: Props) => {
     return (
-        <div className='text-black w-48 rounded min-h-80 border-solid border-2 border-foreground bg-[#f1f2f4] px-2 py-2 items-center' style={{ minWidth: '200px' }}>{name}</div>
+        <div className='text-black w-48 rounded min-h-80 border-solid border-2 border-foreground bg-[#f1f2f4] px-2 py-2 items-center' style={{ minWidth: '272px' }}>{name}</div>
     )
 }
 
