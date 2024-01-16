@@ -1,11 +1,11 @@
-import { Avatar, Button } from '@nextui-org/react'
+import { Avatar, AvatarGroup, Button } from '@nextui-org/react'
 import React from 'react'
 import Icon from '../Icons'
 
 const BoardNav = () => {
   return (
-    <div className='flex flex-row items-center'>
-        <div className=' ml-2 mr-auto text-foreground flex flex-grow-0 items-center '>
+    <div className='flex flex-row justify-start flex-wrap'>
+        <div className=' text-foreground flex  items-center '>
             <div className='px-3 py-0'>
                 {"Current Board"}
             </div>
@@ -17,11 +17,18 @@ const BoardNav = () => {
             </Button>
 
         </div>
-        <div className='flex flex-grow'>
+        {/* <div className='flex flex-grow'>
             
-        </div>
-        <div className='flex flex-grow-0 px-2 py-2 mr-2 ml-auto'>
-            <Avatar isBordered as='button' className='transition-transform p' color='primary'  size='sm' src='https://i.pravatar.cc/150?u=a042581f4e29026704d' />
+        </div> */}
+        <div className='flex ml-auto px-2 py-1 mr-2'>
+            <AvatarGroup size='sm'>
+                <Avatar as='button'  className='transition-transform p'  src="https://i.pravatar.cc/150?u=a042581f4e29026704d" />
+                <Avatar as='button'  className='transition-transform p'  src="https://i.pravatar.cc/150?u=a042581f4e29026024d" />
+                <Avatar as='button'  className='transition-transform p'  src="https://i.pravatar.cc/150?u=a04258a2462d826712d" />
+                <Avatar as='button'  className='transition-transform p'  src="https://i.pravatar.cc/150?u=a04258114e29026302d" />
+                <Avatar as='button'  className='transition-transform p'  src="https://i.pravatar.cc/150?u=a04258114e29026702d" />
+                <Avatar as='button'  className='transition-transform p'  src="https://i.pravatar.cc/150?u=a04258114e29026708c" />
+            </AvatarGroup>
         </div>  
     </div>  
   )

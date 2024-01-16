@@ -1,12 +1,15 @@
+"use client"
 import ThemeSwitcher from '@/components/sidebar/components/ThemeSwitcher';
 import BoardView from './components/boardview';
 import CurrentProject from './components/currentproject';
 import WorkspaceView from './components/workspaceview';
 import YourBoards from './components/yourboards';
+import { use, useState } from 'react';
 
 const Sidebar = () => {
+   
   return (
-    <div className='h-full  w-full  text-foreground flex flex-col bg-background overflow-y-auto '>
+    <div className={`h-full text-foreground flex flex-col bg-background overflow-y-auto `}>
       <div className='flex-grow gap-3 items-center min-h-10  border-r-[2px] border-border'>
         <div className='border-b-[1px] border-border py-3'>
           <CurrentProject />

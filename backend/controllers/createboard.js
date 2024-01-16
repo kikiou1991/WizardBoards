@@ -1,6 +1,7 @@
 const Board = require('../models/boardmodel.js');
 const Workspace = require('../models/workspacemode.js')
 const { v4: uuidv4 } = require('uuid');
+const CircularJSON = require('circular-json');
 
 module.exports.CreateBoard = async (req, res, next) => {
     try {
@@ -21,21 +22,39 @@ module.exports.CreateBoard = async (req, res, next) => {
         //create the board itself, using the info above
         const board = await Board.create({ name, uuid, isPublic: false, isStared: false });
 
-        //Find thge workspace we need to add the board to by its UUID and push it
         const workspace = await Workspace.findOneAndUpdate(
-            { uuid: workspaceUuid, users: { $in: [user._id] } }, //ensuring that the user has access to the board
+            { uuid: workspaceUuid, users: { $in: [user._id] } },
             { $push: { boards: board._id } },
-            { new: true } //return the modified document
+            { new: true }
         );
 
-        //check if the workspace exists
+        // Check if the workspace exists
         if (!workspace) {
-            return res.status(404).json({ message: 'Workspace not found' })
+            return res.status(404).json({ message: 'Workspace not found' });
         }
-        res.status(201).json({ message: 'Board created succesfully', data: board })
+
+        // Convert the board object to a plain object to avoid circular references
+        const plainBoard = board.toObject();
+
+        // Stringify the response using circular-json to handle circular references
+        const jsonString = CircularJSON.stringify({
+            message: 'Board created successfully',
+            data: {
+                name: plainBoard.name,
+                uuid: plainBoard.uuid,
+                isPublic: plainBoard.isPublic,
+                isStared: plainBoard.isStared,
+            },
+        });
+
+        // Parse the string back to JSON
+        const jsonResponse = CircularJSON.parse(jsonString);
+
+        res.status(201).json(jsonResponse);
 
     } catch (error) {
-        console.error(error, 'Failed to create board')
+        console.error(error, 'Failed to create board');
+        next(error);
     }
 }
 
