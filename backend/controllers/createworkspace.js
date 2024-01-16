@@ -11,6 +11,7 @@ module.exports.CreateWorkspace = async (req, res, next) => {
       return res.status(400).json({ message: 'Invalid user information' });
     }
     let uuid = uuidv4();
+    console.log('Request payload', req.body);
     const workspace = await Workspace.create({ name, users: [user._id], uuid });
     user.workspaces.push(workspace._id);
     await user.save();

@@ -25,15 +25,14 @@ export const userWorkspaces = {
   createWorkspace: async (token: any, boardData: any) => {
     console.log('Creating workspace with...', boardData);
     try {
-      const { name } = boardData;
-      console.log(name)
-      const simplifiedBoardData = { name };
+      
+      
       const response = await fetch('https://gadorjani.co.uk/api/workspaces', {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(simplifiedBoardData),
+        body: JSON.stringify({ name: boardData.name}),
       });
       let data = await response.json();
       return data;

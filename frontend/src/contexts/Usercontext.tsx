@@ -126,18 +126,27 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
   };
 
   const createWorkspace = async (token: any, boardData: any) => {
-    
-    if(!token) {
-      console.log('Token is missing');
-    }
     try {
-      let res = await userWorkspaces.createWorkspace(token, boardData);
-      console.log('workspaces', res?.data || []);
-      
-    } catch (error:any) {
+      if (!token) {
+        console.error('Token is missing');
+        return;
+      }
+      console.log(boardData)
+      const res = await userWorkspaces.createWorkspace(token, boardData);
+  
+      if (res?.data) {
+        console.log('Workspace created successfully:', res.data);
+        // Update your local state or perform any other actions if needed
+      } else {
+        console.error('Failed to create workspace. Response:', res);
+        // Handle the case when the server does not return the expected data
+      }
+    } catch (error: any) {
       // Handle error if needed
-      console.error('Error creating workspace:', error || error.message || error.response);    }
-  }
+      console.error('Error creating workspace:', error || error.message || error.response);
+    }
+  };
+  
   //set workspaces
   const setWorkspace = (workspace: Workspace | null) => {
     setCurrentWorkspace(workspace);
