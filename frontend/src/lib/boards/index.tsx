@@ -1,9 +1,12 @@
 export const workspaceBoards = {
     createBoard: async(token: any, boardData: any, workspaceUuid: string) => {
         try {
+<<<<<<< HEAD
             
 
 
+=======
+>>>>>>> parent of fe1b282 (create board logic update)
             const response = await fetch('https://gadorjani.co.uk/api/boards', {
                 method: 'POST',
                 headers: {
