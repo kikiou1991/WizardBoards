@@ -33,24 +33,13 @@ module.exports.CreateBoard = async (req, res, next) => {
             return res.status(404).json({ message: 'Workspace not found' });
         }
 
-        // Convert the board object to a plain object to avoid circular references
-        const plainBoard = board.toObject();
+        // Convert the board object to a plain object using lean()
+        const plainBoard = await board.toObject({ getters: true, versionKey: false, lean: true });
 
-        // Stringify the response using circular-json to handle circular references
-        const jsonString = CircularJSON.stringify({
+        res.status(201).json({
             message: 'Board created successfully',
-            data: {
-                name: plainBoard.name,
-                uuid: plainBoard.uuid,
-                isPublic: plainBoard.isPublic,
-                isStared: plainBoard.isStared,
-            },
+            data: plainBoard,
         });
-
-        // Parse the string back to JSON
-        const jsonResponse = CircularJSON.parse(jsonString);
-
-        res.status(201).json(jsonResponse);
 
     } catch (error) {
         console.error(error, 'Failed to create board');
