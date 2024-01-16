@@ -134,8 +134,8 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
       console.log(boardData)
       const res = await userWorkspaces.createWorkspace(token, boardData);
   
-      if (res?.data) {
-        console.log('Workspace created successfully:', res.data);
+      if (res) {
+        console.log('Workspace created successfully:', res);
         // Update your local state or perform any other actions if needed
       } else {
         console.error('Failed to create workspace. Response:', res);

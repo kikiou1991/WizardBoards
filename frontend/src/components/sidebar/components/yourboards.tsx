@@ -17,7 +17,7 @@ const YourBoards = () => {
           <ul className='pl-2 '>
           {boards.map((board: any) => {
               console.log(board.name);
-              return <li className='py-1' key={board.uuid}>{board.name}</li>;
+              return <li className='py-1' key={board.uuid || board.id}>{board.name}</li>;
             })} 
            
           </ul>

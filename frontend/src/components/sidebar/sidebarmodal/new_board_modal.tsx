@@ -85,21 +85,22 @@ const MyModalNewBoard = () => {
                 onChange={(e) => setBoardTitle(e.target.value)}
               />              
                     <div className='flex flex-row items-center'>
-                      <Select
+                    <Select
                         isRequired
                         size='sm'
                         label='Workspace'
                         placeholder='Select a workspace'
-                        className='max-w-xs text-foreground'
-                        onChange={(key:any) => setSelectedWorkspace(key)}
-                      >              
-                          {workspaces.map((workspace) => (
-                            <SelectItem className="text-foreground" key={workspace.uuid} value={workspace.name}>
-                              {workspace.name}
-                            </SelectItem>
-                          ))}
-                      </Select>                         
+                        className='max-w-xs text-foreground '
+                        onChange={(value: any) => setSelectedWorkspace(value)}
+                      >
+                        {workspaces.map((workspace) => (
+                          <SelectItem className="text-foreground" key={workspace.uuid} value={workspace.uuid}>
+                            {workspace.name}
+                          </SelectItem>
+                        ))}
+                      </Select>
                     </div> 
+
 
            
           </ModalBody>

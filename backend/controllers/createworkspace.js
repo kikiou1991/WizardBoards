@@ -5,7 +5,7 @@ module.exports.CreateWorkspace = async (req, res, next) => {
   try {
     const { name } = req.body;
     const user = req.user;
-
+    console.log(req.body)
     // Check if user or user._id is undefined
     if (!user || !user._id) {
       return res.status(400).json({ message: 'Invalid user information' });

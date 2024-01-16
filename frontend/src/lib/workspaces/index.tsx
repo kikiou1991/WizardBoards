@@ -31,6 +31,7 @@ export const userWorkspaces = {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({ name: boardData.name}),
       });

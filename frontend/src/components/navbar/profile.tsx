@@ -13,7 +13,7 @@ interface Props {
 const Profile = ({name,  email}: Props) => {
   const {handleLogout} = useContext(UserContext) as UserContextType
   return (
-    <Navbar className='bg-background'>
+    <Navbar className='bg-background '>
       <NavbarContent as='div' className='items-center'>
         <Dropdown className='text-foreground' placement='bottom-end'>
           <DropdownTrigger>

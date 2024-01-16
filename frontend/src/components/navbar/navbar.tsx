@@ -125,7 +125,7 @@ const NavbarTop = () => {
       <div className='flex-grow'></div>
 
       {/* Right section with modal, calendar, notification, and profile */}
-      <NavbarContent className=' flex flex-grow-0 bg-inherit'>
+      <NavbarContent className=' flex flex-grow-0 bg-inherit gap-1'>
         {/* Model Section SearchBar */}
         <MyModal />
 

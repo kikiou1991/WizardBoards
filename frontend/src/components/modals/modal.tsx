@@ -28,7 +28,7 @@ const MyModal = () => {
 
         }}
         style={{minWidth: '120px'}}
-        className='hidden sm:flex'
+        className='hidden md:flex'
         placeholder='Type to search...'
         size='md'
         startContent={<Icon name='searchIcon' classname='white' />}
