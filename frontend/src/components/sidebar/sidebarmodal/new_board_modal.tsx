@@ -4,18 +4,13 @@ import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Input
 import Icon from '@/components/Icons'
 import { UserContext, UserContextType } from '@/contexts/Usercontext';
 
-interface Workspace {
-  uuid: string;
-  name: string;
-}
 
 const MyModalNewBoard = () => {
   const [isBoardModalOpen, setBoardModalOpen] = useState(false);
   const [isWorkspaceModalOpen, setWorkspaceModalOpen] = useState(false);
   const [boardTitle, setBoardTitle] = useState("");
-  const [selectedWorkspace, setSelectedWorkspace] = useState<string | null>("");
   const context = useContext(UserContext);
-  const {workspaces, createBoard} = useContext(UserContext) as UserContextType;
+  const {workspaces, createBoard, localSelectedWorkspace, setLocalSelectedWorkspace} = useContext(UserContext) as UserContextType;
   const openBoardModal = () => {
     setBoardModalOpen(true);
     setWorkspaceModalOpen(false);
@@ -36,13 +31,14 @@ const MyModalNewBoard = () => {
       console.log('Please create a title');
       return;
     }
-    if (!selectedWorkspace) {
+    if (!localSelectedWorkspace) {
       console.log('Please select a workspace');
       return;
     }
   
     try {
-      await createBoard(context?.token, { name: boardTitle, workspaceUuid: selectedWorkspace });
+      console.log(localSelectedWorkspace)
+      await createBoard(context?.token, { name: boardTitle, workspaceUuid: localSelectedWorkspace });
       closeModals();
     } catch (error) {
       console.error('Error creating board:', error);
@@ -91,7 +87,7 @@ const MyModalNewBoard = () => {
                         label='Workspace'
                         placeholder='Select a workspace'
                         className='max-w-xs text-foreground '
-                        onChange={(value: any) => setSelectedWorkspace(value)}
+                        onChange={(value: any) => setLocalSelectedWorkspace(value)}
                       >
                         {workspaces.map((workspace) => (
                           <SelectItem className="text-foreground" key={workspace.uuid} value={workspace.uuid}>

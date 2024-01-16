@@ -25,7 +25,7 @@ const NavbarTop = () => {
 
   useEffect(() => {
     // Set the default selectedWorkspace to the UUID of the first workspace if available
-    console.log('Currently selected workspace: ',selectedWorkspace);
+   
   }, [ selectedWorkspace]); // Run this effect whenever workspaces change
 
   const handleWorkspaceChange = (workspaceId: string) => {

@@ -25,6 +25,8 @@ export interface UserContextType {
   workspaces: Workspace[];
   boards: Boards[];
   selectedWorkspace: string;
+  localSelectedWorkspace: string;
+  setLocalSelectedWorkspace: React.Dispatch<React.SetStateAction<string>>;
   setSelectedWorkspace: React.Dispatch<React.SetStateAction<string>>;
   fetchWorkspaces: (token: any | null) => Promise<void>;
   currentWorkspace: Workspace | null;
@@ -48,7 +50,7 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
   const [workspaces, setWorkspaces] = useState<Workspace[]>([]);
   const [currentWorkspace, setCurrentWorkspace] = useState<Workspace | null>(null);
   const [selectedWorkspace, setSelectedWorkspace] = useState('');
-
+  const [localSelectedWorkspace, setLocalSelectedWorkspace] = useState('');
   const [boards, setBoards] = useState<Boards[]>([]);
   const [authenticated, setAuthenticated] = useState<boolean>(false);
   const [user, setUser] = useState<any>(null);
@@ -56,7 +58,7 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const pathname = usePathname();
   const router = useRouter();
-  console.log('selectedWorkspace', selectedWorkspace);
+ 
   //create boards
   const createBoard = async (token: any, boardData: any) => {
     try {
@@ -66,10 +68,9 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
       console.error('Board name is required');
       return;
       }
-
-      const res = await workspaceBoards.createBoard(token, {name, workspaceUuid}, selectedWorkspace);
-      console.log(res);
-
+      console.log('workspaceUuid', workspaceUuid);
+      const res = await workspaceBoards.createBoard(token, {name, workspaceUuid}, localSelectedWorkspace);
+      
       if (res && res.newBoard) {
         setBoards([res.newBoard, ...boards]);
       }
@@ -79,7 +80,7 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
   };
 
   const validateToken = async (token: any) => {
-    console.log('Validating token...');
+    
     try {
       let res = await userAuth.validateToken(token);
       if (res?.status === true) {
@@ -115,7 +116,7 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
 
     try {
       let res = await userWorkspaces.fetchWorkspaces(token);
-      console.log('workspaces', res?.data || []);
+      
       setWorkspaces(res?.data || []);
     } catch (error: any) {
       // Handle error if needed
@@ -131,7 +132,7 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
         console.error('Token is missing');
         return;
       }
-      console.log(boardData)
+      
       const res = await userWorkspaces.createWorkspace(token, boardData);
   
       if (res) {
@@ -186,6 +187,8 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
     createWorkspace,
     selectedWorkspace,
     setSelectedWorkspace,
+    localSelectedWorkspace,
+    setLocalSelectedWorkspace,
     authenticated,
     setAuthenticated,
     userData: user,
