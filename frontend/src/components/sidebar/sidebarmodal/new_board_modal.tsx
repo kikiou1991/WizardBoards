@@ -82,19 +82,19 @@ const MyModalNewBoard = () => {
               />              
                     <div className='flex flex-row items-center'>
                     <Select
-                        isRequired
-                        size='sm'
-                        label='Workspace'
-                        placeholder='Select a workspace'
-                        className='max-w-xs text-foreground '
-                        onChange={(value: any) => setLocalSelectedWorkspace(value)}
-                      >
-                        {workspaces.map((workspace) => (
-                          <SelectItem className="text-foreground" key={workspace.uuid} value={workspace.uuid}>
-                            {workspace.name}
-                          </SelectItem>
-                        ))}
-                      </Select>
+                      isRequired
+                      size='sm'
+                      label='Workspace'
+                      placeholder='Select a workspace'
+                      className='max-w-xs text-foreground '
+                      onChange={(event) => setLocalSelectedWorkspace(event.target.value)}
+                    >
+                      {workspaces.map((workspace) => (
+                        <SelectItem className="text-foreground" key={workspace.uuid} value={workspace.uuid}>
+                          {workspace.name}
+                        </SelectItem>
+                      ))}
+                    </Select>
                     </div> 
 
 

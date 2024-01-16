@@ -63,6 +63,8 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
   const createBoard = async (token: any, boardData: any) => {
     try {
       const { name, workspaceUuid } = boardData;
+      console.log(name, workspaceUuid)
+      console.log(localSelectedWorkspace);
 
      if (!name) {
       console.error('Board name is required');
