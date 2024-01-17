@@ -138,6 +138,7 @@ const NavbarTop = () => {
             }}
             placement='bottom-end'
             closeOnSelect={false}
+            
             >
           <DropdownTrigger>
             <Button className='bg-inherit hover:bg-secondaryBG' size='sm' isIconOnly>

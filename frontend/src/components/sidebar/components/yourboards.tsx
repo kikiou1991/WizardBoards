@@ -32,12 +32,12 @@ const YourBoards = () => {
       </div>
       <div className='pt-2 flex flex-col'>
         {boards && boards.length > 0 ? (
-          <ul className='pl-2 '>
+          <ul className=' '>
           {boards.map((board: any) => {
               
-              return <li className='py-1 group/item hover:bg-secondaryBG flex flex-row ' key={board.uuid || board.id}>
-                <div className='flex flex-row gap-1 items-center flex-nowrap'>
-                  <Image src={board.imageLink} width={20} height={20} alt='board-background'/>
+              return <li className='px-2 group/item h-8 hover:bg-secondaryBG flex flex-row ' key={board.uuid || board.id}>
+                <div className='flex flex-row gap-2 items-center flex-nowrap'>
+                  <Image className='rounded' src={board.imageLink} width={26} height={20} alt='board-background'/>
                   <Link href=''>{board.name}</Link>
                 </div>
                 <div className='ml-auto flex group/edit invisible group-hover/item:visible'>
