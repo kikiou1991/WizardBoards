@@ -49,7 +49,7 @@ export const workspaceBoards = {
         }
     },
 
-    deleteBoard: async(token: any, boardUuid: string, workspaceUuid: string) => {  
+    deleteBoard: async(token: any,  workspaceUuid: string, boardUuid: string,) => {  
         try {
             const response = await fetch('https://gadorjani.co.uk/api/boards/delete', {
                 method: 'DELETE',
@@ -58,8 +58,9 @@ export const workspaceBoards = {
                     'Content-Type': 'application/json', // Ensure the correct content type
                 },
                 body: JSON.stringify({
-                    workspaceUuid,
-                    boardUuid,
+                    
+                    workspaceUuid,boardUuid
+                    
                 }),
             });
             console.log(response);

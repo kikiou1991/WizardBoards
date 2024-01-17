@@ -14,7 +14,7 @@ const YourBoards = () => {
 
   const handleDelete = async (boardUuid: string) => {
     try {
-      await deleteBoard(context?.token,boardUuid, selectedWorkspace,);
+      await deleteBoard(context?.token, selectedWorkspace, boardUuid);
       
     } catch (error) {
       console.error('Error deleting board: ', error);
