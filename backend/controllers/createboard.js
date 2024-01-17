@@ -19,7 +19,7 @@ module.exports.CreateBoard = async (req, res, next) => {
         let uuid = uuidv4();
 
         //create the board itself, using the info above
-        const defaultImageLink = ""
+        const defaultImageLink = "https://media.istockphoto.com/id/1573618010/hu/fot%C3%B3/a-vas%C3%BAti-viadukt-%C3%A9s-g%C5%91zmozdony-a-sk%C3%B3ciai-glenfinnanban-amely-a-harry-potter-filmben-volt.jpg?s=1024x1024&w=is&k=20&c=H9wL1Zk0KIR_FIIQupkeDNMdrysv3Mcq9IsqJmhDBrE="
         const board = await Board.create({ name, uuid, isPublic: false, isStared: false, imageLink: defaultImageLink });
 
         //Find the workspace we need to add the board to by its UUID and push it
