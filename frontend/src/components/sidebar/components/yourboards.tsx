@@ -2,10 +2,12 @@
 import {UserContext, UserContextType} from '@/contexts/Usercontext';
 import {useContext, useEffect, useState} from 'react';
 import MyModalNewBoard from '../sidebarmodal/new_board_modal';
+
 import Link from 'next/link';
 import Image from 'next/image';
 import Icon from '@/components/Icons';
 import {Dropdown, Button, DropdownItem, DropdownMenu, DropdownSection, DropdownTrigger } from '@nextui-org/react';
+import Lottie from 'lottie-react';
 
 const YourBoards = () => {
   const {boards, deleteBoard, selectedWorkspace} = useContext(UserContext) as UserContextType;
@@ -35,7 +37,7 @@ const YourBoards = () => {
               
               return <li className='py-1 group/item hover:bg-secondaryBG flex flex-row ' key={board.uuid || board.id}>
                 <div className='flex flex-row gap-1 items-center flex-nowrap'>
-                  <Image src="" width={20} height={20} alt='board-background'/>
+                  <Image src={board.imageLink} width={20} height={20} alt='board-background'/>
                   <Link href=''>{board.name}</Link>
                 </div>
                 <div className='ml-auto flex group/edit invisible group-hover/item:visible'>
@@ -57,8 +59,15 @@ const YourBoards = () => {
                         <DropdownItem className='data-[hover=true]:bg-secondaryBG text-center font-bold'>{board.name}</DropdownItem>
                       </DropdownSection>
                       <DropdownSection>
+                        <DropdownItem key="delete" endContent={<Icon name="bin"/>}>
+                          <Button className='bg-inherit hover:bg-transparent' onPress={() => handleDelete(board.uuid)}>Delete Board by clicking the red button</Button>
+                          
+                        </DropdownItem>
+                          
+                      </DropdownSection>
+                      <DropdownSection>
                         <DropdownItem key="Close board" className='data-[hover=true]:bg-inherit flex flex-row text-center' >
-                          <Button onPress={() => handleDelete(board.uuid)} color='danger' size="md" >Close</Button>
+                          <Button onPress={() => handleDelete(board.uuid)} color='danger' size="md" >Close Board</Button>
                         </DropdownItem>
                       </DropdownSection>
                     </DropdownMenu>

@@ -19,7 +19,8 @@ module.exports.CreateBoard = async (req, res, next) => {
         let uuid = uuidv4();
 
         //create the board itself, using the info above
-        const board = await Board.create({ name, uuid, isPublic: false, isStared: false });
+        const defaultImageLink = "https://www.shutterstock.com/image-photo/glenfinnan-railway-viaduct-autumn-colours-cloudy-2343516625"
+        const board = await Board.create({ name, uuid, isPublic: false, isStared: false, imageLink: defaultImageLink });
 
         //Find the workspace we need to add the board to by its UUID and push it
         const workspace = await Workspace.findOneAndUpdate(
@@ -71,8 +72,9 @@ module.exports.GetBoards = async (req, res, next) => {
             uuid: board.uuid,
             isPublic: board.isPublic,
             isStared: board.isStared,
+            imageLink: board.imageLink,
         }));
-        console.log('borads:',boards)
+        console.log('boards:',boards)
         res.status(200).json({
             succes: true,
             data: boards,
@@ -83,18 +85,17 @@ module.exports.GetBoards = async (req, res, next) => {
         next(error);
     }
 }
-
+// Logic for createing new boards
 module.exports.DeleteBoard = async (req, res, next) => {
 
     try {
-        console.log(req.body)
         const { workspaceUuid, boardUuid, board_id } = req.body;
         const user = req.user;
-
+        //check if the workspace and board uuid is provided
         if (!boardUuid || !workspaceUuid) {
             return res.status(400).json({ message: 'Invalid board or workspace ID' })
         }
-
+        //check if the user is allowed access to this api endpoint
         if (!user || !user._id) {
             return res.status(400).json({ message: 'Invalid user information' })
         }
@@ -108,7 +109,7 @@ module.exports.DeleteBoard = async (req, res, next) => {
             { $pull: { boards: board_id } },
             { new: true }
         );
-
+        //throw an error if the workspace is not found
         if (!workspace) {
             return res.status(400).json({ message: 'Workspace not found' })
         }

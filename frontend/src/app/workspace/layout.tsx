@@ -1,6 +1,7 @@
 import NavbarTop from '@/components/navbar/navbar';
 import Sidebar from '@/components/sidebar/sidebar';
 
+
 type LayoutProps = {
   title?: string;
   children: React.ReactNode;

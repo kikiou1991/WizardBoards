@@ -12,6 +12,8 @@ const playFair = Playfair_Display({
 });
 
 export default function RootLayout({children}: {children: React.ReactNode}) {
+  
+
   return (
     <html lang='en' suppressHydrationWarning={true}>
       <body className={playFair.className}>

@@ -179,10 +179,13 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
     }
   }, [token]); //if the token changes, validate it
   useEffect(() => {
+    console.log('I got mounted!')
     if (localStorage['token'] && selectedWorkspace) {
       fetchBoard(localStorage['token'], selectedWorkspace);
     }
   }, [selectedWorkspace]); //if the selectedWorkspace changes, fetch the boards
+
+  
 
   const handleLogout = async () => {
     localStorage.clear();
