@@ -38,6 +38,7 @@ export interface UserContextType {
   setAuthenticated: (authenticated: boolean) => void;
   createBoard: (token: any, boardData: any) => Promise<void>;
   fetchBoard: (token: any, workspaceUuid: string) => Promise<void>;
+  deleteBoard: (token: any, boardUuid: string, workspaceUuid: string) => Promise<void>;
 }
 interface UserContextProviderProps {
   children: ReactNode;
@@ -107,6 +108,19 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
       console.error('Failed to fetch boards', error);
     }
   };
+
+  // Delete board
+
+  const deleteBoard = async (token: any, boardUuid: string, workspaceUuid: string) => {
+    try {
+      const res = await workspaceBoards.deleteBoard(token,  workspaceUuid, boardUuid);
+      if (res?.status === true) {
+        setBoards(boards.filter((board) => board.uuid !== boardUuid));
+      }
+    } catch (error) {
+      console.error('Failed to delete board: ', error);
+    }
+  }
   
   //  fetch workspaces
   const fetchWorkspaces = async (token: any) => {
@@ -197,6 +211,7 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
     fetchBoard,
     currentWorkspace,
     setWorkspace,
+    deleteBoard
   };
   return (
     <UserContext.Provider value={contextValue}>

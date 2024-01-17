@@ -28,23 +28,24 @@ body {
 
 
 
-/* Track */
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
 /* width */
 ::-webkit-scrollbar {
-  width: 5px;
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #transparent;
+  border-radius: 5px;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #888;
+  background: #fff6;
   border-radius: 5px;
 }
 
 /* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
+/* ::-webkit-scrollbar-thumb:hover {
   background: #555;
-}
+} */

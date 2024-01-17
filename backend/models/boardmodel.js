@@ -19,7 +19,12 @@ const boardSchema = new mongoose.Schema({
     isStared: {
         type: Boolean,
         default: false
-    }
+    },
+    imageLink: {
+        type: String,
+        default: "https://www.shutterstock.com/image-photo/glenfinnan-railway-viaduct-autumn-colours-cloudy-2343516625"
+    },
+    
 
 
 })

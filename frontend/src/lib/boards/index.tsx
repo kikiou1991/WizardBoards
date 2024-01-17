@@ -10,7 +10,7 @@ export const workspaceBoards = {
                 method: 'POST',
                 headers: {
                     Authorization: `Bearer ${token}`,
-                    'Content-Type': 'application/json', // Add this line
+                    'Content-Type': 'application/json', 
                 },
                 body: JSON.stringify(simplifiedBoardData),
             });
@@ -48,4 +48,37 @@ export const workspaceBoards = {
             console.error('Error fetching the board', error);
         }
     },
+
+    deleteBoard: async(token: any, boardUuid: string, workspaceUuid: string) => {  
+        try {
+            const response = await fetch('https://gadorjani.co.uk/api/boards/delete', {
+                method: 'DELETE',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json', // Ensure the correct content type
+                },
+                body: JSON.stringify({
+                    workspaceUuid,
+                    boardUuid,
+                }),
+            });
+            console.log(response);
+            if (response.ok) {
+                const data = await response.json();
+                console.log(data);
+                return data;
+            } else {
+                throw new Error('Failed to delete board');
+            }
+
+           
+
+        } catch (error) {
+            console.error('Error deleting the board', error);
+        }
+    }
 };
+
+            
+               
+        

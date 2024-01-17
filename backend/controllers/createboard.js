@@ -82,7 +82,48 @@ module.exports.GetBoards = async (req, res, next) => {
         console.error(error, 'Failed to get boards');
         next(error);
     }
-
-
-
 }
+
+module.exports.DeleteBoard = async (req, res, next) => {
+
+    try {
+        const { workspaceUuid, boardUuid } = req.body;
+        const user = req.user;
+
+        if (!boardUuid || !workspaceUuid) {
+            return res.status(400).json({ message: 'Invalid board or workspace ID' })
+        }
+
+        if (!user || !user._id) {
+            return res.status(400).json({ message: 'Invalid user information' })
+        }
+
+        //find the workspace by the uuid and check if the user has access
+        const workspace = await Workspace.findOneAndUpdate(
+            {
+                uuid: workspaceUuid,
+                users: { $in: [user._id] },
+            },
+            { $pull: { boards: boardUuid } },
+            { new: true }
+        );
+
+        if (!workspace) {
+            return res.status(400).json({ message: 'Workspace not found' })
+        }
+
+        //delete the board itself
+        await Board.findOneAndDelete({ uuid: boardUuid });
+
+        res.status(200).json({
+            succes: true,
+            message: 'Board deleted succesfully',
+        })
+
+    } catch (error) {
+        console.error(error, 'Failed to delete board');
+        next(error);
+    }
+}
+
+

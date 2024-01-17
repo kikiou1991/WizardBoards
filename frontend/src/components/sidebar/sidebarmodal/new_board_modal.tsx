@@ -37,7 +37,7 @@ const MyModalNewBoard = () => {
     }
   
     try {
-      console.log(localSelectedWorkspace)
+      
       await createBoard(context?.token, { name: boardTitle, workspaceUuid: localSelectedWorkspace });
       closeModals();
     } catch (error) {
