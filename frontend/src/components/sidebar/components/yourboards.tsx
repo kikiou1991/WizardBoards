@@ -14,6 +14,7 @@ const YourBoards = () => {
 
   const handleDelete = async (boardUuid: string) => {
     try {
+      console.log('boardUuid: ', boardUuid);
       await deleteBoard(context?.token, selectedWorkspace, boardUuid);
       
     } catch (error) {

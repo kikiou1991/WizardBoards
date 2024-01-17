@@ -87,7 +87,8 @@ module.exports.GetBoards = async (req, res, next) => {
 module.exports.DeleteBoard = async (req, res, next) => {
 
     try {
-        const { workspaceUuid, boardUuid } = req.body;
+        console.log(req.body)
+        const { workspaceUuid, boardUuid, board_id } = req.body;
         const user = req.user;
 
         if (!boardUuid || !workspaceUuid) {
@@ -104,7 +105,7 @@ module.exports.DeleteBoard = async (req, res, next) => {
                 uuid: workspaceUuid,
                 users: { $in: [user._id] },
             },
-            { $pull: { boards: boardUuid } },
+            { $pull: { boards: board_id } },
             { new: true }
         );
 

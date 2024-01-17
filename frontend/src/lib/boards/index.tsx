@@ -49,31 +49,32 @@ export const workspaceBoards = {
         }
     },
 
-    deleteBoard: async(token: any,  workspaceUuid: string, boardUuid: string,) => {  
+    deleteBoard: async (token: any, workspaceUuid: string, boardUuid: string) => {
         try {
-            const response = await fetch('https://gadorjani.co.uk/api/boards/delete', {
-                method: 'DELETE',
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    'Content-Type': 'application/json', // Ensure the correct content type
-                },
-                body: JSON.stringify({
-                    workspaceUuid: workspaceUuid,
-                    boardUuid: boardUuid
-                }),
-            });
-            console.log(response);
-            if (response.ok) {
-                const data = await response.json();
-                console.log(data);
-                return data;
-            } else {
-                throw new Error('Failed to delete board');
-            }
+          const response = await fetch('https://gadorjani.co.uk/api/boards/delete', {
+            method: 'DELETE',
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'application/json', // Ensure the correct content type
+            },
+            body: JSON.stringify({
+              workspaceUuid,
+              boardUuid,
+            }),
+          });
+          console.log(response);
+          if (response.ok) {
+            const data = await response.json();
+            console.log(data);
+            return data;
+          } else {
+            throw new Error('Failed to delete board');
+          }
         } catch (error) {
-            console.error('Error deleting the board', error);
+          console.error('Error deleting the board', error);
         }
-    }
+      }
+      
 };
                     
                     
