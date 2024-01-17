@@ -58,9 +58,8 @@ export const workspaceBoards = {
                     'Content-Type': 'application/json', // Ensure the correct content type
                 },
                 body: JSON.stringify({
-                    
-                    workspaceUuid,boardUuid
-                    
+                    workspaceUuid: workspaceUuid,
+                    boardUuid: boardUuid
                 }),
             });
             console.log(response);
@@ -71,14 +70,16 @@ export const workspaceBoards = {
             } else {
                 throw new Error('Failed to delete board');
             }
-
-           
-
         } catch (error) {
             console.error('Error deleting the board', error);
         }
     }
 };
+                    
+                    
+
+           
+
 
             
                

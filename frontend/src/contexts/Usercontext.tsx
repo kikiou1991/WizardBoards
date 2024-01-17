@@ -111,7 +111,7 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
 
   // Delete board
 
-  const deleteBoard = async (token: any,  workspaceUuid: string, boardUuid: string,) => {
+  const deleteBoard = async (token: any,  workspaceUuid: string, boardUuid: string) => {
     try {
       const res = await workspaceBoards.deleteBoard(token,  workspaceUuid, boardUuid);
       if (res?.status === true) {
