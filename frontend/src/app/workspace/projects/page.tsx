@@ -8,7 +8,7 @@ const Project = () => {
       <div className='relative w-full py-2 border-b-1 items-center'>
         <BoardNav />
       </div>
-      <div className='flex w-full overflow-x-auto items-center py-5 px-5  gap-5'>
+      <div className='flex w-full h-full overflow-x-auto items-center py-5 px-5  gap-5'>
         <Lists name='To Do' />
         <Lists name='In Progress' />
         <Lists name='Completed' />
