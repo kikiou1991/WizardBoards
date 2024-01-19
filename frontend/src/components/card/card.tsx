@@ -1,15 +1,28 @@
 import React from 'react'
+import {  Draggable, Droppable, DropResult, } from '@hello-pangea/dnd';
 
 interface Props {
     name: string,
+    index: number,
 }
 
-const Cards = ({name}: Props) => {
+const Cards = ({name, index}: Props) => {
     return (
-        <div className='text-black w-48 rounded min-h-80 border-solid border-2 border-foreground bg-[#304d89] px-2 py-2 items-center overflow-x-auto' style={{ minWidth: '232px', minHeight: '80px', }}>
+        <Draggable draggableId={`card-${index}`} index={index}>
+        {(provided) => (
+            <div 
+                className='text-black w-48 rounded  border-solid border-2 border-foreground bg-[#304d89] px-2 py-2 items-center overflow-x-auto'
+                style={{ minWidth: '232px', minHeight: '80px', }}
+                ref={provided.innerRef}
+                {...provided.draggableProps}
+                {...provided.dragHandleProps}    
+            >
             {name}
             
-        </div>
+            </div>
+
+        )}
+        </Draggable>
     )
 }
 

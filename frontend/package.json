@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@hello-pangea/dnd": "^16.5.0",
     "@nextui-org/modal": "^2.0.28",
     "@nextui-org/react": "^2.2.9",
     "axios": "^1.6.3",
