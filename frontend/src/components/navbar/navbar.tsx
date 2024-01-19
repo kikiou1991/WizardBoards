@@ -4,7 +4,6 @@ import {Button, Dropdown, DropdownItem, DropdownMenu, DropdownSection, DropdownT
 import React, {useContext, useEffect, useState} from 'react';
 import MyModal from '../modals/modal';
 import MyWorkSpaceModal from '../modals/newworkspace_modal';
-import navBarItems from '../navbar/navbardata';
 import Socials from '../socials';
 import Profile from './profile';
 import { UserContext, UserContextType } from '@/contexts/Usercontext';
