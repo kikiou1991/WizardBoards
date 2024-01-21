@@ -42,3 +42,36 @@ module.exports.CreateCard = async (req, res, next) => {
         res.status(500).json({ message: 'Internal Server Error' });
     }
 };
+
+module.exports.GetCards = async(req,res,next) => {
+    try {
+        const listUuid = req.query.listUuid;
+        const user = req.user;
+
+        if(!listUuid){
+            return res.status(400).json({message: 'Invalid list'})
+        }
+
+        if(!user || !user._id){
+            return res.status(400).json({message: 'Invalid user information'})
+        }
+
+        const list = await List.findOne({uuid: listUuid}).populate('cards');
+        const cards = list.cards.map((card) => ({
+            title: card.title,
+            uuid: card.uuid,
+            description: card.description,
+            comments: card.comments,
+        }));
+
+        res.status(200).json({
+            succes: true,
+            data: cards,
+        })
+
+    } catch (error) {
+        console.error('Error getting cards: ', error.message);
+        res.status(500).json({ message: 'Internal Server Error' });
+        next(error);
+    }
+}

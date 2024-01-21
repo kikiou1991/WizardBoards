@@ -32,5 +32,48 @@ module.exports.CreateList = async (req, res, next) => {
         res.status(201).json({message: 'List created successfully', data: list, list});
     } catch (error) {
         console.error('Error creating list: ', error.message);
+        next(error);
+    }
+}
+
+module.exports.GetLists = async (req, res, next) => {
+    try {
+        const  boardUuid  = req.query.boardUuid;
+        const user = req.user;
+
+
+        //return early for any errors related to the board uuid or user
+        if(!boardUuid){
+            return res.status(400).json({message: 'Invalid board ID'})
+        }
+
+        if(!user || !user._id){
+            return res.status(400).json({message: 'Invalid user information'})
+        }
+
+        //find the board with the uuid
+        const board = await Board.findOne({uuid: boardUuid}).populate('lists');
+        console.log('board:', board)
+
+        //return early if the board is not found
+        if(!board){
+            return res.status(400).json({message: 'Board not found'})
+        }
+
+        const lists = board.lists.map((list) => ({
+            title: list.title,
+            uuid: list.uuid,
+            cards: list.cards,
+        }));
+        console.log('lists:', lists)
+        res.status(200).json({
+            succes: true,
+            data: lists,
+        })
+
+
+    } catch (error) {
+        console.error('Error getting lists: ', error.message);
+        next(error);
     }
 }
