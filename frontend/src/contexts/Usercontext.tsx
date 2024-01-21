@@ -2,6 +2,7 @@
 import InputField from '@/app/auth/sign-in/InputField';
 import {userAuth} from '@/lib/auth/auth';
 import {workspaceBoards} from '@/lib/boards';
+import { boardLists } from '@/lib/lists';
 import {userWorkspaces} from '@/lib/workspaces';
 import {Modal, ModalBody, ModalContent, ModalHeader} from '@nextui-org/modal';
 import {Button, Link} from '@nextui-org/react';
@@ -19,11 +20,25 @@ interface Boards {
   name: string;
   uuid: string;
 }
+
+interface Lists {
+  _id: string;
+  name: string;
+  uuid: string;
+}
+
+interface Cards {
+  _id: string;
+  name: string;
+  uuid: string;
+}
 export interface UserContextType {
   token: string | null;
   setToken: (token: string | null) => void;
   workspaces: Workspace[];
   boards: Boards[];
+  lists: Lists[];
+  cards: Cards[];
   selectedWorkspace: string;
   localSelectedWorkspace: string;
   setLocalSelectedWorkspace: React.Dispatch<React.SetStateAction<string>>;
@@ -39,6 +54,8 @@ export interface UserContextType {
   createBoard: (token: any, boardData: any) => Promise<void>;
   fetchBoard: (token: any, workspaceUuid: string) => Promise<void>;
   deleteBoard: (token: any, board_id: string, workspaceUuid: string) => Promise<void>;
+  fetchLists: (token: any, boardUuid: string) => Promise<void>;
+  createList: (token: any, listData: any, boardUuid: string) => Promise<void>;
 }
 interface UserContextProviderProps {
   children: ReactNode;
@@ -53,6 +70,8 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
   const [selectedWorkspace, setSelectedWorkspace] = useState('');
   const [localSelectedWorkspace, setLocalSelectedWorkspace] = useState('');
   const [boards, setBoards] = useState<Boards[]>([]);
+  const [lists, setLists] = useState<Lists[]>([]);
+  const [cards, setCards] = useState<Cards[]>([]);
   const [authenticated, setAuthenticated] = useState<boolean>(false);
   const [user, setUser] = useState<any>(null);
   const [authenticatedLoaded, setAuthenticatedLoaded] = useState<boolean>(false);
@@ -168,6 +187,32 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
     setCurrentWorkspace(workspace);
   };
 
+  const fetchLists = async (token: any, boardUuid: string) => {
+    console.log('boardUuid: ', boardUuid);
+    
+    try {
+      const res = await boardLists.getLists(token, boardUuid);
+      setLists(res?.data || []);
+    }catch(error:any) {
+      console.error('Failed to fetch lists', error);
+    }
+  }
+
+  const createList = async (token: any, listData: any, boardUuid: string) => {
+    console.log('listData: ', listData);
+    console.log('boardUuid: ', boardUuid);
+    
+    try {
+      const  title  = listData;
+      const res = await boardLists.createLists(token, title, boardUuid)
+      if (res && res.newList) {
+        setLists([res.newList, ...lists]);
+      }
+    }catch(error:any) {
+      console.error('Failed to create list', error);
+    }
+  }
+
   useEffect(() => {
     if (localStorage['token']) {
       setToken(localStorage['token']);
@@ -182,6 +227,7 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
     console.log('I got mounted!')
     if (localStorage['token'] && selectedWorkspace) {
       fetchBoard(localStorage['token'], selectedWorkspace);
+      
     }
   }, [selectedWorkspace]); //if the selectedWorkspace changes, fetch the boards
 
@@ -215,7 +261,11 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
     fetchBoard,
     currentWorkspace,
     setWorkspace,
-    deleteBoard
+    deleteBoard,
+    fetchLists,
+    createList,
+    lists,
+    cards
   };
   return (
     <UserContext.Provider value={contextValue}>
