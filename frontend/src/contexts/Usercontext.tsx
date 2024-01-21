@@ -56,6 +56,8 @@ export interface UserContextType {
   deleteBoard: (token: any, board_id: string, workspaceUuid: string) => Promise<void>;
   fetchLists: (token: any, boardUuid: string) => Promise<void>;
   createList: (token: any, listData: any, boardUuid: string) => Promise<void>;
+  selectedBoard: string;
+  setSelectedBoard: React.Dispatch<React.SetStateAction<string>>;
 }
 interface UserContextProviderProps {
   children: ReactNode;
@@ -70,6 +72,7 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
   const [selectedWorkspace, setSelectedWorkspace] = useState('');
   const [localSelectedWorkspace, setLocalSelectedWorkspace] = useState('');
   const [boards, setBoards] = useState<Boards[]>([]);
+  const [selectedBoard, setSelectedBoard] = useState('');
   const [lists, setLists] = useState<Lists[]>([]);
   const [cards, setCards] = useState<Cards[]>([]);
   const [authenticated, setAuthenticated] = useState<boolean>(false);
@@ -231,7 +234,11 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
     }
   }, [selectedWorkspace]); //if the selectedWorkspace changes, fetch the boards
 
-  
+  useEffect(() => {
+    if(localStorage['token'] && boards.length > 0){
+      fetchLists(localStorage['token'], selectedBoard);
+    }
+  })
 
   const handleLogout = async () => {
     localStorage.clear();
@@ -265,7 +272,9 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
     fetchLists,
     createList,
     lists,
-    cards
+    cards,
+    selectedBoard,
+    setSelectedBoard
   };
   return (
     <UserContext.Provider value={contextValue}>
