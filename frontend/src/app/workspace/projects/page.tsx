@@ -4,10 +4,12 @@ import Lists from '@/components/lists/lists';
 import { Divider } from '@nextui-org/react';
 import { DragDropContext, Draggable, Droppable, DropResult } from '@hello-pangea/dnd';
 import { start } from 'repl';
+import { useContext } from 'react';
+import { UserContext, UserContextType } from '@/contexts/Usercontext';
 
 
 const Project = () => {
-
+  const {boards} = useContext(UserContext) as UserContextType;
   //Get all the relevent information from the backend
 
   // const handleDragEnd = (result: DropResult) => {

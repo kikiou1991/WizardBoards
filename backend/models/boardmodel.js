@@ -24,6 +24,12 @@ const boardSchema = new mongoose.Schema({
         type: String,
         default: ""
     },
+    lists: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "List",
+        },
+    ],
     
 
 

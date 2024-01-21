@@ -6,6 +6,8 @@ const { userVerification } = require('../middlewares/authmiddleware');
 const { CreateWorkspace, GetUserWorkspace, GetWorkspace } = require('../controllers/createworkspace.js');
 const { GetUserById, GetAllUsers, GetAuthenticatedUser } = require('../controllers/usercontrollers.js');
 const { CreateBoard, GetBoards, DeleteBoard } = require('../controllers/createboard.js');
+const { CreateList } = require('../controllers/createlist.js');
+const { CreateCard } = require('../controllers/createcard.js');
 
 router.post('/api/signup', Signup);
 router.post('/api/login', Login);
@@ -25,6 +27,12 @@ router.get('/api/users/', userVerification, GetAllUsers);
 router.post('/api/boards', userVerification, CreateBoard)
 router.get('/api/boards/', userVerification, GetBoards)
 router.delete('/api/boards/delete/', userVerification, DeleteBoard)
+
+// List routes
+router.post('/api/lists', userVerification, CreateList)
+
+// Card routes
+router.post('/api/cards', userVerification, CreateCard)
 
 
 module.exports = router;
