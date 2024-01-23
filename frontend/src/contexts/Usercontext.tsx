@@ -230,19 +230,13 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
   }, [token]); //if the token changes, validate it
   useEffect(() => {
     if (localStorage['token'] && selectedWorkspace) {
-<<<<<<< HEAD
+
       fetchBoard(localStorage['token'], selectedWorkspace);      
     }
   }, [selectedWorkspace]); //if the selectedWorkspace changes, fetch the boards
 
 
-=======
-      fetchBoard(localStorage['token'], selectedWorkspace);
-      
-    }
-  }, [selectedWorkspace]); //if the selectedWorkspace changes, fetch the boards
-  //fetch lists when it gets mounter
->>>>>>> parent of aa7c501 (lists/cards troubleshoot)
+
   useEffect(() => {
     if(localStorage['token'] && boards.length > 0){
       fetchLists(localStorage['token'], selectedBoard);
