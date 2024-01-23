@@ -59,6 +59,7 @@ export interface UserContextType {
   createList: (token: any, listData: any, boardUuid: string) => Promise<void>;
   selectedBoard: string;
   setSelectedBoard: React.Dispatch<React.SetStateAction<string>>;
+  setCards: React.Dispatch<React.SetStateAction<Cards[]>>;
 }
 interface UserContextProviderProps {
   children: ReactNode;
@@ -83,6 +84,7 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
   const pathname = usePathname();
   const router = useRouter();
  
+
   //create boards
   const createBoard = async (token: any, boardData: any) => {
     try {
@@ -192,13 +194,10 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
   };
 
   const fetchLists = async (token: any, boardUuid: string) => {
-    
-    
+       
     try {
       const res = await boardLists.getLists(token, boardUuid);
       setLists(res?.data || []);
-      console.log('res: ', res);
-      console.log('lists: ', lists);
     }catch(error:any) {
       console.error('Failed to fetch lists', error);
     }
@@ -230,7 +229,6 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
     }
   }, [token]); //if the token changes, validate it
   useEffect(() => {
-    console.log('I got mounted!')
     if (localStorage['token'] && selectedWorkspace) {
       fetchBoard(localStorage['token'], selectedWorkspace);
       
@@ -241,8 +239,9 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
     if(localStorage['token'] && boards.length > 0){
       fetchLists(localStorage['token'], selectedBoard);
     }
-    console.log('userConetxt Board selected: ', selectedBoard)
   },[selectedBoard]) //if the selectedBoard changes, fetch the lists
+
+  
 
   const handleLogout = async () => {
     localStorage.clear();
@@ -278,7 +277,8 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
     lists,
     cards,
     selectedBoard,
-    setSelectedBoard
+    setSelectedBoard,
+    setCards,
   };
   return (
     <UserContext.Provider value={contextValue}>

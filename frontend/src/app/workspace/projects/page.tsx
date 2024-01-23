@@ -9,7 +9,7 @@ import { UserContext, UserContextType } from '@/contexts/Usercontext';
 
 
 const Project = () => {
-  const {lists, selectedBoard} = useContext(UserContext) as UserContextType;
+  const {lists} = useContext(UserContext) as UserContextType;
   //Get all the relevent information from the backend
 
   // const handleDragEnd = (result: DropResult) => {
@@ -135,10 +135,11 @@ const Project = () => {
           
    
   //   }
-  const filteredLists = lists.filter(list => list.boardId === selectedBoard);
     const handleDragEnd = (result: DropResult) => { 
         console.log(result);
     }
+  console.log('lists: ', lists);
+  
   
 
   return (
@@ -148,8 +149,8 @@ const Project = () => {
         </div>
         <DragDropContext onDragEnd={handleDragEnd}>
         <div className='flex w-full h-full overflow-x-auto items-start py-5 px-5  gap-5'>
-          {filteredLists.map((list: any) => (
-            <Lists key={list.id} name={list.title} />
+          {lists.map((list: any) => (
+            <Lists key={list.id} name={list.title} id={list.uuid}/>
           ))}
           
           
