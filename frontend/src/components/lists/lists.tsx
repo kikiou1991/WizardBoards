@@ -11,7 +11,7 @@ interface Props {
 
 const Lists = ({name, id}: Props) => {
   const {cards} = useContext(UserContext) as UserContextType;
-    console.log('current cards within the board: ',cards)
+
 
     return (
         <div className='relative text-black w-48 rounded min-h-80 border-solid border-2 border-foreground bg-[#f1f2f4] px-2  flex flex-col overflow-x-auto' style={{ minWidth: '272px', minHeight: '120px', maxHeight: '450px' }}>

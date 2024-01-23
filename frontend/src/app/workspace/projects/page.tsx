@@ -138,6 +138,7 @@ const Project = () => {
     const handleDragEnd = (result: DropResult) => { 
         console.log(result);
     }
+  console.log('lists: ', lists);
   
   
 
