@@ -2,12 +2,13 @@
 import InputField from '@/app/auth/sign-in/InputField';
 import {userAuth} from '@/lib/auth/auth';
 import {workspaceBoards} from '@/lib/boards';
+import { listCards } from '@/lib/cards';
 import { boardLists } from '@/lib/lists';
 import {userWorkspaces} from '@/lib/workspaces';
 import {Modal, ModalBody, ModalContent, ModalHeader} from '@nextui-org/modal';
 import {Button, Link} from '@nextui-org/react';
 import {usePathname, useRouter} from 'next/navigation';
-import {ReactNode, createContext, useEffect, useState} from 'react';
+import {ReactNode, createContext, use, useEffect, useState} from 'react';
 
 // Interfaces Section
 interface Workspace {
@@ -60,6 +61,8 @@ export interface UserContextType {
   selectedBoard: string;
   setSelectedBoard: React.Dispatch<React.SetStateAction<string>>;
   setCards: React.Dispatch<React.SetStateAction<Cards[]>>;
+  createCard: (token: any, cardData: any, listUuid: string) => Promise<void>;
+  fetchCards: (token: any, listUuid: string) => Promise<void>;
 }
 interface UserContextProviderProps {
   children: ReactNode;
@@ -191,6 +194,7 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
   //set workspaces
   const setWorkspace = (workspace: Workspace | null) => {
     setCurrentWorkspace(workspace);
+    console.log('current workspace: ', currentWorkspace);
   };
 
   const fetchLists = async (token: any, boardUuid: string) => {
@@ -204,8 +208,7 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
   }
 
   const createList = async (token: any, listData: any, boardUuid: string) => {
-    console.log('listData: ', listData);
-    console.log('boardUuid: ', boardUuid);
+  
     
     try {
       const  title  = listData;
@@ -217,31 +220,76 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
       console.error('Failed to create list', error);
     }
   }
+/* 
+  Logic to create a new card and fetch existing cards
+*/   
 
+  const createCard = async(token: any, cardData: any, listUuid: string) => {
+    try {
+        const res = await listCards.createCards(token, cardData, listUuid);
+        if(res && res.newCard) {
+          setCards([res.newCard, ...cards]);
+        }
+    } catch (error) {
+      console.error('Failed to create card: ', error);
+    }
+  }
+
+  const fetchCards = async(token: any, listUuid: string) => {
+    try {
+      const res = await listCards.getCards(token, listUuid);
+      if(res && res.data) {
+        setCards(res.data);
+      }
+    } catch (error) {
+      console.error('Failed to fetch cards: ', error);
+    }
+
+
+  }
+/* 
+  ##>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+  UseEffects Section
+
+  ##>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+*/   
   useEffect(() => {
-    if (localStorage['token']) {
+       if (localStorage['token']) {
       setToken(localStorage['token']);
     }
-  }, []);
+
+      if(localStorage['selectedWorkspace']) {
+        setLocalSelectedWorkspace(localStorage['selectedWorkspace']);
+      }
+  }, [selectedWorkspace]);
+    
+
+  console.log('selectedWorkspace :', selectedWorkspace);
   useEffect(() => {
     if (token) {
       validateToken(token);
     }
   }, [token]); //if the token changes, validate it
-  useEffect(() => {
-    if (localStorage['token'] && selectedWorkspace) {
-      fetchBoard(localStorage['token'], selectedWorkspace);
-      
-    }
-  }, [selectedWorkspace]); //if the selectedWorkspace changes, fetch the boards
-  //fetch lists when it gets mounter
+  // useEffect(() => {
+  //   if (localStorage['token'] && selectedWorkspace) {
+  //     fetchBoard(localStorage['token'], selectedWorkspace);      
+  //   }
+  // }, [selectedWorkspace]); //if the selectedWorkspace changes, fetch the boards
+
+
   useEffect(() => {
     if(localStorage['token'] && boards.length > 0){
       fetchLists(localStorage['token'], selectedBoard);
     }
   },[selectedBoard]) //if the selectedBoard changes, fetch the lists
 
-  
+  useEffect(() => { 
+    localStorage.setItem('selectedWorkspace', JSON.stringify(selectedWorkspace));
+  }, [selectedWorkspace]);
+
+  console.log('stored locally: ',localStorage.getItem('selectedWorkspace'))
 
   const handleLogout = async () => {
     localStorage.clear();
@@ -279,6 +327,8 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
     selectedBoard,
     setSelectedBoard,
     setCards,
+    createCard,
+    fetchCards
   };
   return (
     <UserContext.Provider value={contextValue}>
