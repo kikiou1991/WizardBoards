@@ -27,6 +27,7 @@ export const listCards = {
     },
 
     getCards: async(token: any, listUuid: string) => {
+        console.log('This is the listUuid: ', listUuid);
         try {
             const response = await fetch(`https://gadorjani.co.uk/api/cards?listUuid=${encodeURIComponent(listUuid)}`, {
                 method: 'GET',
@@ -39,7 +40,7 @@ export const listCards = {
             }
 
             const data = await response.json();
-            console.log(data);
+            console.log('This is what the server gets: ',data);
             return data;
             
         } catch (error: any) {

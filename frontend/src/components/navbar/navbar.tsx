@@ -16,6 +16,7 @@ interface UserData {
 
 const NavbarTop = () => {
   const [user, setUser] = React.useState<UserData | null>(null);
+  const [isHovered, setIsHovered] = useState(false);
   
   const { workspaces, setWorkspace, setSelectedWorkspace, selectedWorkspace } = useContext(
     UserContext
@@ -26,8 +27,18 @@ const NavbarTop = () => {
 
   const handleWorkspaceChange = (workspaceId: string) => {
     setSelectedWorkspace(workspaceId);
-    
   };
+
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
+    
 
 
   useEffect(() => {
@@ -62,7 +73,7 @@ const NavbarTop = () => {
   }, []);
 
   return (
-    <Navbar isBordered className=' border-b-[2px] border-border text-foreground bg-background flex flex-row ' classNames={{base: 'w-screen', wrapper: 'w-screen max-w-none px-0'}}>
+    <Navbar isBordered className=' border-b-[2px] border-border text-foreground bg-background flex flex-row px-5' classNames={{base: 'w-screen', wrapper: 'w-screen max-w-none px-0'}}>
       {/* Mobile Menu */}
       {/* <NavbarContent className="sm:hidden flex flex-grow-0 ">
         <NavbarMenuToggle aria-label="Open menu" />
@@ -72,7 +83,7 @@ const NavbarTop = () => {
       </NavbarContent> */}
 
       {/* Left navigation section icon, header, and add button */}
-      <NavbarContent className='items-center pl-2 flex flex-grow-0 gap-3 justify-start'>
+      <NavbarContent className='items-center  flex flex-grow-0 gap-3 justify-start'>
         {/* File / Other Products / Navigation */}
         <Dropdown className='bg-background text-foreground' placement='bottom-start'>
           <DropdownTrigger>
@@ -114,6 +125,25 @@ const NavbarTop = () => {
             </DropdownMenu>
           </Dropdown>
         )}
+        <Dropdown className='bg-background text-foreground' placement='bottom-start'>
+          <DropdownTrigger>
+          <div className='flex gap-1 items-center'>
+                  <p>Starred</p>
+                  <Icon name='downarrow' classname={'bg-white'} />
+              </div>
+          </DropdownTrigger>
+          <DropdownMenu>
+            <DropdownSection>
+              <DropdownItem 
+                className={`data-${isHovered ? 'hover=true' : 'hover=false'}:bg-secondaryBG items-center`}
+                endContent={<Icon name={isHovered ? 'star' : 'starYellow'} />}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+                >Contact us</DropdownItem>
+              
+            </DropdownSection>
+          </DropdownMenu>
+        </Dropdown>
         <MyWorkSpaceModal />
       </NavbarContent>
 
@@ -121,7 +151,7 @@ const NavbarTop = () => {
       <div className='flex-grow'></div>
 
       {/* Right section with modal, calendar, notification, and profile */}
-      <NavbarContent className=' flex flex-grow-0 bg-inherit gap-3 j'>
+      <NavbarContent className=' flex  bg-inherit gap-3 j' style={{flexGrow: '0'}}>
         {/* Model Section SearchBar */}
         <MyModal />
 
