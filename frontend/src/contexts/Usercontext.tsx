@@ -272,11 +272,11 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
       validateToken(token);
     }
   }, [token]); //if the token changes, validate it
-  // useEffect(() => {
-  //   if (localStorage['token'] && selectedWorkspace) {
-  //     fetchBoard(localStorage['token'], selectedWorkspace);      
-  //   }
-  // }, [selectedWorkspace]); //if the selectedWorkspace changes, fetch the boards
+  useEffect(() => {
+    if (localStorage['token'] && selectedWorkspace) {
+      fetchBoard(localStorage['token'], selectedWorkspace);      
+    }
+  }, [selectedWorkspace]); //if the selectedWorkspace changes, fetch the boards
 
 
   useEffect(() => {
