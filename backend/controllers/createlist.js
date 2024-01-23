@@ -38,9 +38,11 @@ module.exports.CreateList = async (req, res, next) => {
 
 module.exports.GetLists = async (req, res, next) => {
     try {
-        const  boardUuid  = req.query.boardUuid;
-        const user = req.user;
 
+        console.log('req.query:', req.query);
+        const boardUuid = req.query.boardUuid;
+        console.log('boardUuid:', boardUuid);
+        const user = req.user;
 
         //return early for any errors related to the board uuid or user
         if(!boardUuid){

@@ -28,12 +28,14 @@ export const boardLists =  {
 
     getLists: async (token: any, boardUuid: string) => {
         try {
+            
             const response = await fetch(`https://gadorjani.co.uk/api/lists?boardUuid=${encodeURIComponent(boardUuid)}`, {
                 method: 'GET',
                 headers: {
                     Authorization: `Bearer ${token}`,
                 }
             });
+            console.log(response);
             if (!response.ok) {
                 throw new Error('Failed to fetch lists');
             }

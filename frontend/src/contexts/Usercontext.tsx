@@ -25,6 +25,7 @@ interface Lists {
   _id: string;
   name: string;
   uuid: string;
+  boardId: string;
 }
 
 interface Cards {
@@ -191,11 +192,13 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
   };
 
   const fetchLists = async (token: any, boardUuid: string) => {
-    console.log('boardUuid: ', boardUuid);
+    
     
     try {
       const res = await boardLists.getLists(token, boardUuid);
       setLists(res?.data || []);
+      console.log('res: ', res);
+      console.log('lists: ', lists);
     }catch(error:any) {
       console.error('Failed to fetch lists', error);
     }
@@ -233,12 +236,13 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
       
     }
   }, [selectedWorkspace]); //if the selectedWorkspace changes, fetch the boards
-
+  //fetch lists when it gets mounter
   useEffect(() => {
     if(localStorage['token'] && boards.length > 0){
       fetchLists(localStorage['token'], selectedBoard);
     }
-  })
+    console.log('userConetxt Board selected: ', selectedBoard)
+  },[selectedBoard]) //if the selectedBoard changes, fetch the lists
 
   const handleLogout = async () => {
     localStorage.clear();
