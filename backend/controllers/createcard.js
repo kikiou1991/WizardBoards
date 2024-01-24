@@ -32,7 +32,7 @@ module.exports.CreateCard = async (req, res, next) => {
         let uuid = uuidv4();
 
         // Create the card with the title, list uuid, and the uuid
-        const card = await Card.create({ title, list: [listUuid], uuid, cardIndex });
+        const card = await Card.create({ title, list: [listUuid], uuid, cardIndex, listUuid });
 
         // Find the list with the uuid
         const list = await List.findOne({ uuid: listUuid });
@@ -70,6 +70,7 @@ module.exports.GetCards = async(req,res,next) => {
             description: card.description,
             comments: card.comments,
             cardIndex: card.cardIndex,
+            listUuid: card.listUuid,
         }));
 
         res.status(200).json({

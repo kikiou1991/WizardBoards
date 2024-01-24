@@ -24,7 +24,9 @@ const cardSchema = new mongoose.Schema({
     cardIndex: {
         type: Number,
     },
-    
+    listUuid: {
+        type: String,
+    },
 });
    
 module.exports = mongoose.model('Card', cardSchema);

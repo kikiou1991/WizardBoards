@@ -11,15 +11,8 @@ interface Props {
 const Lists = ({ name, id }: Props) => {
   const { lists, cards } = useContext(UserContext) as UserContextType;
 
-  // Rando card index generator for later
-//   const generateCardIndex = () => {
-//     const timestamp = new Date().getTime();
-//     const random = Math.floor(Math.random() * 10); // You can adjust the range as needed
-//     return `${timestamp}${random}`;
-//   };
-//   const cardIndex = generateCardIndex();
-//   console.log('This is the cardIndex: ', cardIndex);
-  
+ 
+console.log(cards)
 
 
 
@@ -33,7 +26,7 @@ const Lists = ({ name, id }: Props) => {
         {(provided) => (
           <div ref={provided.innerRef} {...provided.droppableProps} className=' flex flex-col items-center py-2 gap-1'>
             {cards.map((card: any, index: number) => (
-              <Cards key={card.uuid} name={card.title} index={5} />
+              <Cards key={card.uuid} name={card.title} index={card.cardIndex} />
             ))}
             {provided.placeholder}
           </div>

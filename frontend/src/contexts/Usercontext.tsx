@@ -34,6 +34,7 @@ interface Cards {
   _id: string;
   title: string;
   uuid: string;
+  cardIndex: number;
 }
 export interface UserContextType {
   token: string | null;
