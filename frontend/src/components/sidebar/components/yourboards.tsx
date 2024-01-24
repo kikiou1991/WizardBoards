@@ -10,7 +10,7 @@ import {Dropdown, Button, DropdownItem, DropdownMenu, DropdownSection, DropdownT
 import Lottie from 'lottie-react';
 
 const YourBoards = () => {
-  const {boards, deleteBoard, selectedWorkspace, setSelectedBoard, selectedBoard} = useContext(UserContext) as UserContextType;
+  const {boards, deleteBoard, selectedWorkspace, setSelectedBoard, selectedBoard, upDateBoard} = useContext(UserContext) as UserContextType;
   const context = useContext(UserContext);
   const [board, setBoard] = useState<any>(null);
 
@@ -43,7 +43,7 @@ const YourBoards = () => {
           {boards.map((board: any) => {
               
               return <li 
-              className={`px-2 group/item h-8 hover:bg-secondaryBG flex flex-row ${selectedBoard === board.uuid ? 'bg-secondaryBG' : 'bg-background'}`}
+              className={`px-2 group/item h-8 hover:bg-secondaryBG flex flex-row  ${selectedBoard === board.uuid ? 'bg-secondaryBG' : 'bg-background'}`}
                   key={board.uuid || board.id}
                   onClick={() => handleBoardChange(board.uuid)}
                   >
@@ -83,9 +83,16 @@ const YourBoards = () => {
                           </DropdownSection>
                         </DropdownMenu>
                       </Dropdown>
-                      <Button className='bg-inherit group-hover/edit:transfrom transition-transform hover:scale-125 group-hover:bg-secondaryBG' size='sm' isIconOnly>
-                        <Icon name='star'/>
-                      </Button>
+                      {board.isStared ? (
+                        <Button className='bg-inherit group-hover/edit:transfrom transition-transform hover:scale-125 group-hover:bg-secondaryBG' size='sm' isIconOnly>
+                          <Icon name='starYellow'/>
+                        </Button>
+
+                      ) : (
+                        <Button className='bg-inherit group-hover/edit:transfrom transition-transform hover:scale-125 group-hover:bg-secondaryBG' size='sm' isIconOnly>
+                          <Icon name='star'/>
+                        </Button>
+                      )}
                     </div>
                 </li>;
             })} 

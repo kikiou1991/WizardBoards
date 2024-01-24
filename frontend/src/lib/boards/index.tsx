@@ -74,7 +74,7 @@ export const workspaceBoards = {
         }
       },
 
-      upDateBoard: async (token: any, boardUuid: string, boardData: any) => {
+      upDateBoard: async (token: any, boardUuid: string, boardData: any, isStared: boolean) => {
         try {
           const response = await fetch(`https://gadorjani.co.uk/api/boards/${boardUuid}`, {
             method: 'PATCH',
@@ -89,7 +89,6 @@ export const workspaceBoards = {
           }
           const data = await response.json();
           return data;
-          console.log(response);
         } catch (error: any) {
           console.error('Error updating the board', error);
         }

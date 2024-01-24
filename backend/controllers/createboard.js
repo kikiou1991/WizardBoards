@@ -126,12 +126,19 @@ module.exports.DeleteBoard = async (req, res, next) => {
 
 module.exports.UpdateBoard = async (req, res, next) => {
     try {
-        const  boardUuid  = req.query.boardUuid;
+        const boardUuid = req.query.boardUuid;
         const { name, isStared } = req.body;
+
+        const updateFields = { isStared }; // Initialize with required field
+
+        // Check if name is provided and add it to the updateFields if true
+        if (name) {
+            updateFields.name = name;
+        }
 
         const updatedBoard = await Board.findOneAndUpdate(
             { uuid: boardUuid },
-            { $set: { name, isStared } },
+            { $set: updateFields },
             { new: true }
         );
 
@@ -147,5 +154,4 @@ module.exports.UpdateBoard = async (req, res, next) => {
         console.error('Error updating board:', error);
         next(error);
     }
-}
-
+};
