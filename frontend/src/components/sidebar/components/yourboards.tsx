@@ -62,7 +62,7 @@ const YourBoards = () => {
                     <div className='flex flex-row gap-2 items-center flex-nowrap'>
                       <Image className='rounded' src={board.imageLink} width={26} height={20} alt='board-background'/>
                       <Link href='' className='text-nowarp'>
-                        {board.name.length > 12 ? `${board.name.substring(0, 12)}...` : board.name}
+                        {board?.name?.length > 12 ? `${board.name.substring(0, 12)}...` : board.name}
                       </Link>
                     </div>
                     <div className='ml-auto flex group/edit invisible group-hover/item:visible'>

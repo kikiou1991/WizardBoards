@@ -97,8 +97,9 @@ const NavbarTop = () => {
           </DropdownMenu>
         </Dropdown>
         {/* Logo */}
-        <div className='p-2'>
+        <div className='p-2 flex flex-row items-center'>
           <Icon name='projectIcon' classname={'bg-white'} />
+          <p className='pl-1'>WizarBoards</p>
         </div>
 
         {/*DropDown For WorkSpaces */}
@@ -111,16 +112,31 @@ const NavbarTop = () => {
               </div>
             </DropdownTrigger>
             <DropdownMenu>
-              {workspaces.map((workspace: any) => (
-                <DropdownItem
-                  key={workspace.uuid}
-                  onClick={() => {
-                    handleWorkspaceChange(workspace.uuid);
-                  }}
+              <DropdownSection
+                className='bg-inherit'
+                showDivider
                 >
-                  {workspace.name}
+                <DropdownItem>
+                  <p>Current Workspace</p>
                 </DropdownItem>
-              ))}
+              </DropdownSection>
+              <DropdownSection>
+                {workspaces.map((workspace: any) => (
+                  <DropdownItem
+                    key={workspace.uuid}
+                    onClick={() => {
+                    handleWorkspaceChange(workspace.uuid)
+                  }
+                  }
+                    className={`flex flex-row py-2 px-2 group/item h-10 `
+                }
+                    
+                  >
+                    {workspace.name}
+                  </DropdownItem>
+                ))}
+
+              </DropdownSection>
             </DropdownMenu>
           </Dropdown>
         )}
@@ -136,7 +152,7 @@ const NavbarTop = () => {
             {favorites.map((favorite: any) => (
               <DropdownItem
                 key={favorite.uuid}
-                className={`flex flex-row px-2 group/item h-12 `}
+                className={`flex flex-row py-2 px-1 group/item h-10 `}
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
               >
