@@ -125,6 +125,7 @@ module.exports.DeleteBoard = async (req, res, next) => {
 }
 
 module.exports.UpdateBoard = async (req, res, next) => {
+    console.log('req.body on the server side:', req);
     try {
         const boardUuid = req.query.boardUuid;
         const { name, isStared } = req.body;
