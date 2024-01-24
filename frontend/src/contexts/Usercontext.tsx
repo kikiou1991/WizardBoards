@@ -163,11 +163,11 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
 
   // Update board
 
-  const updateBoard = async(token: any, boardUuid: string, boardData: any) => {
+  const updateBoard = async(token: any, boardUuid: string, boardData: any, isStarred: boolean = false) => {
     try {
       const { name, isStared } = boardData;
       const simplifiedBoardData = { name };
-      const res = await workspaceBoards.upDateBoard(token, boardUuid, simplifiedBoardData);
+      const res = await workspaceBoards.upDateBoard(token, boardUuid, simplifiedBoardData, isStarred);
       if (res?.status === true) {
         setBoards(boards.map((board) => {
           if (board._id === boardUuid) {

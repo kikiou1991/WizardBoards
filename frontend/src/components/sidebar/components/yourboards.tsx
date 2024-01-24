@@ -84,7 +84,7 @@ const YourBoards = () => {
                         </DropdownMenu>
                       </Dropdown>
                       {board.isStared ? (
-                        <Button className='bg-inherit group-hover/edit:transfrom transition-transform hover:scale-125 group-hover:bg-secondaryBG' size='sm' isIconOnly>
+                        <Button className='bg-inherit group-hover/edit:transfrom transition-transform hover:scale-105 group-hover:bg-secondaryBG' size='sm' isIconOnly>
                           <Icon name='starYellow'/>
                         </Button>
 
