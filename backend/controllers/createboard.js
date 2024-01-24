@@ -23,7 +23,11 @@ module.exports.CreateBoard = async (req, res, next) => {
         const board = await Board.create({ name, uuid, isPublic: false, isStared: false, imageLink: defaultImageLink });
 
         //Find the workspace we need to add the board to by its UUID and push it
-        
+        const workspace = await Workspace.findOneAndUpdate(
+            { uuid: workspaceUuid },
+            { $push: { boards: board._id } }, // Add the newly created board's id to the boards array
+            { new: true }
+        );
 
         //check if the workspace exists
         if (!workspace) {
