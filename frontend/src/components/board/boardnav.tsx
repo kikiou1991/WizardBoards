@@ -5,9 +5,8 @@ import Icon from '../Icons'
 import { UserContext, UserContextType } from '@/contexts/Usercontext';
 
 const BoardNav = () => {
-    const {selectedBoard, boards, setIsFavorite} = useContext(UserContext) as UserContextType;
+    const {selectedBoard, boards, updateBoard, token} = useContext(UserContext) as UserContextType;
     const [isHovered, setIsHovered] = useState(false);
-    const [starred, setStarred] = useState(false);
 
     const handleMouseEnter = () => {
         setIsHovered(true);
@@ -17,13 +16,17 @@ const BoardNav = () => {
         setIsHovered(false);
       };
     
-      const setFavorite = () => {
-        setStarred(!starred);
-        setIsHovered(false);
-        setIsFavorite(!starred);
-         // Reset hover state when clicked
-    };
+      
     
+    const handleStar = async (boardUuid: string) => {
+        try {
+          const selectedBoard = boards.find((board) => board.uuid === boardUuid);
+          console.log('boardUuid: ', boardUuid);
+          console.log('selectedBoard: ', selectedBoard?.isStared);
+    
+          await updateBoard(token, boardUuid, { isStared: !selectedBoard?.isStared, name: selectedBoard?.name});
+        } catch (error) {}
+      };
 
     
     const currentBoard = boards.find((board) => board.uuid === selectedBoard);
@@ -38,9 +41,9 @@ const BoardNav = () => {
                 className={`data-${isHovered ? 'hover=true' : 'hover=false'}:bg-secondaryBG px-2 bg-inherit transfrom transition-transform hover:scale-125`}
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
-                onClick={setFavorite}
+                onPress={e => handleStar(selectedBoard)}
                 isIconOnly>
-                 {starred ? (
+                 {currentBoard?.isStared ? (
                         <Icon name={isHovered ? 'star' : 'starYellow'} />
                     ) : (
                         <Icon name={isHovered ? 'starYellow' : 'star'} />

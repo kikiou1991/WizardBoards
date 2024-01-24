@@ -77,7 +77,7 @@ export const workspaceBoards = {
       upDateBoard: async (token: any, boardUuid: string, boardData: any) => {
         console.log('this is the board data: ', boardData)
         try {
-          const response = await fetch(`https://gadorjani.co.uk/api/boards/update/${boardUuid}`, {
+          const response = await fetch(`https://gadorjani.co.uk/api/boards/update/?boardUuid=${boardUuid}`, {
             method: 'PATCH',
             headers: {
               Authorization: `Bearer ${token}`,
