@@ -12,7 +12,6 @@ const YourBoards = () => {
   const {boards, deleteBoard, selectedWorkspace, setSelectedBoard, selectedBoard, updateBoard, token} = useContext(UserContext) as UserContextType;
   const context = useContext(UserContext);
   const [board, setBoard] = useState<any>(null);
-  const [starred, setStar] = useState<any>(false);
 
 
 
@@ -32,16 +31,16 @@ const YourBoards = () => {
       console.error('Error deleting board: ', error);
     }
   }
-  const handleStar = async (token: any, boardUuid: string, isStared: boolean) => {
+  const handleStar = async (boardUuid: string) => {
     try {
+      const selectedBoard = boards.find((board) => board.uuid === boardUuid);
       console.log('boardUuid: ', boardUuid);
-      console.log('isStared: ', boards[0]?.isStared);
-      setStar(!starred);
-      console.log('isStared: ', starred);
-    } catch (error) {
-      
-    }
-  }
+      console.log('selectedBoard: ', selectedBoard?.isStared);
+
+      await updateBoard(token, boardUuid, { isStared: !selectedBoard?.isStared });
+    } catch (error) {}
+  };
+  
 
   return (
     <div>
@@ -62,7 +61,7 @@ const YourBoards = () => {
                     <div className='flex flex-row gap-2 items-center flex-nowrap'>
                       <Image className='rounded' src={board.imageLink} width={26} height={20} alt='board-background'/>
                       <Link href=''>
-                        {board.name.length > 12 ? `${board.name.substring(0, 10)}...` : board.name}
+                        {board.name.length > 12 ? `${board.name.substring(0, 12)}...` : board.name}
                       </Link>
                     </div>
                     <div className='ml-auto flex group/edit invisible group-hover/item:visible'>
@@ -98,12 +97,12 @@ const YourBoards = () => {
                         </DropdownMenu>
                       </Dropdown>
                       {board.isStared ? (
-                        <Button onPress={e => handleStar(token, board.uuid, starred)} className='bg-inherit visible group-hover/edit:transfrom transition-transform hover:scale-105 group-hover:bg-secondaryBG' size='sm' isIconOnly>
+                        <Button onPress={e => handleStar(board.uuid)} className='bg-inherit visible group-hover/edit:transfrom transition-transform hover:scale-105 group-hover:bg-secondaryBG' size='sm' isIconOnly>
                           <Icon name='starYellow'/>
                         </Button>
 
                       ) : (
-                        <Button onPress={e => handleStar(token, board.uuid, starred )} className='bg-inherit group-hover/edit:transfrom transition-transform hover:scale-125 group-hover:bg-secondaryBG' size='sm' isIconOnly>
+                        <Button onPress={e => handleStar(board.uuid)} className='bg-inherit group-hover/edit:transfrom transition-transform hover:scale-125 group-hover:bg-secondaryBG' size='sm' isIconOnly>
                           <Icon name='star'/>
                         </Button>
                       )}
