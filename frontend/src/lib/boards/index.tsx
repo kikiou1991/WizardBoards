@@ -75,8 +75,9 @@ export const workspaceBoards = {
       },
 
       upDateBoard: async (token: any, boardUuid: string, boardData: any) => {
+        console.log('this is the board data: ', boardData)
         try {
-          const response = await fetch(`https://gadorjani.co.uk/api/boards/${boardUuid}`, {
+          const response = await fetch(`https://gadorjani.co.uk/api/boards/update/${boardUuid}`, {
             method: 'PATCH',
             headers: {
               Authorization: `Bearer ${token}`,
@@ -84,6 +85,7 @@ export const workspaceBoards = {
             },
             body: JSON.stringify(boardData),
           });
+          console.log(response);
           if (!response.ok) {
             throw new Error('Failed to update board');
           }

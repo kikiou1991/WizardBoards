@@ -37,7 +37,7 @@ const YourBoards = () => {
       console.log('boardUuid: ', boardUuid);
       console.log('selectedBoard: ', selectedBoard?.isStared);
 
-      await updateBoard(token, boardUuid, { isStared: !selectedBoard?.isStared });
+      await updateBoard(token, boardUuid, { isStared: !selectedBoard?.isStared, name: selectedBoard?.name});
     } catch (error) {}
   };
   
