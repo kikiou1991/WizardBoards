@@ -67,9 +67,10 @@ const MyWorkSpaceModal = () => {
   return (
     <>
       <Dropdown className='bg-background text-foreground w-' placement='bottom-start'>
-        <DropdownTrigger>
-          <Button className='bg-inherit hover:bg-secondaryBG' size='sm' isIconOnly>
-            <Icon name='addIcon' classname={'bg-white'} />
+        <DropdownTrigger className=' hover:bg-secondaryBG px-2 rounded-md text-base'>
+          <Button className='bg-inherit ' size='md' >
+            {/* <Icon name='addIcon' classname={'bg-white'} /> */}
+            <p>Create</p>
           </Button>
         </DropdownTrigger>
         <DropdownMenu>

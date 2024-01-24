@@ -80,9 +80,9 @@ const NavbarTop = () => {
      
 
       {/* Left navigation section icon, header, and add button */}
-      <NavbarContent className='items-center  flex flex-grow-0 gap-3 justify-start'>
+      <NavbarContent className='items-center  flex flex-grow-0 gap-0  justify-start '>
         {/* File / Other Products / Navigation */}
-        <Dropdown className='bg-background text-foreground' placement='bottom-start'>
+        <Dropdown className='bg-background text-foreground hover:bg-secondaryBG' placement='bottom-start'>
           <DropdownTrigger>
             <Button className='bg-inherit hover:bg-secondaryBG ' size='sm' isIconOnly >
               <Icon name='menu' classname={'bg-white data-[hover=true]:bg-background'} />
@@ -97,13 +97,15 @@ const NavbarTop = () => {
           </DropdownMenu>
         </Dropdown>
         {/* Logo */}
+        <div className='p-2'>
+          <Icon name='projectIcon' classname={'bg-white'} />
+        </div>
 
-        <Icon name='projectIcon' classname={'bg-white'} />
         {/*DropDown For WorkSpaces */}
         {workspaces.length > 0 && (
-          <Dropdown key="workspacesDropdown" className='bg-background text-foreground' placement='bottom-start'>
+          <Dropdown key="workspacesDropdown" className='bg-background text-foreground ' placement='bottom-start'>
             <DropdownTrigger>
-              <div className='flex gap-1 items-center'>
+              <div className='flex gap-1 items-center hover:bg-secondaryBG p-2 rounded-md'>
                   <p>Workspaces</p>
                   <Icon name='downarrow' classname={'bg-white'} />
               </div>
@@ -124,7 +126,7 @@ const NavbarTop = () => {
         )}
         <Dropdown className='bg-background text-foreground' placement='bottom-start'>
           <DropdownTrigger>
-          <div className='flex gap-1 items-center'>
+          <div className='flex gap-1 items-center  hover:bg-secondaryBG p-2 rounded-md'>
                   <p>Starred</p>
                   <Icon name='downarrow' classname={'bg-white'} />
               </div>
