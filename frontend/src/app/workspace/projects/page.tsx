@@ -143,7 +143,7 @@ const Project = () => {
 
   return (
     <div className='relative grow bg-background flex flex-col overflow-auto'>
-        <div className='relative w-full py-2 border-b-1 items-center'>
+        <div className='relative w-full py-2 px-1 border-b-1 items-center'>
           <BoardNav />
         </div>
         <DragDropContext onDragEnd={handleDragEnd}>

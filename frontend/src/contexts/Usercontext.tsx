@@ -65,8 +65,10 @@ export interface UserContextType {
   setSelectedBoard: React.Dispatch<React.SetStateAction<string>>;
   setCards: React.Dispatch<React.SetStateAction<Cards[]>>;
   fetchCards: (token: any, listUuid: string) => Promise<void>;
-  // setSelectedLists: React.Dispatch<React.SetStateAction<string>>;
-  // selectedLists: string;
+  favorites: Boards[]
+  isFavorite: boolean;
+  setIsFavorite: React.Dispatch<React.SetStateAction<boolean>>;
+  upDateBoard: (token: any, boardUuid: string, boardData: any) => Promise<void>;
 }
 interface UserContextProviderProps {
   children: ReactNode;
@@ -83,25 +85,17 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
   const [boards, setBoards] = useState<Boards[]>([]);
   const [selectedBoard, setSelectedBoard] = useState('');
   const [lists, setLists] = useState<Lists[]>([]);
-  // const [selectedLists, setSelectedLists] = useState<string[]>([]);
   const [cards, setCards] = useState<Cards[]>([]);
   const [authenticated, setAuthenticated] = useState<boolean>(false);
   const [user, setUser] = useState<any>(null);
   const [authenticatedLoaded, setAuthenticatedLoaded] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [favorites, setFavorites] = useState([])
   const pathname = usePathname();
   const router = useRouter();
  
-
-
-//lists trial 
-
-
-
-
-//
-
-
+  
 
 
   //create boards
@@ -164,6 +158,26 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
       }
     } catch (error) {
       console.error('Failed to delete board: ', error);
+    }
+  }
+
+  // Update board
+
+  const updateBoard = async(token: any, boardUuid: string, boardData: any) => {
+    try {
+      const { name, isStared } = boardData;
+      const simplifiedBoardData = { name };
+      const res = await workspaceBoards.upDateBoard(token, boardUuid, simplifiedBoardData);
+      if (res?.status === true) {
+        setBoards(boards.map((board) => {
+          if (board._id === boardUuid) {
+            return {...board, ...simplifiedBoardData};
+          }
+          return board;
+        }));
+      }
+    } catch (error) {
+      console.error('Failed to update board: ', error);
     }
   }
   
@@ -322,7 +336,10 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
     setSelectedBoard,
     setCards,
     fetchCards,
-    // setSelectedLists
+    favorites,
+    isFavorite,
+    setIsFavorite,
+    upDateBoard: updateBoard,
   };
   return (
     <UserContext.Provider value={contextValue}>

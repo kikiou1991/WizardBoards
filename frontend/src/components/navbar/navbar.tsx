@@ -74,13 +74,7 @@ const NavbarTop = () => {
 
   return (
     <Navbar isBordered className=' border-b-[2px] border-border text-foreground bg-background flex flex-row px-5' classNames={{base: 'w-screen', wrapper: 'w-screen max-w-none px-0'}}>
-      {/* Mobile Menu */}
-      {/* <NavbarContent className="sm:hidden flex flex-grow-0 ">
-        <NavbarMenuToggle aria-label="Open menu" />
-        <NavbarMenu>
-          <NavigationMobile />
-        </NavbarMenu>
-      </NavbarContent> */}
+     
 
       {/* Left navigation section icon, header, and add button */}
       <NavbarContent className='items-center  flex flex-grow-0 gap-3 justify-start'>
@@ -92,10 +86,10 @@ const NavbarTop = () => {
             </Button>
           </DropdownTrigger>
           <DropdownMenu>
-            <DropdownSection>
-              <DropdownItem className='data-[hover=true]:bg-secondaryBG'>Contact us</DropdownItem>
-              <DropdownItem className='data-[hover=true]:bg-secondaryBG'>Subscribe</DropdownItem>
-              <DropdownItem className='data-[hover=true]:bg-secondaryBG'>Sign out</DropdownItem>
+            <DropdownSection className='group/item data-[hover=true]:bg-secondaryBG'>
+              <DropdownItem >Contact us</DropdownItem>
+              <DropdownItem >Subscribe</DropdownItem>
+              <DropdownItem >Sign out</DropdownItem>
             </DropdownSection>
           </DropdownMenu>
         </Dropdown>

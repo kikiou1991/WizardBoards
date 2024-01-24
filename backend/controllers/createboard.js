@@ -124,4 +124,28 @@ module.exports.DeleteBoard = async (req, res, next) => {
     }
 }
 
+module.exports.UpdateBoard = async (req, res, next) => {
+    try {
+        const  boardUuid  = req.query.boardUuid;
+        const { name, isStared } = req.body;
+
+        const updatedBoard = await Board.findOneAndUpdate(
+            { uuid: boardUuid },
+            { $set: { name, isStared } },
+            { new: true }
+        );
+
+        if (!updatedBoard) {
+            return res.status(404).json({ message: 'Board not found' });
+        }
+
+        res.status(200).json({
+            success: true,
+            data: updatedBoard,
+        });
+    } catch (error) {
+        console.error('Error updating board:', error);
+        next(error);
+    }
+}
 
