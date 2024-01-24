@@ -21,6 +21,7 @@ interface Boards {
   name: string;
   uuid: string;
   isStared: boolean;
+  workspace: Workspace;
 }
 
 interface Lists {
@@ -67,9 +68,8 @@ export interface UserContextType {
   setCards: React.Dispatch<React.SetStateAction<Cards[]>>;
   fetchCards: (token: any, listUuid: string) => Promise<void>;
   favorites: Boards[]
-  isFavorite: boolean;
-  setIsFavorite: React.Dispatch<React.SetStateAction<boolean>>;
   updateBoard: (token: any, boardUuid: string, boardData: any) => Promise<void>;
+  setFavorites: React.Dispatch<React.SetStateAction<Boards[]>>;
 }
 interface UserContextProviderProps {
   children: ReactNode;
@@ -91,8 +91,7 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
   const [user, setUser] = useState<any>(null);
   const [authenticatedLoaded, setAuthenticatedLoaded] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [isFavorite, setIsFavorite] = useState(false);
-  const [favorites, setFavorites] = useState([])
+  const [favorites, setFavorites] = useState<Boards[]>([]);
   const pathname = usePathname();
   const router = useRouter();
  
@@ -182,6 +181,27 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
       console.error('Failed to update board: ', error);
     }
   }
+
+  const fetchFavorites = async (token: any, workspaces: any) => {
+    console.log('workspaces: ', workspaces)
+    try {
+  
+      // Iterate over each workspace
+      for (let workspace of workspaces) {
+        // Fetch boards for the current workspace
+        const res = await workspaceBoards.fetchBoard(token, workspace.uuid);
+  
+        // Filter out the boards that are marked as favorites (isStared)
+        const favBoards = res?.data.filter((board: any) => board.isStared === true) || [];
+  
+        // Update the favorites state
+        setFavorites((prevFavorites) => [...prevFavorites, ...favBoards]);
+      }
+    } catch (error) {
+      console.error('Failed to fetch favorites', error);
+    }
+  };
+
   
   //  fetch workspaces
   const fetchWorkspaces = async (token: any) => {
@@ -299,8 +319,15 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
       }
     }
   }, [lists]);
-    
 
+  useEffect(() => {
+    // Check if both token and workspaces are available
+    if (token && workspaces.length > 0) {
+      // Fetch favorites
+      fetchFavorites(token, workspaces);
+    }
+  }, [workspaces]);
+    
   const handleLogout = async () => {
     localStorage.clear();
     setWorkspaces([]);
@@ -339,9 +366,8 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
     setCards,
     fetchCards,
     favorites,
-    isFavorite,
-    setIsFavorite,
-    updateBoard
+    updateBoard,
+    setFavorites
   };
   return (
     <UserContext.Provider value={contextValue}>

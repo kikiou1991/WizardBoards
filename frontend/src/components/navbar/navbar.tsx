@@ -4,9 +4,12 @@ import {Button, Dropdown, DropdownItem, DropdownMenu, DropdownSection, DropdownT
 import React, {useContext, useEffect, useState} from 'react';
 import MyModal from '../modals/modal';
 import MyWorkSpaceModal from '../modals/newworkspace_modal';
+import Image from 'next/image';
+
 import Socials from '../socials';
 import Profile from './profile';
 import { UserContext, UserContextType } from '@/contexts/Usercontext';
+import Link from 'next/link';
 
 interface UserData {
   name: string;
@@ -18,7 +21,7 @@ const NavbarTop = () => {
   const [user, setUser] = React.useState<UserData | null>(null);
   const [isHovered, setIsHovered] = useState(false);
   
-  const { workspaces, setWorkspace, setSelectedWorkspace, selectedWorkspace } = useContext(
+  const { workspaces, setWorkspace, setSelectedWorkspace, selectedWorkspace, favorites } = useContext(
     UserContext
   ) as UserContextType;
   
@@ -127,15 +130,35 @@ const NavbarTop = () => {
               </div>
           </DropdownTrigger>
           <DropdownMenu>
-            <DropdownSection>
-              <DropdownItem 
-                className={`data-${isHovered ? 'hover=true' : 'hover=false'}:bg-secondaryBG items-center`}
-                endContent={<Icon name={isHovered ? 'star' : 'starYellow'} />}
-                onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}
-                >Contact us</DropdownItem>
-              
-            </DropdownSection>
+          <DropdownSection>
+            {favorites.map((favorite: any) => (
+              <DropdownItem
+                key={favorite.uuid}
+                className={`flex flex-row px-2 group/item h-12 `}
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
+              >
+                <div className='bg-inherit flex flex-row  group/item items-center flex-nowrap'>
+                  <div className='flex flex-row gap-2 flex-grow w-full px-2 text-base'>
+                  <Image className='rounded' src={favorite.imageLink} width={40} height={32} alt='board-background' />
+                  <Link href=''>
+                    <p>
+                      {favorite.name.length > 12 ? `${favorite.name.substring(0, 12)}...` : favorite.name}
+                    </p>
+                    <p>{favorite?.workspace?.name}</p>
+                  </Link>
+
+                  </div>
+                  <div className='flex flex-grow-0'>
+                    <Button className='bg-inherit visible transform transition-transform hover:scale-110 ' size='sm' isIconOnly>
+                      <Icon name='starYellow' classname='' />
+                    </Button>
+                  </div>
+                </div>
+              </DropdownItem>
+            ))}
+          </DropdownSection>
+
           </DropdownMenu>
         </Dropdown>
         <MyWorkSpaceModal />

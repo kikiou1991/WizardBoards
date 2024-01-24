@@ -9,11 +9,12 @@ import Icon from '@/components/Icons';
 import {Dropdown, Button, DropdownItem, DropdownMenu, DropdownSection, DropdownTrigger } from '@nextui-org/react';
 
 const YourBoards = () => {
-  const {boards, deleteBoard, selectedWorkspace, setSelectedBoard, selectedBoard, updateBoard, token} = useContext(UserContext) as UserContextType;
+  const {boards, deleteBoard, selectedWorkspace, setSelectedBoard, selectedBoard, updateBoard, token, favorites} = useContext(UserContext) as UserContextType;
   const context = useContext(UserContext);
   const [board, setBoard] = useState<any>(null);
 
 
+  console.log('favorite boards: ', favorites)
 
   const handleBoardChange = (boardId: string) => {
     setBoard(boardId);
