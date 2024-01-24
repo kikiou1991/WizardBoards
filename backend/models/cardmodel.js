@@ -20,7 +20,11 @@ const cardSchema = new mongoose.Schema({
     },
     position: {
         type: Number,
-    }
+    },
+    cardIndex: {
+        type: Number,
+    },
+    
 });
    
 module.exports = mongoose.model('Card', cardSchema);

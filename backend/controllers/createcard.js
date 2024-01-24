@@ -19,13 +19,20 @@ module.exports.CreateCard = async (req, res, next) => {
         if(!user) {
             return res.status(400).json({ message: 'Invalid user information' });
         }
-
+         // Rando card index generator for later
+              const generateCardIndex = () => {
+                const timestamp = new Date().getTime();
+                const random = Math.floor(Math.random() * 10); // You can adjust the range as needed
+                return `${timestamp}${random}`;
+              };
+              const cardIndex = generateCardIndex();
+              console.log('This is the cardIndex: ', cardIndex);
 
         // Create a uuid for the card
         let uuid = uuidv4();
 
         // Create the card with the title, list uuid, and the uuid
-        const card = await Card.create({ title, list: [listUuid], uuid });
+        const card = await Card.create({ title, list: [listUuid], uuid, cardIndex });
 
         // Find the list with the uuid
         const list = await List.findOne({ uuid: listUuid });
@@ -62,6 +69,7 @@ module.exports.GetCards = async(req,res,next) => {
             uuid: card.uuid,
             description: card.description,
             comments: card.comments,
+            cardIndex: card.cardIndex,
         }));
 
         res.status(200).json({
