@@ -35,6 +35,7 @@ interface Cards {
   title: string;
   uuid: string;
   cardIndex: number;
+  listUuid: string;
 }
 export interface UserContextType {
   token: string | null;
@@ -236,20 +237,19 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
     }
   }
 
-  const fetchCards = async (token: any) => {
+  const fetchCards = async (token: any, listUuid: string) => {
     try {
-      for(let list of lists) {
-        const { uuid } = list;
-        const res = await listCards.getCards(token, uuid);
-        setCards(res?.data || []);
-        console.log('This is the res: ', res);
-      }
-      
-
-    }catch(error:any) {
+      const res = await listCards.getCards(token, listUuid);
+      setCards((prevCards) => {
+        // Filter out cards for other lists
+        const filteredCards = prevCards.filter((card) => card.listUuid !== listUuid);
+        // Concatenate the new cards
+        return [...filteredCards, ...res?.data];
+      });
+    } catch (error) {
       console.error('Failed to fetch cards', error);
     }
-  }
+  };
 
   useEffect(() => {
     if (localStorage['token']) {
@@ -274,12 +274,16 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
     }
   },[selectedBoard]) //if the selectedBoard changes, fetch the lists
 
-  useEffect(() => { 
-    if(localStorage['token'] && lists.length > 0){
-      fetchCards(localStorage['token']);
+  //fetch cards for each lists on render or if the lists change
+
+  useEffect(() => {
+    if (localStorage['token'] && lists.length > 0) {
+      for (let list of lists) {
+        fetchCards(localStorage['token'], list.uuid);
+      }
     }
-  },[lists]) //if the lists changes, fetch the cards
-  
+  }, [lists]);
+    
 
   const handleLogout = async () => {
     localStorage.clear();
