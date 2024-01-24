@@ -76,7 +76,7 @@ const NavbarTop = () => {
   }, []);
 
   return (
-    <Navbar isBordered className=' border-b-[2px] border-border text-foreground bg-background flex flex-row px-5' classNames={{base: 'w-screen', wrapper: 'w-screen max-w-none px-0'}}>
+    <Navbar isBordered className='cursor-pointer border-b-[2px] border-border text-foreground bg-background flex flex-row px-5' classNames={{base: 'w-screen', wrapper: 'w-screen max-w-none px-0'}}>
      
 
       {/* Left navigation section icon, header, and add button */}
