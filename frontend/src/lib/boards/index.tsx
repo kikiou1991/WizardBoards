@@ -74,7 +74,7 @@ export const workspaceBoards = {
         }
       },
 
-      upDateBoard: async (token: any, boardUuid: string, boardData: any, isStared: boolean) => {
+      upDateBoard: async (token: any, boardUuid: string, boardData: any) => {
         try {
           const response = await fetch(`https://gadorjani.co.uk/api/boards/${boardUuid}`, {
             method: 'PATCH',

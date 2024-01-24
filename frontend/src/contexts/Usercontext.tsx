@@ -20,6 +20,7 @@ interface Boards {
   _id: string;
   name: string;
   uuid: string;
+  isStared: boolean;
 }
 
 interface Lists {
@@ -68,7 +69,7 @@ export interface UserContextType {
   favorites: Boards[]
   isFavorite: boolean;
   setIsFavorite: React.Dispatch<React.SetStateAction<boolean>>;
-  upDateBoard: (token: any, boardUuid: string, boardData: any) => Promise<void>;
+  updateBoard: (token: any, boardUuid: string, boardData: any) => Promise<void>;
 }
 interface UserContextProviderProps {
   children: ReactNode;
@@ -163,11 +164,11 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
 
   // Update board
 
-  const updateBoard = async(token: any, boardUuid: string, boardData: any, isStarred: boolean = false) => {
+  const updateBoard = async(token: any, boardUuid: string, boardData: any) => {
     try {
       const { name, isStared } = boardData;
       const simplifiedBoardData = { name };
-      const res = await workspaceBoards.upDateBoard(token, boardUuid, simplifiedBoardData, isStarred);
+      const res = await workspaceBoards.upDateBoard(token, boardUuid, simplifiedBoardData);
       if (res?.status === true) {
         setBoards(boards.map((board) => {
           if (board._id === boardUuid) {
@@ -339,7 +340,7 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
     favorites,
     isFavorite,
     setIsFavorite,
-    upDateBoard: updateBoard,
+    updateBoard
   };
   return (
     <UserContext.Provider value={contextValue}>

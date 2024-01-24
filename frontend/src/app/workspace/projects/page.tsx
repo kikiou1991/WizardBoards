@@ -139,7 +139,6 @@ const Project = () => {
         console.log(result);
     }
   
-  console.log('These are the lists: ',lists);
 
   return (
     <div className='relative grow bg-background flex flex-col overflow-auto'>

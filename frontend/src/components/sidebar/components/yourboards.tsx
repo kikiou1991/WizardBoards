@@ -7,17 +7,19 @@ import Link from 'next/link';
 import Image from 'next/image';
 import Icon from '@/components/Icons';
 import {Dropdown, Button, DropdownItem, DropdownMenu, DropdownSection, DropdownTrigger } from '@nextui-org/react';
-import Lottie from 'lottie-react';
 
 const YourBoards = () => {
-  const {boards, deleteBoard, selectedWorkspace, setSelectedBoard, selectedBoard, upDateBoard} = useContext(UserContext) as UserContextType;
+  const {boards, deleteBoard, selectedWorkspace, setSelectedBoard, selectedBoard, updateBoard, token} = useContext(UserContext) as UserContextType;
   const context = useContext(UserContext);
   const [board, setBoard] = useState<any>(null);
+  const [starred, setStar] = useState<any>(false);
+
+
 
   const handleBoardChange = (boardId: string) => {
     setBoard(boardId);
     setSelectedBoard(boardId);
-    console.log('Currently selected board: ',selectedBoard)
+    
   }
 
 
@@ -28,6 +30,16 @@ const YourBoards = () => {
       
     } catch (error) {
       console.error('Error deleting board: ', error);
+    }
+  }
+  const handleStar = async (token: any, boardUuid: string, isStared: boolean) => {
+    try {
+      console.log('boardUuid: ', boardUuid);
+      console.log('isStared: ', boards[0]?.isStared);
+      setStar(!starred);
+      console.log('isStared: ', starred);
+    } catch (error) {
+      
     }
   }
 
@@ -49,7 +61,9 @@ const YourBoards = () => {
                   >
                     <div className='flex flex-row gap-2 items-center flex-nowrap'>
                       <Image className='rounded' src={board.imageLink} width={26} height={20} alt='board-background'/>
-                      <Link href=''>{board.name}</Link>
+                      <Link href=''>
+                        {board.name.length > 12 ? `${board.name.substring(0, 10)}...` : board.name}
+                      </Link>
                     </div>
                     <div className='ml-auto flex group/edit invisible group-hover/item:visible'>
                       <Dropdown
@@ -84,12 +98,12 @@ const YourBoards = () => {
                         </DropdownMenu>
                       </Dropdown>
                       {board.isStared ? (
-                        <Button className='bg-inherit group-hover/edit:transfrom transition-transform hover:scale-105 group-hover:bg-secondaryBG' size='sm' isIconOnly>
+                        <Button onPress={e => handleStar(token, board.uuid, starred)} className='bg-inherit visible group-hover/edit:transfrom transition-transform hover:scale-105 group-hover:bg-secondaryBG' size='sm' isIconOnly>
                           <Icon name='starYellow'/>
                         </Button>
 
                       ) : (
-                        <Button className='bg-inherit group-hover/edit:transfrom transition-transform hover:scale-125 group-hover:bg-secondaryBG' size='sm' isIconOnly>
+                        <Button onPress={e => handleStar(token, board.uuid, starred )} className='bg-inherit group-hover/edit:transfrom transition-transform hover:scale-125 group-hover:bg-secondaryBG' size='sm' isIconOnly>
                           <Icon name='star'/>
                         </Button>
                       )}
