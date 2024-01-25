@@ -113,11 +113,19 @@ const NavbarTop = () => {
             </DropdownTrigger>
             <DropdownMenu>
               <DropdownSection
-                className='bg-inherit'
+                className='bg-inherit hover:bg-secondaryBG'
                 showDivider
                 >
-                <DropdownItem>
-                  <p>Current Workspace</p>
+                <DropdownItem
+                  className='flex flex-row flex-nowrap'
+                  style={{minWidth: '200px'}}
+                > 
+                <div className='flex flex-row items-center'>
+                  <div className='flex rounded-md w-[30px] h-[30px] font-bold text-xl p-2 items-center align-middle text-foreground bg-gradient-to-r from-sky-500 to-indigo-500'>{workspaces.find((w) => w.uuid === selectedWorkspace)?.name[0]}</div>
+                    <p className='p-2 text-lg'>{workspaces.length > 0 && workspaces.find((w) => w.uuid === selectedWorkspace)?.name}</p>
+
+                </div>
+                  
                 </DropdownItem>
               </DropdownSection>
               <DropdownSection>

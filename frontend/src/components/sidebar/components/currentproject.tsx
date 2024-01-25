@@ -22,7 +22,8 @@ const CurrentProject = () => {
   
 
   return (
-    <div className='flex flex-row py-2 px-3 items-center'>
+    <div className='flex flex-row py-2 px-3 gap-2 items-center cursor-pointer'>
+      <div className='flex rounded-md w-[32px] h-[32px] font-bold text-xl p-2 items-center  text-foreground bg-gradient-to-r from-sky-500 to-indigo-500'>{workspaces.find((w) => w.uuid === selectedWorkspace)?.name[0]}</div>
       <p className='flex-grow'>{workspaces.length > 0 && workspaces.find((w) => w.uuid === selectedWorkspace)?.name}</p>
       
     </div>
