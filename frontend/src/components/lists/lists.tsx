@@ -22,11 +22,9 @@ const Lists = ({ name, id }: Props) => {
   const handleValueChange = ( value: string) => {
     setCardTitle(value);
   }
-  console.log('current card title', cardTitle)
 
 
   const handleSubmitCard = (token: any, cardTitle: string) => {
-    console.log('token', token)
     if (cardTitle === '') {
       // Handle empty title
       return;
@@ -71,7 +69,7 @@ const Lists = ({ name, id }: Props) => {
                     base: 'max-w-full sm:max-w-[24rem] h-10 items-center border-slate-200',
                     mainWrapper: 'flex h-full w-full  justify-center  ',
                     input: 'text-small text-black ',
-                    inputWrapper: 'dark:focus-within:!bg-cards/60 data-[hover=true]:bg-cards h-full w-60  !cursor-text dark:focus-within:text-forground bg-transparent hover:bg-foreground border-slate-100 rounded-md',
+                    inputWrapper: 'dark:focus-within:!bg-cards/60 data-[hover=true]:bg-cards h-full w-60  !cursor-text dark:focus-within:text-forground bg-cards hover:bg-foreground border-slate-100 rounded-md',
                   }}
                   />}
                    
@@ -83,7 +81,7 @@ const Lists = ({ name, id }: Props) => {
       { inputFieldRendered ? (
         <div className='flex justify-start items-center px-2 py-1'>
           <Button onClick={() => handleSubmitCard(token, cardTitle)}  color='primary' className='hover:bg-primary/90 text-white font-semibold'>Add Card</Button>
-          <Button onClick={() => {console.log('cancel')}}   className='bg-inherit hover:bg-slate-200 text-black font-semibold' isIconOnly><Icon name='cancel'/></Button>
+          <Button onClick={toggleInput}   className='bg-inherit hover:bg-slate-200 text-black font-semibold' isIconOnly><Icon name='cancel'/></Button>
         </div>
 
       ) : (
