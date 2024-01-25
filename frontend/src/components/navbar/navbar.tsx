@@ -6,7 +6,7 @@ import MyModal from '../modals/modal';
 import MyWorkSpaceModal from '../modals/newworkspace_modal';
 import Image from 'next/image';
 
-import Socials from '../socials';
+import Socials from './socials';
 import Profile from './profile';
 import { UserContext, UserContextType } from '@/contexts/Usercontext';
 import Link from 'next/link';

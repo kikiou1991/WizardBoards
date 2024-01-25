@@ -45,12 +45,12 @@ const Lists = ({ name, id }: Props) => {
 
   return (
     <div className='relative text-black w-48 rounded min-h-80 border-solid border-2 border-foreground bg-[#dadada] px-2  flex flex-col overflow-y-auto overflow-x-hidden' style={{ minWidth: '272px', minHeight: '120px', maxHeight: '450px' }}>
-      <div className='sticky top-0 left-0 bg-inherit items-start py-2 mt-0 ' style={{ width: '260px', height: '40px' }}>
+      <div className='sticky w-48 top-0 left-0 bg-inherit items-center justify-center py-2 px-2 ' style={{ width: '260px', height: '40px' }}>
         {name}
       </div>
       <Droppable droppableId={id}>
         {(provided) => (
-          <div ref={provided.innerRef} {...provided.droppableProps} className=' flex flex-col items-center py-2 gap-1'>
+          <div ref={provided.innerRef} {...provided.droppableProps} className='flex flex-col items-center h-full  py-2 gap-1 px-1'>
             {filteredCards.map((card: any) => (
               <Cards key={card.uuid} name={card.title} index={card.cardIndex} />
             ))}
@@ -78,6 +78,7 @@ const Lists = ({ name, id }: Props) => {
           
         )}
       </Droppable>
+      <div className='sticky bottom-0 left-0  bg-inherit w-64 m-auto pb-2 '>
       { inputFieldRendered ? (
         <div className='flex justify-start items-center px-2 py-1'>
           <Button onClick={() => handleSubmitCard(token, cardTitle)}  color='primary' className='hover:bg-primary/90 text-white font-semibold'>Add Card</Button>
@@ -92,6 +93,8 @@ const Lists = ({ name, id }: Props) => {
       )
 
       }
+
+      </div>
 
     </div>
   );

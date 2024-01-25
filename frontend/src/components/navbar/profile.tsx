@@ -2,7 +2,7 @@
 import { UserContext, UserContextType } from '@/contexts/Usercontext';
 import {Avatar, Dropdown, DropdownItem, DropdownMenu, DropdownSection, DropdownTrigger, Navbar, NavbarContent} from '@nextui-org/react';
 import {useContext} from 'react';
-import Socials from '../socials';
+import Socials from './socials';
 
 interface Props {
   name: string;
