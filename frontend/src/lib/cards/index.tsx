@@ -6,7 +6,7 @@ export const listCards = {
             const response = await fetch('https://gadorjani.co.uk/api/cards', {
                 method: 'POST',
                 headers: {
-                    Authorization: 'Bearer' + token,
+                    Authorization: `Bearer ${token}`,
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
@@ -16,7 +16,6 @@ export const listCards = {
                 }),
             });
             //check if the response is okay
-            console.log('response', response)
             if(!response.ok) {
                 throw new Error('Failed to create card');
             }

@@ -290,7 +290,7 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
 
   const createCard = async (token: any, cardData: any, listUuid: string) => {
     try {
-      const  title = cardData;
+      const title = cardData;
       const res = await listCards.createCard(token, title, listUuid);
       if (res && res.newCard) {
         setCards([res.newCard, ...cards]);
