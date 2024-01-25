@@ -1,7 +1,8 @@
 export const listCards = {
-    createCards: async (token: any, cardData: any, listUuid: string) => {
+    createCard: async (token: any, cardData: any, listUuid: string) => {
+        console.log('token', token)
         try {
-            const { title } = cardData;
+            const {title} = cardData;
             const response = await fetch('https://gadorjani.co.uk/api/cards', {
                 method: 'POST',
                 headers: {
@@ -15,6 +16,7 @@ export const listCards = {
                 }),
             });
             //check if the response is okay
+            console.log('response', response)
             if(!response.ok) {
                 throw new Error('Failed to create card');
             }

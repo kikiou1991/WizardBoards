@@ -70,6 +70,7 @@ export interface UserContextType {
   favorites: Boards[]
   updateBoard: (token: any, boardUuid: string, boardData: any) => Promise<void>;
   setFavorites: React.Dispatch<React.SetStateAction<Boards[]>>;
+  createCard: (token: any, cardData: any, listUuid: string) => Promise<void>;
 }
 interface UserContextProviderProps {
   children: ReactNode;
@@ -287,17 +288,32 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
     }
   };
 
+  const createCard = async (token: any, cardData: any, listUuid: string) => {
+    try {
+      const  title = cardData;
+      const res = await listCards.createCard(token, title, listUuid);
+      if (res && res.newCard) {
+        setCards([res.newCard, ...cards]);
+      }
+    } catch (error) {
+      console.error('Failed to create card', error);
+    }
+  }
+
   useEffect(() => {
+    console.log('setting the token')
     if (localStorage['token']) {
       setToken(localStorage['token']);
     }
   }, []);
   useEffect(() => {
+    console.log('validating the token')
     if (token) {
       validateToken(token);
     }
   }, [token]); //if the token changes, validate it
   useEffect(() => {
+    console.log
     if (localStorage['token'] && selectedWorkspace) {
 
       fetchBoard(localStorage['token'], selectedWorkspace);      
@@ -305,6 +321,7 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
   }, [selectedWorkspace]); //if the selectedWorkspace changes, fetch the boards
 
   useEffect(() => {
+    console
     if(localStorage['token'] && boards.length > 0){
       fetchLists(localStorage['token'], selectedBoard);
     }
@@ -313,6 +330,7 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
   //fetch cards for each lists on render or if the lists change
 
   useEffect(() => {
+    console.log('fetching cards')
     if (localStorage['token'] && lists.length > 0) {
       for (let list of lists) {
         fetchCards(localStorage['token'], list.uuid);
@@ -321,6 +339,7 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
   }, [lists]);
 
   useEffect(() => {
+    console.log('fetching favorites')
     // Check if both token and workspaces are available
     if (token && workspaces.length > 0) {
       // Fetch favorites
@@ -367,7 +386,8 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
     fetchCards,
     favorites,
     updateBoard,
-    setFavorites
+    setFavorites,
+    createCard
   };
   return (
     <UserContext.Provider value={contextValue}>

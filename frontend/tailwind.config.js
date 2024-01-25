@@ -15,9 +15,10 @@ const config = {
         light: {
           colors: {
             background: '#FFFFFF',
-            foreground: '#101828',
+            foreground: '#000000',
             secondaryBG: '#B5B3D4',
             border: '#EAECF0',
+            cards: '#E8E8E8'
           },
         },
         dark: {
@@ -26,6 +27,7 @@ const config = {
             foreground: '#E8E8E8',
             border: '#383940',
             secondaryBG: '#282828',
+            cards: '#E8E8E8'
           },
         },
         blue: {

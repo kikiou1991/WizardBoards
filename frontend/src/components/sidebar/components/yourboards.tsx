@@ -14,7 +14,6 @@ const YourBoards = () => {
   const [board, setBoard] = useState<any>(null);
 
 
-  console.log('favorite boards: ', favorites)
 
   const handleBoardChange = (boardId: string) => {
     setBoard(boardId);
