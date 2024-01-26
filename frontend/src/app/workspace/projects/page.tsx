@@ -1,15 +1,18 @@
 "use client"
 import BoardNav from '@/components/board/boardnav';
 import Lists from '@/components/lists/lists';
-import { Divider } from '@nextui-org/react';
+import { Button, Divider, Input } from '@nextui-org/react';
 import { DragDropContext, Draggable, Droppable, DropResult } from '@hello-pangea/dnd';
 import { start } from 'repl';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { UserContext, UserContextType } from '@/contexts/Usercontext';
+import Icon from '@/components/Icons';
 
 
 const Project = () => {
-  const {lists} = useContext(UserContext) as UserContextType;
+  const {lists, token} = useContext(UserContext) as UserContextType;
+  const [isActive, setIsActive] = useState(true);
+  const [listTitle, setListTitle] = useState('')
   //Get all the relevent information from the backend
 
   // const handleDragEnd = (result: DropResult) => {
@@ -138,20 +141,64 @@ const Project = () => {
     const handleDragEnd = (result: DropResult) => { 
         console.log(result);
     }
+
+    const handleValueChange = ( value: string) => {
+      setListTitle(value);
+      
+    }
+
+    const handleSubmitList = ( token: any, listTitle: string) => {
+
+    }
+
+    const toggleIsActive = () => {
+      setIsActive(!isActive)
+    }
   
 
   return (
-    <div className='relative grow bg-background flex flex-col overflow-auto'>
+    <div className='relative grow bg-background flex flex-col overflow-hidden mr-5'>
         <div className='relative w-full py-2 px-1 border-b-1 items-center'>
           <BoardNav />
         </div>
         <DragDropContext onDragEnd={handleDragEnd}>
-        <div className='flex w-full h-full overflow-x-auto items-start py-5 px-5  gap-5'>
+        <div className='flex w-full h-full overflow-x-auto items-start py-5 px-5  gap-5 mr-5'>
           {lists.map((list: any) => (
             <Lists key={list.id} name={list.title} id={list.uuid}/>
           ))}
           
-          
+          {
+            isActive ? (
+              <div className='relative text-black w-48  rounded min-h-80 border-solid border-2 border-foreground bg-[#dadada] px-1  flex flex-col overflow-y-auto overflow-x-hidden' style={{ minWidth: '272px', minHeight: '85px', maxHeight: '450px' }}>
+                  <Input 
+                    value={listTitle}
+                    onValueChange={(newValue: string) => handleValueChange(newValue)}
+                    className='bg-blue text-black  font-semibold pt-2 mb-2'
+                    placeholder='Enter a title for this card...'
+                    style={{
+                      height: '40px',
+                      padding: '5px',
+                      
+                    }}
+                    classNames={{
+                      base: 'max-w-full sm:max-w-[24rem] h-10 items-center border-slate-200',
+                      mainWrapper: 'flex h-full w-full  justify-center  ',
+                      input: 'text-small text-black ',
+                      inputWrapper: 'dark:focus-within:!bg-cards/50 data-[hover=true]:bg-cards h-full w-60  !cursor-text dark:focus-within:text-forground bg-cards hover:bg-foreground border-slate-100 rounded-md',
+                    }}
+                  ></Input>
+                  <div className='flex justify-start items-center px-2 py-1'>
+                      <Button onClick={() => handleSubmitList(token, listTitle)}  color='primary' className='hover:bg-primary/90 text-white font-semibold'>Add Card</Button>
+                      <Button onClick={toggleIsActive}   className='bg-inherit hover:bg-slate-200 text-black font-semibold' isIconOnly><Icon name='cancel'/></Button>
+                  </div>
+              </div>
+            ) : (
+              <Button onClick={toggleIsActive} startContent={<Icon name="addIcon" />}style={{ minWidth: '272px', minHeight: '45px', maxHeight: '450px' }} className='bg-transparent/20 flex justify-start'>
+                <div>Create a new list...</div>
+              </Button>
+            )
+          }
+        
         </div>
         </DragDropContext>
       </div>
