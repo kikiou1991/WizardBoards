@@ -56,6 +56,7 @@ const Lists = ({ name, id }: Props) => {
             ))}
             {inputFieldRendered && 
               <Input
+                  
                   value={cardTitle}
                   onValueChange={(newValue: string) => handleValueChange(newValue)}
                   className='bg-blue text-black  font-semibold'
@@ -68,7 +69,7 @@ const Lists = ({ name, id }: Props) => {
                   classNames={{
                     base: 'max-w-full sm:max-w-[24rem] h-10 items-center border-slate-200',
                     mainWrapper: 'flex h-full w-full  justify-center  ',
-                    input: 'text-small text-black ',
+                    input: 'text-small group-data-[focus=true]:text-black ',
                     inputWrapper: 'dark:focus-within:!bg-cards/60 data-[hover=true]:bg-cards h-full w-60  !cursor-text dark:focus-within:text-forground bg-cards hover:bg-foreground border-slate-100 rounded-md',
                   }}
                   />}
