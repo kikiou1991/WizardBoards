@@ -121,7 +121,7 @@ const NavbarTop = () => {
                   style={{minWidth: '200px'}}
                 > 
                 <div className='flex flex-row items-center'>
-                  <div className='flex rounded-md w-[30px] h-[30px] font-bold text-xl  items-center align-middle text-foreground bg-gradient-to-r from-sky-500 to-indigo-500'>{workspaces.find((w) => w.uuid === selectedWorkspace)?.name[0]}</div>
+                  <div className='flex rounded-md w-[30px] h-[30px] font-bold text-xl  items-center px-1 m-1 justify-center text-foreground bg-gradient-to-r from-sky-500 to-indigo-500'>{workspaces.find((w) => w.uuid === selectedWorkspace)?.name[0]}</div>
                     <p className='p-2 text-lg'>{workspaces.length > 0 && workspaces.find((w) => w.uuid === selectedWorkspace)?.name}</p>
 
                 </div>

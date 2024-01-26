@@ -50,6 +50,8 @@ module.exports.CreateCard = async (req, res, next) => {
     }
 };
 
+// Find all of the cards within the given list
+
 module.exports.GetCards = async(req,res,next) => {
     try {
         const listUuid = req.query.listUuid;
@@ -80,6 +82,36 @@ module.exports.GetCards = async(req,res,next) => {
 
     } catch (error) {
         console.error('Error getting cards: ', error.message);
+        res.status(500).json({ message: 'Internal Server Error' });
+        next(error);
+    }
+};
+
+// Find and delete the card with the uuid
+
+module.exports.DeleteCard = async(req,res,next) => {
+    try {
+        const { listUuid, cardUuid } = req.body;
+        const user = req.user;
+
+        if(!cardUuid){
+            return res.status(400).json({message: 'Invalid card'})
+        }
+
+        if(!user || !user._id){
+            return res.status(400).json({message: 'Invalid user information'})
+        }   
+        const list = await List.findOne({uuid: listUuid});
+
+        if(!list){
+            return res.status(400).json({message: 'List not found'})
+        }
+
+        const card = await Card.findOneAndDelete({uuid: cardUuid});
+
+        return res.status(200).json({message: 'Card deleted successfully', data: card})
+    } catch (error) {
+        console.error('Error deleting card: ', error.message);
         res.status(500).json({ message: 'Internal Server Error' });
         next(error);
     }

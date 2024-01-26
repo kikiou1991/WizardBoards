@@ -338,6 +338,8 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
     }
   }, [lists]);
 
+  
+
   useEffect(() => {
     console.log('fetching favorites')
     // Check if both token and workspaces are available

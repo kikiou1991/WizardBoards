@@ -33,7 +33,8 @@ export const listCards = {
                 method: 'GET',
                 headers: {
                     Authorization: `Bearer ${token}`,
-                }
+                },
+                
             });
             if (!response.ok) {
                 throw new Error('Failed to fetch cards');
@@ -45,5 +46,32 @@ export const listCards = {
         } catch (error: any) {
             console.error('Error fetching cards: ', error.message);
         }
-    }
+    },
+
+    deleteCard: async( token: any, cardUuid: string, listUuid: string) => {
+        try {
+            const response = await fetch(`https://gadorjani.co.uk/api/cards/delete`, {
+                method: 'DELETE',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    cardUuid,
+                    listUuid,
+                })
+        })
+            if (!response.ok) {
+                throw new Error('Failed to delete card');
+
+            }
+            const data = await response.json();
+            return data;
+
+        } catch (error: any) {
+            console.error('Error deleting card: ', error.message);
+
+        }
+        }
+    
 }
