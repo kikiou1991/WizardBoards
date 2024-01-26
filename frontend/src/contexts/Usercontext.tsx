@@ -1,14 +1,14 @@
 'use client';
 import InputField from '@/app/auth/sign-in/InputField';
-import {userAuth} from '@/lib/auth/auth';
-import {workspaceBoards} from '@/lib/boards';
+import { userAuth } from '@/lib/auth/auth';
+import { workspaceBoards } from '@/lib/boards';
 import { listCards } from '@/lib/cards';
 import { boardLists } from '@/lib/lists';
-import {userWorkspaces} from '@/lib/workspaces';
-import {Modal, ModalBody, ModalContent, ModalHeader} from '@nextui-org/modal';
-import {Button, Link} from '@nextui-org/react';
-import {usePathname, useRouter} from 'next/navigation';
-import {ReactNode, createContext, use, useEffect, useState} from 'react';
+import { userWorkspaces } from '@/lib/workspaces';
+import { Modal, ModalBody, ModalContent, ModalHeader } from '@nextui-org/modal';
+import { Button, Link } from '@nextui-org/react';
+import { usePathname, useRouter } from 'next/navigation';
+import { ReactNode, createContext, use, useEffect, useState } from 'react';
 
 // Interfaces Section
 interface Workspace {
@@ -67,7 +67,7 @@ export interface UserContextType {
   setSelectedBoard: React.Dispatch<React.SetStateAction<string>>;
   setCards: React.Dispatch<React.SetStateAction<Cards[]>>;
   fetchCards: (token: any, listUuid: string) => Promise<void>;
-  favorites: Boards[]
+  favorites: Boards[];
   updateBoard: (token: any, boardUuid: string, boardData: any) => Promise<void>;
   setFavorites: React.Dispatch<React.SetStateAction<Boards[]>>;
   createCard: (token: any, cardData: any, listUuid: string) => Promise<void>;
@@ -80,7 +80,7 @@ interface UserContextProviderProps {
 //call the useContext
 const UserContext = createContext<UserContextType | null>(null);
 
-const UserContextProvider = ({children}: UserContextProviderProps) => {
+const UserContextProvider = ({ children }: UserContextProviderProps) => {
   const [token, setToken] = useState<string | null>(null);
   const [workspaces, setWorkspaces] = useState<Workspace[]>([]);
   const [currentWorkspace, setCurrentWorkspace] = useState<Workspace | null>(null);
@@ -95,25 +95,25 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
   const [authenticatedLoaded, setAuthenticatedLoaded] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(true);
   const [favorites, setFavorites] = useState<Boards[]>([]);
+  const [isBoardSelectedGlobal, setIsBoardSelectedGlobal] = useState(false);
+
   const pathname = usePathname();
   const router = useRouter();
-  const [isBoardSelectedGlobal, setIsBoardSelectedGlobal] = useState(false);
- 
-  
-console.log(isBoardSelectedGlobal);
+
+  console.log(isBoardSelectedGlobal);
 
   //create boards
   const createBoard = async (token: any, boardData: any) => {
     try {
       const { name, workspaceUuid } = boardData;
-      
-     if (!name) {
-      console.error('Board name is required');
-      return;
+
+      if (!name) {
+        console.error('Board name is required');
+        return;
       }
       console.log('workspaceUuid', workspaceUuid);
-      const res = await workspaceBoards.createBoard(token, {name, workspaceUuid}, localSelectedWorkspace);
-      
+      const res = await workspaceBoards.createBoard(token, { name, workspaceUuid }, localSelectedWorkspace);
+
       if (res && res.newBoard) {
         setBoards([res.newBoard, ...boards]);
       }
@@ -123,7 +123,6 @@ console.log(isBoardSelectedGlobal);
   };
 
   const validateToken = async (token: any) => {
-    
     try {
       let res = await userAuth.validateToken(token);
       if (res?.status === true) {
@@ -153,51 +152,53 @@ console.log(isBoardSelectedGlobal);
 
   // Delete board
 
-  const deleteBoard = async (token: any,  workspaceUuid: string, boardUuid: string) => {
+  const deleteBoard = async (token: any, workspaceUuid: string, boardUuid: string) => {
     try {
-      
-      const res = await workspaceBoards.deleteBoard(token,  workspaceUuid, boardUuid);
+      const res = await workspaceBoards.deleteBoard(token, workspaceUuid, boardUuid);
       if (res?.status === true) {
         setBoards(boards.filter((board) => board._id !== boardUuid));
       }
     } catch (error) {
       console.error('Failed to delete board: ', error);
     }
-  }
+  };
 
   // Update board
 
-  const updateBoard = async(token: any, boardUuid: string, boardData: any) => {
+  const updateBoard = async (token: any, boardUuid: string, boardData: any) => {
     console.log('boardData on client side: ', boardData);
     try {
       const { name, isStared } = boardData;
-      
-      const res = await workspaceBoards.upDateBoard(token, boardUuid, {name, isStared});
+
+      const res = await workspaceBoards.upDateBoard(token, boardUuid, { name, isStared });
       if (res?.status === true) {
-        setBoards(boards.map((board) => {
-          if (board._id === boardUuid) {
-            return {...board, ...boardData};
-          }
-          return board;
-        }));
+        setBoards(
+          boards.map((board) => {
+            if (board._id === boardUuid) {
+              return { ...board, ...boardData };
+            }
+            return board;
+          })
+        );
       }
     } catch (error) {
       console.error('Failed to update board: ', error);
     }
-  }
+  };
+
+  // Fetch favorites
 
   const fetchFavorites = async (token: any, workspaces: any) => {
-    console.log('workspaces: ', workspaces)
+    console.log('workspaces: ', workspaces);
     try {
-  
       // Iterate over each workspace
       for (let workspace of workspaces) {
         // Fetch boards for the current workspace
         const res = await workspaceBoards.fetchBoard(token, workspace.uuid);
-  
+
         // Filter out the boards that are marked as favorites (isStared)
         const favBoards = res?.data.filter((board: any) => board.isStared === true) || [];
-  
+
         // Update the favorites state
         setFavorites((prevFavorites) => [...prevFavorites, ...favBoards]);
       }
@@ -206,7 +207,6 @@ console.log(isBoardSelectedGlobal);
     }
   };
 
-  
   //  fetch workspaces
   const fetchWorkspaces = async (token: any) => {
     if (!token) {
@@ -215,7 +215,7 @@ console.log(isBoardSelectedGlobal);
 
     try {
       let res = await userWorkspaces.fetchWorkspaces(token);
-      
+
       setWorkspaces(res?.data || []);
     } catch (error: any) {
       // Handle error if needed
@@ -231,9 +231,9 @@ console.log(isBoardSelectedGlobal);
         console.error('Token is missing');
         return;
       }
-      
+
       const res = await userWorkspaces.createWorkspace(token, boardData);
-  
+
       if (res) {
         console.log('Workspace created successfully:', res);
         // Update your local state or perform any other actions if needed
@@ -246,36 +246,35 @@ console.log(isBoardSelectedGlobal);
       console.error('Error creating workspace:', error || error.message || error.response);
     }
   };
-  
+
   //set workspaces
   const setWorkspace = (workspace: Workspace | null) => {
     setCurrentWorkspace(workspace);
   };
 
   const fetchLists = async (token: any, boardUuid: string) => {
-       
     try {
       const res = await boardLists.getLists(token, boardUuid);
       setLists(res?.data || []);
-    }catch(error:any) {
+    } catch (error: any) {
       console.error('Failed to fetch lists', error);
     }
-  }
+  };
 
   const createList = async (token: any, listData: any, boardUuid: string) => {
     console.log('listData: ', listData);
     console.log('boardUuid: ', boardUuid);
-    
+
     try {
-      const  title  = listData;
-      const res = await boardLists.createLists(token, title, boardUuid)
+      const title = listData;
+      const res = await boardLists.createLists(token, title, boardUuid);
       if (res && res.newList) {
         setLists([res.newList, ...lists]);
       }
-    }catch(error:any) {
+    } catch (error: any) {
       console.error('Failed to create list', error);
     }
-  }
+  };
 
   const fetchCards = async (token: any, listUuid: string) => {
     try {
@@ -301,39 +300,38 @@ console.log(isBoardSelectedGlobal);
     } catch (error) {
       console.error('Failed to create card', error);
     }
-  }
+  };
 
   useEffect(() => {
-    console.log('setting the token')
+    console.log('setting the token');
     if (localStorage['token']) {
       setToken(localStorage['token']);
     }
   }, []);
   useEffect(() => {
-    console.log('validating the token')
+    console.log('validating the token');
     if (token) {
       validateToken(token);
     }
   }, [token]); //if the token changes, validate it
   useEffect(() => {
-    console.log
+    console.log;
     if (localStorage['token'] && selectedWorkspace) {
-
-      fetchBoard(localStorage['token'], selectedWorkspace);      
+      fetchBoard(localStorage['token'], selectedWorkspace);
     }
   }, [selectedWorkspace]); //if the selectedWorkspace changes, fetch the boards
 
   useEffect(() => {
-    console
-    if(localStorage['token'] && boards.length > 0){
+    console;
+    if (localStorage['token'] && boards.length > 0) {
       fetchLists(localStorage['token'], selectedBoard);
     }
-  },[selectedBoard]) //if the selectedBoard changes, fetch the lists
+  }, [selectedBoard]); //if the selectedBoard changes, fetch the lists
 
   //fetch cards for each lists on render or if the lists change
 
   useEffect(() => {
-    console.log('fetching cards')
+    console.log('fetching cards');
     if (localStorage['token'] && lists.length > 0) {
       for (let list of lists) {
         fetchCards(localStorage['token'], list.uuid);
@@ -341,17 +339,15 @@ console.log(isBoardSelectedGlobal);
     }
   }, [lists]);
 
-  
-
   useEffect(() => {
-    console.log('fetching favorites')
+    console.log('fetching favorites');
     // Check if both token and workspaces are available
     if (token && workspaces.length > 0) {
       // Fetch favorites
       fetchFavorites(token, workspaces);
     }
   }, [workspaces]);
-    
+
   const handleLogout = async () => {
     localStorage.clear();
     setWorkspaces([]);
@@ -394,7 +390,7 @@ console.log(isBoardSelectedGlobal);
     setFavorites,
     createCard,
     isBoardSelectedGlobal,
-    setIsBoardSelectedGlobal
+    setIsBoardSelectedGlobal,
   };
   return (
     <UserContext.Provider value={contextValue}>
@@ -421,4 +417,4 @@ console.log(isBoardSelectedGlobal);
   );
 };
 
-export {UserContext, UserContextProvider};
+export { UserContext, UserContextProvider };

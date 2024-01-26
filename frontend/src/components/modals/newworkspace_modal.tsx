@@ -1,6 +1,22 @@
 import Icon from '@/components/Icons';
 import { UserContext, UserContextType } from '@/contexts/Usercontext';
-import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownSection, DropdownTrigger, Image, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Select, SelectItem } from '@nextui-org/react';
+import {
+  Button,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownSection,
+  DropdownTrigger,
+  Image,
+  Input,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  Select,
+  SelectItem,
+} from '@nextui-org/react';
 import { useContext, useState } from 'react';
 
 interface Workspace {
@@ -67,8 +83,8 @@ const MyWorkSpaceModal = () => {
   return (
     <>
       <Dropdown className='bg-background text-foreground w-' placement='bottom-start'>
-        <DropdownTrigger className=' hover:bg-secondaryBG px-2 rounded-md text-base'>
-          <Button className='bg-inherit ' size='md' >
+        <DropdownTrigger className=' hover:bg-cards p-1 rounded-md text-base'>
+          <Button className='bg-cards text-black' size='md'>
             {/* <Icon name='addIcon' classname={'bg-white'} /> */}
             <p>Create</p>
           </Button>
@@ -78,7 +94,11 @@ const MyWorkSpaceModal = () => {
             <DropdownItem className='data-[hover=true]:bg-secondaryBG' description='A board is made up of cards ordered on lists.' startContent={<Icon name='addBoard' />} onClick={openBoardModal}>
               <p>Create new board</p>
             </DropdownItem>
-            <DropdownItem className='data-[hover=true]:bg-secondaryBG' description='A workspace is a group of boards and people.' startContent={<Icon name='addWorkspace' />} onClick={openWorkspaceModal}>
+            <DropdownItem
+              className='data-[hover=true]:bg-secondaryBG'
+              description='A workspace is a group of boards and people.'
+              startContent={<Icon name='addWorkspace' />}
+              onClick={openWorkspaceModal}>
               <p>Create Workspace</p>
             </DropdownItem>
           </DropdownSection>
@@ -92,14 +112,13 @@ const MyWorkSpaceModal = () => {
         backdrop='blur'
         radius='lg'
         classNames={{
-          body: "py-6",
-          backdrop: "bg-[#292f46]/50 backdrop-opacity-40",
-          base: "border-primary bg-primary dark:bg-background text-foreground",
-          header: "border-b-[1px] border-foreground",
-          footer: "border-t-[1px] border-foreground",
-          closeButton: "hover:bg-white/5 active:bg-transparent",
-        }}
-      >
+          body: 'py-6',
+          backdrop: 'bg-[#292f46]/50 backdrop-opacity-40',
+          base: 'border-primary bg-primary dark:bg-background text-foreground',
+          header: 'border-b-[1px] border-foreground',
+          footer: 'border-t-[1px] border-foreground',
+          closeButton: 'hover:bg-white/5 active:bg-transparent',
+        }}>
         <ModalContent>
           <ModalHeader className='flex flex-col gap-1 items-center align-middle'>
             <h1>Create Board</h1>
@@ -117,21 +136,13 @@ const MyWorkSpaceModal = () => {
               onChange={(e) => setBoardTitle(e.target.value)}
             />
             <div className='flex flex-row items-center'>
-            <Select
-              isRequired
-              size='sm'
-              label='Workspace'
-              placeholder='Select a workspace'
-              className='max-w-xs text-foreground '
-              onChange={(value: any) => setSelectedWorkspace(value)}
-            >
-              {workspaces.map((workspace) => (
-                <SelectItem className="text-foreground" key={workspace.uuid} value={workspace.uuid}>
-                  {workspace.name}
-                </SelectItem>
-              ))}
-            </Select>
-
+              <Select isRequired size='sm' label='Workspace' placeholder='Select a workspace' className='max-w-xs text-foreground ' onChange={(value: any) => setSelectedWorkspace(value)}>
+                {workspaces.map((workspace) => (
+                  <SelectItem className='text-foreground' key={workspace.uuid} value={workspace.uuid}>
+                    {workspace.name}
+                  </SelectItem>
+                ))}
+              </Select>
             </div>
           </ModalBody>
           <ModalFooter>
@@ -156,8 +167,7 @@ const MyWorkSpaceModal = () => {
           header: 'border-b-[1px] border-[#041A42]',
           footer: 'border-t-[1px] border-[#041A42]',
           closeButton: 'hover:bg-white/5 active:bg-white/10',
-        }}
-      >
+        }}>
         <ModalContent>
           <ModalBody className='flex flex-row px-3 py-3'>
             <div className='flex flex-col gap-2 w-1/2 items-left'>
@@ -197,4 +207,3 @@ const MyWorkSpaceModal = () => {
 };
 
 export default MyWorkSpaceModal;
-

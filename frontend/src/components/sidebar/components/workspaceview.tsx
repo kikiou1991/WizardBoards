@@ -10,18 +10,21 @@ const WorkspaceView = () => {
       <div className='h-8 gap-2 flex flex-row hover:bg-secondaryBG items-center px-2'>
         <div className='flex flex-row gap-2 flex-grow '>
           <Icon name='table' />
-          <Link href="/workspace/table" className='italic '>Table</Link>
+          <Link href='/workspace/table' className='italic '>
+            Table
+          </Link>
         </div>
       </div>
       <div className='h-8 gap-2 flex flex-row hover:bg-secondaryBG items-center px-2'>
         <div className='flex flex-row gap-2 flex-grow '>
           <Icon name='calendar2' />
-          <Link href="/workspace/calendar" className='italic'>Calendar</Link>
+          <Link href='/workspace/calendar' className='italic'>
+            Calendar
+          </Link>
         </div>
       </div>
     </div>
   );
 };
-
 
 export default WorkspaceView;

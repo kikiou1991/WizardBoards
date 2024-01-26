@@ -1,11 +1,11 @@
 // app/providers.tsx
 'use client';
 
-import {NextUIProvider} from '@nextui-org/react';
-import {ThemeProvider as NextThemesProvider} from 'next-themes';
-import {Toaster} from 'react-hot-toast';
+import { NextUIProvider } from '@nextui-org/react';
+import { ThemeProvider as NextThemesProvider } from 'next-themes';
+import { Toaster } from 'react-hot-toast';
 
-export function Providers({children}: {children: React.ReactNode}) {
+export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <NextUIProvider>
       <NextThemesProvider themes={['dark', 'light', 'blue']} attribute='class' defaultTheme='dark'>

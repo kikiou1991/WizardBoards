@@ -1,7 +1,7 @@
 'use client';
 import Icon from '@/components/Icons';
-import {Button, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalProps} from '@nextui-org/react';
-import React, {useState} from 'react';
+import { Button, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalProps } from '@nextui-org/react';
+import React, { useState } from 'react';
 
 const MyModal = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,24 +23,19 @@ const MyModal = () => {
           base: 'max-w-full md:max-w-[20rem] h-10',
           mainWrapper: 'h-full ',
           input: 'text-small',
-          inputWrapper: 'data-[hover=true]:bg-secondaryBG h-full font-normal text-foreground bg-secondaryBG hover:bg-background',
-
-
+          inputWrapper: 'data-[hover=true]:bg-cards h-full font-normal text-foreground  bg-background hover:bg-background/50',
         }}
-        style={{minWidth: '120px'}}
+        style={{ minWidth: '120px' }}
         className='hidden md:flex'
         placeholder='Type to search...'
         size='md'
         startContent={<Icon name='searchIcon' classname='white' />}
         type='search'
         onClick={openModal}
-        
       />
-      <Button 
-        className='md:hidden bg-inherit'
-        isIconOnly size='sm'
-        onClick={openModal}
-      ><Icon name='searchIcon' classname='white' /></Button>
+      <Button className='md:hidden bg-inherit' isIconOnly size='sm' onClick={openModal}>
+        <Icon name='searchIcon' classname='white' />
+      </Button>
 
       <Modal
         isOpen={isOpen}
@@ -78,7 +73,7 @@ const MyModal = () => {
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam pulvinar risus non risus hendrerit venenatis. Pellentesque sit amet hendrerit risus, sed porttitor quam.</p>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam pulvinar risus non risus hendrerit venenatis. Pellentesque sit amet hendrerit risus, sed porttitor quam.</p>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam pulvinar risus non risus hendrerit venenatis. Pellentesque sit amet hendrerit risus, sed porttitor quam.</p>
-            
+
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam pulvinar risus non risus hendrerit venenatis. Pellentesque sit amet hendrerit risus, sed porttitor quam.</p>
           </ModalBody>
           <ModalFooter></ModalFooter>

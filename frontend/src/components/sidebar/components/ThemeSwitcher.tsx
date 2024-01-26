@@ -1,11 +1,11 @@
 'use client';
-import {Switch} from '@nextui-org/react';
-import {useTheme} from 'next-themes';
+import { Switch } from '@nextui-org/react';
+import { useTheme } from 'next-themes';
 
 type Props = {};
 
 export default function ThemeSwitcher({}: Props) {
-  const {theme, setTheme, themes} = useTheme();
+  const { theme, setTheme, themes } = useTheme();
   const SunIcon = (props: any) => (
     <svg aria-hidden='true' focusable='false' height='1em' role='presentation' viewBox='0 0 24 24' width='1em' {...props}>
       <g fill='currentColor'>
