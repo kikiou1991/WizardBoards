@@ -1,10 +1,9 @@
-import Project from '../projects/page';
+import React from 'react'
+
 const Home = () => {
   return (
-    <div className='grow overflow-hidden flex flex-col overflow-x-auto overflow-y-hidden  whitespace-nowrap'>
-      <Project />
-    </div>
-  );
-};
+    <div>Home</div>
+  )
+}
 
-export default Home;
+export default Home

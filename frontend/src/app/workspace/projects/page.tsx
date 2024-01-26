@@ -7,7 +7,7 @@ import { start } from 'repl';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { UserContext, UserContextType } from '@/contexts/Usercontext';
 import Icon from '@/components/Icons';
-import useOutsideClick from '@/app/helper_functions/outsideClick';
+import useOutsideClick from '@/components/customHooks/useOutsideClick';
 
 
 const Project = () => {
@@ -65,8 +65,8 @@ const Project = () => {
                     classNames={{
                       base: 'max-w-full sm:max-w-[24rem] h-10 items-center border-slate-200',
                       mainWrapper: 'flex h-full w-full  justify-center  ',
-                      input: 'text-small text-black group-data-[focus=true]:text-black',
-                      inputWrapper: 'dark:focus-within:!bg-cards/50 data-[hover=true]:bg-cards h-full w-60  !cursor-text dark:focus-within:text-black bg-cards hover:bg-foreground border-slate-100 rounded-md',
+                      input: 'text-small text-black group-data-[focus=true]:text-black  ',
+                      inputWrapper: 'dark:focus-within:!bg-cards/70 data-[hover=true]:bg-cards h-full w-60  !cursor-text dark:focus-within:text-black bg-cards hover:bg-foreground border-slate-100 rounded-md',
                     }}
                   ></Input>
                   <div className='flex justify-start items-center px-2 py-1'>

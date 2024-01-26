@@ -1,5 +1,5 @@
 "use client"
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 
 const useOutsideClick = (ref: React.RefObject<HTMLElement>, callback: () => void) => {
   useEffect(() => {

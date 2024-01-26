@@ -1,4 +1,5 @@
 import Icon from '@/components/Icons';
+import Link from 'next/link';
 
 const WorkspaceView = () => {
   return (
@@ -9,13 +10,13 @@ const WorkspaceView = () => {
       <div className='h-8 gap-2 flex flex-row hover:bg-secondaryBG items-center px-2'>
         <div className='flex flex-row gap-2 flex-grow '>
           <Icon name='table' />
-          <p className='italic '>Table</p>
+          <Link href="/workspace/table" className='italic '>Table</Link>
         </div>
       </div>
       <div className='h-8 gap-2 flex flex-row hover:bg-secondaryBG items-center px-2'>
         <div className='flex flex-row gap-2 flex-grow '>
           <Icon name='calendar2' />
-          <p className='italic'>Calendar</p>
+          <Link href="/workspace/calendar" className='italic'>Calendar</Link>
         </div>
       </div>
     </div>
