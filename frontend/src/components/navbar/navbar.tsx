@@ -21,7 +21,7 @@ const NavbarTop = () => {
   const [user, setUser] = React.useState<UserData | null>(null);
   const [isHovered, setIsHovered] = useState(false);
   
-  const { workspaces, setWorkspace, setSelectedWorkspace, selectedWorkspace, favorites } = useContext(
+  const { workspaces, setWorkspace, setSelectedWorkspace, selectedWorkspace, favorites , setIsBoardSelectedGlobal} = useContext(
     UserContext
   ) as UserContextType;
   
@@ -30,6 +30,7 @@ const NavbarTop = () => {
 
   const handleWorkspaceChange = (workspaceId: string) => {
     setSelectedWorkspace(workspaceId);
+    setIsBoardSelectedGlobal(false);
   };
 
 

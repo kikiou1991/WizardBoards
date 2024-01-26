@@ -71,6 +71,8 @@ export interface UserContextType {
   updateBoard: (token: any, boardUuid: string, boardData: any) => Promise<void>;
   setFavorites: React.Dispatch<React.SetStateAction<Boards[]>>;
   createCard: (token: any, cardData: any, listUuid: string) => Promise<void>;
+  isBoardSelectedGlobal: boolean;
+  setIsBoardSelectedGlobal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 interface UserContextProviderProps {
   children: ReactNode;
@@ -95,9 +97,10 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
   const [favorites, setFavorites] = useState<Boards[]>([]);
   const pathname = usePathname();
   const router = useRouter();
+  const [isBoardSelectedGlobal, setIsBoardSelectedGlobal] = useState(false);
  
   
-
+console.log(isBoardSelectedGlobal);
 
   //create boards
   const createBoard = async (token: any, boardData: any) => {
@@ -389,7 +392,9 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
     favorites,
     updateBoard,
     setFavorites,
-    createCard
+    createCard,
+    isBoardSelectedGlobal,
+    setIsBoardSelectedGlobal
   };
   return (
     <UserContext.Provider value={contextValue}>

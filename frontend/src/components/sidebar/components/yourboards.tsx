@@ -9,7 +9,7 @@ import Icon from '@/components/Icons';
 import {Dropdown, Button, DropdownItem, DropdownMenu, DropdownSection, DropdownTrigger } from '@nextui-org/react';
 
 const YourBoards = () => {
-  const {boards, deleteBoard, selectedWorkspace, setSelectedBoard, selectedBoard, updateBoard, token, favorites} = useContext(UserContext) as UserContextType;
+  const {boards, deleteBoard, selectedWorkspace, setSelectedBoard, selectedBoard, updateBoard, token, favorites, setIsBoardSelectedGlobal, isBoardSelectedGlobal} = useContext(UserContext) as UserContextType;
   const context = useContext(UserContext);
   const [board, setBoard] = useState<any>(null);
 
@@ -18,6 +18,7 @@ const YourBoards = () => {
   const handleBoardChange = (boardId: string) => {
     setBoard(boardId);
     setSelectedBoard(boardId);
+    setIsBoardSelectedGlobal(true);
     
   }
 
@@ -54,13 +55,13 @@ const YourBoards = () => {
           {boards.map((board: any) => {
               
               return <li 
-              className={`px-2 group/item h-8 hover:bg-secondaryBG flex flex-row  ${selectedBoard === board.uuid ? 'bg-secondaryBG' : 'bg-background'}`}
+              className={`px-2 group/item h-8 hover:bg-secondaryBG flex flex-row  ${isBoardSelectedGlobal ? 'bg-secondaryBG' : 'bg-background'}`}
                   key={board.uuid || board.id}
                   onClick={() => handleBoardChange(board.uuid)}
                   >
                     <div className='flex flex-row gap-2 items-center flex-nowrap'>
                       <Image className='rounded' src={board.imageLink} width={26} height={20} alt='board-background'/>
-                      <Link href='' className='text-nowarp'>
+                      <Link href='/workspace/projects' className='text-nowarp'>
                         {board?.name?.length > 12 ? `${board.name.substring(0, 12)}...` : board.name}
                       </Link>
                     </div>
