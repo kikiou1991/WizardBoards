@@ -34,11 +34,6 @@ const MyWorkSpaceModal = () => {
   const context = useContext(UserContext);
   const { workspaces, createWorkspace, createBoard } = useContext(UserContext) as UserContextType;
 
-  const openBoardModal = () => {
-    setBoardModalOpen(true);
-    setWorkspaceModalOpen(false);
-  };
-
   const openWorkspaceModal = () => {
     setBoardModalOpen(false);
     setWorkspaceModalOpen(true);
@@ -113,11 +108,11 @@ const MyWorkSpaceModal = () => {
         backdrop='blur'
         radius='lg'
         classNames={{
-          body: 'py-6',
-          backdrop: 'bg-[#292f46]/50 backdrop-opacity-40',
-          base: 'border-primary bg-primary dark:bg-background text-foreground',
-          header: 'border-b-[1px] border-foreground',
-          footer: 'border-t-[1px] border-foreground',
+          body: 'py-6 border-foreground',
+          backdrop: 'bg-secondayBG/50 backdrop-opacity-40',
+          base: 'border-foreground bg-primary dark:bg-background text-foreground',
+          header: 'border-b-[1px] border-border',
+          footer: 'border-t-[1px] border-border',
           closeButton: 'hover:bg-white/5 active:bg-transparent',
         }}>
         <ModalContent>
@@ -156,13 +151,13 @@ const MyWorkSpaceModal = () => {
 
       {/* Render Workspace Modal */}
       <Modal
-        size='5xl'
+        size='lg'
         isOpen={isWorkspaceModalOpen}
         onClose={closeModals}
         backdrop='blur'
         radius='lg'
         classNames={{
-          body: 'py-6',
+          body: 'py-5 px-2',
           backdrop: 'bg-background/50 backdrop-opacity-50',
           base: 'border-foreground bg-bacckground dark:bg-background text-foreground',
           header: 'border-b-[1px] border-[#041A42]',
@@ -170,10 +165,12 @@ const MyWorkSpaceModal = () => {
           closeButton: 'hover:bg-white/5 active:bg-white/10',
         }}>
         <ModalContent>
-          <ModalBody className='flex flex-row px-3 py-3'>
-            <div className='flex flex-col gap-2 w-1/2 items-left'>
-              <h1>Let`s build a Workspace</h1>
-              <h2>Boost your productivity by making it easier for everyone to access boards in one location.</h2>
+          <ModalBody className=''>
+            <div className='flex flex-col gap-2 items-center justify-center'>
+              <h2 className='py-2 text-xl'>Let`s build a Workspace</h2>
+              <div className=''>
+                <h3 className=''>Name your workspace and let`s get started.</h3>
+              </div>
               <Input
                 type='email'
                 label='Workspace name'
@@ -184,23 +181,19 @@ const MyWorkSpaceModal = () => {
                 classNames={{
                   base: 'max-w-full sm:max-w-[20rem] h-10',
                   mainWrapper: 'h-full ',
-                  input: 'text-small',
-                  inputWrapper: 'data-[hover=true]:bg-none h-full font-normal text-[#090607] bg-secondaryBG hover:bg-primary',
+                  input: 'text-small text-foreground',
+                  inputWrapper: 'data-[hover=true]:bg-none h-full font-normal text-[#090607] bg-secondaryBG hover:bg-slate-200/80',
                 }}
                 value={workSpaceTitle}
                 onChange={(e) => setWorkSpaceTitle(e.target.value)}
               />
-
-              <div className='pt-7 items-center align-center max-w-full'>
-                <Button onPress={handleCreateWorkspace} size='md' color='primary' isDisabled={false}>
-                  Create
-                </Button>
-              </div>
-            </div>
-            <div className='border-y-[#143f88] image w-1/2 '>
-              <Image className='py-4 px-4 rounded-full' alt='badger' width={500} height={500} src='https://cdn.pixabay.com/photo/2015/10/06/22/04/harry-potter-975362_1280.jpg' />
             </div>
           </ModalBody>
+          <ModalFooter className='border-none justify-center'>
+            <Button className='items-center' onPress={handleCreateWorkspace} size='md' color='primary' isDisabled={false}>
+              Create
+            </Button>
+          </ModalFooter>
         </ModalContent>
       </Modal>
     </>

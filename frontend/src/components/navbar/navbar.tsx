@@ -12,6 +12,7 @@ import { UserContext, UserContextType } from '@/contexts/Usercontext';
 import Link from 'next/link';
 import NotificationWindow from '../notifications/notiWindow';
 import useOutsideClick from '../customHooks/useOutsideClick';
+import WorkspaceModal from '../modals/workspacemodal';
 
 interface UserData {
   name: string;
@@ -23,6 +24,7 @@ const NavbarTop = () => {
   const [user, setUser] = React.useState<UserData | null>(null);
   const [isHovered, setIsHovered] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   const { workspaces, setWorkspace, setSelectedWorkspace, selectedWorkspace, favorites, setIsBoardSelectedGlobal, setSelectedBoard } = useContext(UserContext) as UserContextType;
 
@@ -38,18 +40,15 @@ const NavbarTop = () => {
     setIsVisible(!isVisible);
   };
 
-  const handleMouseEnter = () => {
-    setIsHovered(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-  };
-
   const closeNotificationWindow = () => {
     setIsVisible(false);
   };
+
+  const toggleModals = () => {
+    setIsOpen(!isOpen);
+  };
   useOutsideClick(ref, closeNotificationWindow);
+  useOutsideClick(ref, toggleModals);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -83,7 +82,7 @@ const NavbarTop = () => {
   }, []);
 
   return (
-    <Navbar isBordered className='cursor-pointer border-b-[2px] border-border text-foreground bg-background flex flex-row px-5' classNames={{ base: 'w-screen', wrapper: 'w-screen max-w-none px-0' }}>
+    <Navbar isBordered className=' cursor-pointer border-b-[2px] border-border text-foreground bg-background flex flex-row px-5' classNames={{ base: 'w-screen', wrapper: 'w-screen max-w-none px-0' }}>
       {/* Left navigation section icon, header, and add button */}
       <NavbarContent className='items-center  flex flex-grow-0 gap-0  justify-start '>
         {/* File / Other Products / Navigation */}
@@ -178,7 +177,10 @@ const NavbarTop = () => {
       </NavbarContent>
 
       {/* Empty space between left and right sections */}
-      <div className='flex-grow'></div>
+      <div className={` flex-grow ${isOpen ? '' : 'hidden'}`}>{/* <WorkspaceModal ref={ref} /> */}</div>
+      {/* <Button onClick={toggleModals} className='bg-white text-black'>
+        Modal
+      </Button> */}
 
       {/* Right section with modal, calendar, notification, and profile */}
       <NavbarContent className=' flex  bg-inherit gap-3 ' style={{ flexGrow: '0' }}>

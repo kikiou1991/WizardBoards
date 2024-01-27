@@ -66,10 +66,10 @@ const MyModalNewBoard = ({ iconName }: Props) => {
           closeButton: 'hover:bg-white/5 active:bg-transparent',
         }}>
         <ModalContent>
-          <ModalHeader className='flex flex-col gap-1 items-center align-middle'>
+          <ModalHeader className='flex flex-col gap-1 items-center align-middle '>
             <h1 className=''>Create Board</h1>
           </ModalHeader>
-          <ModalBody className=''>
+          <ModalBody className=' '>
             <Input
               isRequired
               type='email'
@@ -91,7 +91,7 @@ const MyModalNewBoard = ({ iconName }: Props) => {
               </Select>
             </div>
           </ModalBody>
-          <ModalFooter>
+          <ModalFooter className=''>
             {/* Sumbit button so add new */}
             <Button onPress={handleCreateBoard} className='items-center' color='primary' variant='solid'>
               Create

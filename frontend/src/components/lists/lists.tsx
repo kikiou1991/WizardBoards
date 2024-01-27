@@ -1,9 +1,10 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useRef, KeyboardEvent } from 'react';
 import Cards from '../card/card';
 import { Draggable, Droppable } from '@hello-pangea/dnd';
 import { UserContext, UserContextType } from '@/contexts/Usercontext';
 import { Button, Input } from '@nextui-org/react';
 import Icon from '../Icons';
+import useOutsideClick from '../customHooks/useOutsideClick';
 
 interface Props {
   name: string;
@@ -14,6 +15,8 @@ const Lists = ({ name, id }: Props) => {
   const { lists, cards, createCard, token } = useContext(UserContext) as UserContextType;
   const [inputFieldRendered, setInputFieldRendered] = useState(false);
   const [cardTitle, setCardTitle] = useState('');
+
+  const ref = useRef(null);
 
   const toggleInput = () => {
     setInputFieldRendered(!inputFieldRendered);
@@ -39,6 +42,13 @@ const Lists = ({ name, id }: Props) => {
     }
   };
 
+  const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      handleSubmitCard(token, cardTitle);
+      setInputFieldRendered(true);
+    }
+  };
+  useOutsideClick(ref, toggleInput);
   // Filter cards based on the current list ID
   const filteredCards = cards.filter((card) => card.listUuid === id);
 
@@ -57,6 +67,7 @@ const Lists = ({ name, id }: Props) => {
             ))}
             {inputFieldRendered && (
               <Input
+                ref={ref}
                 value={cardTitle}
                 onValueChange={(newValue: string) => handleValueChange(newValue)}
                 className='bg-blue text-black  font-semibold'
@@ -65,6 +76,7 @@ const Lists = ({ name, id }: Props) => {
                   height: '40px',
                   padding: '5px',
                 }}
+                onKeyDown={handleKeyDown}
                 classNames={{
                   base: 'max-w-full sm:max-w-[24rem] h-10 items-center border-slate-200',
                   mainWrapper: 'flex h-full w-full  justify-center  ',
