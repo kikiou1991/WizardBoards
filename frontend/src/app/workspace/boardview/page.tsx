@@ -1,3 +1,4 @@
+'use client';
 import { useEffect, useState } from 'react';
 import { workspaceBoards } from '@/lib/boards';
 import { userWorkspaces } from '@/lib/workspaces';
