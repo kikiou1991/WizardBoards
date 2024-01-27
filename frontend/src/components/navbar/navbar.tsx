@@ -19,16 +19,19 @@ interface UserData {
   email: string;
   fullName: string;
 }
+interface Workspace {
+  uuid: string;
+  name: string;
+}
 
 const NavbarTop = () => {
   const [user, setUser] = React.useState<UserData | null>(null);
   const [isHovered, setIsHovered] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-
-  const { workspaces, setWorkspace, setSelectedWorkspace, selectedWorkspace, favorites, setIsBoardSelectedGlobal, setSelectedBoard } = useContext(UserContext) as UserContextType;
-
+  const { workspaces, setSelectedWorkspace, selectedWorkspace, favorites, setIsBoardSelectedGlobal, setSelectedBoard } = useContext(UserContext) as UserContextType;
   const ref = useRef(null);
+  // State to store selected workspace
 
   const handleWorkspaceChange = (workspaceId: string) => {
     setSelectedBoard('');
@@ -136,7 +139,7 @@ const NavbarTop = () => {
                       handleWorkspaceChange(workspace.uuid);
                     }}
                     className={`flex flex-row py-2 px-2 group/item h-10 `}>
-                    {workspace.name}
+                    <Link href='/workspace/projects'>{workspace.name}</Link>
                   </DropdownItem>
                 ))}
               </DropdownSection>
@@ -157,7 +160,7 @@ const NavbarTop = () => {
                   <div className='bg-inherit flex flex-row  group/item items-center flex-nowrap'>
                     <div className='flex flex-row gap-2 flex-grow w-full px-2 text-base'>
                       <Image className='rounded' src={favorite.imageLink} width={40} height={32} alt='board-background' />
-                      <Link href=''>
+                      <Link href='/workspace/projects'>
                         <p>{favorite.name.length > 12 ? `${favorite.name.substring(0, 12)}...` : favorite.name}</p>
                         <p>{favorite?.workspace?.name}</p>
                       </Link>
@@ -188,7 +191,7 @@ const NavbarTop = () => {
         <div ref={ref} className={`${isVisible ? '' : 'hidden'} p-0 m-0`}>
           <NotificationWindow />
         </div>
-        <MyModal />
+        {/* <MyModal /> */}
 
         {/* Calendar and Notifications */}
 

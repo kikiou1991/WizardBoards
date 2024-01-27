@@ -8,7 +8,7 @@ import { userWorkspaces } from '@/lib/workspaces';
 import { Modal, ModalBody, ModalContent, ModalHeader } from '@nextui-org/modal';
 import { Button, Link } from '@nextui-org/react';
 import { usePathname, useRouter } from 'next/navigation';
-import { ReactNode, createContext, use, useEffect, useState } from 'react';
+import { ReactNode, createContext, useMemo, useEffect, useState } from 'react';
 
 // Interfaces Section
 interface Workspace {
@@ -96,7 +96,6 @@ const UserContextProvider = ({ children }: UserContextProviderProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const [favorites, setFavorites] = useState<Boards[]>([]);
   const [isBoardSelectedGlobal, setIsBoardSelectedGlobal] = useState(false);
-
   const pathname = usePathname();
   const router = useRouter();
 
@@ -260,9 +259,6 @@ const UserContextProvider = ({ children }: UserContextProviderProps) => {
   };
 
   const createList = async (token: any, listData: any, boardUuid: string) => {
-    console.log('listData: ', listData);
-    console.log('boardUuid: ', boardUuid);
-
     try {
       const title = listData;
       const res = await boardLists.createLists(token, title, boardUuid);
@@ -275,6 +271,7 @@ const UserContextProvider = ({ children }: UserContextProviderProps) => {
   };
 
   const fetchCards = async (token: any, listUuid: string) => {
+    console.log('fetching cards');
     try {
       const res = await listCards.getCards(token, listUuid);
       setCards((prevCards) => {
@@ -289,11 +286,13 @@ const UserContextProvider = ({ children }: UserContextProviderProps) => {
   };
 
   const createCard = async (token: any, cardData: any, listUuid: string) => {
+    console.log('cards before creation: ', cards);
     try {
       const title = cardData;
       const res = await listCards.createCard(token, title, listUuid);
       if (res && res.newCard) {
-        setCards([res.newCard, ...cards]);
+        // Update newCards state with the newly created card
+        setCards((prevCards) => [res.newCard, ...prevCards]);
       }
     } catch (error) {
       console.error('Failed to create card', error);
@@ -301,35 +300,47 @@ const UserContextProvider = ({ children }: UserContextProviderProps) => {
   };
 
   useEffect(() => {
-    console.log('setting the token');
+    const fetchAndUpdateCards = async () => {
+      if (localStorage['token'] && lists.length > 0) {
+        const newCards = [];
+        for (let list of lists) {
+          const fetchedCards = await listCards.getCards(localStorage['token'], list.uuid);
+          newCards.push(...fetchedCards.data);
+        }
+        setCards(newCards);
+      }
+    };
+
+    fetchAndUpdateCards();
+  }, [lists, cards]);
+
+  const updateCards = (newCard: any) => {
+    setCards((prevCards) => [newCard, ...prevCards]);
+  };
+  //UseEffect for setting the token
+  useEffect(() => {
     if (localStorage['token']) {
       setToken(localStorage['token']);
     }
   }, []);
+  //UseEffect for validating the token
   useEffect(() => {
-    console.log('validating the token');
     if (token) {
       validateToken(token);
     }
   }, [token]); //if the token changes, validate it
+  //UseEffect for fetching boards  and then the lists
   useEffect(() => {
-    console.log;
+    console.log('i am getting triggered as well');
     if (localStorage['token'] && selectedWorkspace) {
-      fetchBoard(localStorage['token'], selectedWorkspace);
+      fetchBoard(localStorage['token'], selectedWorkspace).then(() => fetchLists(localStorage['token'], selectedBoard));
     }
-  }, [selectedWorkspace]); //if the selectedWorkspace changes, fetch the boards
-
-  useEffect(() => {
-    console;
-    if (localStorage['token'] && boards.length > 0) {
-      fetchLists(localStorage['token'], selectedBoard);
-    }
-  }, [selectedBoard]); //if the selectedBoard changes, fetch the lists
+  }, [selectedWorkspace, selectedBoard]); //if the selectedWorkspace or selectedBoard changes, fetch the boards
 
   //fetch cards for each lists on render or if the lists change
 
   useEffect(() => {
-    console.log('fetching cards');
+    console.log('i am triggered');
     if (localStorage['token'] && lists.length > 0) {
       for (let list of lists) {
         fetchCards(localStorage['token'], list.uuid);
@@ -338,7 +349,6 @@ const UserContextProvider = ({ children }: UserContextProviderProps) => {
   }, [lists]);
 
   useEffect(() => {
-    console.log('fetching favorites');
     // Check if both token and workspaces are available
     if (token && workspaces.length > 0) {
       // Fetch favorites

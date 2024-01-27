@@ -71,7 +71,7 @@ const Project = () => {
                 }}></Input>
               <div className='flex justify-start items-center px-2 py-1'>
                 <Button onClick={() => handleSubmitList(token, listTitle)} color='primary' className='hover:bg-primary/90 text-white font-semibold'>
-                  Add Card
+                  Create List
                 </Button>
                 <Button onClick={toggleIsActive} className='bg-inherit hover:bg-slate-200 text-black font-semibold' isIconOnly>
                   <Icon name='cancel' />
