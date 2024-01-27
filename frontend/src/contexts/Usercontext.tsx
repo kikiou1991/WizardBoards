@@ -186,7 +186,6 @@ const UserContextProvider = ({ children }: UserContextProviderProps) => {
   // Fetch favorites
 
   const fetchFavorites = async (token: any, workspaces: any) => {
-    console.log('workspaces: ', workspaces);
     try {
       // Iterate over each workspace
       for (let workspace of workspaces) {
@@ -334,7 +333,6 @@ const UserContextProvider = ({ children }: UserContextProviderProps) => {
   //UseEffect for fetching boards  and then the lists
 
   useEffect(() => {
-    console.log('i am getting triggered as well');
     if (localStorage['token'] && selectedWorkspace) {
       fetchBoard(localStorage['token'], selectedWorkspace).then(() => fetchLists(localStorage['token'], selectedBoard));
     }
@@ -343,7 +341,6 @@ const UserContextProvider = ({ children }: UserContextProviderProps) => {
   //fetch cards for each lists on render or if the lists change
 
   useEffect(() => {
-    console.log('i am triggered');
     if (localStorage['token'] && lists.length > 0) {
       for (let list of lists) {
         fetchCards(localStorage['token'], list.uuid);
@@ -359,7 +356,7 @@ const UserContextProvider = ({ children }: UserContextProviderProps) => {
     }
   }, [workspaces]);
 
-  //useEffect re render the page when there is change to favorites
+  //useEffect re render the page when there is change to favorites ??????
   useEffect(() => {
     const fetchAndUpdateFavorites = async () => {
       if (localStorage['token'] && workspaces.length > 0) {

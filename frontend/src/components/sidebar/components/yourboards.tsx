@@ -32,8 +32,6 @@ const YourBoards = () => {
   const handleStar = async (boardUuid: string) => {
     try {
       const selectedBoard = boards.find((board) => board.uuid === boardUuid);
-      console.log('boardUuid: ', boardUuid);
-      console.log('selectedBoard: ', selectedBoard?.isStared);
 
       await updateBoard(token, boardUuid, { isStared: !selectedBoard?.isStared, name: selectedBoard?.name });
     } catch (error) {}
