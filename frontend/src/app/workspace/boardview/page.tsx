@@ -10,48 +10,48 @@ interface Workspace {
 }
 
 const BoardView = () => {
-  const { selectedWorkspace } = useContext(UserContext) as UserContextType;
-  const [workspaces, setWorkspaces] = useState<Workspace[]>([]);
-  const [boards, setBoards] = useState<any[]>([]);
+  const { selectedWorkspace, boards } = useContext(UserContext) as UserContextType;
+  // const [workspaces, setWorkspaces] = useState<Workspace[]>([]);
+  // const [boards, setBoards] = useState<any[]>([]);
 
-  const fetchWorkspaces = async (token: any) => {
-    if (!token) {
-      console.log('Token is missing');
-    }
+  // const fetchWorkspaces = async (token: any) => {
+  //   if (!token) {
+  //     console.log('Token is missing');
+  //   }
 
-    try {
-      let res = await userWorkspaces.fetchWorkspaces(token);
+  //   try {
+  //     let res = await userWorkspaces.fetchWorkspaces(token);
 
-      setWorkspaces(res?.data || []);
-    } catch (error: any) {
-      // Handle error if needed
-      console.error('Error fetching workspaces:', error || error.message || error.response);
-    }
-  };
+  //     setWorkspaces(res?.data || []);
+  //   } catch (error: any) {
+  //     // Handle error if needed
+  //     console.error('Error fetching workspaces:', error || error.message || error.response);
+  //   }
+  // };
 
-  const fetchBoard = async (token: any, workspaceUuid: string) => {
-    try {
-      const res = await workspaceBoards.fetchBoard(token, workspaceUuid);
-      setBoards(res?.data || []);
-    } catch (error) {
-      console.error('Failed to fetch boards', error);
-    }
-  };
+  // const fetchBoard = async (token: any, workspaceUuid: string) => {
+  //   try {
+  //     const res = await workspaceBoards.fetchBoard(token, workspaceUuid);
+  //     setBoards(res?.data || []);
+  //   } catch (error) {
+  //     console.error('Failed to fetch boards', error);
+  //   }
+  // };
 
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    fetchWorkspaces(token);
-  }, [selectedWorkspace]);
+  // useEffect(() => {
+  //   const token = localStorage.getItem('token');
+  //   fetchWorkspaces(token);
+  // }, [selectedWorkspace]);
 
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (workspaces.length !== 0) {
-      // Iterate over each workspace and fetch its boards
-      workspaces.forEach(async (workspace) => {
-        await fetchBoard(token, workspace.uuid);
-      });
-    }
-  }, [workspaces]);
+  // useEffect(() => {
+  //   const token = localStorage.getItem('token');
+  //   if (workspaces.length !== 0) {
+  //     // Iterate over each workspace and fetch its boards
+  //     workspaces.forEach(async (workspace) => {
+  //       await fetchBoard(token, workspace.uuid);
+  //     });
+  //   }
+  // }, [workspaces]);
 
   return (
     <div className='grow overflow-hidden flex flex-col overflow-x-auto overflow-y-hidden  whitespace-nowrap'>

@@ -100,8 +100,6 @@ const UserContextProvider = ({ children }: UserContextProviderProps) => {
   const pathname = usePathname();
   const router = useRouter();
 
-  console.log(isBoardSelectedGlobal);
-
   //create boards
   const createBoard = async (token: any, boardData: any) => {
     try {
