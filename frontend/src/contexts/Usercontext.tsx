@@ -204,7 +204,7 @@ const UserContextProvider = ({ children }: UserContextProviderProps) => {
     }
   };
 
-  //  fetch workspaces
+  //  fetch workspaces for the current user
   const fetchWorkspaces = async (token: any) => {
     if (!token) {
       console.log('Token is missing');
@@ -221,6 +221,8 @@ const UserContextProvider = ({ children }: UserContextProviderProps) => {
       setIsLoading(false);
     }
   };
+
+  //create a new workspace
 
   const createWorkspace = async (token: any, boardData: any) => {
     try {
@@ -244,10 +246,12 @@ const UserContextProvider = ({ children }: UserContextProviderProps) => {
     }
   };
 
-  //set workspaces
+  //set workspaces for the current user
   const setWorkspace = (workspace: Workspace | null) => {
     setCurrentWorkspace(workspace);
   };
+
+  //Fetch all the lists within a board
 
   const fetchLists = async (token: any, boardUuid: string) => {
     try {
@@ -298,7 +302,7 @@ const UserContextProvider = ({ children }: UserContextProviderProps) => {
       console.error('Failed to create card', error);
     }
   };
-
+  //useEffec triggered when a card is added to a list
   useEffect(() => {
     const fetchAndUpdateCards = async () => {
       if (localStorage['token'] && lists.length > 0) {
@@ -312,11 +316,8 @@ const UserContextProvider = ({ children }: UserContextProviderProps) => {
     };
 
     fetchAndUpdateCards();
-  }, [lists, cards]);
+  }, [lists, cards]); //if the lists or cards change, fetch the cards
 
-  const updateCards = (newCard: any) => {
-    setCards((prevCards) => [newCard, ...prevCards]);
-  };
   //UseEffect for setting the token
   useEffect(() => {
     if (localStorage['token']) {
@@ -329,7 +330,9 @@ const UserContextProvider = ({ children }: UserContextProviderProps) => {
       validateToken(token);
     }
   }, [token]); //if the token changes, validate it
+
   //UseEffect for fetching boards  and then the lists
+
   useEffect(() => {
     console.log('i am getting triggered as well');
     if (localStorage['token'] && selectedWorkspace) {
@@ -347,7 +350,7 @@ const UserContextProvider = ({ children }: UserContextProviderProps) => {
       }
     }
   }, [lists]);
-
+  //useEffect to fetch the favorites on mounting
   useEffect(() => {
     // Check if both token and workspaces are available
     if (token && workspaces.length > 0) {
@@ -355,6 +358,23 @@ const UserContextProvider = ({ children }: UserContextProviderProps) => {
       fetchFavorites(token, workspaces);
     }
   }, [workspaces]);
+
+  //useEffect re render the page when there is change to favorites
+  useEffect(() => {
+    const fetchAndUpdateFavorites = async () => {
+      if (localStorage['token'] && workspaces.length > 0) {
+        const newFavorites = [];
+        for (let workspace of workspaces) {
+          const res = await workspaceBoards.fetchBoard(localStorage['token'], workspace.uuid);
+          const favBoards = res?.data.filter((board: any) => board.isStared === true) || [];
+          newFavorites.push(...favBoards);
+        }
+        setFavorites(newFavorites);
+      }
+    };
+
+    fetchAndUpdateFavorites();
+  }, [workspaces, favorites]);
 
   const handleLogout = async () => {
     localStorage.clear();
