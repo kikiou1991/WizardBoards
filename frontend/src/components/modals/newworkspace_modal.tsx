@@ -18,6 +18,7 @@ import {
   SelectItem,
 } from '@nextui-org/react';
 import { useContext, useState } from 'react';
+import MyModalNewBoard from '../sidebar/sidebarmodal/new_board_modal';
 
 interface Workspace {
   uuid: string;
@@ -82,7 +83,7 @@ const MyWorkSpaceModal = () => {
 
   return (
     <>
-      <Dropdown className='bg-background text-foreground w-' placement='bottom-start'>
+      <Dropdown className='bg-background text-foreground w-' placement='bottom-start' closeOnSelect={false}>
         <DropdownTrigger className=' hover:bg-cards p-1 rounded-md text-base'>
           <Button className='bg-cards text-black' size='md'>
             {/* <Icon name='addIcon' classname={'bg-white'} /> */}
@@ -91,7 +92,7 @@ const MyWorkSpaceModal = () => {
         </DropdownTrigger>
         <DropdownMenu>
           <DropdownSection>
-            <DropdownItem className='data-[hover=true]:bg-secondaryBG' description='A board is made up of cards ordered on lists.' startContent={<Icon name='addBoard' />} onClick={openBoardModal}>
+            <DropdownItem className='data-[hover=true]:bg-secondaryBG' description='A board is made up of cards ordered on lists.' startContent={<MyModalNewBoard iconName='addBoard' />}>
               <p>Create new board</p>
             </DropdownItem>
             <DropdownItem

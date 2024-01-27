@@ -43,7 +43,7 @@ const YourBoards = () => {
     <div>
       <div className='flex flex-row px-2 pt-2'>
         <h2 className='font-semibold flex-grow'>Your Boards</h2>
-        <MyModalNewBoard />
+        <MyModalNewBoard iconName='addIcon' />
       </div>
       <div className='pt-2 flex flex-col'>
         {boards && boards.length > 0 ? (
