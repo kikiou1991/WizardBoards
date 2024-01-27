@@ -12,7 +12,7 @@ interface Props {
 }
 
 const Lists = ({ name, id }: Props) => {
-  const { lists, cards, createCard, token } = useContext(UserContext) as UserContextType;
+  const { cards, createCard, token } = useContext(UserContext) as UserContextType;
   const [inputFieldRendered, setInputFieldRendered] = useState(false);
   const [cardTitle, setCardTitle] = useState('');
 
