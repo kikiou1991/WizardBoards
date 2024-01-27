@@ -1,9 +1,10 @@
-'use clients';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { UserContext, UserContextType } from '@/contexts/Usercontext';
 
 const BoardView = () => {
   const { boards } = useContext(UserContext) as UserContextType;
+
+  useEffect(() => {}, [boards]);
 
   return (
     <div className='grow overflow-hidden flex flex-col overflow-x-auto overflow-y-hidden  whitespace-nowrap'>
