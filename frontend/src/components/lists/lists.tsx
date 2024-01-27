@@ -61,7 +61,7 @@ const Lists = ({ name, id }: Props) => {
       </div>
       <Droppable droppableId={id}>
         {(provided) => (
-          <div ref={provided.innerRef} {...provided.droppableProps} className='relative flex flex-col items-center h-full  py-2 gap-1 px-1'>
+          <div ref={provided.innerRef} {...provided.droppableProps} className='flex flex-col items-center h-full  py-2 gap-1 px-1'>
             {filteredCards.map((card: any) => (
               <Cards key={card.uuid} name={card.title} index={card.cardIndex} />
             ))}

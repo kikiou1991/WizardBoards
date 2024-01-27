@@ -1,10 +1,17 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { workspaceBoards } from '@/lib/boards';
 import { userWorkspaces } from '@/lib/workspaces';
+import { UserContext, UserContextType } from '@/contexts/Usercontext';
+
+interface Workspace {
+  uuid: string;
+  name: string;
+}
 
 const BoardView = () => {
-  const [workspaces, setWorkspaces] = useState<any[]>([]);
+  const { selectedWorkspace } = useContext(UserContext) as UserContextType;
+  const [workspaces, setWorkspaces] = useState<Workspace[]>([]);
   const [boards, setBoards] = useState<any[]>([]);
 
   const fetchWorkspaces = async (token: any) => {
@@ -21,6 +28,7 @@ const BoardView = () => {
       console.error('Error fetching workspaces:', error || error.message || error.response);
     }
   };
+
   const fetchBoard = async (token: any, workspaceUuid: string) => {
     try {
       const res = await workspaceBoards.fetchBoard(token, workspaceUuid);
@@ -33,12 +41,15 @@ const BoardView = () => {
   useEffect(() => {
     const token = localStorage.getItem('token');
     fetchWorkspaces(token);
-  }, []);
+  }, [selectedWorkspace]);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (workspaces.length !== 0) {
-      fetchBoard(token, workspaces[0].uuid);
+      // Iterate over each workspace and fetch its boards
+      workspaces.forEach(async (workspace) => {
+        await fetchBoard(token, workspace.uuid);
+      });
     }
   }, [workspaces]);
 
