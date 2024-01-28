@@ -1,24 +1,23 @@
 'use client';
-import { UserContext, UserContextType } from '@/contexts/Usercontext';
-import { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import MyModalNewBoard from '../sidebarmodal/new_board_modal';
-
 import Link from 'next/link';
 import Image from 'next/image';
 import Icon from '@/components/Icons';
 import { Dropdown, Button, DropdownItem, DropdownMenu, DropdownSection, DropdownTrigger } from '@nextui-org/react';
+import { UserContext, UserContextType } from '@/contexts/Usercontext';
 
 const YourBoards = () => {
   const { boards, deleteBoard, selectedWorkspace, setSelectedBoard, selectedBoard, updateBoard, token, favorites, setIsBoardSelectedGlobal, isBoardSelectedGlobal } = useContext(
     UserContext
   ) as UserContextType;
   const context = useContext(UserContext);
-  const [board, setBoard] = useState<any>(null);
+  const [selectedItemId, setSelectedItemId] = useState<string | null>(null); // Maintain the ID of the selected board item
 
   const handleBoardChange = (boardId: string) => {
-    setBoard(boardId);
     setSelectedBoard(boardId);
     setIsBoardSelectedGlobal(true);
+    setSelectedItemId(boardId); // Set the selected item ID
   };
 
   const handleDelete = async (boardUuid: string) => {
@@ -29,6 +28,7 @@ const YourBoards = () => {
       console.error('Error deleting board: ', error);
     }
   };
+
   const handleStar = async (boardUuid: string) => {
     try {
       const selectedBoard = boards.find((board) => board.uuid === boardUuid);
@@ -49,7 +49,7 @@ const YourBoards = () => {
             {boards.map((board: any) => {
               return (
                 <li
-                  className={`px-2 group/item h-8 hover:bg-secondaryBG flex flex-row  ${isBoardSelectedGlobal ? 'bg-secondaryBG' : 'bg-background'}`}
+                  className={`px-2 group/item h-8 hover:bg-secondaryBG flex flex-row ${selectedItemId === board.uuid ? 'bg-secondaryBG' : 'bg-background'}`}
                   key={board.uuid || board.id}
                   onClick={() => handleBoardChange(board.uuid)}>
                   <div className='flex flex-row gap-2 items-center flex-nowrap'>
