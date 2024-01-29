@@ -191,7 +191,7 @@ const NavbarTop = () => {
         <div ref={ref} className={`${isVisible ? '' : 'hidden'} p-0 m-0`}>
           <NotificationWindow />
         </div>
-        {/* <MyModal /> */}
+        <MyModal />
 
         {/* Calendar and Notifications */}
 

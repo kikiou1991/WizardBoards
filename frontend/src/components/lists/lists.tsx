@@ -1,4 +1,5 @@
-import React, { useContext, useState, useRef, KeyboardEvent } from 'react';
+'use client';
+import React, { useContext, useState, useRef, KeyboardEvent, useEffect } from 'react';
 import Cards from '../card/card';
 import { Draggable, Droppable } from '@hello-pangea/dnd';
 import { UserContext, UserContextType } from '@/contexts/Usercontext';
@@ -15,11 +16,17 @@ const Lists = ({ name, id }: Props) => {
   const { cards, createCard, token } = useContext(UserContext) as UserContextType;
   const [inputFieldRendered, setInputFieldRendered] = useState(false);
   const [cardTitle, setCardTitle] = useState('');
+  const [newCardAdded, setNewCardAdded] = useState(false);
 
   const ref = useRef(null);
+  const listRef = useRef<HTMLDivElement>(null);
 
   const toggleInput = () => {
     setInputFieldRendered(!inputFieldRendered);
+    if (!inputFieldRendered && listRef.current) {
+      // Scroll to the bottom when input field is toggled
+      listRef.current.scrollTop = listRef.current.scrollHeight;
+    }
   };
 
   const handleValueChange = (value: string) => {
@@ -35,6 +42,7 @@ const Lists = ({ name, id }: Props) => {
     try {
       createCard(token, { title: cardTitle }, id);
       setCardTitle('');
+      setNewCardAdded(true);
       toggleInput(); // Close the input field after submitting
     } catch (error) {
       console.error('Failed to submit card', error);
@@ -48,10 +56,20 @@ const Lists = ({ name, id }: Props) => {
       setInputFieldRendered(true);
     }
   };
-  useOutsideClick(ref, toggleInput);
-  // Filter cards based on the current list ID
   const filteredCards = cards.filter((card) => card.listUuid === id);
 
+  useEffect(() => {
+    console.log('cards changed');
+    if (listRef.current) {
+      // Scroll to the bottom when a new card is added
+      listRef.current.scrollTop = listRef.current.scrollHeight;
+      setNewCardAdded(false);
+    }
+  }, [newCardAdded, inputFieldRendered]); // Trigger effect when cards change
+
+  useOutsideClick(ref, toggleInput);
+
+  // Filter cards based on the current list ID
   return (
     <div
       className='relative text-black w-48 rounded min-h-80 border-solid border-2 border-foreground bg-[#dadada] px-2  flex flex-col overflow-y-hidden overflow-x-hidden'
@@ -59,10 +77,10 @@ const Lists = ({ name, id }: Props) => {
       <div className='sticky w-48 top-0 left-0 bg-inherit items-center justify-center py-2 px-2 ' style={{ width: '260px', height: '40px' }}>
         {name}
       </div>
-      <div className='overflow-y-auto py-1'>
+      <div ref={listRef} className='overflow-y-auto py-1'>
         <Droppable droppableId={id}>
           {(provided) => (
-            <div ref={provided.innerRef} {...provided.droppableProps} className='flex flex-col items-center h-full  py-2 gap-1 px-1 '>
+            <div ref={provided.innerRef} {...provided.droppableProps} className='flex flex-col items-center h-full mt-2 py-2 gap-1 px-1 '>
               {filteredCards.map((card: any) => (
                 <Cards key={card.uuid} name={card.title} index={card.cardIndex} />
               ))}
