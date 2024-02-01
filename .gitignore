@@ -3,4 +3,4 @@ backend/node_modules/
 
 # Ignore node_modules in the frontend directory
 frontend/node_modules/
-
+frontend/.next/
