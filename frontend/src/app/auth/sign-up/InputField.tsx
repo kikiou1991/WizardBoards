@@ -1,8 +1,8 @@
 'use client';
-import {UserContext, UserContextType} from '@/contexts/Usercontext';
-import {Button, Input} from '@nextui-org/react';
-import {useRouter} from 'next/navigation';
-import React, {useContext, useState} from 'react';
+import { UserContext, UserContextType } from '@/contexts/Usercontext';
+import { Button, Input } from '@nextui-org/react';
+import { useRouter } from 'next/navigation';
+import React, { useContext, useState } from 'react';
 import toast from 'react-hot-toast';
 
 // Import statements...
@@ -19,7 +19,7 @@ const InputField = () => {
   });
   const router = useRouter();
 
-  const {authenticated} = useContext(UserContext) as UserContextType
+  const { authenticated } = useContext(UserContext) as UserContextType;
 
   if (authenticated) {
     router.replace(`/workspace/home`);
@@ -37,12 +37,12 @@ const InputField = () => {
   };
 
   const handleChangePassword = (value: string) => {
-    setUser({...user, password: value});
+    setUser({ ...user, password: value });
     setButtonDisabled(validationState === 'valid' && value === user.passwordConfirm ? false : true);
   };
 
   const handleChangePasswordConfirm = (value: string) => {
-    setUser({...user, passwordConfirm: value});
+    setUser({ ...user, passwordConfirm: value });
     setButtonDisabled(validationState === 'valid' && value === user.password ? false : true);
   };
 
@@ -50,8 +50,8 @@ const InputField = () => {
 
   const handleChangeFullName = (value: string) => {
     setFullName(value);
-    setButtonDisabled(validationState === 'valid' && value !== '' ? false : true)
-  }
+    setButtonDisabled(validationState === 'valid' && value !== '' ? false : true);
+  };
 
   const signUp = async () => {
     let errorMessage = '';
@@ -69,11 +69,11 @@ const InputField = () => {
         password: user.password,
         fullName: fullName,
       };
-      
+
       console.log('Request Body:', requestBody);
 
       try {
-        const response = await fetch('https://gadorjani.co.uk/api/signup', {
+        const response = await fetch('https://wizardboards.co.uk/api/signup', {
           method: 'POST',
           headers: {
             Accept: 'application/json',
@@ -87,10 +87,10 @@ const InputField = () => {
             fullName: fullName,
           }),
         });
-        console.log('This is the body of the JSON response',response.body)
+        console.log('This is the body of the JSON response', response.body);
         if (response.ok) {
           // Handle successful response
-          
+
           router.push('/auth/sign-in');
         } else {
           // Handle error response
@@ -112,7 +112,7 @@ const InputField = () => {
   return (
     <>
       <Input onChange={(e) => handleChangeEmail(e.target.value)} type='email' label='Email' placeholder='junior@nextui.org' className='max-w-xs' isRequired isClearable />
-      <Input onChange={(e) => handleChangeFullName(e.target.value)} isRequired isClearable type="text" label="Fullname" className='max-w-xs' placeholder='Enter your full name'/>
+      <Input onChange={(e) => handleChangeFullName(e.target.value)} isRequired isClearable type='text' label='Fullname' className='max-w-xs' placeholder='Enter your full name' />
       <Input onChange={(e) => handleChangePassword(e.target.value)} isRequired isClearable type='password' label='Password' className='max-w-xs' placeholder='Enter your password' />
       <Input onChange={(e) => handleChangePasswordConfirm(e.target.value)} isRequired isClearable type='password' label='Confirm Password' className='max-w-xs' placeholder='Re-enter your password' />
 

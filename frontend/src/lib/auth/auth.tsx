@@ -3,7 +3,7 @@ export const userAuth = {
 
   validateToken: async (token: any) => {
     try {
-      const response = await fetch('https://gadorjani.co.uk/api/auth/validate', {
+      const response = await fetch('https://wizardboards.co.uk/api/auth/validate', {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,

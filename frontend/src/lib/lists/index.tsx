@@ -2,7 +2,7 @@ export const boardLists = {
   createLists: async (token: any, listData: any, boardUuid: string) => {
     try {
       const { title } = listData;
-      const response = await fetch('https://gadorjani.co.uk/api/lists', {
+      const response = await fetch('https://wizardboards.co.uk/api/lists', {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -26,7 +26,7 @@ export const boardLists = {
 
   getLists: async (token: any, boardUuid: string) => {
     try {
-      const response = await fetch(`https://gadorjani.co.uk/api/lists?boardUuid=${encodeURIComponent(boardUuid)}`, {
+      const response = await fetch(`https://wizarboards.co.uk/api/lists?boardUuid=${encodeURIComponent(boardUuid)}`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,
