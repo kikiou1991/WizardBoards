@@ -372,7 +372,7 @@ const UserContextProvider = ({ children }: UserContextProviderProps) => {
 
     fetchAndUpdateFavorites();
   }, [workspaces, favorites]);
-
+  //logout function: clear the local storage and set the token to null
   const handleLogout = async () => {
     localStorage.clear();
     setWorkspaces([]);
