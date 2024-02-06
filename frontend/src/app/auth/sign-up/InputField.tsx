@@ -73,7 +73,7 @@ const InputField = () => {
       console.log('Request Body:', requestBody);
 
       try {
-        const response = await fetch('https://wizardboards.co.uk/api/signup', {
+        const response = await fetch('http://localhost:3001/api/signup', {
           method: 'POST',
           headers: {
             Accept: 'application/json',

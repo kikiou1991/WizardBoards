@@ -59,7 +59,6 @@ const Lists = ({ name, id }: Props) => {
   const filteredCards = cards.filter((card) => card.listUuid === id);
 
   useEffect(() => {
-    console.log('cards changed');
     if (listRef.current) {
       // Scroll to the bottom when a new card is added
       listRef.current.scrollTop = listRef.current.scrollHeight;
@@ -80,7 +79,7 @@ const Lists = ({ name, id }: Props) => {
       <div ref={listRef} className='overflow-y-auto py-1'>
         <Droppable droppableId={id}>
           {(provided) => (
-            <div ref={provided.innerRef} {...provided.droppableProps} className='flex flex-col items-center h-full mt-2 py-2 gap-1 px-1 '>
+            <div ref={provided.innerRef} {...provided.droppableProps} className='flex flex-col items-center h-full gap-1 px-1 '>
               {filteredCards.map((card: any) => (
                 <Cards key={card.uuid} name={card.title} index={card.cardIndex} />
               ))}
@@ -97,9 +96,9 @@ const Lists = ({ name, id }: Props) => {
                   }}
                   onKeyDown={handleKeyDown}
                   classNames={{
-                    base: 'max-w-full sm:max-w-[24rem] h-10 items-center border-slate-200',
+                    base: 'text-black max-w-full sm:max-w-[24rem] h-10 items-center border-slate-200',
                     mainWrapper: 'flex h-full w-full  justify-center  ',
-                    input: 'text-small group-data-[focus=true]:text-black ',
+                    input: 'text-small font-semibold group-data-[focus=true]:text-background',
                     inputWrapper:
                       'dark:focus-within:!bg-cards/60 data-[hover=true]:bg-cards h-full w-60  !cursor-text dark:focus-within:text-forground bg-cards hover:bg-foreground border-slate-100 rounded-md',
                   }}

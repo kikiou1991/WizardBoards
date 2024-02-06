@@ -1,7 +1,8 @@
-import React from 'react';
-import { Draggable, Droppable, DropResult } from '@hello-pangea/dnd';
+import React, { useContext } from 'react';
+import { Draggable } from '@hello-pangea/dnd';
 import { Button, Popover, PopoverContent, PopoverTrigger } from '@nextui-org/react';
 import Icon from '../Icons';
+import { UserContext, UserContextType } from '@/contexts/Usercontext';
 
 interface Props {
   name: string;
@@ -9,16 +10,30 @@ interface Props {
 }
 
 const Cards = ({ name, index }: Props) => {
+  const { deleteCard, token, cards } = useContext(UserContext) as UserContextType;
   const [isHovered, setIsHovered] = React.useState(false);
 
+  const handleDeleteCard = async () => {
+    console.log('initiating delete card');
+    try {
+      const cardToDelete = cards.find((card) => card.cardIndex === index);
+      if (cardToDelete) {
+        const { uuid, listUuid } = cardToDelete;
+
+        await deleteCard(token, uuid, listUuid);
+      }
+    } catch (error) {
+      console.error('Failed to delete card:', error);
+    }
+  };
   const onMouseOver = () => setIsHovered(true);
-  const onMouseLeve = () => setIsHovered(false);
+  const onMouseLeave = () => setIsHovered(false);
 
   return (
     <Draggable draggableId={`card-${index}`} index={index}>
       {(provided) => (
         <div
-          className='text-black w-60 rounded  border-solid border-2 border-slate-300 bg-cards px-2 py-2 items-center overflow-x-hidden text-wrap flex relative'
+          className='text-black w-60 rounded border-solid border-2 border-slate-300 bg-cards px-2 py-2 items-center overflow-x-hidden text-wrap flex relative'
           style={{ minWidth: '242px', minHeight: '80px' }}
           ref={provided.innerRef}
           {...provided.draggableProps}
@@ -42,13 +57,18 @@ const Cards = ({ name, index }: Props) => {
             <PopoverContent className=''>
               {(titleProps) => (
                 <div className='items-center'>
-                  <div className=' bg-cards items-center rounded-lg  hover:bg-slate-300'>
+                  <div className='bg-cards items-center rounded-lg hover:bg-slate-300'>
                     <Button startContent={<Icon name='editCard' />} className='text-black font-bold bg-inherit'>
                       Edit Card
                     </Button>
                   </div>
                   <div className='bg-cards items-center rounded-lg hover:bg-slate-300'>
-                    <Button startContent={<Icon name='archive' />} className='text-black font-bold bg-inherit'>
+                    <Button
+                      onPress={() => {
+                        handleDeleteCard();
+                      }}
+                      startContent={<Icon name='archive' />}
+                      className='text-black font-bold bg-inherit'>
                       Delete Card
                     </Button>
                   </div>

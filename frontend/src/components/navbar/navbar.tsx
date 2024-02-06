@@ -63,7 +63,7 @@ const NavbarTop = () => {
           console.log('Failed to fetch token!');
         }
         //use the token to get the user info
-        const response = await fetch('https://wizardboards.co.uk/api/users/me', {
+        const response = await fetch('http://localhost:3001/api/users/me', {
           headers: {
             Authorization: `Bearer ${token}`,
           },

@@ -4,7 +4,7 @@ export const workspaceBoards = {
       const { name } = boardData;
       const simplifiedBoardData = { name, workspaceUuid };
       console.log(simplifiedBoardData);
-      const response = await fetch('https://wizardboards.co.uk/api/boards', {
+      const response = await fetch('http://localhost:3001/api/boards', {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -26,7 +26,7 @@ export const workspaceBoards = {
 
   fetchBoard: async (token: any, workspaceUuid: string) => {
     try {
-      const response = await fetch(`https://wizarboards.co.uk/api/boards?workspaceUuid=${encodeURIComponent(workspaceUuid)}`, {
+      const response = await fetch(`http://localhost:3001/api/boards?workspaceUuid=${encodeURIComponent(workspaceUuid)}`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -45,7 +45,7 @@ export const workspaceBoards = {
 
   deleteBoard: async (token: any, workspaceUuid: string, boardUuid: string) => {
     try {
-      const response = await fetch('https://wizardboards.co.uk/api/boards/delete', {
+      const response = await fetch('http://localhost:3001/api/boards/delete', {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -72,7 +72,7 @@ export const workspaceBoards = {
   upDateBoard: async (token: any, boardUuid: string, boardData: any) => {
     console.log('this is the board data: ', boardData);
     try {
-      const response = await fetch(`https://wizardboards.co.uk/api/boards/update/?boardUuid=${boardUuid}`, {
+      const response = await fetch(`http://localhost:3001/api/boards/update/?boardUuid=${boardUuid}`, {
         method: 'PATCH',
         headers: {
           Authorization: `Bearer ${token}`,

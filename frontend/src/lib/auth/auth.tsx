@@ -1,9 +1,7 @@
 export const userAuth = {
-  // ide meg jöhet a saját dolgod aztán csókolom
-
   validateToken: async (token: any) => {
     try {
-      const response = await fetch('https://wizardboards.co.uk/api/auth/validate', {
+      const response = await fetch('http://localhost:3001/api/auth/validate', {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,

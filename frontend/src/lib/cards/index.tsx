@@ -3,7 +3,7 @@ export const listCards = {
     console.log('token', token);
     try {
       const { title } = cardData;
-      const response = await fetch('https://wizardboards.co.uk/api/cards', {
+      const response = await fetch('http://localhost:3001/api/cards', {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -29,7 +29,7 @@ export const listCards = {
 
   getCards: async (token: any, listUuid: string) => {
     try {
-      const response = await fetch(`https://wizardboards.co.uk/api/cards?listUuid=${encodeURIComponent(listUuid)}`, {
+      const response = await fetch(`http://localhost:3001/api/cards?listUuid=${encodeURIComponent(listUuid)}`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -48,7 +48,7 @@ export const listCards = {
 
   deleteCard: async (token: any, cardUuid: string, listUuid: string) => {
     try {
-      const response = await fetch(`https://wizardboards.co.uk/api/cards/delete`, {
+      const response = await fetch(`http://localhost:3001/api/cards/delete`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,

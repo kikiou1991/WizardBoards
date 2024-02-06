@@ -73,6 +73,7 @@ export interface UserContextType {
   createCard: (token: any, cardData: any, listUuid: string) => Promise<void>;
   isBoardSelectedGlobal: boolean;
   setIsBoardSelectedGlobal: React.Dispatch<React.SetStateAction<boolean>>;
+  deleteCard: (token: any, cardData: any, listUuid: string) => Promise<void>;
 }
 interface UserContextProviderProps {
   children: ReactNode;
@@ -96,6 +97,7 @@ const UserContextProvider = ({ children }: UserContextProviderProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const [favorites, setFavorites] = useState<Boards[]>([]);
   const [isBoardSelectedGlobal, setIsBoardSelectedGlobal] = useState(false);
+  const [isNewCardCreated, setIsNewCardCreated] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
 
@@ -274,15 +276,20 @@ const UserContextProvider = ({ children }: UserContextProviderProps) => {
   };
 
   const fetchCards = async (token: any, listUuid: string) => {
-    console.log('fetching cards');
     try {
       const res = await listCards.getCards(token, listUuid);
-      setCards((prevCards) => {
-        // Filter out cards for other lists
-        const filteredCards = prevCards.filter((card) => card.listUuid !== listUuid);
-        // Concatenate the new cards
-        return [...filteredCards, ...res?.data];
-      });
+
+      // Check if res.data is defined before using it
+      if (res && res.data) {
+        setCards((prevCards) => {
+          // Filter out cards for other lists
+          const filteredCards = prevCards.filter((card) => card.listUuid !== listUuid);
+          // Concatenate the new cards
+          return [...filteredCards, ...res.data];
+        });
+      } else {
+        console.error('Data not available in API response');
+      }
     } catch (error) {
       console.error('Failed to fetch cards', error);
     }
@@ -299,23 +306,35 @@ const UserContextProvider = ({ children }: UserContextProviderProps) => {
       }
     } catch (error) {
       console.error('Failed to create card', error);
+    } finally {
+      setIsNewCardCreated(true);
     }
   };
-  //useEffec triggered when a card is added to a list
-  useEffect(() => {
-    const fetchAndUpdateCards = async () => {
-      if (localStorage['token'] && lists.length > 0) {
-        const newCards = [];
-        for (let list of lists) {
-          const fetchedCards = await listCards.getCards(localStorage['token'], list.uuid);
-          newCards.push(...fetchedCards.data);
-        }
-        setCards(newCards);
-      }
-    };
 
-    fetchAndUpdateCards();
-  }, [lists, cards]); //if the lists or cards change, fetch the cards
+  const deleteCard = async (token: any, cardData: any, listUuid: string) => {
+    console.log('lets delete the card');
+    try {
+      const res = await listCards.deleteCard(token, cardData, listUuid);
+      if (res?.status === true) {
+        setCards(cards.filter((card) => card.uuid !== cardData.uuid));
+      }
+    } catch (error) {
+      console.error('Failed to delete card', error);
+    }
+  };
+
+  //useEffec triggered when a card is added to a list
+  //
+  // This Block needs fixing, need to add a dependency so cards are displayed straight away
+  //
+  //
+  useEffect(() => {
+    if (isNewCardCreated) {
+      console.log('cards changed');
+      fetchCards(token, selectedBoard);
+      setIsNewCardCreated(false);
+    }
+  }, [isNewCardCreated]);
 
   //UseEffect for setting the token
   useEffect(() => {
@@ -339,7 +358,6 @@ const UserContextProvider = ({ children }: UserContextProviderProps) => {
   }, [selectedWorkspace, selectedBoard]); //if the selectedWorkspace or selectedBoard changes, fetch the boards
 
   //fetch cards for each lists on render or if the lists change
-
   useEffect(() => {
     if (localStorage['token'] && lists.length > 0) {
       for (let list of lists) {
@@ -357,21 +375,21 @@ const UserContextProvider = ({ children }: UserContextProviderProps) => {
   }, [workspaces]);
 
   //useEffect re render the page when there is change to favorites ??????
-  useEffect(() => {
-    const fetchAndUpdateFavorites = async () => {
-      if (localStorage['token'] && workspaces.length > 0) {
-        const newFavorites = [];
-        for (let workspace of workspaces) {
-          const res = await workspaceBoards.fetchBoard(localStorage['token'], workspace.uuid);
-          const favBoards = res?.data.filter((board: any) => board.isStared === true) || [];
-          newFavorites.push(...favBoards);
-        }
-        setFavorites(newFavorites);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchAndUpdateFavorites = async () => {
+  //     if (localStorage['token'] && workspaces.length > 0) {
+  //       const newFavorites = [];
+  //       for (let workspace of workspaces) {
+  //         const res = await workspaceBoards.fetchBoard(localStorage['token'], workspace.uuid);
+  //         const favBoards = res?.data.filter((board: any) => board.isStared === true) || [];
+  //         newFavorites.push(...favBoards);
+  //       }
+  //       setFavorites(newFavorites);
+  //     }
+  //   };
 
-    fetchAndUpdateFavorites();
-  }, [workspaces, favorites]);
+  //   fetchAndUpdateFavorites();
+  // }, [workspaces, favorites]);
   //logout function: clear the local storage and set the token to null
   const handleLogout = async () => {
     localStorage.clear();
@@ -416,6 +434,7 @@ const UserContextProvider = ({ children }: UserContextProviderProps) => {
     createCard,
     isBoardSelectedGlobal,
     setIsBoardSelectedGlobal,
+    deleteCard,
   };
   return (
     <UserContext.Provider value={contextValue}>

@@ -50,7 +50,7 @@ const InputField = () => {
     }
 
     try {
-      const response = await fetch('https://wizardboards.co.uk/api/login/', {
+      const response = await fetch('http://localhost:3001/api/login/', {
         method: 'POST',
         headers: {
           Accept: 'application/json',

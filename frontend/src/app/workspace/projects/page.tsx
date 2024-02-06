@@ -57,7 +57,7 @@ const Project = () => {
                 value={listTitle}
                 onValueChange={(newValue: string) => handleValueChange(newValue)}
                 className='bg-blue text-black font-semibold pt-2 mb-2'
-                placeholder='Enter a title for this card...'
+                placeholder='Enter a title for this list...'
                 style={{
                   height: '40px',
                   padding: '5px',
@@ -65,7 +65,7 @@ const Project = () => {
                 classNames={{
                   base: 'max-w-full sm:max-w-[24rem] h-10 items-center border-slate-200',
                   mainWrapper: 'flex h-full w-full justify-center  ',
-                  input: 'text-small text-black group-data-[focus=true]:text-black  ',
+                  input: 'text-small font-semibold group-data-[focus=true]:text-background',
                   inputWrapper:
                     'dark:focus-within:!bg-cards/70 data-[hover=true]:bg-cards h-full w-60  !cursor-text dark:focus-within:text-black bg-cards hover:bg-foreground border-slate-100 rounded-md',
                 }}></Input>
