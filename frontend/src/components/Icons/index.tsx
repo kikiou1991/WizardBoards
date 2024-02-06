@@ -151,7 +151,7 @@ const Icon: React.FC<Props> = ({ name, onClick, classname }) => {
       </svg>
     ),
     members: (
-      <svg width='24' height='24' role='presentation' focusable='false' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'>
+      <svg onClick={onClick} width='24' height='24' role='presentation' focusable='false' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'>
         <path
           fillRule='evenodd'
           clipRule='evenodd'

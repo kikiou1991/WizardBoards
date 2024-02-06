@@ -158,7 +158,9 @@ const NavbarTop = () => {
               {favorites.map((favorite: any) => (
                 <DropdownItem key={favorite.uuid} className={`flex flex-row py-2 px-1 group/item h-10 `} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
                   <div className='bg-inherit flex flex-row  group/item items-center flex-nowrap'>
-                    <div className='flex flex-row gap-2 flex-grow w-full px-2 text-base'>
+                    {/* Add logic here to route favorite boards to their respective pages
+                     */}
+                    <div className='flex flex-row gap-2 flex-grow w-full px-2 text-base' onClick={() => {}}>
                       <Image className='rounded' src={favorite.imageLink} width={40} height={32} alt='board-background' />
                       <Link href='/workspace/projects'>
                         <p>{favorite.name.length > 12 ? `${favorite.name.substring(0, 12)}...` : favorite.name}</p>

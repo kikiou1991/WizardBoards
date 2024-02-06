@@ -14,7 +14,6 @@ const Cards = ({ name, index }: Props) => {
   const [isHovered, setIsHovered] = React.useState(false);
 
   const handleDeleteCard = async () => {
-    console.log('initiating delete card');
     try {
       const cardToDelete = cards.find((card) => card.cardIndex === index);
       if (cardToDelete) {

@@ -301,7 +301,6 @@ const UserContextProvider = ({ children }: UserContextProviderProps) => {
       const title = cardData;
       const res = await listCards.createCard(token, title, listUuid);
       if (res && res.newCard) {
-        // Update newCards state with the newly created card
         setCards((prevCards) => [res.newCard, ...prevCards]);
       }
     } catch (error) {
