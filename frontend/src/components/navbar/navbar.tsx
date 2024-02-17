@@ -1,18 +1,17 @@
 'use client';
 import Icon from '@/components/Icons';
-import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownSection, DropdownTrigger, Navbar, NavbarContent, Switch } from '@nextui-org/react';
-import React, { useContext, useEffect, useState, useRef } from 'react';
+import {Button, Dropdown, DropdownItem, DropdownMenu, DropdownSection, DropdownTrigger, Navbar, NavbarContent} from '@nextui-org/react';
+import Image from 'next/image';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import MyModal from '../modals/modal';
 import MyWorkSpaceModal from '../modals/newworkspace_modal';
-import Image from 'next/image';
 
-import Socials from './socials';
-import Profile from './profile';
-import { UserContext, UserContextType } from '@/contexts/Usercontext';
+import {UserContext, UserContextType} from '@/contexts/Usercontext';
 import Link from 'next/link';
-import NotificationWindow from '../notifications/notiWindow';
 import useOutsideClick from '../customHooks/useOutsideClick';
-import WorkspaceModal from '../modals/workspacemodal';
+import NotificationWindow from '../notifications/notiWindow';
+import Profile from './profile';
+import Socials from './socials';
 
 interface UserData {
   name: string;
@@ -29,7 +28,7 @@ const NavbarTop = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const { workspaces, setSelectedWorkspace, selectedWorkspace, favorites, setIsBoardSelectedGlobal, setSelectedBoard } = useContext(UserContext) as UserContextType;
+  const {workspaces, setSelectedWorkspace, selectedWorkspace, favorites, setIsBoardSelectedGlobal, setSelectedBoard} = useContext(UserContext) as UserContextType;
   const ref = useRef(null);
   // State to store selected workspace
 
@@ -63,7 +62,7 @@ const NavbarTop = () => {
           console.log('Failed to fetch token!');
         }
         //use the token to get the user info
-        const response = await fetch('http://localhost:3001/api/users/me', {
+        const response = await fetch('https://wizardboards.co.uk/api/users/me', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -85,7 +84,7 @@ const NavbarTop = () => {
   }, []);
 
   return (
-    <Navbar isBordered className=' cursor-pointer border-b-[2px] border-border text-foreground bg-background flex flex-row px-5' classNames={{ base: 'w-screen', wrapper: 'w-screen max-w-none px-0' }}>
+    <Navbar isBordered className=' cursor-pointer border-b-[2px] border-border text-foreground bg-background flex flex-row px-5' classNames={{base: 'w-screen', wrapper: 'w-screen max-w-none px-0'}}>
       {/* Left navigation section icon, header, and add button */}
       <NavbarContent className='items-center  flex flex-grow-0 gap-1  justify-start '>
         {/* File / Other Products / Navigation */}
@@ -122,11 +121,9 @@ const NavbarTop = () => {
             </DropdownTrigger>
             <DropdownMenu>
               <DropdownSection className='bg-inherit hover:bg-secondaryBG' showDivider>
-                <DropdownItem className='flex flex-row flex-nowrap' style={{ minWidth: '200px' }}>
+                <DropdownItem className='flex flex-row flex-nowrap' style={{minWidth: '200px'}}>
                   <div className='flex flex-row items-center'>
-                    <div className='flex rounded-md w-[30px] h-[30px] font-bold text-xl  items-center px-1 m-1 justify-center text-foreground bg-gradient-to-r from-sky-500 to-indigo-500'>
-                      {workspaces.find((w) => w.uuid === selectedWorkspace)?.name[0]}
-                    </div>
+                    <div className='flex rounded-md w-[30px] h-[30px] font-bold text-xl  items-center px-1 m-1 justify-center text-foreground bg-gradient-to-r from-sky-500 to-indigo-500'>{workspaces.find((w) => w.uuid === selectedWorkspace)?.name[0]}</div>
                     <p className='p-2 text-lg'>{workspaces.length > 0 && workspaces.find((w) => w.uuid === selectedWorkspace)?.name}</p>
                   </div>
                 </DropdownItem>
@@ -188,7 +185,7 @@ const NavbarTop = () => {
       </Button> */}
 
       {/* Right section with modal, calendar, notification, and profile */}
-      <NavbarContent className=' flex  bg-inherit gap-3 ' style={{ flexGrow: '0' }}>
+      <NavbarContent className=' flex  bg-inherit gap-3 ' style={{flexGrow: '0'}}>
         {/* Model Section SearchBar */}
         <div ref={ref} className={`${isVisible ? '' : 'hidden'} p-0 m-0`}>
           <NotificationWindow />

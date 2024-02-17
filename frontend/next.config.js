@@ -1,8 +1,7 @@
-const { hostname } = require('os');
+const {hostname} = require('os');
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  basePath: '/wizardboards',
   images: {
     remotePatterns: [
       {

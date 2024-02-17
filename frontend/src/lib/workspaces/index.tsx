@@ -1,7 +1,7 @@
 export const userWorkspaces = {
   fetchWorkspaces: async (token: any) => {
     try {
-      const response = await fetch('http://localhost:3001/api/workspaces', {
+      const response = await fetch('https://wizardboards.co.uk/api/workspaces', {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -21,13 +21,13 @@ export const userWorkspaces = {
   createWorkspace: async (token: any, boardData: any) => {
     console.log('Creating workspace with...', boardData);
     try {
-      const response = await fetch('http://localhost:3001/api/workspaces', {
+      const response = await fetch('https://wizardboards.co.uk/api/workspaces', {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ name: boardData.name }),
+        body: JSON.stringify({name: boardData.name}),
       });
       let data = await response.json();
       return data;
