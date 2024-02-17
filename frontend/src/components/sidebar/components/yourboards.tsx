@@ -114,7 +114,7 @@ const YourBoards = () => {
             })}
           </ul>
         ) : (
-          <p>Loading...</p>
+          <p className='pl-2'>No boards to show yet!</p>
         )}
       </div>
     </div>

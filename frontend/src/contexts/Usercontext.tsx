@@ -22,6 +22,7 @@ interface Boards {
   uuid: string;
   isStared: boolean;
   workspace: Workspace;
+  lists: Lists[];
 }
 
 interface Lists {
@@ -74,6 +75,7 @@ export interface UserContextType {
   isBoardSelectedGlobal: boolean;
   setIsBoardSelectedGlobal: React.Dispatch<React.SetStateAction<boolean>>;
   deleteCard: (token: any, cardData: any, listUuid: string) => Promise<void>;
+  setLists: React.Dispatch<React.SetStateAction<Lists[]>>;
 }
 interface UserContextProviderProps {
   children: ReactNode;
@@ -434,6 +436,7 @@ const UserContextProvider = ({ children }: UserContextProviderProps) => {
     isBoardSelectedGlobal,
     setIsBoardSelectedGlobal,
     deleteCard,
+    setLists,
   };
   return (
     <UserContext.Provider value={contextValue}>

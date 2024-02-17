@@ -1,7 +1,7 @@
 'use client';
 import BoardNav from '@/components/board/boardnav';
 import Lists from '@/components/lists/lists';
-import { Button, Divider, Input, extendVariants } from '@nextui-org/react';
+import { Button, Divider, Input, extendVariants, select } from '@nextui-org/react';
 import { DragDropContext, Draggable, Droppable, DropResult } from '@hello-pangea/dnd';
 import { start } from 'repl';
 import { useContext, useEffect, useRef, useState } from 'react';
@@ -11,7 +11,7 @@ import useOutsideClick from '@/components/customHooks/useOutsideClick';
 import BoardView from '../boardview/page';
 
 const Project = () => {
-  const { lists, token, isBoardSelectedGlobal } = useContext(UserContext) as UserContextType;
+  const { lists, token, isBoardSelectedGlobal, setLists, boards, selectedBoard, cards } = useContext(UserContext) as UserContextType;
   const [isActive, setIsActive] = useState(true);
   const [listTitle, setListTitle] = useState('');
 
@@ -19,6 +19,38 @@ const Project = () => {
 
   const handleDragEnd = (result: DropResult) => {
     console.log(result);
+    const { source, destination, draggableId } = result;
+    console.log('source: ', source);
+    console.log('destination: ', destination);
+
+    if (!destination) return;
+
+    // Remove the "card-" prefix from draggableId and turn it into a number
+    const cardUuid = parseInt(draggableId.replace('card-', ''));
+    console.log('cardUuid: ', cardUuid);
+
+    // Find the id of the starting list
+    const startListId = source.droppableId;
+
+    // Find the list that the card was dragged from
+    const startList = lists.find((list) => list.uuid === startListId);
+
+    // Find the id of the list that the card was dragged to
+    const finishListId = destination.droppableId;
+
+    // Find the list that the card was dragged to
+    const finishList = lists.find((list) => list.uuid === finishListId);
+    //filter the cards in the source list
+    const filteredCards = cards.filter((card) => card.listUuid === startListId);
+    //target the card object that we are dragging
+    const cardToDrag = filteredCards.find((card) => card.cardIndex === cardUuid);
+    console.log('cardToDrag: ', cardToDrag);
+    // Handle item drag in same list or to another list
+    if (startListId === finishListId) {
+      console.log('Dragged within the same list');
+    } else {
+      console.log('Dragged to another list');
+    }
   };
 
   const handleValueChange = (value: string) => {

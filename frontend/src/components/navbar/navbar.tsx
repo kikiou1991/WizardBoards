@@ -87,7 +87,7 @@ const NavbarTop = () => {
   return (
     <Navbar isBordered className=' cursor-pointer border-b-[2px] border-border text-foreground bg-background flex flex-row px-5' classNames={{ base: 'w-screen', wrapper: 'w-screen max-w-none px-0' }}>
       {/* Left navigation section icon, header, and add button */}
-      <NavbarContent className='items-center  flex flex-grow-0 gap-0  justify-start '>
+      <NavbarContent className='items-center  flex flex-grow-0 gap-1  justify-start '>
         {/* File / Other Products / Navigation */}
         <Dropdown className='bg-background text-foreground hover:bg-secondaryBG' placement='bottom-start'>
           <DropdownTrigger>
