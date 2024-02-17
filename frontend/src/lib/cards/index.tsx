@@ -2,8 +2,8 @@ export const listCards = {
   createCard: async (token: any, cardData: any, listUuid: string) => {
     console.log('token', token);
     try {
-      const { title } = cardData;
-      const response = await fetch('http://localhost:3001/api/cards', {
+      const {title} = cardData;
+      const response = await fetch('https://wizardboards.co.uk/api/cards', {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -21,7 +21,7 @@ export const listCards = {
 
       const newCard = await response.json();
 
-      return { newCard };
+      return {newCard};
     } catch (error: any) {
       console.error('Error creating card: ', error.message);
     }
@@ -29,7 +29,7 @@ export const listCards = {
 
   getCards: async (token: any, listUuid: string) => {
     try {
-      const response = await fetch(`http://localhost:3001/api/cards?listUuid=${encodeURIComponent(listUuid)}`, {
+      const response = await fetch(`https://wizardboards.co.uk/api/cards?listUuid=${encodeURIComponent(listUuid)}`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -48,7 +48,7 @@ export const listCards = {
 
   deleteCard: async (token: any, cardUuid: string, listUuid: string) => {
     try {
-      const response = await fetch(`http://localhost:3001/api/cards/delete`, {
+      const response = await fetch(`https://wizardboards.co.uk/api/cards/delete`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,

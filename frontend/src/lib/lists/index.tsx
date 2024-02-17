@@ -1,8 +1,8 @@
 export const boardLists = {
   createLists: async (token: any, listData: any, boardUuid: string) => {
     try {
-      const { title } = listData;
-      const response = await fetch('http://localhost:3001/api/lists', {
+      const {title} = listData;
+      const response = await fetch('https://wizardboards.co.uk/api/lists', {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -18,7 +18,7 @@ export const boardLists = {
       }
 
       const newList = await response.json();
-      return { newList };
+      return {newList};
     } catch (error: any) {
       console.error('Error creating list: ', error.message);
     }
@@ -26,7 +26,7 @@ export const boardLists = {
 
   getLists: async (token: any, boardUuid: string) => {
     try {
-      const response = await fetch(`http://localhost:3001/api/lists?boardUuid=${encodeURIComponent(boardUuid)}`, {
+      const response = await fetch(`https://wizardboards.co.uk/api/lists?boardUuid=${encodeURIComponent(boardUuid)}`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,

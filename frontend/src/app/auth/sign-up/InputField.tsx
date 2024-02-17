@@ -1,8 +1,8 @@
 'use client';
-import { UserContext, UserContextType } from '@/contexts/Usercontext';
-import { Button, Input } from '@nextui-org/react';
-import { useRouter } from 'next/navigation';
-import React, { useContext, useState } from 'react';
+import {UserContext, UserContextType} from '@/contexts/Usercontext';
+import {Button, Input} from '@nextui-org/react';
+import {useRouter} from 'next/navigation';
+import React, {useContext, useState} from 'react';
 import toast from 'react-hot-toast';
 
 // Import statements...
@@ -19,7 +19,7 @@ const InputField = () => {
   });
   const router = useRouter();
 
-  const { authenticated } = useContext(UserContext) as UserContextType;
+  const {authenticated} = useContext(UserContext) as UserContextType;
 
   if (authenticated) {
     router.replace(`/workspace/home`);
@@ -37,12 +37,12 @@ const InputField = () => {
   };
 
   const handleChangePassword = (value: string) => {
-    setUser({ ...user, password: value });
+    setUser({...user, password: value});
     setButtonDisabled(validationState === 'valid' && value === user.passwordConfirm ? false : true);
   };
 
   const handleChangePasswordConfirm = (value: string) => {
-    setUser({ ...user, passwordConfirm: value });
+    setUser({...user, passwordConfirm: value});
     setButtonDisabled(validationState === 'valid' && value === user.password ? false : true);
   };
 
@@ -73,7 +73,7 @@ const InputField = () => {
       console.log('Request Body:', requestBody);
 
       try {
-        const response = await fetch('http://localhost:3001/api/signup', {
+        const response = await fetch('https://wizardboards.co.uk/api/signup', {
           method: 'POST',
           headers: {
             Accept: 'application/json',

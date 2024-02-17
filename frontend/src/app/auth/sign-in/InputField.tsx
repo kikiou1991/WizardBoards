@@ -1,8 +1,8 @@
 'use client';
-import { UserContext, UserContextType } from '@/contexts/Usercontext';
-import { Button, Input } from '@nextui-org/react';
-import { useRouter } from 'next/navigation';
-import React, { useContext } from 'react';
+import {UserContext, UserContextType} from '@/contexts/Usercontext';
+import {Button, Input} from '@nextui-org/react';
+import {useRouter} from 'next/navigation';
+import React, {useContext} from 'react';
 import toast from 'react-hot-toast';
 
 const InputField = () => {
@@ -12,7 +12,7 @@ const InputField = () => {
     password: '',
   });
   const router = useRouter();
-  const { authenticated, setAuthenticated } = useContext(UserContext) as UserContextType;
+  const {authenticated, setAuthenticated} = useContext(UserContext) as UserContextType;
   if (authenticated) {
     router.replace(`/workspace/home`);
   }
@@ -50,7 +50,7 @@ const InputField = () => {
     }
 
     try {
-      const response = await fetch('http://localhost:3001/api/login/', {
+      const response = await fetch('https://wizardboards.co.uk/api/login/', {
         method: 'POST',
         headers: {
           Accept: 'application/json',
