@@ -16,8 +16,7 @@ const io = new Server(server, {
     credentials: true,
   },
 });
-app.get('/api2/', (request, response) => {
-  console.log(request);
+app.get('/api/v2/', (request, response) => {
   return response.status(234).send('Welcome to my MERN App!');
 });
 
