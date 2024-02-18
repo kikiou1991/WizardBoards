@@ -8,7 +8,7 @@ const WorkspaceView = () => {
         <h2 className='font-semibold py-1 pr-0 ml-0'>Workspace View</h2>
       </div>
       <div className='h-8 gap-2 flex flex-row hover:bg-secondaryBG items-center px-2'>
-        <div className='flex flex-row gap-2 flex-grow '>
+        <div className='flex flex-row gap-2 flex-grow cursor-pointer'>
           <Icon name='table' />
           <Link href='/workspace/table' className='italic '>
             Table
@@ -16,7 +16,7 @@ const WorkspaceView = () => {
         </div>
       </div>
       <div className='h-8 gap-2 flex flex-row hover:bg-secondaryBG items-center px-2'>
-        <div className='flex flex-row gap-2 flex-grow '>
+        <div className='flex flex-row gap-2 flex-grow cursor-pointer'>
           <Icon name='calendar2' />
           <Link href='/workspace/calendar' className='italic'>
             Calendar

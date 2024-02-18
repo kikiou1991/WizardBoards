@@ -71,8 +71,8 @@ const Project = () => {
   useOutsideClick(ref, toggleIsActive);
 
   return isBoardSelectedGlobal ? (
-    <div className='relative grow bg-background flex flex-col overflow-hidden '>
-      <div className='relative w-full py-2 px-1 border-b-1 items-center'>
+    <div className='relative grow  flex flex-col overflow-hidden '>
+      <div className='relative w-full py-2 px-1 border-b-1 border-border items-center'>
         <BoardNav />
       </div>
       <DragDropContext onDragEnd={handleDragEnd}>
@@ -83,7 +83,7 @@ const Project = () => {
           {isActive ? (
             <div
               ref={ref}
-              className='relative text-black w-48 rounded min-h-80 border-solid border-2 border-foreground bg-[#dadada] px-1 flex flex-col overflow-y-auto overflow-x-hidden'
+              className='relative text-black w-48 rounded min-h-80 border-solid border-2 border-foreground bg-secondaryBG px-1 flex flex-col overflow-y-auto overflow-x-hidden'
               style={{ minWidth: '272px', minHeight: '85px', maxHeight: '450px' }}>
               <Input
                 value={listTitle}

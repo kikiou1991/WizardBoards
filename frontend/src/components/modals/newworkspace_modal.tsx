@@ -80,10 +80,10 @@ const MyWorkSpaceModal = () => {
     <>
       <Dropdown className='bg-background text-foreground w-' placement='bottom-start' closeOnSelect={false}>
         <DropdownTrigger className=' hover:bg-cards p-1 rounded-md text-base'>
-          <Button className='bg-cards text-black' size='md'>
+          <Button  size='md'>
             {/* <Icon name='addIcon' classname={'bg-white'} /> */}
             <p>Create</p>
-          </Button>
+          </Button>0
         </DropdownTrigger>
         <DropdownMenu>
           <DropdownSection>

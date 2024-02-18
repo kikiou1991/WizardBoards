@@ -20,13 +20,13 @@ const MyModal = () => {
     <>
       <Input
         classNames={{
-          base: 'max-w-full md:max-w-[20rem] h-10',
+          base: 'max-w-full md:max-w-[20rem] h-10 !cursor-pointer',
           mainWrapper: 'h-full ',
-          input: 'text-small',
-          inputWrapper: 'data-[hover=true]:bg-cards h-full font-normal text-foreground  bg-background hover:bg-background/50',
+          input: 'text-small !cursor-pointer',
+          inputWrapper: 'h-full font-normal text-foreground !cursor-pointer  ',
         }}
         style={{minWidth: '120px'}}
-        className='hidden md:flex'
+        className='hidden md:flex cursor-pointer'
         placeholder='Type to search...'
         size='md'
         startContent={<Icon name='searchIcon' classname='white' />}

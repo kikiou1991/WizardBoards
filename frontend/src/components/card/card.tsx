@@ -32,7 +32,7 @@ const Cards = ({ name, index }: Props) => {
     <Draggable draggableId={`card-${index}`} index={index}>
       {(provided) => (
         <div
-          className='text-black w-60 rounded border-solid border-2 border-slate-300 bg-cards px-2 py-2 items-center overflow-x-hidden text-wrap flex relative'
+          className='w-60 rounded-md border-solid border-2 border-border bg-cards px-2 py-2 items-center overflow-x-hidden text-wrap flex relative'
           style={{ minWidth: '242px', minHeight: '80px' }}
           ref={provided.innerRef}
           {...provided.draggableProps}

@@ -71,7 +71,7 @@ const Lists = ({ name, id }: Props) => {
   // Filter cards based on the current list ID
   return (
     <div
-      className='relative text-black w-48 rounded min-h-80 border-solid border-2 border-foreground bg-[#dadada] px-2  flex flex-col overflow-y-hidden overflow-x-hidden'
+      className='relative text-foreground w-48 rounded-lg min-h-80  border-2 border-border bg-background px-2  flex flex-col overflow-y-hidden overflow-x-hidden'
       style={{ minWidth: '272px', minHeight: '120px', maxHeight: '450px' }}>
       <div className='sticky w-48 top-0 left-0 bg-inherit items-center justify-center py-2 px-2 ' style={{ width: '260px', height: '40px' }}>
         {name}
@@ -119,8 +119,8 @@ const Lists = ({ name, id }: Props) => {
             </Button>
           </div>
         ) : (
-          <div className='flex justify-start items-center'>
-            <Button color='primary' onClick={toggleInput} startContent={<Icon name='addIcon' />} className='bg-transparent hover:bg-cards text-black font-semibold'>
+          <div className='flex justify-start items-center mt-2'>
+            <Button color='default'  onClick={toggleInput} startContent={<Icon name='addIcon' />} className=' font-semibold'>
               Add Card
             </Button>
           </div>
