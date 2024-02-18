@@ -4,18 +4,21 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const app = express();
+const http = require('http');
+const server = http.createServer(app);
 const cookieParser = require('cookie-parser');
 const authRoute = require('./routes/authroute');
+const {Server} = require('socket.io');
 
+const io = new Server(server);
 
 app.get('/api/', (request, response) => {
   console.log(request);
   return response.status(234).send('Welcome to my MERN App!');
 });
 
-
 mongoose
-  .connect(process.env.mongoDBURL, { writeConcern: { w: 'majority', wtimeout: 0 } })
+  .connect(process.env.mongoDBURL, {writeConcern: {w: 'majority', wtimeout: 0}})
   .then(() => {
     console.log('App is connected to the MongoDB database');
   })
@@ -23,6 +26,10 @@ mongoose
     console.error(error);
   });
 
+const namespace = io.of('/test');
+namespace.on('connection', (socket) => {
+  console.log('a user connected');
+});
 app.use(
   cors({
     origin: function (origin, callback) {
