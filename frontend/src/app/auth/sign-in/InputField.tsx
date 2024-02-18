@@ -12,7 +12,7 @@ const InputField = () => {
     password: '',
   });
   const router = useRouter();
-  const {authenticated, setAuthenticated} = useContext(UserContext) as UserContextType;
+  const {authenticated, setAuthenticated, validateToken} = useContext(UserContext) as UserContextType;
   if (authenticated) {
     router.replace(`/workspace/home`);
   }
@@ -75,6 +75,7 @@ const InputField = () => {
           //store the token in local storage
           localStorage.setItem('token', result.token);
           setAuthenticated(true);
+          validateToken(result.token);
 
           router.push('/workspace/home');
         } else {

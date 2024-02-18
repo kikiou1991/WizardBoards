@@ -76,6 +76,7 @@ export interface UserContextType {
   setIsBoardSelectedGlobal: React.Dispatch<React.SetStateAction<boolean>>;
   deleteCard: (token: any, cardData: any, listUuid: string) => Promise<void>;
   setLists: React.Dispatch<React.SetStateAction<Lists[]>>;
+  validateToken: (token: any) => Promise<void>;
 }
 interface UserContextProviderProps {
   children: ReactNode;
@@ -128,7 +129,7 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
       let res = await userAuth.validateToken(token);
       if (res?.status === true) {
         setAuthenticated(true);
-
+        fetchWorkspaces(token);
         setUser(res?.data?.user);
       }
     } catch (error) {
@@ -352,11 +353,6 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
       validateToken(token);
     }
   }, [token]); //if the token changes, validate it
-  useEffect(() => {
-    if (authenticated) {
-      fetchWorkspaces(token);
-    }
-  }, [authenticated]);
 
   //UseEffect for fetching boards  and then the lists
 
@@ -437,6 +433,7 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
     setSelectedBoard,
     setCards,
     fetchCards,
+    validateToken,
     favorites,
     updateBoard,
     setFavorites,
