@@ -42,7 +42,13 @@ namespace.on('connection', (socket) => {
 });
 
 app.use(
-  cors()
+  cors({
+    origin: function (origin, callback) {
+      callback(null, true);
+    },
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+    credentials: true,
+  })
 );
 
 app.use(express.json());
