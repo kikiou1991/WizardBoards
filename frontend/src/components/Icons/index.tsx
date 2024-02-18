@@ -227,7 +227,7 @@ const Icon: React.FC<Props> = ({ name, onClick, classname }) => {
     ),
     threeDots: (
       <svg width='24' height='24' viewBox='0 0 24 24' role='presentation'>
-        <g fill='currentColor' fill-rule='evenodd'>
+        <g fill='currentColor' fillRule='evenodd'>
           <circle cx='12' cy='19' r='2'></circle>
           <circle cx='12' cy='12' r='2'></circle>
           <circle cx='12' cy='5' r='2'></circle>

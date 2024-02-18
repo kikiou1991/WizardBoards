@@ -1,16 +1,8 @@
 'use client';
-import InputField from '@/app/auth/sign-in/InputField';
-import {userAuth} from '@/lib/auth/auth';
-import {workspaceBoards} from '@/lib/boards';
-import {listCards} from '@/lib/cards';
-import {boardLists} from '@/lib/lists';
-import {userWorkspaces} from '@/lib/workspaces';
-import {Modal, ModalBody, ModalContent, ModalHeader} from '@nextui-org/modal';
-import {Button, Link} from '@nextui-org/react';
-import {usePathname, useRouter} from 'next/navigation';
-import {ReactNode, createContext, useEffect, useState, useContext} from 'react';
-import {io} from 'socket.io-client'
-import { UserContext, UserContextType } from '@/contexts/Usercontext';
+import {UserContext, UserContextType} from '@/contexts/Usercontext';
+import {workspaceBoards} from '@/lib/v2/boards';
+import {ReactNode, createContext, useContext, useEffect, useState} from 'react';
+import {io} from 'socket.io-client';
 
 // Interfaces Section
 interface Workspace {
@@ -43,7 +35,6 @@ interface Cards {
   listUuid: string;
 }
 export interface WorkspaceContextType {
-  
   workspaces: Workspace[];
   boards: Boards[];
   lists: Lists[];
@@ -54,12 +45,9 @@ export interface WorkspaceContextType {
   setSelectedWorkspace: React.Dispatch<React.SetStateAction<string>>;
   setBoards: React.Dispatch<React.SetStateAction<Boards[]>>;
   setWorkspace: (workspace: Workspace | null) => void;
-  authenticated: boolean | false;
   setCards: React.Dispatch<React.SetStateAction<Cards[]>>;
-  fetchCards: (token: any, listUuid: string) => Promise<void>;
   setFavorites: React.Dispatch<React.SetStateAction<Boards[]>>;
   setLists: React.Dispatch<React.SetStateAction<Lists[]>>;
-
 }
 interface WorkspaceContextProviderProps {
   children: ReactNode;
@@ -68,9 +56,9 @@ interface WorkspaceContextProviderProps {
 const WorkspaceContext = createContext<WorkspaceContextType | null>(null);
 
 const WorkspaceContextProvider = ({children}: WorkspaceContextProviderProps) => {
-  const { token} = useContext(UserContext) as UserContextType;
+  const {token} = useContext(UserContext) as UserContextType;
 
-const [workspaces, setWorkspaces] = useState<Workspace[]>([]);
+  const [workspaces, setWorkspaces] = useState<Workspace[]>([]);
   const [currentWorkspace, setCurrentWorkspace] = useState<Workspace | null>(null);
   const [selectedWorkspace, setSelectedWorkspace] = useState('');
   const [localSelectedWorkspace, setLocalSelectedWorkspace] = useState('');
@@ -80,23 +68,40 @@ const [workspaces, setWorkspaces] = useState<Workspace[]>([]);
   const [cards, setCards] = useState<Cards[]>([]);
   const [favorites, setFavorites] = useState<Boards[]>([]);
 
-  useEffect(() =>{
-    let socket = io("http://localhost:3002/api/v2/boards", { })
-  socket.on('board', (data) => {
-    console.log(data)
-  })
-
-  }, [])
-
-  const contextValue: WorkspaceContextType = {
-    
+  const getBoards = async () => {
+    let res = await workspaceBoards.getBoards(token, selectedWorkspace);
+    console.log(res);
   };
-  return (
-    <WorkspaceContext.Provider value={contextValue}>
-      
-      {children}
-    </WorkspaceContext.Provider>
-  );
+  useEffect(() => {
+    let socket = io('http://localhost:3002/api/v2/boards', {});
+    socket.on('board', (data) => {
+      console.log(data);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (token) {
+      if (selectedWorkspace) {
+        getBoards();
+      }
+    }
+  }, [token, selectedWorkspace]);
+  const contextValue: WorkspaceContextType = {
+    boards,
+    setBoards,
+    workspaces,
+  
+    lists,
+    cards,
+    selectedWorkspace,
+    localSelectedWorkspace,
+    setLocalSelectedWorkspace,
+    setSelectedWorkspace,
+    setCards,
+    setLists,
+    setFavorites,
+  };
+  return <WorkspaceContext.Provider value={contextValue}>{children}</WorkspaceContext.Provider>;
 };
 
 export {WorkspaceContext, WorkspaceContextProvider};
