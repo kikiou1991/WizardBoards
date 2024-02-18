@@ -12,11 +12,11 @@ const {Server} = require('socket.io');
 
 const io = new Server(server, {
   cors: {
-        origin: true,
-        credentials: true
-    },
+    origin: true,
+    credentials: true,
+  },
 });
-app.get('/api/', (request, response) => {
+app.get('/api/v2/', (request, response) => {
   console.log(request);
   return response.status(234).send('Welcome to my MERN App!');
 });
@@ -33,11 +33,10 @@ mongoose
 const namespace = io.of('/test');
 namespace.on('connection', (socket) => {
   console.log('a user connected');
-  
-    socket.emit('hello', {
-      message: 'csááá'
+
+  socket.emit('hello', {
+    message: 'csááá',
   });
-   
 
   socket.on('disconnect', () => {
     console.log('user disconnected');
@@ -56,10 +55,14 @@ app.use(
 
 app.use(express.json());
 app.use(cookieParser());
-app.use('/', (req, res, next) => {
-  req.io = io;
-  next();
-}, authRoute);
+app.use(
+  '/',
+  (req, res, next) => {
+    req.io = io;
+    next();
+  },
+  authRoute
+);
 server.listen(3002, () => {
   console.log(`App is listening on port: ${process.env.PORT}`);
 });
