@@ -50,6 +50,7 @@ export interface UserContextType {
   localSelectedWorkspace: string;
   setLocalSelectedWorkspace: React.Dispatch<React.SetStateAction<string>>;
   setSelectedWorkspace: React.Dispatch<React.SetStateAction<string>>;
+  setBoards: React.Dispatch<React.SetStateAction<Boards[]>>;
   fetchWorkspaces: (token: any | null) => Promise<void>;
   currentWorkspace: Workspace | null;
   createWorkspace: (token: any, workspaceData: any) => Promise<void>;
@@ -437,6 +438,7 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
     setIsBoardSelectedGlobal,
     deleteCard,
     setLists,
+    setBoards,
   };
   return (
     <UserContext.Provider value={contextValue}>
