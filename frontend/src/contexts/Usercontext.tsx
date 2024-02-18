@@ -1,15 +1,16 @@
 'use client';
 import InputField from '@/app/auth/sign-in/InputField';
-import { userAuth } from '@/lib/auth/auth';
-import { workspaceBoards } from '@/lib/boards';
-import { listCards } from '@/lib/cards';
-import { boardLists } from '@/lib/lists';
-import { userWorkspaces } from '@/lib/workspaces';
-import { Modal, ModalBody, ModalContent, ModalHeader } from '@nextui-org/modal';
-import { Button, Link } from '@nextui-org/react';
-import { usePathname, useRouter } from 'next/navigation';
-import { ReactNode, createContext, useMemo, useEffect, useState } from 'react';
-
+import {userAuth} from '@/lib/auth/auth';
+import {workspaceBoards} from '@/lib/boards';
+import {listCards} from '@/lib/cards';
+import {boardLists} from '@/lib/lists';
+import {userWorkspaces} from '@/lib/workspaces';
+import {Modal, ModalBody, ModalContent, ModalHeader} from '@nextui-org/modal';
+import {Button, Link} from '@nextui-org/react';
+import {usePathname, useRouter} from 'next/navigation';
+import {ReactNode, createContext, useEffect, useState} from 'react';
+import {io} from 'socket.io-client';
+import toast from 'react-hot-toast'
 // Interfaces Section
 interface Workspace {
   _id: string;
@@ -83,7 +84,7 @@ interface UserContextProviderProps {
 //call the useContext
 const UserContext = createContext<UserContextType | null>(null);
 
-const UserContextProvider = ({ children }: UserContextProviderProps) => {
+const UserContextProvider = ({children}: UserContextProviderProps) => {
   const [token, setToken] = useState<string | null>(null);
   const [workspaces, setWorkspaces] = useState<Workspace[]>([]);
   const [currentWorkspace, setCurrentWorkspace] = useState<Workspace | null>(null);
@@ -102,18 +103,24 @@ const UserContextProvider = ({ children }: UserContextProviderProps) => {
   const [isNewCardCreated, setIsNewCardCreated] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
-
-  //create boards
+  useEffect(() =>{
+    const socket = io('http://192.168.0.119:3001/test', {});
+socket.on("hello", (data) => {
+  console.log(data)
+  toast.success(data?.message)
+})
+  }, [])
+    //create boards
   const createBoard = async (token: any, boardData: any) => {
     try {
-      const { name, workspaceUuid } = boardData;
+      const {name, workspaceUuid} = boardData;
 
       if (!name) {
         console.error('Board name is required');
         return;
       }
       console.log('workspaceUuid', workspaceUuid);
-      const res = await workspaceBoards.createBoard(token, { name, workspaceUuid }, localSelectedWorkspace);
+      const res = await workspaceBoards.createBoard(token, {name, workspaceUuid}, localSelectedWorkspace);
 
       if (res && res.newBoard) {
         setBoards([res.newBoard, ...boards]);
@@ -169,14 +176,14 @@ const UserContextProvider = ({ children }: UserContextProviderProps) => {
   const updateBoard = async (token: any, boardUuid: string, boardData: any) => {
     console.log('boardData on client side: ', boardData);
     try {
-      const { name, isStared } = boardData;
+      const {name, isStared} = boardData;
 
-      const res = await workspaceBoards.upDateBoard(token, boardUuid, { name, isStared });
+      const res = await workspaceBoards.upDateBoard(token, boardUuid, {name, isStared});
       if (res?.status === true) {
         setBoards(
           boards.map((board) => {
             if (board._id === boardUuid) {
-              return { ...board, ...boardData };
+              return {...board, ...boardData};
             }
             return board;
           })
@@ -463,4 +470,4 @@ const UserContextProvider = ({ children }: UserContextProviderProps) => {
   );
 };
 
-export { UserContext, UserContextProvider };
+export {UserContext, UserContextProvider};

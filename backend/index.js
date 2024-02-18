@@ -29,21 +29,26 @@ mongoose
 const namespace = io.of('/test');
 namespace.on('connection', (socket) => {
   console.log('a user connected');
+  const intervalId = setInterval(() => {
+    socket.emit('hello', {
+      message: 'csááá'
+    });
+  }, 3000);
+
+  socket.on('disconnect', () => {
+    clearInterval(intervalId);
+    console.log('user disconnected');
+  });
 });
+
 app.use(
-  cors({
-    origin: function (origin, callback) {
-      callback(null, true);
-    },
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
-    credentials: true,
-  })
+  cors()
 );
 
 app.use(express.json());
 app.use(cookieParser());
 app.use('/', authRoute);
 
-app.listen(3001, () => {
+server.listen(3001, () => {
   console.log(`App is listening on port: ${process.env.PORT}`);
 });
