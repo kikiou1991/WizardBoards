@@ -9,7 +9,6 @@ import {Modal, ModalBody, ModalContent, ModalHeader} from '@nextui-org/modal';
 import {Button, Link} from '@nextui-org/react';
 import {usePathname, useRouter} from 'next/navigation';
 import {ReactNode, createContext, useEffect, useState} from 'react';
-import toast from 'react-hot-toast';
 // Interfaces Section
 interface Workspace {
   _id: string;
@@ -209,16 +208,12 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
 
   //  fetch workspaces for the current user
   const fetchWorkspaces = async (token: any) => {
-    toast('Loading workspaces...');
     if (!token) {
       console.log('Token is missing');
-      toast.error('No token bro');
     }
-    toast.success('No token bro');
 
     try {
       let res = await userWorkspaces.fetchWorkspaces(token);
-      toast.success('Fetched workspaces');
 
       setWorkspaces(res?.data || []);
     } catch (error: any) {
