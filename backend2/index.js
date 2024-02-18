@@ -1,67 +1,77 @@
-// index.js
-require('dotenv').config();
 const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
 const app = express();
 const http = require('http');
 const server = http.createServer(app);
-const cookieParser = require('cookie-parser');
-const authRoute = require('./routes/authroute');
+const cors = require('cors');
 const {Server} = require('socket.io');
+const {MongoClient} = require('mongodb');
+const jwt = require('jsonwebtoken');
+const io = new Server(server);
 
-const io = new Server(server, {
-  cors: {
-    origin: true,
-    credentials: true,
-  },
-});
-app.get('/api/v2/', (request, response) => {
-  return response.status(234).send('Welcome to my MERN App!');
-});
+const port = 3002;
+require('dotenv').config();
+const uri = process.env.mongoDBURL;
 
-mongoose
-  .connect(process.env.mongoDBURL, {writeConcern: {w: 'majority', wtimeout: 0}})
-  .then(() => {
-    console.log('App is connected to the MongoDB database');
-  })
-  .catch((error) => {
-    console.error(error);
-  });
-
-const namespace = io.of('/test');
-namespace.on('connection', (socket) => {
-  console.log('a user connected');
-
-  socket.emit('hello', {
-    message: 'csááá',
-  });
-
-  socket.on('disconnect', () => {
-    console.log('user disconnected');
-  });
-});
-
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      callback(null, true);
-    },
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
-    credentials: true,
-  })
-);
-
+let db;
+app.use(cors());
 app.use(express.json());
-app.use(cookieParser());
+
+app.get('/api/v2', (req, res) => {
+  res.send({message: 'Hello! Download the Flit app for your mobile device'});
+});
+app.use((err, req, res, next) => {
+  console.error('Unhandled error:', err);
+  res.status(500).send('Internal Server Error');
+});
+const mongoClient = new MongoClient(uri);
+
+const checkTokenMiddleware = (req, res, next) => {
+  const token = req.headers?.authorization?.split(' ')[1];
+  if (!token) {
+    return res.status(401).json({message: 'Unauthorized: No token provided'});
+  } else {
+    jwt.verify(token, process.env.TOKEN_KEY, async (err, data) => {
+      if (err) {
+        return res.status(401).json({status: false, message: 'Token verification failed'});
+      } else {
+        try {
+          console.log(data);
+          if (data?.id) {
+            db.collection('users')
+              .findOne({uuid: data.id})
+              .then((data) => {
+                if (data) {
+                  req.user = data;
+                  next();
+                } else {
+                  console.log(data);
+                  return res.status(404).json({status: false, message: 'User not found'});
+                }
+              });
+          }
+        } catch (error) {
+          console.error('User retrieval error:', error);
+          return res.status(500).json({status: false, message: 'Internal Server Error'});
+        }
+      }
+    });
+  }
+};
 app.use(
-  '/',
+  '/api/v2/*',
   (req, res, next) => {
-    req.io = io;
     next();
   },
-  authRoute
+  checkTokenMiddleware
 );
-server.listen(3002, () => {
-  console.log(`App is listening on port: ${process.env.PORT}`);
-});
+
+startServer();
+
+async function startServer() {
+  await mongoClient.connect();
+  console.log('Connected successfully to server');
+  db = mongoClient.db('test');
+  const auth = require('./routes/auth')(app, db);
+}
+
+server.listen(3002, () => {});
