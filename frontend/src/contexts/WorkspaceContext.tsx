@@ -1,8 +1,8 @@
 'use client';
-import {UserContext, UserContextType} from '@/contexts/Usercontext';
-import {workspaceBoards} from '@/lib/v2/boards';
-import {ReactNode, createContext, useContext, useEffect, useState} from 'react';
-import {io} from 'socket.io-client';
+import { UserContext, UserContextType } from '@/contexts/Usercontext';
+import { workspaceBoards } from '@/lib/v2/boards';
+import { ReactNode, createContext, useContext, useEffect, useState } from 'react';
+import { io } from 'socket.io-client';
 
 // Interfaces Section
 interface Workspace {
@@ -40,7 +40,10 @@ export interface WorkspaceContextType {
   lists: Lists[];
   cards: Cards[];
   selectedWorkspace: string;
+  currentWorkspace: Workspace | null;
   localSelectedWorkspace: string;
+  selectedBoard: string;
+  setSelectedBoard: React.Dispatch<React.SetStateAction<string>>;
   setLocalSelectedWorkspace: React.Dispatch<React.SetStateAction<string>>;
   setSelectedWorkspace: React.Dispatch<React.SetStateAction<string>>;
   setBoards: React.Dispatch<React.SetStateAction<Boards[]>>;
@@ -55,8 +58,8 @@ interface WorkspaceContextProviderProps {
 //call the useContext
 const WorkspaceContext = createContext<WorkspaceContextType | null>(null);
 
-const WorkspaceContextProvider = ({children}: WorkspaceContextProviderProps) => {
-  const {token} = useContext(UserContext) as UserContextType;
+const WorkspaceContextProvider = ({ children }: WorkspaceContextProviderProps) => {
+  const { token } = useContext(UserContext) as UserContextType;
 
   const [workspaces, setWorkspaces] = useState<Workspace[]>([]);
   const [currentWorkspace, setCurrentWorkspace] = useState<Workspace | null>(null);
@@ -94,6 +97,10 @@ const WorkspaceContextProvider = ({children}: WorkspaceContextProviderProps) => 
     cards,
     selectedWorkspace,
     localSelectedWorkspace,
+    selectedBoard,
+    currentWorkspace,
+    setSelectedBoard,
+    setWorkspace: setCurrentWorkspace,
     setLocalSelectedWorkspace,
     setSelectedWorkspace,
     setCards,
@@ -103,4 +110,4 @@ const WorkspaceContextProvider = ({children}: WorkspaceContextProviderProps) => 
   return <WorkspaceContext.Provider value={contextValue}>{children}</WorkspaceContext.Provider>;
 };
 
-export {WorkspaceContext, WorkspaceContextProvider};
+export { WorkspaceContext, WorkspaceContextProvider };
