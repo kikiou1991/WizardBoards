@@ -33,15 +33,9 @@ const YourBoards = () => {
 
       let res = await updateBoard(token, boardUuid, {isStared: !selectedBoard?.isStared, name: selectedBoard?.name});
 
-      if(selectedBoard){
-setBoards((prevBoards) =>
-        prevBoards.map((board) =>
-          board.uuid === boardUuid ? { ...board, isStared: !selectedBoard.isStared } : board
-        )
-      );
+      if (selectedBoard) {
+        setBoards((prevBoards) => prevBoards.map((board) => (board.uuid === boardUuid ? {...board, isStared: !selectedBoard.isStared} : board)));
       }
-      
-
     } catch (error) {}
   };
 
