@@ -72,7 +72,7 @@ module.exports.verifyToken = async (req, res) => {
     if (!token) {
       return res.status(401).json({ status: false, message: 'No token provided' });
     }
-
+         
     jwt.verify(token, process.env.TOKEN_KEY, async (err, data) => {
       if (err) {
         return res.status(401).json({ status: false, message: 'Token verification failed', error: err.message });
@@ -80,6 +80,14 @@ module.exports.verifyToken = async (req, res) => {
         try {
           const user = await User.findById(data.id);
           if (user) {
+             req.io.of('/auth/validate').emit('validateRes', {  status: true,
+
+              
+              message: 'Token verified',
+              data: {
+                user,
+              },});
+
             return res.status(200).json({
               status: true,
               message: 'Token verified',
@@ -88,6 +96,9 @@ module.exports.verifyToken = async (req, res) => {
               },
             });
           } else {
+            req.io.of('/auth/validate').emit('validateRes', {  status: false,
+              message: 'User not found',
+             });
             return res.status(404).json({ status: false, message: 'User not found' });
           }
         } catch (error) {

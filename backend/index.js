@@ -10,8 +10,12 @@ const cookieParser = require('cookie-parser');
 const authRoute = require('./routes/authroute');
 const {Server} = require('socket.io');
 
-const io = new Server(server);
-
+const io = new Server(server, {
+  cors: {
+        origin: true,
+        credentials: true
+    },
+});
 app.get('/api/', (request, response) => {
   console.log(request);
   return response.status(234).send('Welcome to my MERN App!');
@@ -29,14 +33,13 @@ mongoose
 const namespace = io.of('/test');
 namespace.on('connection', (socket) => {
   console.log('a user connected');
-  const intervalId = setInterval(() => {
+  
     socket.emit('hello', {
       message: 'csááá'
-    });
-  }, 3000);
+  });
+   
 
   socket.on('disconnect', () => {
-    clearInterval(intervalId);
     console.log('user disconnected');
   });
 });
@@ -53,8 +56,10 @@ app.use(
 
 app.use(express.json());
 app.use(cookieParser());
-app.use('/', authRoute);
-
+app.use('/', (req, res, next) => {
+  req.io = io;
+  next();
+}, authRoute);
 server.listen(3001, () => {
   console.log(`App is listening on port: ${process.env.PORT}`);
 });

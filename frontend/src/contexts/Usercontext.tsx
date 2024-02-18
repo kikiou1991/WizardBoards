@@ -104,8 +104,11 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
   const pathname = usePathname();
   const router = useRouter();
   useEffect(() =>{
-    const socket = io('http://192.168.0.119:3001/test', {});
-socket.on("hello", (data) => {
+    const socket = io('http://192.168.0.119:3001/auth/validate', {
+        withCredentials: true,
+
+    });
+socket.on("validateRes", (data) => {
   console.log(data)
   toast.success(data?.message)
 })
