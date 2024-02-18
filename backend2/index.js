@@ -8,9 +8,9 @@ const {MongoClient} = require('mongodb');
 const jwt = require('jsonwebtoken');
 const io = new Server(server, {
   cors: {
-        origin: true,
-        credentials: true
-    },
+    origin: true,
+    credentials: true,
+  },
 });
 const port = 3002;
 require('dotenv').config();
@@ -77,6 +77,7 @@ async function startServer() {
   const boards = require('./routes/boards')(app, db, io);
   const lists = require('./routes/lists')(app, db, io);
   const cards = require('./routes/cards')(app, db, io);
+  const workspaces = require('./routes/workspaces')(app, db, io);
 }
 
 server.listen(3002, () => {});
