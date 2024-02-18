@@ -9,8 +9,7 @@ import {Modal, ModalBody, ModalContent, ModalHeader} from '@nextui-org/modal';
 import {Button, Link} from '@nextui-org/react';
 import {usePathname, useRouter} from 'next/navigation';
 import {ReactNode, createContext, useEffect, useState} from 'react';
-import {io} from 'socket.io-client';
-import toast from 'react-hot-toast'
+import toast from 'react-hot-toast';
 // Interfaces Section
 interface Workspace {
   _id: string;
@@ -103,17 +102,8 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
   const [isNewCardCreated, setIsNewCardCreated] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
-  useEffect(() =>{
-    const socket = io('http://192.168.0.119:3001/auth/validate', {
-        withCredentials: true,
 
-    });
-socket.on("validateRes", (data) => {
-  console.log(data)
-  toast.success(data?.message)
-})
-  }, [])
-    //create boards
+  //create boards
   const createBoard = async (token: any, boardData: any) => {
     try {
       const {name, workspaceUuid} = boardData;
@@ -219,12 +209,16 @@ socket.on("validateRes", (data) => {
 
   //  fetch workspaces for the current user
   const fetchWorkspaces = async (token: any) => {
+    toast('Loading workspaces...');
     if (!token) {
       console.log('Token is missing');
+      toast.error('No token bro');
     }
+    toast.success('No token bro');
 
     try {
       let res = await userWorkspaces.fetchWorkspaces(token);
+      toast.success('Fetched workspaces');
 
       setWorkspaces(res?.data || []);
     } catch (error: any) {
