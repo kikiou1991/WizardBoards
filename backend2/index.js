@@ -6,8 +6,12 @@ const cors = require('cors');
 const {Server} = require('socket.io');
 const {MongoClient} = require('mongodb');
 const jwt = require('jsonwebtoken');
-const io = new Server(server);
-
+const io = new Server(server, {
+  cors: {
+        origin: true,
+        credentials: true
+    },
+});
 const port = 3002;
 require('dotenv').config();
 const uri = process.env.mongoDBURL;
@@ -35,7 +39,6 @@ const checkTokenMiddleware = (req, res, next) => {
         return res.status(401).json({status: false, message: 'Token verification failed'});
       } else {
         try {
-          console.log(data);
           if (data?.id) {
             db.collection('users')
               .findOne({uuid: data.id})
@@ -44,7 +47,6 @@ const checkTokenMiddleware = (req, res, next) => {
                   req.user = data;
                   next();
                 } else {
-                  console.log(data);
                   return res.status(404).json({status: false, message: 'User not found'});
                 }
               });
@@ -72,6 +74,9 @@ async function startServer() {
   console.log('Connected successfully to server');
   db = mongoClient.db('test');
   const auth = require('./routes/auth')(app, db);
+  const boards = require('./routes/boards')(app, db, io);
+  const lists = require('./routes/lists')(app, db, io);
+  const cards = require('./routes/cards')(app, db, io);
 }
 
 server.listen(3002, () => {});

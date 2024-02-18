@@ -4,6 +4,7 @@ import {Providers} from './providers';
 import {UserContextProvider} from '@/contexts/Usercontext';
 import {Playfair_Display, Inter} from 'next/font/google';
 import './globals.css';
+import {WorkspaceContextProvider} from '@/contexts/WorkspaceContext';
 
 const playFair = Playfair_Display({
   weight: '400',
@@ -12,7 +13,6 @@ const playFair = Playfair_Display({
 });
 const roboto = Inter({
   subsets: ['latin'],
-
 });
 export const metadata = {
   title: 'WizardBoards - See the future',
@@ -38,7 +38,9 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
     <html lang='en' suppressHydrationWarning={true}>
       <body className={roboto.className}>
         <UserContextProvider>
-          <Providers>{children}</Providers>
+          <WorkspaceContextProvider>
+            <Providers>{children}</Providers>
+          </WorkspaceContextProvider>
         </UserContextProvider>
       </body>
     </html>
