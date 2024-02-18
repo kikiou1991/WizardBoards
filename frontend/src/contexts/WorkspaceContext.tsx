@@ -90,7 +90,6 @@ const WorkspaceContextProvider = ({children}: WorkspaceContextProviderProps) => 
     boards,
     setBoards,
     workspaces,
-  
     lists,
     cards,
     selectedWorkspace,
