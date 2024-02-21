@@ -46,7 +46,7 @@ export const workspaceBoards = {
     console.log('workspaceUuid', workspaceUuid)
     console.log('boardData', boardData)
     try {
-      const response = await fetch(`https://wizardoards.co.uk/api/v2/boards/archive`, {
+      const response = await fetch(`https://wizardoards.co.uk/api/v2/boards/archive?workspaceUuid=${workspaceUuid}`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -54,7 +54,6 @@ export const workspaceBoards = {
         },
         body: JSON.stringify({
           boardUuid: boardData,
-          workspaceUuid
         }),
       });
       if (response.ok) {
