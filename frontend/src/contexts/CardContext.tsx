@@ -32,7 +32,7 @@ const {lists, setLists} = useContext(ListContext) as ListContextType
 
   useEffect(() => {
     let socket = io('http://localhost:3002/api/v2/boards', {});
-    socket.on('board', (data) => {
+    socket.on('card', (data) => {
       console.log(data);
     });
   }, []);

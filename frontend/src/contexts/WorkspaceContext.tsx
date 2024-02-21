@@ -1,6 +1,5 @@
 'use client';
 import { UserContext, UserContextType } from '@/contexts/Usercontext';
-import { workspaceBoards } from '@/lib/v2/boards';
 import { userWorkspaces } from '@/lib/v2/workspaces';
 import { ReactNode, createContext, useContext, useEffect, useState } from 'react';
 import { io } from 'socket.io-client';

@@ -55,6 +55,9 @@ const BoardContextProvider = ({ children }: WorkspaceContextProviderProps) => {
   const { selectedWorkspace, localSelectedWorkspace } = useContext(WorkspaceContext) as WorkspaceContextType;
   const [boards, setBoards] = useState<Boards[]>([]);
   const [selectedBoard, setSelectedBoard] = useState('');
+
+  console.log(boards)
+
  //create the boards
   const createBoard = async (token: any, boardData: any) => {
     try {
@@ -89,7 +92,7 @@ const BoardContextProvider = ({ children }: WorkspaceContextProviderProps) => {
 
   const getBoards = async () => {
     let res = await workspaceBoards.getBoards(token, selectedWorkspace);
-    console.log(res);
+    setBoards(res?.data || []);
   };
   useEffect(() => {
     let socket = io('http://localhost:3002/api/v2/boards', {});
