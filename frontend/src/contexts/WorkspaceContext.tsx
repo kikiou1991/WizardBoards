@@ -81,9 +81,10 @@ const WorkspaceContextProvider = ({ children }: WorkspaceContextProviderProps) =
 
   //set workspaces for the current user
   const setWorkspace = (workspace: Workspace | null) => {
+    console.log('currentWorkspace', workspace)
     setCurrentWorkspace(workspace);
   };
-
+ 
 
   useEffect(() => {
     if (token) {
@@ -95,7 +96,7 @@ const WorkspaceContextProvider = ({ children }: WorkspaceContextProviderProps) =
     selectedWorkspace,
     localSelectedWorkspace,
     currentWorkspace,
-    setWorkspace: setCurrentWorkspace,
+    setWorkspace,
     setLocalSelectedWorkspace,
     setSelectedWorkspace,
     createWorkspace,
