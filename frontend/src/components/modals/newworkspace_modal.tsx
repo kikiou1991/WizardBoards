@@ -19,6 +19,7 @@ import {
 } from '@nextui-org/react';
 import { useContext, useState } from 'react';
 import MyModalNewBoard from '../sidebar/sidebarmodal/new_board_modal';
+import { BoardContext, BoardContextType } from '@/contexts/BoardContext';
 
 interface Workspace {
   uuid: string;
@@ -32,7 +33,8 @@ const MyWorkSpaceModal = () => {
   const [selectedWorkspace, setSelectedWorkspace] = useState<string | null>('');
   const [workSpaceTitle, setWorkSpaceTitle] = useState('');
   const context = useContext(UserContext);
-  const { workspaces, createWorkspace, createBoard } = useContext(UserContext) as UserContextType;
+  const { workspaces, createWorkspace } = useContext(UserContext) as UserContextType;
+  const {createBoard} = useContext(BoardContext) as BoardContextType
 
   const openWorkspaceModal = () => {
     setBoardModalOpen(false);
