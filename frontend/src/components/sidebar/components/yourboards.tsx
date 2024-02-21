@@ -7,10 +7,12 @@ import Link from 'next/link';
 import {useContext, useState} from 'react';
 import MyModalNewBoard from '../sidebarmodal/new_board_modal';
 import { BoardContext, BoardContextType } from '@/contexts/BoardContext';
+import { WorkspaceContext, WorkspaceContextType } from '@/contexts/WorkspaceContext';
 
 const YourBoards = () => {
-  const { selectedWorkspace,  token} = useContext(UserContext) as UserContextType;
+  const {token} = useContext(UserContext) as UserContextType;
   const context = useContext(UserContext);
+  const { selectedWorkspace } = useContext(WorkspaceContext) as WorkspaceContextType;
   const  {boards, deleteBoard, setBoards, setSelectedBoard, setIsBoardSelectedGlobal, createBoard} = useContext(BoardContext) as BoardContextType;
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null); // Maintain the ID of the selected board item
 
@@ -23,6 +25,7 @@ const YourBoards = () => {
   const handleDelete = async (boardUuid: string) => {
     try {
       console.log('boardUuid: ', boardUuid);
+      console.log('selectedWorkspace: ', selectedWorkspace);
       await deleteBoard(context?.token, selectedWorkspace, boardUuid);
     } catch (error) {
       console.error('Error deleting board: ', error);
