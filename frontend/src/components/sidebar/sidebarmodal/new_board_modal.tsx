@@ -3,6 +3,8 @@ import React, { useContext, useState } from 'react';
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Input, Select, SelectItem } from '@nextui-org/react';
 import Icon from '@/components/Icons';
 import { UserContext, UserContextType } from '@/contexts/Usercontext';
+import { BoardContext, BoardContextType } from '@/contexts/BoardContext';
+import { WorkspaceContext, WorkspaceContextType } from '@/contexts/WorkspaceContext';
 
 interface Props {
   iconName: string;
@@ -13,7 +15,8 @@ const MyModalNewBoard = ({ iconName }: Props) => {
   const [isWorkspaceModalOpen, setWorkspaceModalOpen] = useState(false);
   const [boardTitle, setBoardTitle] = useState('');
   const context = useContext(UserContext);
-  const { workspaces, createBoard, localSelectedWorkspace, setLocalSelectedWorkspace } = useContext(UserContext) as UserContextType;
+  const { workspaces, localSelectedWorkspace, setLocalSelectedWorkspace } = useContext(WorkspaceContext) as WorkspaceContextType;
+  const { createBoard} = useContext(BoardContext) as BoardContextType;
   const openBoardModal = () => {
     setBoardModalOpen(true);
     setWorkspaceModalOpen(false);
