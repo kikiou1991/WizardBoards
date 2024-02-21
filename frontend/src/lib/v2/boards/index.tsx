@@ -42,16 +42,16 @@ export const workspaceBoards = {
       console.error('Error creating the board', error);
     }
   },
-  deleteBoard: async (token: any, workspaceUuid: string, boardUuid: string) => {
+  deleteBoard: async (token: any, workspaceUuid: string, boardData: any) => {
     try {
-      const response = await fetch('https://wizardoards.co.uk/api/v2/boards/archive', {
+      const response = await fetch(`https://wizardoards.co.uk/api/v2/boards/archive?workspaceUuid=${workspaceUuid}`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          boardUuid,
+          boardUuid: boardData.uuid,
         }),
       });
       if (response.ok) {
