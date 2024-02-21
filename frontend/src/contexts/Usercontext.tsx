@@ -8,7 +8,8 @@ import {userWorkspaces} from '@/lib/workspaces';
 import {Modal, ModalBody, ModalContent, ModalHeader} from '@nextui-org/modal';
 import {Button, Link} from '@nextui-org/react';
 import {usePathname, useRouter} from 'next/navigation';
-import {ReactNode, createContext, useEffect, useState} from 'react';
+import {ReactNode, createContext, useContext, useEffect, useState} from 'react';
+import { BoardContext, BoardContextType } from './BoardContext';
 // Interfaces Section
 interface Workspace {
   _id: string;
@@ -44,14 +45,12 @@ export interface UserContextType {
   
   setToken: (token: string | null) => void;
   workspaces: Workspace[];
-  boards: Boards[];
   lists: Lists[];
   cards: Cards[];
   selectedWorkspace: string;
   localSelectedWorkspace: string;
   setLocalSelectedWorkspace: React.Dispatch<React.SetStateAction<string>>;
   setSelectedWorkspace: React.Dispatch<React.SetStateAction<string>>;
-  setBoards: React.Dispatch<React.SetStateAction<Boards[]>>;
   fetchWorkspaces: (token: any | null) => Promise<void>;
   currentWorkspace: Workspace | null;
   createWorkspace: (token: any, workspaceData: any) => Promise<void>;
@@ -60,21 +59,15 @@ export interface UserContextType {
   authenticated: boolean | false;
   userData: any;
   setAuthenticated: (authenticated: boolean) => void;
-  createBoard: (token: any, boardData: any) => Promise<void>;
-  fetchBoard: (token: any, workspaceUuid: string) => Promise<void>;
-  deleteBoard: (token: any, board_id: string, workspaceUuid: string) => Promise<void>;
   fetchLists: (token: any, boardUuid: string) => Promise<void>;
   createList: (token: any, listData: any, boardUuid: string) => Promise<void>;
   selectedBoard: string;
-  setSelectedBoard: React.Dispatch<React.SetStateAction<string>>;
   setCards: React.Dispatch<React.SetStateAction<Cards[]>>;
   fetchCards: (token: any, listUuid: string) => Promise<void>;
   favorites: Boards[];
   updateBoard: (token: any, boardUuid: string, boardData: any) => Promise<void>;
   setFavorites: React.Dispatch<React.SetStateAction<Boards[]>>;
   createCard: (token: any, cardData: any, listUuid: string) => Promise<void>;
-  isBoardSelectedGlobal: boolean;
-  setIsBoardSelectedGlobal: React.Dispatch<React.SetStateAction<boolean>>;
   deleteCard: (token: any, cardData: any, listUuid: string) => Promise<void>;
   setLists: React.Dispatch<React.SetStateAction<Lists[]>>;
   validateToken: (token: any) => Promise<void>;
@@ -91,8 +84,6 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
   const [currentWorkspace, setCurrentWorkspace] = useState<Workspace | null>(null);
   const [selectedWorkspace, setSelectedWorkspace] = useState('');
   const [localSelectedWorkspace, setLocalSelectedWorkspace] = useState('');
-  const [boards, setBoards] = useState<Boards[]>([]);
-  const [selectedBoard, setSelectedBoard] = useState('');
   const [lists, setLists] = useState<Lists[]>([]);
   const [cards, setCards] = useState<Cards[]>([]);
   const [authenticated, setAuthenticated] = useState<boolean>(false);
@@ -100,31 +91,13 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
   const [authenticatedLoaded, setAuthenticatedLoaded] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(true);
   const [favorites, setFavorites] = useState<Boards[]>([]);
-  const [isBoardSelectedGlobal, setIsBoardSelectedGlobal] = useState(false);
   const [isNewCardCreated, setIsNewCardCreated] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
 
-  //create boards
-  const createBoard = async (token: any, boardData: any) => {
-    try {
-      const {name, workspaceUuid} = boardData;
+  const{boards, setBoards, selectedBoard} = useContext(BoardContext) as BoardContextType;
 
-      if (!name) {
-        console.error('Board name is required');
-        return;
-      }
-      console.log('workspaceUuid', workspaceUuid);
-      const res = await workspaceBoards.createBoard(token, {name, workspaceUuid}, localSelectedWorkspace);
-
-      if (res && res.newBoard) {
-        setBoards([res.newBoard, ...boards]);
-      }
-    } catch (error) {
-      console.error('Error creating the board', error);
-    }
-  };
-
+  
   const validateToken = async (token: any) => {
     try {
       let res = await userAuth.validateToken(token);
@@ -142,28 +115,7 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
     }
   };
 
-  // Fetch boards
-  const fetchBoard = async (token: any, workspaceUuid: string) => {
-    try {
-      const res = await workspaceBoards.fetchBoard(token, workspaceUuid);
-      setBoards(res?.data || []);
-    } catch (error) {
-      console.error('Failed to fetch boards', error);
-    }
-  };
-
-  // Delete board
-
-  const deleteBoard = async (token: any, workspaceUuid: string, boardUuid: string) => {
-    try {
-      const res = await workspaceBoards.deleteBoard(token, workspaceUuid, boardUuid);
-      if (res?.status === true) {
-        setBoards(boards.filter((board) => board._id !== boardUuid));
-      }
-    } catch (error) {
-      console.error('Failed to delete board: ', error);
-    }
-  };
+ 
 
   // Update board
 
@@ -352,11 +304,7 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
 
   //UseEffect for fetching boards  and then the lists
 
-  useEffect(() => {
-    if (localStorage['token'] && selectedWorkspace) {
-      fetchBoard(localStorage['token'], selectedWorkspace).then(() => fetchLists(localStorage['token'], selectedBoard));
-    }
-  }, [selectedWorkspace, selectedBoard]); //if the selectedWorkspace or selectedBoard changes, fetch the boards
+  
 
   //fetch cards for each lists on render or if the lists change
   useEffect(() => {
@@ -405,7 +353,6 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
     token,
     setToken,
     workspaces,
-    boards,
     fetchWorkspaces,
     createWorkspace,
     selectedWorkspace,
@@ -416,29 +363,22 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
     setAuthenticated,
     userData: user,
     handleLogout,
-    createBoard,
-    fetchBoard,
     currentWorkspace,
     setWorkspace,
-    deleteBoard,
     fetchLists,
     createList,
     lists,
     cards,
     selectedBoard,
-    setSelectedBoard,
     setCards,
     fetchCards,
     validateToken,
     favorites,
-    updateBoard,
     setFavorites,
     createCard,
-    isBoardSelectedGlobal,
-    setIsBoardSelectedGlobal,
     deleteCard,
     setLists,
-    setBoards,
+    updateBoard
   };
   return (
     <UserContext.Provider value={contextValue}>

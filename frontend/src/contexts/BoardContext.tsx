@@ -42,6 +42,8 @@ export interface BoardContextType {
   setBoards: React.Dispatch<React.SetStateAction<Boards[]>>;
   createBoard: (token: any, boardData: any) => void;
   deleteBoard: (token: any, boardData: any, workspaceUuid: any) => void;
+  isBoardSelectedGlobal: boolean;
+  setIsBoardSelectedGlobal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 interface WorkspaceContextProviderProps {
   children: ReactNode;
@@ -55,6 +57,7 @@ const BoardContextProvider = ({ children }: WorkspaceContextProviderProps) => {
   const { selectedWorkspace, localSelectedWorkspace } = useContext(WorkspaceContext) as WorkspaceContextType;
   const [boards, setBoards] = useState<Boards[]>([]);
   const [selectedBoard, setSelectedBoard] = useState('');
+  const [isBoardSelectedGlobal, setIsBoardSelectedGlobal] = useState(false);
 
 
  //create the boards
@@ -114,6 +117,8 @@ const BoardContextProvider = ({ children }: WorkspaceContextProviderProps) => {
     setSelectedBoard,
     createBoard,
     deleteBoard,
+    isBoardSelectedGlobal,
+    setIsBoardSelectedGlobal
   };
   return <BoardContext.Provider value={contextValue}>{children}</BoardContext.Provider>;
 };

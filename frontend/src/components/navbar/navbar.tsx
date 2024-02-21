@@ -13,6 +13,7 @@ import NotificationWindow from '../notifications/notiWindow';
 import Profile from './profile';
 import Socials from './socials';
 import { WorkspaceContext, WorkspaceContextType } from '@/contexts/WorkspaceContext';
+import { BoardContext, BoardContextType } from '@/contexts/BoardContext';
 
 interface UserData {
   name: string;
@@ -29,8 +30,9 @@ const NavbarTop = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const {workspaces,  selectedWorkspace, favorites, setIsBoardSelectedGlobal, setSelectedBoard} = useContext(UserContext) as UserContextType;
-  const {setSelectedWorkspace} = useContext(WorkspaceContext) as WorkspaceContextType;
+  const { favorites} = useContext(UserContext) as UserContextType;
+  const {setSelectedWorkspace, workspaces, selectedWorkspace} = useContext(WorkspaceContext) as WorkspaceContextType;
+  const {setSelectedBoard, setIsBoardSelectedGlobal} = useContext(BoardContext)as BoardContextType;
   const ref = useRef(null);
   // State to store selected workspace
 

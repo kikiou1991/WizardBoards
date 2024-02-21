@@ -9,9 +9,9 @@ import MyModalNewBoard from '../sidebarmodal/new_board_modal';
 import { BoardContext, BoardContextType } from '@/contexts/BoardContext';
 
 const YourBoards = () => {
-  const { selectedWorkspace,  updateBoard, token, setIsBoardSelectedGlobal, isBoardSelectedGlobal} = useContext(UserContext) as UserContextType;
+  const { selectedWorkspace, token} = useContext(UserContext) as UserContextType;
   const context = useContext(UserContext);
-  const  {boards, deleteBoard, setBoards, setSelectedBoard} = useContext(BoardContext) as BoardContextType;
+  const  {boards, deleteBoard, setBoards, setSelectedBoard, setIsBoardSelectedGlobal, isBoardSelectedGlobal} = useContext(BoardContext) as BoardContextType;
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null); // Maintain the ID of the selected board item
 
   const handleBoardChange = (boardId: string) => {
