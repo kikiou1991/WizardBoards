@@ -61,11 +61,9 @@ export interface UserContextType {
   setAuthenticated: (authenticated: boolean) => void;
   fetchLists: (token: any, boardUuid: string) => Promise<void>;
   createList: (token: any, listData: any, boardUuid: string) => Promise<void>;
-  selectedBoard: string;
   setCards: React.Dispatch<React.SetStateAction<Cards[]>>;
   fetchCards: (token: any, listUuid: string) => Promise<void>;
   favorites: Boards[];
-  updateBoard: (token: any, boardUuid: string, boardData: any) => Promise<void>;
   setFavorites: React.Dispatch<React.SetStateAction<Boards[]>>;
   createCard: (token: any, cardData: any, listUuid: string) => Promise<void>;
   deleteCard: (token: any, cardData: any, listUuid: string) => Promise<void>;
@@ -95,7 +93,6 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
   const pathname = usePathname();
   const router = useRouter();
 
-  const{boards, setBoards, selectedBoard} = useContext(BoardContext) as BoardContextType;
 
   
   const validateToken = async (token: any) => {
@@ -117,27 +114,7 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
 
  
 
-  // Update board
-
-  const updateBoard = async (token: any, boardUuid: string, boardData: any) => {
-    try {
-      const {name, isStared} = boardData;
-
-      const res = await workspaceBoards.upDateBoard(token, boardUuid, {name, isStared});
-      if (res?.status === true) {
-        setBoards(
-          boards.map((board) => {
-            if (board._id === boardUuid) {
-              return {...board, ...boardData};
-            }
-            return board;
-          })
-        );
-      }
-    } catch (error) {
-      console.error('Failed to update board: ', error);
-    }
-  };
+ 
 
   // Fetch favorites
 
@@ -281,13 +258,13 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
   // This Block needs fixing, need to add a dependency so cards are displayed straight away
   //
   //
-  useEffect(() => {
-    if (isNewCardCreated) {
-      console.log('cards changed');
-      fetchCards(token, selectedBoard);
-      setIsNewCardCreated(false);
-    }
-  }, [isNewCardCreated]);
+  // useEffect(() => {
+  //   if (isNewCardCreated) {
+  //     console.log('cards changed');
+  //     fetchCards(token, selectedBoard);
+  //     setIsNewCardCreated(false);
+  //   }
+  // }, [isNewCardCreated]);
 
   //UseEffect for setting the token
   useEffect(() => {
@@ -369,7 +346,6 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
     createList,
     lists,
     cards,
-    selectedBoard,
     setCards,
     fetchCards,
     validateToken,
@@ -378,7 +354,6 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
     createCard,
     deleteCard,
     setLists,
-    updateBoard
   };
   return (
     <UserContext.Provider value={contextValue}>

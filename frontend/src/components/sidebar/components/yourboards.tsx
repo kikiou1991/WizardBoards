@@ -9,7 +9,7 @@ import MyModalNewBoard from '../sidebarmodal/new_board_modal';
 import { BoardContext, BoardContextType } from '@/contexts/BoardContext';
 
 const YourBoards = () => {
-  const { selectedWorkspace, updateBoard,  token} = useContext(UserContext) as UserContextType;
+  const { selectedWorkspace,  token} = useContext(UserContext) as UserContextType;
   const context = useContext(UserContext);
   const  {boards, deleteBoard, setBoards, setSelectedBoard, setIsBoardSelectedGlobal, isBoardSelectedGlobal} = useContext(BoardContext) as BoardContextType;
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null); // Maintain the ID of the selected board item
@@ -33,7 +33,7 @@ const YourBoards = () => {
     try {
       const selectedBoard = boards.find((board) => board.uuid === boardUuid);
 
-      let res = await updateBoard(token, boardUuid, {isStared: !selectedBoard?.isStared, name: selectedBoard?.name});
+      // let res = await updateBoard(token, boardUuid, {isStared: !selectedBoard?.isStared, name: selectedBoard?.name});
 
       if (selectedBoard) {
         setBoards((prevBoards) => prevBoards.map((board) => (board.uuid === boardUuid ? {...board, isStared: !selectedBoard.isStared} : board)));
