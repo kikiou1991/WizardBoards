@@ -3,9 +3,11 @@ import { Avatar, AvatarGroup, Button } from '@nextui-org/react';
 import React, { useContext, useState } from 'react';
 import Icon from '../Icons';
 import { UserContext, UserContextType } from '@/contexts/Usercontext';
+import { BoardContext, BoardContextType } from '@/contexts/BoardContext';
 
 const BoardNav = () => {
-  const { selectedBoard, boards, updateBoard, token } = useContext(UserContext) as UserContextType;
+  const {  updateBoard, token } = useContext(UserContext) as UserContextType;
+  const {selectedBoard, boards } = useContext(BoardContext) as BoardContextType;
   const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseEnter = () => {
