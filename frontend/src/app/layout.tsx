@@ -5,6 +5,9 @@ import {UserContextProvider} from '@/contexts/Usercontext';
 import {Playfair_Display, Inter} from 'next/font/google';
 import './globals.css';
 import {WorkspaceContextProvider} from '@/contexts/WorkspaceContext';
+import { BoardContextProvider } from '@/contexts/BoardContext';
+import { ListContextProvider } from '@/contexts/ListContext';
+import { CardContextProvider } from '@/contexts/CardContext';
 
 const playFair = Playfair_Display({
   weight: '400',
@@ -39,7 +42,15 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
       <body className={roboto.className}>
         <UserContextProvider>
           <WorkspaceContextProvider>
-            <Providers>{children}</Providers>
+            <BoardContextProvider>
+              <ListContextProvider>
+                <CardContextProvider>
+                  <Providers>{children}</Providers>
+
+                </CardContextProvider>
+              </ListContextProvider>
+
+            </BoardContextProvider>
           </WorkspaceContextProvider>
         </UserContextProvider>
       </body>

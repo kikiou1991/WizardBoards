@@ -41,6 +41,7 @@ interface Cards {
 }
 export interface UserContextType {
   token: string | null;
+  
   setToken: (token: string | null) => void;
   workspaces: Workspace[];
   boards: Boards[];
@@ -167,7 +168,6 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
   // Update board
 
   const updateBoard = async (token: any, boardUuid: string, boardData: any) => {
-    console.log('boardData on client side: ', boardData);
     try {
       const {name, isStared} = boardData;
 

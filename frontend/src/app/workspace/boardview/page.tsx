@@ -4,6 +4,7 @@ import { Card, CardHeader, CardBody, Image, Button, CardFooter } from '@nextui-o
 import { UserContext, UserContextType } from '@/contexts/Usercontext';
 import Link from 'next/link';
 import MyModalEmail from '@/components/sidebar/sidebarmodal/newmember_modal';
+import { BoardContext, BoardContextType } from '@/contexts/BoardContext';
 
 interface Workspace {
   uuid: string;
@@ -11,7 +12,8 @@ interface Workspace {
 }
 
 const BoardView = () => {
-  const { boards, selectedWorkspace, workspaces, setSelectedBoard, setIsBoardSelectedGlobal } = useContext(UserContext) as UserContextType;
+  const {  selectedWorkspace, workspaces,  setIsBoardSelectedGlobal } = useContext(UserContext) as UserContextType;
+  const { boards, setSelectedBoard, } = useContext(BoardContext) as BoardContextType;
   const selectedWorkspaceName = workspaces.find((workspace: Workspace) => workspace.uuid === selectedWorkspace)?.name;
   const initial = workspaces.find((workspace: Workspace) => workspace.uuid === selectedWorkspace)?.name[0];
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null);

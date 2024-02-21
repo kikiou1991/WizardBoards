@@ -46,7 +46,7 @@ export const boardLists = {
       console.error('Error creating list: ', error.message);
     }
   },
-  deletList: async (token: any, boardUuid: string, listData: any) => {
+  deleteList: async (token: any, boardUuid: string, listData: any) => {
     try {
       const response = await fetch('https://wizardboards.co.uk/api/v2/lists/archive', {
         method: 'POST',

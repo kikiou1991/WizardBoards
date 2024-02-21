@@ -70,9 +70,11 @@ module.exports = async (app, db) => {
       console.error(error, 'Failed to login in user');
     }
   });
-  app.post('/api/v2/validate', async (req, res) => {
+  app.get('/api/v2/validate', async (req, res) => {
     try {
+      
       const token = req.headers?.authorization?.split(' ')[1];
+      console.log('the token is:', token);
       if (!token) {
         return res.status(401).json({status: false, message: 'No token provided'});
       }
