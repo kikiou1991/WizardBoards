@@ -5,6 +5,7 @@ import { UserContext, UserContextType } from '@/contexts/Usercontext';
 import Link from 'next/link';
 import MyModalEmail from '@/components/sidebar/sidebarmodal/newmember_modal';
 import { BoardContext, BoardContextType } from '@/contexts/BoardContext';
+import { WorkspaceContext, WorkspaceContextType } from '@/contexts/WorkspaceContext';
 
 interface Workspace {
   uuid: string;
@@ -12,7 +13,8 @@ interface Workspace {
 }
 
 const BoardView = () => {
-  const {  selectedWorkspace, workspaces,  setIsBoardSelectedGlobal } = useContext(UserContext) as UserContextType;
+  const {    setIsBoardSelectedGlobal } = useContext(UserContext) as UserContextType;
+  const {selectedWorkspace, workspaces } = useContext(WorkspaceContext) as WorkspaceContextType;
   const { boards, setSelectedBoard, } = useContext(BoardContext) as BoardContextType;
   console.log('These are your current boards',boards)
   const selectedWorkspaceName = workspaces.find((workspace: Workspace) => workspace.uuid === selectedWorkspace)?.name;

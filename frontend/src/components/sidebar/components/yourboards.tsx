@@ -6,10 +6,12 @@ import Image from 'next/image';
 import Link from 'next/link';
 import {useContext, useState} from 'react';
 import MyModalNewBoard from '../sidebarmodal/new_board_modal';
+import { BoardContext, BoardContextType } from '@/contexts/BoardContext';
 
 const YourBoards = () => {
-  const {boards, deleteBoard, selectedWorkspace, setBoards, fetchBoard, setSelectedBoard, selectedBoard, updateBoard, token, favorites, setIsBoardSelectedGlobal, isBoardSelectedGlobal} = useContext(UserContext) as UserContextType;
+  const { selectedWorkspace,  updateBoard, token, setIsBoardSelectedGlobal, isBoardSelectedGlobal} = useContext(UserContext) as UserContextType;
   const context = useContext(UserContext);
+  const  {boards, deleteBoard, setBoards, setSelectedBoard} = useContext(BoardContext) as BoardContextType;
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null); // Maintain the ID of the selected board item
 
   const handleBoardChange = (boardId: string) => {

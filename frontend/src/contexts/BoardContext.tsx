@@ -56,7 +56,6 @@ const BoardContextProvider = ({ children }: WorkspaceContextProviderProps) => {
   const [boards, setBoards] = useState<Boards[]>([]);
   const [selectedBoard, setSelectedBoard] = useState('');
 
-  console.log('check if i got the boards', boards)
 
  //create the boards
   const createBoard = async (token: any, boardData: any) => {
