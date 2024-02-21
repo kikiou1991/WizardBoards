@@ -1,7 +1,7 @@
 export const userWorkspaces = {
   getWorkspace: async (token: any) => {
     try {
-      const response = await fetch('httsps://wizardboards.co.uk/api/v2/workspaces', {
+      const response = await fetch('https://wizardboards.co.uk/api/v2/workspaces', {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,

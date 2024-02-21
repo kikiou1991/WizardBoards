@@ -1,6 +1,7 @@
 'use client';
 import { UserContext, UserContextType } from '@/contexts/Usercontext';
 import { workspaceBoards } from '@/lib/v2/boards';
+import { userWorkspaces } from '@/lib/v2/workspaces';
 import { ReactNode, createContext, useContext, useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
 
@@ -10,47 +11,17 @@ interface Workspace {
   name: string;
   uuid: string;
 }
-interface Boards {
-  _id: string;
-  name: string;
-  uuid: string;
-  isStared: boolean;
-  workspace: Workspace;
-  lists: Lists[];
-}
 
-interface Lists {
-  _id: string;
-  name: string;
-  uuid: string;
-  boardId: string;
-  cards: Cards[];
-}
-
-interface Cards {
-  _id: string;
-  title: string;
-  uuid: string;
-  cardIndex: number;
-  listUuid: string;
-}
 export interface WorkspaceContextType {
   workspaces: Workspace[];
-  boards: Boards[];
-  lists: Lists[];
-  cards: Cards[];
   selectedWorkspace: string;
   currentWorkspace: Workspace | null;
   localSelectedWorkspace: string;
-  selectedBoard: string;
-  setSelectedBoard: React.Dispatch<React.SetStateAction<string>>;
   setLocalSelectedWorkspace: React.Dispatch<React.SetStateAction<string>>;
   setSelectedWorkspace: React.Dispatch<React.SetStateAction<string>>;
-  setBoards: React.Dispatch<React.SetStateAction<Boards[]>>;
   setWorkspace: (workspace: Workspace | null) => void;
-  setCards: React.Dispatch<React.SetStateAction<Cards[]>>;
-  setFavorites: React.Dispatch<React.SetStateAction<Boards[]>>;
-  setLists: React.Dispatch<React.SetStateAction<Lists[]>>;
+  createWorkspace: (token: any, boardData: any) => void;
+  fetchWorkspaces: (token: any) => void;
 }
 interface WorkspaceContextProviderProps {
   children: ReactNode;
@@ -65,47 +36,71 @@ const WorkspaceContextProvider = ({ children }: WorkspaceContextProviderProps) =
   const [currentWorkspace, setCurrentWorkspace] = useState<Workspace | null>(null);
   const [selectedWorkspace, setSelectedWorkspace] = useState('');
   const [localSelectedWorkspace, setLocalSelectedWorkspace] = useState('');
-  const [boards, setBoards] = useState<Boards[]>([]);
-  const [selectedBoard, setSelectedBoard] = useState('');
-  const [lists, setLists] = useState<Lists[]>([]);
-  const [cards, setCards] = useState<Cards[]>([]);
-  const [favorites, setFavorites] = useState<Boards[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const getBoards = async () => {
-    let res = await workspaceBoards.getBoards(token, selectedWorkspace);
-    console.log(res);
+
+  const fetchWorkspaces = async (token: any) => {
+    if (!token) {
+      console.log('Token is missing');
+    }
+
+    try {
+      let res = await userWorkspaces.getWorkspace(token);
+
+      setWorkspaces(res?.data || []);
+    } catch (error: any) {
+      // Handle error if needed
+      console.error('Error fetching workspaces:', error || error.message || error.response);
+    } finally {
+      setIsLoading(false);
+    }
   };
-  useEffect(() => {
-    let socket = io('http://localhost:3002/api/v2/boards', {});
-    socket.on('board', (data) => {
-      console.log(data);
-    });
-  }, []);
+
+  //create a new workspace
+
+  const createWorkspace = async (token: any, boardData: any) => {
+    try {
+      if (!token) {
+        console.error('Token is missing');
+        return;
+      }
+
+      const res = await userWorkspaces.createWorkspace(token, boardData);
+
+      if (res) {
+        console.log('Workspace created successfully:', res);
+        // Update your local state or perform any other actions if needed
+      } else {
+        console.error('Failed to create workspace. Response:', res);
+        // Handle the case when the server does not return the expected data
+      }
+    } catch (error: any) {
+      // Handle error if needed
+      console.error('Error creating workspace:', error || error.message || error.response);
+    }
+  };
+
+  //set workspaces for the current user
+  const setWorkspace = (workspace: Workspace | null) => {
+    setCurrentWorkspace(workspace);
+  };
+
 
   useEffect(() => {
     if (token) {
-      if (selectedWorkspace) {
-        getBoards();
-      }
+      fetchWorkspaces(token);
     }
-  }, [token, selectedWorkspace]);
+  }, [token]);
   const contextValue: WorkspaceContextType = {
-    boards,
-    setBoards,
     workspaces,
-    lists,
-    cards,
     selectedWorkspace,
     localSelectedWorkspace,
-    selectedBoard,
     currentWorkspace,
-    setSelectedBoard,
     setWorkspace: setCurrentWorkspace,
     setLocalSelectedWorkspace,
     setSelectedWorkspace,
-    setCards,
-    setLists,
-    setFavorites,
+    createWorkspace,
+    fetchWorkspaces
   };
   return <WorkspaceContext.Provider value={contextValue}>{children}</WorkspaceContext.Provider>;
 };

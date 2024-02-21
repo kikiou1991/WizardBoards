@@ -11,7 +11,7 @@ import useOutsideClick from '@/components/customHooks/useOutsideClick';
 import BoardView from '../boardview/page';
 
 const Project = () => {
-  const { lists, token, isBoardSelectedGlobal, setLists, boards, selectedBoard, cards } = useContext(UserContext) as UserContextType;
+  const { lists, token, isBoardSelectedGlobal, cards } = useContext(UserContext) as UserContextType;
   const [isActive, setIsActive] = useState(true);
   const [listTitle, setListTitle] = useState('');
 
