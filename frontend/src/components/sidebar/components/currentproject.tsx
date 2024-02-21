@@ -3,9 +3,11 @@ import React, { useState, useEffect, useContext } from 'react';
 import { UserContext, UserContextType } from '@/contexts/Usercontext';
 import { Dropdown, DropdownItem, DropdownTrigger, DropdownMenu, Button } from '@nextui-org/react';
 import Icon from '@/components/Icons';
+import { WorkspaceContext, WorkspaceContextType } from '@/contexts/WorkspaceContext';
 
 const CurrentProject = () => {
-  const { workspaces, selectedWorkspace, setSelectedWorkspace } = useContext(UserContext) as UserContextType;
+  const {setSelectedWorkspace, selectedWorkspace, workspaces} = useContext(WorkspaceContext) as WorkspaceContextType;
+
 
   useEffect(() => {
     // Set the default selectedWorkspace to the UUID of the first workspace if available

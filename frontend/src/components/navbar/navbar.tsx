@@ -12,6 +12,7 @@ import useOutsideClick from '../customHooks/useOutsideClick';
 import NotificationWindow from '../notifications/notiWindow';
 import Profile from './profile';
 import Socials from './socials';
+import { WorkspaceContext, WorkspaceContextType } from '@/contexts/WorkspaceContext';
 
 interface UserData {
   name: string;
@@ -28,7 +29,8 @@ const NavbarTop = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const {workspaces, setSelectedWorkspace, selectedWorkspace, favorites, setIsBoardSelectedGlobal, setSelectedBoard} = useContext(UserContext) as UserContextType;
+  const {workspaces,  selectedWorkspace, favorites, setIsBoardSelectedGlobal, setSelectedBoard} = useContext(UserContext) as UserContextType;
+  const {setSelectedWorkspace} = useContext(WorkspaceContext) as WorkspaceContextType;
   const ref = useRef(null);
   // State to store selected workspace
 
