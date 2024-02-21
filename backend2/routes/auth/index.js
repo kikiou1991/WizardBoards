@@ -35,6 +35,7 @@ module.exports = async (app, db) => {
     }
   });
   app.post('/api/v2/login', async (req, res) => {
+    console.log('the request body is:', req.body);
     try {
       const {email, password} = req.body;
       if (!email) {
@@ -70,7 +71,7 @@ module.exports = async (app, db) => {
       console.error(error, 'Failed to login in user');
     }
   });
-  app.get('/api/v2/validate', async (req, res) => {
+  app.post('/api/v2/validate', async (req, res) => {
     try {
       
       const token = req.headers?.authorization?.split(' ')[1];
