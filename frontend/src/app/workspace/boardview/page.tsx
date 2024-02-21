@@ -14,7 +14,7 @@ interface Workspace {
 const BoardView = () => {
   const {  selectedWorkspace, workspaces,  setIsBoardSelectedGlobal } = useContext(UserContext) as UserContextType;
   const { boards, setSelectedBoard, } = useContext(BoardContext) as BoardContextType;
-  console.log(boards)
+  console.log('These are your current boards',boards)
   const selectedWorkspaceName = workspaces.find((workspace: Workspace) => workspace.uuid === selectedWorkspace)?.name;
   const initial = workspaces.find((workspace: Workspace) => workspace.uuid === selectedWorkspace)?.name[0];
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
