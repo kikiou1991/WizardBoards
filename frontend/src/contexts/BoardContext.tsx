@@ -80,7 +80,7 @@ const BoardContextProvider = ({ children }: WorkspaceContextProviderProps) => {
     }
   };
   //Delete the board function
-  const deleteBoard = async(token: any, boardData: any, workspaceUuid: any) =>{
+  const deleteBoard = async(token: any,  workspaceUuid: any, boardData: any) =>{
     try {
         const res = await workspaceBoards.deleteBoard(token, workspaceUuid, boardData); 
         if(res?.status === true) {
