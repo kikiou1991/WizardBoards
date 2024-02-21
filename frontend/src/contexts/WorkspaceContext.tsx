@@ -11,6 +11,16 @@ interface Workspace {
   uuid: string;
 }
 
+
+// 
+// 
+// 
+// This section does work atm, it fetches all of the worksapces for the given user
+// 
+// 
+// 
+// 
+
 export interface WorkspaceContextType {
   workspaces: Workspace[];
   selectedWorkspace: string;
@@ -25,7 +35,6 @@ export interface WorkspaceContextType {
 interface WorkspaceContextProviderProps {
   children: ReactNode;
 }
-//call the useContext
 const WorkspaceContext = createContext<WorkspaceContextType | null>(null);
 
 const WorkspaceContextProvider = ({ children }: WorkspaceContextProviderProps) => {
@@ -36,8 +45,8 @@ const WorkspaceContextProvider = ({ children }: WorkspaceContextProviderProps) =
   const [selectedWorkspace, setSelectedWorkspace] = useState('');
   const [localSelectedWorkspace, setLocalSelectedWorkspace] = useState('');
   const [isLoading, setIsLoading] = useState(true);
-  console.log('workspaces', workspaces)
 
+  console.log('selectedWorkspace', selectedWorkspace)
 
   const fetchWorkspaces = async (token: any) => {
     if (!token) {
