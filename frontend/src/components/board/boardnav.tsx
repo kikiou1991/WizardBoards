@@ -6,7 +6,7 @@ import { UserContext, UserContextType } from '@/contexts/Usercontext';
 import { BoardContext, BoardContextType } from '@/contexts/BoardContext';
 
 const BoardNav = () => {
-  const {  updateBoard, token } = useContext(UserContext) as UserContextType;
+  const { token } = useContext(UserContext) as UserContextType;
   const {selectedBoard, boards } = useContext(BoardContext) as BoardContextType;
   const [isHovered, setIsHovered] = useState(false);
 
@@ -24,7 +24,7 @@ const BoardNav = () => {
       console.log('boardUuid: ', boardUuid);
       console.log('selectedBoard: ', selectedBoard?.isStared);
 
-      await updateBoard(token, boardUuid, { isStared: !selectedBoard?.isStared, name: selectedBoard?.name });
+      // await updateBoard(token, boardUuid, { isStared: !selectedBoard?.isStared, name: selectedBoard?.name });
     } catch (error) {}
   };
 
