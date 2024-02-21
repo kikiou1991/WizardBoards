@@ -34,11 +34,9 @@ const MyModalNewBoard = ({ iconName }: Props) => {
 
   const handleCreateBoard = async () => {
     if (!boardTitle) {
-      console.log('Please create a title');
       return;
     }
     if (!localSelectedWorkspace) {
-      console.log('Please select a workspace');
       return;
     }
 
@@ -66,7 +64,7 @@ const MyModalNewBoard = ({ iconName }: Props) => {
           base: 'border-foreground bg-primary dark:bg-background text-foreground',
           header: 'border-b-[1px] border-border',
           footer: 'border-t-[1px] border-border',
-          
+
           closeButton: 'hover:bg-white/5 active:bg-transparent',
         }}>
         <ModalContent>

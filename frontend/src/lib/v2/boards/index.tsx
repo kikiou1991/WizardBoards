@@ -55,10 +55,8 @@ export const workspaceBoards = {
           boardUuid,
         }),
       });
-      console.log(response);
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
         return data;
       } else {
         throw new Error('Failed to delete board');

@@ -46,7 +46,6 @@ const WorkspaceContextProvider = ({ children }: WorkspaceContextProviderProps) =
   const [localSelectedWorkspace, setLocalSelectedWorkspace] = useState('');
   const [isLoading, setIsLoading] = useState(true);
 
-  console.log('selectedWorkspace', selectedWorkspace)
 
   const fetchWorkspaces = async (token: any) => {
     if (!token) {
@@ -91,7 +90,6 @@ const WorkspaceContextProvider = ({ children }: WorkspaceContextProviderProps) =
 
   //set workspaces for the current user
   const setWorkspace = (workspace: Workspace | null) => {
-    console.log('currentWorkspace', workspace)
     setCurrentWorkspace(workspace);
   };
  

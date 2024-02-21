@@ -62,7 +62,6 @@ const InputField = () => {
           password: inputValue.password,
         }),
       });
-      console.log('result is good', inputValue);
 
       if (response.ok) {
         const result = await response.json();
@@ -70,7 +69,6 @@ const InputField = () => {
         if (result.success) {
           // Successful login
 
-          console.log('success');
 
           //store the token in local storage
           localStorage.setItem('token', result.token);
@@ -80,7 +78,6 @@ const InputField = () => {
           router.push('/workspace/home');
         } else {
           // Incorrect credentials
-          console.log('the response was not succesful');
           toast.error(result.message);
         }
       } else {

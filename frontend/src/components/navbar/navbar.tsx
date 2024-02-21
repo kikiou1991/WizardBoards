@@ -63,7 +63,7 @@ const NavbarTop = () => {
         const token = localStorage.getItem('token');
 
         if (!token) {
-          console.log('Failed to fetch token!');
+          return;
         }
         //use the token to get the user info
         const response = await fetch('https://wizardboards.co.uk/api/users/me', {

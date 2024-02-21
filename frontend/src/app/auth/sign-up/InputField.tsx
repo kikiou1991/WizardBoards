@@ -70,7 +70,6 @@ const InputField = () => {
         fullName: fullName,
       };
 
-      console.log('Request Body:', requestBody);
 
       try {
         const response = await fetch('https://wizardboards.co.uk/api/v2/signup', {
@@ -87,7 +86,6 @@ const InputField = () => {
             fullName: fullName,
           }),
         });
-        console.log('This is the body of the JSON response', response.body);
         if (response.ok) {
           // Handle successful response
 

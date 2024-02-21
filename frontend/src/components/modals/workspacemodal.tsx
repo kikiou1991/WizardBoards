@@ -14,7 +14,6 @@ const WorkspaceModal = ({ ref }: Workspace) => {
 
   const handleCreateWorkspace = async () => {
     if (!workSpaceTitle) {
-      console.log('Please create a title');
       return;
     }
     try {

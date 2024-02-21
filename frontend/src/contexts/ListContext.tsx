@@ -60,7 +60,6 @@ const ListContextProvider = ({ children }: WorkspaceContextProviderProps) => {
   useEffect(() => {
     let socket = io('http://localhost:3002/api/v2/lists', {});
     socket.on('list', (data) => {
-      console.log(data);
     });
   }, []);
 

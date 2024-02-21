@@ -48,11 +48,9 @@ const MyWorkSpaceModal = () => {
 
   const handleCreateBoard = async () => {
     if (!boardTitle) {
-      console.log('Please create a title');
       return;
     }
     if (!selectedWorkspace) {
-      console.log('Please select a workspace');
       return;
     }
     try {
@@ -65,7 +63,6 @@ const MyWorkSpaceModal = () => {
 
   const handleCreateWorkspace = async () => {
     if (!workSpaceTitle) {
-      console.log('Please create a title');
       return;
     }
     try {

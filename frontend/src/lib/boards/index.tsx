@@ -3,7 +3,6 @@ export const workspaceBoards = {
     try {
       const {name} = boardData;
       const simplifiedBoardData = {name, workspaceUuid};
-      console.log(simplifiedBoardData);
       const response = await fetch('https://wizardboards.co.uk/api/boards', {
         method: 'POST',
         headers: {
@@ -56,10 +55,8 @@ export const workspaceBoards = {
           boardUuid,
         }),
       });
-      console.log(response);
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
         return data;
       } else {
         throw new Error('Failed to delete board');
@@ -70,7 +67,6 @@ export const workspaceBoards = {
   },
 
   upDateBoard: async (token: any, boardUuid: string, boardData: any) => {
-    console.log('this is the board data: ', boardData);
     try {
       const response = await fetch(`https://wizardboards.co.uk/api/boards/update/?boardUuid=${boardUuid}`, {
         method: 'PATCH',
@@ -80,7 +76,6 @@ export const workspaceBoards = {
         },
         body: JSON.stringify(boardData),
       });
-      console.log(response);
       if (!response.ok) {
         throw new Error('Failed to update board');
       }

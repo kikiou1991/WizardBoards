@@ -19,7 +19,6 @@ export const userWorkspaces = {
     }
   },
   createWorkspace: async (token: any, boardData: any) => {
-    console.log('Creating workspace with...', boardData);
     try {
       const response = await fetch('https://wizardboards.co.uk/api/workspaces', {
         method: 'POST',

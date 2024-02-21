@@ -99,7 +99,6 @@ const BoardContextProvider = ({ children }: WorkspaceContextProviderProps) => {
   useEffect(() => {
     let socket = io('http://localhost:3002/api/v2/boards', {});
     socket.on('board', (data) => {
-      console.log(data);
     });
   }, []);
 
