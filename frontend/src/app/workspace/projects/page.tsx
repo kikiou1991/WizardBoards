@@ -9,9 +9,11 @@ import { UserContext, UserContextType } from '@/contexts/Usercontext';
 import Icon from '@/components/Icons';
 import useOutsideClick from '@/components/customHooks/useOutsideClick';
 import BoardView from '../boardview/page';
+import { BoardContext, BoardContextType } from '@/contexts/BoardContext';
 
 const Project = () => {
-  const { lists, token, isBoardSelectedGlobal, cards } = useContext(UserContext) as UserContextType;
+  const { lists, token,  cards } = useContext(UserContext) as UserContextType;
+  const {isBoardSelectedGlobal} = useContext(BoardContext) as BoardContextType;
   const [isActive, setIsActive] = useState(true);
   const [listTitle, setListTitle] = useState('');
 
