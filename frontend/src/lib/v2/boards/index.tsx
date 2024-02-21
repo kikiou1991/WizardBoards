@@ -43,6 +43,7 @@ export const workspaceBoards = {
     }
   },
   deleteBoard: async (token: any, workspaceUuid: string, boardData: any) => {
+    console.log('boardData', boardData)
     try {
       const response = await fetch(`https://wizardoards.co.uk/api/v2/boards/archive?workspaceUuid=${workspaceUuid}`, {
         method: 'POST',
