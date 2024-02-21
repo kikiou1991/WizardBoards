@@ -51,7 +51,6 @@ export const workspaceBoards = {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          workspaceUuid,
           boardUuid,
         }),
       });
