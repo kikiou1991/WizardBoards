@@ -7,7 +7,7 @@ import { BoardContext, BoardContextType } from '@/contexts/BoardContext';
 
 const BoardNav = () => {
   const { token } = useContext(UserContext) as UserContextType;
-  const {selectedBoard, boards } = useContext(BoardContext) as BoardContextType;
+  const {selectedBoard, boards, createBoard } = useContext(BoardContext) as BoardContextType;
   const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseEnter = () => {
@@ -24,7 +24,7 @@ const BoardNav = () => {
       console.log('boardUuid: ', boardUuid);
       console.log('selectedBoard: ', selectedBoard?.isStared);
 
-      // await updateBoard(token, boardUuid, { isStared: !selectedBoard?.isStared, name: selectedBoard?.name });
+      await createBoard(token, { isStared: !selectedBoard?.isStared, name: selectedBoard?.name });
     } catch (error) {}
   };
 

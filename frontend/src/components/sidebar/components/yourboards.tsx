@@ -11,7 +11,7 @@ import { BoardContext, BoardContextType } from '@/contexts/BoardContext';
 const YourBoards = () => {
   const { selectedWorkspace,  token} = useContext(UserContext) as UserContextType;
   const context = useContext(UserContext);
-  const  {boards, deleteBoard, setBoards, setSelectedBoard, setIsBoardSelectedGlobal, isBoardSelectedGlobal} = useContext(BoardContext) as BoardContextType;
+  const  {boards, deleteBoard, setBoards, setSelectedBoard, setIsBoardSelectedGlobal, createBoard} = useContext(BoardContext) as BoardContextType;
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null); // Maintain the ID of the selected board item
 
   const handleBoardChange = (boardId: string) => {
@@ -33,7 +33,7 @@ const YourBoards = () => {
     try {
       const selectedBoard = boards.find((board) => board.uuid === boardUuid);
 
-      // let res = await updateBoard(token, boardUuid, {isStared: !selectedBoard?.isStared, name: selectedBoard?.name});
+   let res = await createBoard(token,{isStared: !selectedBoard?.isStared, name: selectedBoard?.name});
 
       if (selectedBoard) {
         setBoards((prevBoards) => prevBoards.map((board) => (board.uuid === boardUuid ? {...board, isStared: !selectedBoard.isStared} : board)));
