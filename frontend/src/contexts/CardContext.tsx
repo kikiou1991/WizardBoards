@@ -48,7 +48,6 @@ const CardContextProvider = ({ children }: CardContextProviderProps) => {
   }, []);
 
   const fetchCards = async (token: any, listUuid: string) => {
-    console.log("fetching cards with listUuid: ", listUuid);
     try {
       const res = await listCards.fetchCard(token, listUuid);
       console.log("res: ", res);
