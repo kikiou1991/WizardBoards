@@ -2,7 +2,6 @@ const { v4: uuidv4 } = require("uuid");
 module.exports = async (app, db, io) => {
   let namespace = io.of("/api/v2/cards");
   app.get("/api/v2/cards", async (req, res, next) => {
-    console.log("fetching the cards on the server side for testing");
     try {
       const listUuid = req.query.listUuid;
       console.log("listUuid", listUuid);
@@ -43,7 +42,6 @@ module.exports = async (app, db, io) => {
   });
   app.post("/api/v2/cards", async (req, res, next) => {
     const { listUuid, data } = req.body;
-    console.log("The data that the server gets from the client: ", data);
     const user = req.user;
 
     if (data?.uuid) {
@@ -90,6 +88,57 @@ module.exports = async (app, db, io) => {
         success: true,
         data: newcard,
       });
+    }
+  });
+  app.post("/api/v2/cards/archive", async (req, res, next) => {
+    try {
+      const { listUuid, cardUuid } = req.body;
+      const user = req.user;
+
+      if (!listUuid || !cardUuid) {
+        return res
+          .status(400)
+          .json({
+            message: "Invalid list or card UUID",
+            success: false,
+            data: null,
+          });
+      }
+      if (!user || !user._id) {
+        return res
+          .status(400)
+          .json({
+            message: "Invalid user information",
+            success: false,
+            data: null,
+          });
+      }
+      const list = await db.collection("lists").findOne({ uuid: listUuid });
+      if (!list) {
+        return res
+          .status(400)
+          .json({ message: "Invalid list UUID", success: false, data: null });
+      }
+      const result = await db
+        .collection("cards")
+        .deleteOne({ uuid: cardUuid }, { returnOriginal: true });
+      if (!card) {
+        return res
+          .status(400)
+          .json({ message: "Invalid card UUID", success: false, data: null });
+      }
+      namespace.emit("card", { type: "delete", data: result });
+
+      return res
+        .status(201)
+        .json({
+          message: "Card deleted successfully",
+          success: true,
+          data: result,
+        });
+    } catch (error) {
+      console.error("Failed to delete the card", error);
+      next(error);
     }
   });
 };
