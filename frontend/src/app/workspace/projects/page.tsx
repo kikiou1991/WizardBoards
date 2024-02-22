@@ -30,7 +30,7 @@ const Project = () => {
   ) as BoardContextType;
   const { lists } = useContext(ListContext) as ListContextType;
   const [isActive, setIsActive] = useState(true);
-
+  console.log("lists: ", lists);
   const [listTitle, setListTitle] = useState("");
 
   const ref = useRef<HTMLDivElement | null>(null);

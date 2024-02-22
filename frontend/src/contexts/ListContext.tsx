@@ -1,10 +1,16 @@
-'use client';
-import { UserContext, UserContextType } from '@/contexts/Usercontext';
-import { workspaceBoards } from '@/lib/v2/boards';
-import { ReactNode, createContext, useContext, useEffect, useState } from 'react';
-import { io } from 'socket.io-client';
-import { BoardContext, BoardContextType } from './BoardContext';
-import { boardLists } from '@/lib/v2/lists';
+"use client";
+import { UserContext, UserContextType } from "@/contexts/Usercontext";
+import { workspaceBoards } from "@/lib/v2/boards";
+import {
+  ReactNode,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import { io } from "socket.io-client";
+import { BoardContext, BoardContextType } from "./BoardContext";
+import { boardLists } from "@/lib/v2/lists";
 
 // Interfaces Section
 interface Workspace {
@@ -51,16 +57,14 @@ const ListContext = createContext<ListContextType | null>(null);
 
 const ListContextProvider = ({ children }: WorkspaceContextProviderProps) => {
   const { token } = useContext(UserContext) as UserContextType;
-    //we gonna need boards from boardContext
-    const { boards, setBoards } = useContext(BoardContext) as BoardContextType;
-  const [selectedBoard, setSelectedBoard] = useState('');
+  //we gonna need boards from boardContext
+  const { boards, setBoards } = useContext(BoardContext) as BoardContextType;
+  const [selectedBoard, setSelectedBoard] = useState("");
   const [lists, setLists] = useState<Lists[]>([]);
 
-  
   useEffect(() => {
-    let socket = io('http://localhost:3002/api/v2/lists', {});
-    socket.on('list', (data) => {
-    });
+    let socket = io("http://localhost:3002/api/v2/lists", {});
+    socket.on("list", (data) => {});
   }, []);
 
   //we are going to need to fetch the lists
@@ -69,7 +73,7 @@ const ListContextProvider = ({ children }: WorkspaceContextProviderProps) => {
       const res = await boardLists.getLists(token, data, boardUuid);
       setLists(res?.newList || []);
     } catch (error: any) {
-      console.error('Failed to fetch lists', error);
+      console.error("Failed to fetch lists", error);
     }
   };
 
@@ -83,23 +87,30 @@ const ListContextProvider = ({ children }: WorkspaceContextProviderProps) => {
         setLists([res.newList, ...lists]);
       }
     } catch (error: any) {
-      console.error('Failed to create list', error);
+      console.error("Failed to create list", error);
     }
   };
   //we are going to need to delete the lists
 
-  const deleteList = async( token: any, boardUuid: string, listData: any) => {
+  const deleteList = async (token: any, boardUuid: string, listData: any) => {
     try {
-        const response = await boardLists.deleteList(token, boardUuid, listData);
-        if(response?.status === true) {
-            setLists(lists.filter((list) => listData._id !== list.uuid))
-        }
+      const response = await boardLists.deleteList(token, boardUuid, listData);
+      if (response?.status === true) {
+        setLists(lists.filter((list) => listData._id !== list.uuid));
+      }
     } catch (error) {
-        console.error('Error deleting the list', error);
-;    }
-  }
+      console.error("Error deleting the list", error);
+    }
+  };
+  useEffect(() => {
+    if (token && boards.length > 0) {
+      for (let board of boards) {
+        fetchLists(token, board.uuid, {});
+      }
+    }
+  }, [boards]);
 
-   //fetch cards for each lists on render or if the lists change
+  //fetch cards for each lists on render or if the lists change
   //  useEffect(() => {
   //   if (localStorage['token'] && lists.length > 0) {
   //     for (let list of lists) {
@@ -108,9 +119,6 @@ const ListContextProvider = ({ children }: WorkspaceContextProviderProps) => {
   //   }
   // }, [lists]);
 
-
-
-  
   const contextValue: ListContextType = {
     lists,
     setLists,
@@ -118,7 +126,9 @@ const ListContextProvider = ({ children }: WorkspaceContextProviderProps) => {
     createList,
     deleteList,
   };
-  return <ListContext.Provider value={contextValue}>{children}</ListContext.Provider>;
+  return (
+    <ListContext.Provider value={contextValue}>{children}</ListContext.Provider>
+  );
 };
 
 export { ListContext, ListContextProvider };
