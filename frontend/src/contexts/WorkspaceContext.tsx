@@ -62,11 +62,9 @@ const WorkspaceContextProvider = ({
     }
 
     try {
-      if (authenticated && token) {
-        let res = await userWorkspaces.getWorkspace(token);
+      let res = await userWorkspaces.getWorkspace(token);
 
-        setWorkspaces(res?.data || []);
-      }
+      setWorkspaces(res?.data || []);
     } catch (error: any) {
       // Handle error if needed
       console.error(
