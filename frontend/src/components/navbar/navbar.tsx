@@ -50,6 +50,7 @@ const NavbarTop = () => {
   ) as BoardContextType;
   const ref = useRef(null);
   // State to store selected workspace
+  console.log("current workspaces", workspaces);
 
   const handleWorkspaceChange = (workspaceId: string) => {
     setSelectedBoard("");

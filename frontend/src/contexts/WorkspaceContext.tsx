@@ -112,7 +112,7 @@ const WorkspaceContextProvider = ({
     if (token) {
       fetchWorkspaces(token);
     }
-  }, [token]);
+  }, [token, createWorkspace]);
   const contextValue: WorkspaceContextType = {
     workspaces,
     selectedWorkspace,
