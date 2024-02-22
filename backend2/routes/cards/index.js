@@ -72,9 +72,9 @@ module.exports = async (app, db, io) => {
         {
           ...data,
           cardIndex,
+          title: title,
           createdAt: new Date().toISOString(),
           listUuid: listUuid,
-          title,
           list: [listUuid],
           uuid: uuidv4(),
         },
