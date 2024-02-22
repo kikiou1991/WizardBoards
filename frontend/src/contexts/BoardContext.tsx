@@ -126,7 +126,7 @@ const BoardContextProvider = ({ children }: WorkspaceContextProviderProps) => {
         // Fetch boards for the current workspace
         const res = await workspaceBoards.getBoards(token, workspace.uuid);
 
-        // Filter out the boards that are marked as favorites (isStared)
+        // Filter out the boards that are marked as favorites
         const favBoards =
           res?.data.filter((board: any) => board.isStared === true) || [];
 

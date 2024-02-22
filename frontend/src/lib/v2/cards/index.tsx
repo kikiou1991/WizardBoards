@@ -22,7 +22,6 @@ export const listCards = {
     }
   },
   createCard: async (token: any, cardData: any, listUuid: string) => {
-    console.log("cardData: ", cardData);
     try {
       const response = await fetch(`https://wizardboards.co.uk/api/v2/cards`, {
         method: "POST",
