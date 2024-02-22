@@ -48,7 +48,7 @@ export const listCards = {
   deleteCard: async (token: any, cardUuid: string, listUuid: string) => {
     try {
       const response = await fetch(
-        `https://wizardboards.co.uk/api/v2/cards/delete`,
+        `https://wizardboards.co.uk/api/v2/cards/archive`,
         {
           method: "DELETE",
           headers: {
