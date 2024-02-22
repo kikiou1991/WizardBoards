@@ -1,15 +1,21 @@
-'use client';
-import InputField from '@/app/auth/sign-in/InputField';
-import {userAuth} from '@/lib/auth/auth';
-import {workspaceBoards} from '@/lib/boards';
-import {listCards} from '@/lib/cards';
-import {boardLists} from '@/lib/lists';
-import {userWorkspaces} from '@/lib/workspaces';
-import {Modal, ModalBody, ModalContent, ModalHeader} from '@nextui-org/modal';
-import {Button, Link} from '@nextui-org/react';
-import {usePathname, useRouter} from 'next/navigation';
-import {ReactNode, createContext, useContext, useEffect, useState} from 'react';
-import { BoardContext, BoardContextType } from './BoardContext';
+"use client";
+import InputField from "@/app/auth/sign-in/InputField";
+import { userAuth } from "@/lib/auth/auth";
+import { workspaceBoards } from "@/lib/boards";
+import { listCards } from "@/lib/cards";
+import { boardLists } from "@/lib/lists";
+import { userWorkspaces } from "@/lib/workspaces";
+import { Modal, ModalBody, ModalContent, ModalHeader } from "@nextui-org/modal";
+import { Button, Link } from "@nextui-org/react";
+import { usePathname, useRouter } from "next/navigation";
+import {
+  ReactNode,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import { BoardContext, BoardContextType } from "./BoardContext";
 // Interfaces Section
 interface Workspace {
   _id: string;
@@ -42,32 +48,19 @@ interface Cards {
 }
 export interface UserContextType {
   token: string | null;
-  
+
   setToken: (token: string | null) => void;
-  workspaces: Workspace[];
-  lists: Lists[];
   cards: Cards[];
-  selectedWorkspace: string;
-  localSelectedWorkspace: string;
-  setLocalSelectedWorkspace: React.Dispatch<React.SetStateAction<string>>;
-  setSelectedWorkspace: React.Dispatch<React.SetStateAction<string>>;
-  fetchWorkspaces: (token: any | null) => Promise<void>;
-  currentWorkspace: Workspace | null;
-  createWorkspace: (token: any, workspaceData: any) => Promise<void>;
-  setWorkspace: (workspace: Workspace | null) => void;
   handleLogout: (token: any | null) => Promise<void>;
   authenticated: boolean | false;
   userData: any;
   setAuthenticated: (authenticated: boolean) => void;
-  fetchLists: (token: any, boardUuid: string) => Promise<void>;
-  createList: (token: any, listData: any, boardUuid: string) => Promise<void>;
   setCards: React.Dispatch<React.SetStateAction<Cards[]>>;
   fetchCards: (token: any, listUuid: string) => Promise<void>;
   favorites: Boards[];
   setFavorites: React.Dispatch<React.SetStateAction<Boards[]>>;
   createCard: (token: any, cardData: any, listUuid: string) => Promise<void>;
   deleteCard: (token: any, cardData: any, listUuid: string) => Promise<void>;
-  setLists: React.Dispatch<React.SetStateAction<Lists[]>>;
   validateToken: (token: any) => Promise<void>;
 }
 interface UserContextProviderProps {
@@ -76,25 +69,21 @@ interface UserContextProviderProps {
 //call the useContext
 const UserContext = createContext<UserContextType | null>(null);
 
-const UserContextProvider = ({children}: UserContextProviderProps) => {
+const UserContextProvider = ({ children }: UserContextProviderProps) => {
   const [token, setToken] = useState<string | null>(null);
   const [workspaces, setWorkspaces] = useState<Workspace[]>([]);
-  const [currentWorkspace, setCurrentWorkspace] = useState<Workspace | null>(null);
-  const [selectedWorkspace, setSelectedWorkspace] = useState('');
-  const [localSelectedWorkspace, setLocalSelectedWorkspace] = useState('');
-  const [lists, setLists] = useState<Lists[]>([]);
+  const [localSelectedWorkspace, setLocalSelectedWorkspace] = useState("");
   const [cards, setCards] = useState<Cards[]>([]);
   const [authenticated, setAuthenticated] = useState<boolean>(false);
   const [user, setUser] = useState<any>(null);
-  const [authenticatedLoaded, setAuthenticatedLoaded] = useState<boolean>(false);
+  const [authenticatedLoaded, setAuthenticatedLoaded] =
+    useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(true);
   const [favorites, setFavorites] = useState<Boards[]>([]);
   const [isNewCardCreated, setIsNewCardCreated] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
 
-
-  
   const validateToken = async (token: any) => {
     try {
       let res = await userAuth.validateToken(token);
@@ -105,16 +94,12 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
       }
     } catch (error) {
       // Handle error if needed
-      console.error('Error validating token:', error);
-      console.error('Error validating token:', error);
+      console.error("Error validating token:", error);
+      console.error("Error validating token:", error);
     } finally {
       setAuthenticatedLoaded(true);
     }
   };
-
- 
-
- 
 
   // Fetch favorites
 
@@ -126,20 +111,21 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
         const res = await workspaceBoards.fetchBoard(token, workspace.uuid);
 
         // Filter out the boards that are marked as favorites (isStared)
-        const favBoards = res?.data.filter((board: any) => board.isStared === true) || [];
+        const favBoards =
+          res?.data.filter((board: any) => board.isStared === true) || [];
 
         // Update the favorites state
         setFavorites((prevFavorites) => [...prevFavorites, ...favBoards]);
       }
     } catch (error) {
-      console.error('Failed to fetch favorites', error);
+      console.error("Failed to fetch favorites", error);
     }
   };
 
   //  fetch workspaces for the current user
   const fetchWorkspaces = async (token: any) => {
     if (!token) {
-      console.log('Token is missing');
+      console.log("Token is missing");
     }
 
     try {
@@ -148,7 +134,10 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
       setWorkspaces(res?.data || []);
     } catch (error: any) {
       // Handle error if needed
-      console.error('Error fetching workspaces:', error || error.message || error.response);
+      console.error(
+        "Error fetching workspaces:",
+        error || error.message || error.response
+      );
     } finally {
       setIsLoading(false);
     }
@@ -159,50 +148,25 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
   const createWorkspace = async (token: any, boardData: any) => {
     try {
       if (!token) {
-        console.error('Token is missing');
+        console.error("Token is missing");
         return;
       }
 
       const res = await userWorkspaces.createWorkspace(token, boardData);
 
       if (res) {
-        console.log('Workspace created successfully:', res);
+        console.log("Workspace created successfully:", res);
         // Update your local state or perform any other actions if needed
       } else {
-        console.error('Failed to create workspace. Response:', res);
+        console.error("Failed to create workspace. Response:", res);
         // Handle the case when the server does not return the expected data
       }
     } catch (error: any) {
       // Handle error if needed
-      console.error('Error creating workspace:', error || error.message || error.response);
-    }
-  };
-
-  //set workspaces for the current user
-  const setWorkspace = (workspace: Workspace | null) => {
-    setCurrentWorkspace(workspace);
-  };
-
-  //Fetch all the lists within a board
-
-  const fetchLists = async (token: any, boardUuid: string) => {
-    try {
-      const res = await boardLists.getLists(token, boardUuid);
-      setLists(res?.data || []);
-    } catch (error: any) {
-      console.error('Failed to fetch lists', error);
-    }
-  };
-
-  const createList = async (token: any, listData: any, boardUuid: string) => {
-    try {
-      const title = listData;
-      const res = await boardLists.createLists(token, title, boardUuid);
-      if (res && res.newList) {
-        setLists([res.newList, ...lists]);
-      }
-    } catch (error: any) {
-      console.error('Failed to create list', error);
+      console.error(
+        "Error creating workspace:",
+        error || error.message || error.response
+      );
     }
   };
 
@@ -214,20 +178,22 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
       if (res && res.data) {
         setCards((prevCards) => {
           // Filter out cards for other lists
-          const filteredCards = prevCards.filter((card) => card.listUuid !== listUuid);
+          const filteredCards = prevCards.filter(
+            (card) => card.listUuid !== listUuid
+          );
           // Concatenate the new cards
           return [...filteredCards, ...res.data];
         });
       } else {
-        console.error('Data not available in API response');
+        console.error("Data not available in API response");
       }
     } catch (error) {
-      console.error('Failed to fetch cards', error);
+      console.error("Failed to fetch cards", error);
     }
   };
 
   const createCard = async (token: any, cardData: any, listUuid: string) => {
-    console.log('cards before creation: ', cards);
+    console.log("cards before creation: ", cards);
     try {
       const title = cardData;
       const res = await listCards.createCard(token, title, listUuid);
@@ -235,21 +201,21 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
         setCards((prevCards) => [res.newCard, ...prevCards]);
       }
     } catch (error) {
-      console.error('Failed to create card', error);
+      console.error("Failed to create card", error);
     } finally {
       setIsNewCardCreated(true);
     }
   };
 
   const deleteCard = async (token: any, cardData: any, listUuid: string) => {
-    console.log('lets delete the card');
+    console.log("lets delete the card");
     try {
       const res = await listCards.deleteCard(token, cardData, listUuid);
       if (res?.status === true) {
         setCards(cards.filter((card) => card.uuid !== cardData.uuid));
       }
     } catch (error) {
-      console.error('Failed to delete card', error);
+      console.error("Failed to delete card", error);
     }
   };
 
@@ -268,8 +234,8 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
 
   //UseEffect for setting the token
   useEffect(() => {
-    if (localStorage['token']) {
-      setToken(localStorage['token']);
+    if (localStorage["token"]) {
+      setToken(localStorage["token"]);
     }
   }, []);
   //UseEffect for validating the token
@@ -281,24 +247,14 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
 
   //UseEffect for fetching boards  and then the lists
 
-  
-
-  //fetch cards for each lists on render or if the lists change
-  useEffect(() => {
-    if (localStorage['token'] && lists.length > 0) {
-      for (let list of lists) {
-        fetchCards(localStorage['token'], list.uuid);
-      }
-    }
-  }, [lists]);
   //useEffect to fetch the favorites on mounting
-  useEffect(() => {
-    // Check if both token and workspaces are available
-    if (token && workspaces.length > 0) {
-      // Fetch favorites
-      fetchFavorites(token, workspaces);
-    }
-  }, [workspaces]);
+  // useEffect(() => {
+  //   // Check if both token and workspaces are available
+  //   if (token && workspaces.length > 0) {
+  //     // Fetch favorites
+  //     fetchFavorites(token, workspaces);
+  //   }
+  // }, [workspaces]);
 
   //useEffect re render the page when there is change to favorites ??????
   // useEffect(() => {
@@ -323,28 +279,16 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
     setToken(null);
     setAuthenticated(false);
     setAuthenticatedLoaded(false);
-    router.replace('/auth/sign-in');
+    router.replace("/auth/sign-in");
   };
 
   const contextValue: UserContextType = {
     token,
     setToken,
-    workspaces,
-    fetchWorkspaces,
-    createWorkspace,
-    selectedWorkspace,
-    setSelectedWorkspace,
-    localSelectedWorkspace,
-    setLocalSelectedWorkspace,
     authenticated,
     setAuthenticated,
     userData: user,
     handleLogout,
-    currentWorkspace,
-    setWorkspace,
-    fetchLists,
-    createList,
-    lists,
     cards,
     setCards,
     fetchCards,
@@ -353,31 +297,39 @@ const UserContextProvider = ({children}: UserContextProviderProps) => {
     setFavorites,
     createCard,
     deleteCard,
-    setLists,
   };
   return (
     <UserContext.Provider value={contextValue}>
-      {!authenticated && authenticatedLoaded && !pathname.startsWith('/auth/sign-in') && !pathname.startsWith('/auth/sign-up') && (
-        <Modal isOpen={!authenticated && authenticatedLoaded} isDismissable={false} hideCloseButton>
-          <ModalContent>
-            {(onClose) => (
-              <>
-                <ModalHeader className='flex flex-col gap-1'>Login</ModalHeader>
-                <ModalBody className='flex flex-col items-center justify-center'>
-                  <InputField />
-                  <div>Or</div>
-                  <Button color='primary' variant='light'>
-                    <Link href='/auth/sign-up'>Sign Up</Link>
-                  </Button>
-                </ModalBody>
-              </>
-            )}
-          </ModalContent>
-        </Modal>
-      )}
+      {!authenticated &&
+        authenticatedLoaded &&
+        !pathname.startsWith("/auth/sign-in") &&
+        !pathname.startsWith("/auth/sign-up") && (
+          <Modal
+            isOpen={!authenticated && authenticatedLoaded}
+            isDismissable={false}
+            hideCloseButton
+          >
+            <ModalContent>
+              {(onClose) => (
+                <>
+                  <ModalHeader className="flex flex-col gap-1">
+                    Login
+                  </ModalHeader>
+                  <ModalBody className="flex flex-col items-center justify-center">
+                    <InputField />
+                    <div>Or</div>
+                    <Button color="primary" variant="light">
+                      <Link href="/auth/sign-up">Sign Up</Link>
+                    </Button>
+                  </ModalBody>
+                </>
+              )}
+            </ModalContent>
+          </Modal>
+        )}
       {children}
     </UserContext.Provider>
   );
 };
 
-export {UserContext, UserContextProvider};
+export { UserContext, UserContextProvider };

@@ -99,6 +99,16 @@ const ListContextProvider = ({ children }: WorkspaceContextProviderProps) => {
 ;    }
   }
 
+   //fetch cards for each lists on render or if the lists change
+  //  useEffect(() => {
+  //   if (localStorage['token'] && lists.length > 0) {
+  //     for (let list of lists) {
+  //       fetchCards(localStorage['token'], list.uuid);
+  //     }
+  //   }
+  // }, [lists]);
+
+
 
   
   const contextValue: ListContextType = {
