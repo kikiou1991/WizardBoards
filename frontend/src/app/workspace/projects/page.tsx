@@ -97,10 +97,9 @@ const Project = () => {
       </div>
       <DragDropContext onDragEnd={handleDragEnd}>
         <div className="flex w-full h-full overflow-x-auto items-start py-5 px-5 gap-5">
-          {lists.length !== 0 &&
-            lists.map((list: any) => (
-              <Lists key={list.id} name={list.title} id={list.uuid} />
-            ))}
+          {lists.map((list: any) => (
+            <Lists key={list.id} name={list.title} id={list.uuid} />
+          ))}
           {isActive ? (
             <div
               ref={ref}
