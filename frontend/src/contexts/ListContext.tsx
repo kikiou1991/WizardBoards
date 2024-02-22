@@ -58,8 +58,9 @@ const ListContext = createContext<ListContextType | null>(null);
 const ListContextProvider = ({ children }: WorkspaceContextProviderProps) => {
   const { token } = useContext(UserContext) as UserContextType;
   //we gonna need boards from boardContext
-  const { boards, setBoards } = useContext(BoardContext) as BoardContextType;
-  const [selectedBoard, setSelectedBoard] = useState("");
+  const { boards, setBoards, selectedBoard } = useContext(
+    BoardContext
+  ) as BoardContextType;
   const [lists, setLists] = useState<Lists[]>([]);
 
   useEffect(() => {
@@ -108,7 +109,7 @@ const ListContextProvider = ({ children }: WorkspaceContextProviderProps) => {
         fetchLists(token, board.uuid);
       }
     }
-  }, [boards]);
+  }, [boards, selectedBoard]);
 
   const contextValue: ListContextType = {
     lists,
