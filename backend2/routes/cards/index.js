@@ -3,8 +3,8 @@ module.exports = async (app, db, io) => {
   let namespace = io.of("/api/v2/cards");
   app.get("/api/v2/cards", async (req, res, next) => {
     try {
-      console.log("req.query", req.query);
       const listUuid = req.query.listUuid;
+      console.log("listUuid", listUuid);
       const user = req.user;
 
       if (!listUuid) {
@@ -21,7 +21,6 @@ module.exports = async (app, db, io) => {
       }
 
       let list = await db.collection("lists").findOne({ uuid: listUuid });
-      console.log("list", list);
       let listCards = list.cards;
       let fetchedCards = [];
       for (let i = 0; i < listCards.length; i++) {
