@@ -71,7 +71,7 @@ const ListContextProvider = ({ children }: WorkspaceContextProviderProps) => {
   const fetchLists = async (token: any, boardUuid: string) => {
     try {
       const res = await boardLists.getLists(token, boardUuid);
-      setLists(res?.newList || []);
+      setLists(res?.newList?.data || []);
     } catch (error: any) {
       console.error("Failed to fetch lists", error);
     }
