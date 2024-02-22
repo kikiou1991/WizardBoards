@@ -89,7 +89,7 @@ const CardContextProvider = ({ children }: CardContextProviderProps) => {
   // fetch cards for each lists on render or if the lists change
   useEffect(() => {
     fetchCards(localStorage["token"], selectedBoard);
-  }, []);
+  }, [selectedBoard]);
 
   const contextValue: CardContextType = {
     cards,
