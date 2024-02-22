@@ -74,7 +74,7 @@ const BoardContextProvider = ({ children }: WorkspaceContextProviderProps) => {
 
   //create the boards
   const createBoard = async (token: any, boardData: any) => {
-    console.log("boardData is: ", boardData);
+    if (!boardData || !token) return;
     try {
       const { name, workspaceUuid } = boardData;
 
@@ -163,7 +163,7 @@ const BoardContextProvider = ({ children }: WorkspaceContextProviderProps) => {
   }, []);
 
   useEffect(() => {
-    if (token) {
+    if (token || !selectedWorkspace) {
       if (selectedWorkspace) {
         getBoards();
       }
