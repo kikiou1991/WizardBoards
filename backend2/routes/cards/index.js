@@ -60,7 +60,6 @@ module.exports = async (app, db, io) => {
         data: updatedCard,
       });
     } else {
-      const { title } = data;
       const generateCardIndex = () => {
         const timestamp = new Date().getTime();
         const random = Math.floor(Math.random() * 10);
@@ -70,7 +69,7 @@ module.exports = async (app, db, io) => {
       let newcard = await db.collection("cards").insertOne(
         {
           ...data,
-          title,
+
           cardIndex,
           listUuid: listUuid,
           list: [listUuid],
