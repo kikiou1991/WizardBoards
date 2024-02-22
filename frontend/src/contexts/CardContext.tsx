@@ -70,9 +70,9 @@ const CardContextProvider = ({ children }: CardContextProviderProps) => {
   };
   const createCard = async (token: any, cardData: any, listUuid: string) => {
     console.log("cards before creation: ", cards);
+    console.log("cardData: ", cardData);
     try {
-      const title = cardData;
-      const res = await listCards.createCard(token, title, listUuid);
+      const res = await listCards.createCard(token, cardData, listUuid);
       if (res && res.newCard) {
         setCards((prevCards) => [res.newCard, ...prevCards]);
       }
