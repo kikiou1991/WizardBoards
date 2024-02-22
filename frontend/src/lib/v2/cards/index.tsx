@@ -31,7 +31,7 @@ export const listCards = {
         },
         body: JSON.stringify({
           listUuid,
-          title: cardData,
+          cardData,
         }),
       });
       if (!response.ok) {
