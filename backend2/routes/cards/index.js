@@ -70,9 +70,10 @@ module.exports = async (app, db, io) => {
       let newcard = await db.collection("cards").insertOne(
         {
           ...data,
-
           cardIndex,
+          createdAt: new Date().toISOString(),
           listUuid: listUuid,
+          title: data.title,
           list: [listUuid],
           uuid: uuidv4(),
         },
