@@ -60,17 +60,18 @@ module.exports = async (app, db, io) => {
         data: updatedCard,
       });
     } else {
+      const { title } = data;
       const generateCardIndex = () => {
         const timestamp = new Date().getTime();
-        const random = Math.floor(Math.random() * 10); // You can adjust the range as needed
-        return `${timestamp}${random}`;
+        const random = Math.floor(Math.random() * 10);
+        return timestamp * 10 + random;
       };
       const cardIndex = generateCardIndex();
       let newcard = await db.collection("cards").insertOne(
         {
-          title: data.title,
+          ...data,
+          title,
           cardIndex,
-
           listUuid: listUuid,
           list: [listUuid],
           uuid: uuidv4(),
