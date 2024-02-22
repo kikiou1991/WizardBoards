@@ -70,6 +70,7 @@ module.exports = async (app, db, io) => {
       const cardIndex = generateCardIndex();
       let newcard = await db.collection("cards").insertOne(
         {
+          ...data,
           cardIndex,
           createdAt: new Date().toISOString(),
           listUuid: listUuid,
