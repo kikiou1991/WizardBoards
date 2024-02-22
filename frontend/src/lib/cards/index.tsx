@@ -28,11 +28,10 @@ export const listCards = {
   },
 
   getCards: async (token: any, listUuid: string) => {
-    console.log(listUuid, "listUuid");
     try {
       console.log("initiated get cards function");
       const response = await fetch(
-        `https://wizardboards.co.uk/api/v2/cards?listUuid=${encodeURIComponent(
+        `https://wizardboards.co.uk/api/cards?listUuid=${encodeURIComponent(
           listUuid
         )}`,
         {
