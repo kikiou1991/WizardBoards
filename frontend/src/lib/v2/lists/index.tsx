@@ -1,5 +1,5 @@
 export const boardLists = {
-  getLists: async (boardUuid: string, token: any) => {
+  getLists: async (token: any, boardUuid: string) => {
     try {
       const response = await fetch(
         `https://wizardboards.co.uk/api/v2/lists?boardUuid=${boardUuid}`,

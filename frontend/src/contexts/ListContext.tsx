@@ -68,7 +68,7 @@ const ListContextProvider = ({ children }: WorkspaceContextProviderProps) => {
   }, []);
 
   //we are going to need to fetch the lists
-  const fetchLists = async (token: any, boardUuid: string, data: any) => {
+  const fetchLists = async (token: any, boardUuid: string) => {
     try {
       const res = await boardLists.getLists(token, boardUuid);
       setLists(res?.newList || []);
@@ -105,7 +105,7 @@ const ListContextProvider = ({ children }: WorkspaceContextProviderProps) => {
   useEffect(() => {
     if (token && boards.length > 0) {
       for (let board of boards) {
-        fetchLists(token, board.uuid, {});
+        fetchLists(token, board.uuid);
       }
     }
   }, [boards]);
