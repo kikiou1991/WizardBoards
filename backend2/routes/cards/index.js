@@ -2,6 +2,7 @@ const { v4: uuidv4 } = require("uuid");
 module.exports = async (app, db, io) => {
   let namespace = io.of("/api/v2/cards");
   app.get("/api/v2/cards", async (req, res, next) => {
+    console.log("fetching the cards on the server side for testing");
     try {
       const listUuid = req.query.listUuid;
       console.log("listUuid", listUuid);
