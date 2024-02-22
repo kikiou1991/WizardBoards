@@ -96,22 +96,18 @@ module.exports = async (app, db, io) => {
       const user = req.user;
 
       if (!listUuid || !cardUuid) {
-        return res
-          .status(400)
-          .json({
-            message: "Invalid list or card UUID",
-            success: false,
-            data: null,
-          });
+        return res.status(400).json({
+          message: "Invalid list or card UUID",
+          success: false,
+          data: null,
+        });
       }
       if (!user || !user._id) {
-        return res
-          .status(400)
-          .json({
-            message: "Invalid user information",
-            success: false,
-            data: null,
-          });
+        return res.status(400).json({
+          message: "Invalid user information",
+          success: false,
+          data: null,
+        });
       }
       const list = await db.collection("lists").findOne({ uuid: listUuid });
       if (!list) {
@@ -122,20 +118,18 @@ module.exports = async (app, db, io) => {
       const result = await db
         .collection("cards")
         .deleteOne({ uuid: cardUuid }, { returnOriginal: true });
-      if (!card) {
+      if (!result) {
         return res
           .status(400)
           .json({ message: "Invalid card UUID", success: false, data: null });
       }
       namespace.emit("card", { type: "delete", data: result });
 
-      return res
-        .status(201)
-        .json({
-          message: "Card deleted successfully",
-          success: true,
-          data: result,
-        });
+      return res.status(201).json({
+        message: "Card deleted successfully",
+        success: true,
+        data: result,
+      });
     } catch (error) {
       console.error("Failed to delete the card", error);
       next(error);
