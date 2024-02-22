@@ -48,14 +48,11 @@ interface Cards {
 }
 export interface UserContextType {
   token: string | null;
-
   setToken: (token: string | null) => void;
   handleLogout: (token: any | null) => Promise<void>;
   authenticated: boolean | false;
   userData: any;
   setAuthenticated: (authenticated: boolean) => void;
-  favorites: Boards[];
-  setFavorites: React.Dispatch<React.SetStateAction<Boards[]>>;
   validateToken: (token: any) => Promise<void>;
 }
 interface UserContextProviderProps {
@@ -71,7 +68,6 @@ const UserContextProvider = ({ children }: UserContextProviderProps) => {
   const [authenticatedLoaded, setAuthenticatedLoaded] =
     useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [favorites, setFavorites] = useState<Boards[]>([]);
   const pathname = usePathname();
   const router = useRouter();
 
@@ -88,27 +84,6 @@ const UserContextProvider = ({ children }: UserContextProviderProps) => {
       console.error("Error validating token:", error);
     } finally {
       setAuthenticatedLoaded(true);
-    }
-  };
-
-  // Fetch favorites
-
-  const fetchFavorites = async (token: any, workspaces: any) => {
-    try {
-      // Iterate over each workspace
-      for (let workspace of workspaces) {
-        // Fetch boards for the current workspace
-        const res = await workspaceBoards.fetchBoard(token, workspace.uuid);
-
-        // Filter out the boards that are marked as favorites (isStared)
-        const favBoards =
-          res?.data.filter((board: any) => board.isStared === true) || [];
-
-        // Update the favorites state
-        setFavorites((prevFavorites) => [...prevFavorites, ...favBoards]);
-      }
-    } catch (error) {
-      console.error("Failed to fetch favorites", error);
     }
   };
 
@@ -139,11 +114,6 @@ const UserContextProvider = ({ children }: UserContextProviderProps) => {
     }
   };
 
-  //useEffec triggered when a card is added to a list
-  //
-  // This Block needs fixing, need to add a dependency so cards are displayed straight away
-  //
-  //
   // useEffect(() => {
   //   if (isNewCardCreated) {
   //     console.log('cards changed');
@@ -199,8 +169,6 @@ const UserContextProvider = ({ children }: UserContextProviderProps) => {
     userData: user,
     handleLogout,
     validateToken,
-    favorites,
-    setFavorites,
   };
   return (
     <UserContext.Provider value={contextValue}>
