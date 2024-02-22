@@ -45,7 +45,7 @@ const WorkspaceContext = createContext<WorkspaceContextType | null>(null);
 const WorkspaceContextProvider = ({
   children,
 }: WorkspaceContextProviderProps) => {
-  const { token } = useContext(UserContext) as UserContextType;
+  const { token, authenticated } = useContext(UserContext) as UserContextType;
 
   const [workspaces, setWorkspaces] = useState<Workspace[]>([]);
   const [currentWorkspace, setCurrentWorkspace] = useState<Workspace | null>(
@@ -62,9 +62,11 @@ const WorkspaceContextProvider = ({
     }
 
     try {
-      let res = await userWorkspaces.getWorkspace(token);
+      if (authenticated && token) {
+        let res = await userWorkspaces.getWorkspace(token);
 
-      setWorkspaces(res?.data || []);
+        setWorkspaces(res?.data || []);
+      }
     } catch (error: any) {
       // Handle error if needed
       console.error(

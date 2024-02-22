@@ -81,7 +81,6 @@ const UserContextProvider = ({ children }: UserContextProviderProps) => {
     } catch (error) {
       // Handle error if needed
       console.error("Error validating token:", error);
-      console.error("Error validating token:", error);
     } finally {
       setAuthenticatedLoaded(true);
     }
