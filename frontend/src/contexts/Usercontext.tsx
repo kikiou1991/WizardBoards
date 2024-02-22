@@ -87,41 +87,6 @@ const UserContextProvider = ({ children }: UserContextProviderProps) => {
     }
   };
 
-  //create a new workspace
-
-  const createWorkspace = async (token: any, boardData: any) => {
-    try {
-      if (!token) {
-        console.error("Token is missing");
-        return;
-      }
-
-      const res = await userWorkspaces.createWorkspace(token, boardData);
-
-      if (res) {
-        console.log("Workspace created successfully:", res);
-        // Update your local state or perform any other actions if needed
-      } else {
-        console.error("Failed to create workspace. Response:", res);
-        // Handle the case when the server does not return the expected data
-      }
-    } catch (error: any) {
-      // Handle error if needed
-      console.error(
-        "Error creating workspace:",
-        error || error.message || error.response
-      );
-    }
-  };
-
-  // useEffect(() => {
-  //   if (isNewCardCreated) {
-  //     console.log('cards changed');
-  //     fetchCards(token, selectedBoard);
-  //     setIsNewCardCreated(false);
-  //   }
-  // }, [isNewCardCreated]);
-
   //UseEffect for setting the token
   useEffect(() => {
     if (localStorage["token"]) {

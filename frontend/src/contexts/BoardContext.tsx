@@ -164,8 +164,13 @@ const BoardContextProvider = ({ children }: WorkspaceContextProviderProps) => {
     if (token) {
       if (selectedWorkspace) {
         getBoards();
-        fetchFavorites(token, selectedWorkspace);
       }
+    }
+  }, [token, selectedWorkspace]);
+
+  useEffect(() => {
+    if (token) {
+      fetchFavorites(token, selectedWorkspace);
     }
   }, [token, selectedWorkspace]);
   const contextValue: BoardContextType = {
