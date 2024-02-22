@@ -1,8 +1,14 @@
-'use client';
-import { UserContext, UserContextType } from '@/contexts/Usercontext';
-import { userWorkspaces } from '@/lib/v2/workspaces';
-import { ReactNode, createContext, useContext, useEffect, useState } from 'react';
-import { io } from 'socket.io-client';
+"use client";
+import { UserContext, UserContextType } from "@/contexts/Usercontext";
+import { userWorkspaces } from "@/lib/v2/workspaces";
+import {
+  ReactNode,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import { io } from "socket.io-client";
 
 // Interfaces Section
 interface Workspace {
@@ -11,15 +17,14 @@ interface Workspace {
   uuid: string;
 }
 
-
-// 
-// 
-// 
+//
+//
+//
 // This section does work atm, it fetches all of the worksapces for the given user
-// 
-// 
-// 
-// 
+//
+//
+//
+//
 
 export interface WorkspaceContextType {
   workspaces: Workspace[];
@@ -37,19 +42,23 @@ interface WorkspaceContextProviderProps {
 }
 const WorkspaceContext = createContext<WorkspaceContextType | null>(null);
 
-const WorkspaceContextProvider = ({ children }: WorkspaceContextProviderProps) => {
+const WorkspaceContextProvider = ({
+  children,
+}: WorkspaceContextProviderProps) => {
   const { token } = useContext(UserContext) as UserContextType;
 
   const [workspaces, setWorkspaces] = useState<Workspace[]>([]);
-  const [currentWorkspace, setCurrentWorkspace] = useState<Workspace | null>(null);
-  const [selectedWorkspace, setSelectedWorkspace] = useState('');
-  const [localSelectedWorkspace, setLocalSelectedWorkspace] = useState('');
+  const [currentWorkspace, setCurrentWorkspace] = useState<Workspace | null>(
+    null
+  );
+  const [selectedWorkspace, setSelectedWorkspace] = useState("");
+  const [localSelectedWorkspace, setLocalSelectedWorkspace] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-
+  console.log(selectedWorkspace);
 
   const fetchWorkspaces = async (token: any) => {
     if (!token) {
-      console.log('Token is missing');
+      console.log("Token is missing");
     }
 
     try {
@@ -58,7 +67,10 @@ const WorkspaceContextProvider = ({ children }: WorkspaceContextProviderProps) =
       setWorkspaces(res?.data || []);
     } catch (error: any) {
       // Handle error if needed
-      console.error('Error fetching workspaces:', error || error.message || error.response);
+      console.error(
+        "Error fetching workspaces:",
+        error || error.message || error.response
+      );
     } finally {
       setIsLoading(false);
     }
@@ -69,22 +81,25 @@ const WorkspaceContextProvider = ({ children }: WorkspaceContextProviderProps) =
   const createWorkspace = async (token: any, boardData: any) => {
     try {
       if (!token) {
-        console.error('Token is missing');
+        console.error("Token is missing");
         return;
       }
 
       const res = await userWorkspaces.createWorkspace(token, boardData);
 
       if (res) {
-        console.log('Workspace created successfully:', res);
+        console.log("Workspace created successfully:", res);
         // Update your local state or perform any other actions if needed
       } else {
-        console.error('Failed to create workspace. Response:', res);
+        console.error("Failed to create workspace. Response:", res);
         // Handle the case when the server does not return the expected data
       }
     } catch (error: any) {
       // Handle error if needed
-      console.error('Error creating workspace:', error || error.message || error.response);
+      console.error(
+        "Error creating workspace:",
+        error || error.message || error.response
+      );
     }
   };
 
@@ -92,7 +107,6 @@ const WorkspaceContextProvider = ({ children }: WorkspaceContextProviderProps) =
   const setWorkspace = (workspace: Workspace | null) => {
     setCurrentWorkspace(workspace);
   };
- 
 
   useEffect(() => {
     if (token) {
@@ -108,9 +122,13 @@ const WorkspaceContextProvider = ({ children }: WorkspaceContextProviderProps) =
     setLocalSelectedWorkspace,
     setSelectedWorkspace,
     createWorkspace,
-    fetchWorkspaces
+    fetchWorkspaces,
   };
-  return <WorkspaceContext.Provider value={contextValue}>{children}</WorkspaceContext.Provider>;
+  return (
+    <WorkspaceContext.Provider value={contextValue}>
+      {children}
+    </WorkspaceContext.Provider>
+  );
 };
 
 export { WorkspaceContext, WorkspaceContextProvider };
