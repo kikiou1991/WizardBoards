@@ -135,22 +135,6 @@ const UserContextProvider = ({ children }: UserContextProviderProps) => {
     }
   }, [token]); //if the token changes, validate it
 
-  //useEffect re render the page when there is change to favorites ??????
-  // useEffect(() => {
-  //   const fetchAndUpdateFavorites = async () => {
-  //     if (localStorage['token'] && workspaces.length > 0) {
-  //       const newFavorites = [];
-  //       for (let workspace of workspaces) {
-  //         const res = await workspaceBoards.fetchBoard(localStorage['token'], workspace.uuid);
-  //         const favBoards = res?.data.filter((board: any) => board.isStared === true) || [];
-  //         newFavorites.push(...favBoards);
-  //       }
-  //       setFavorites(newFavorites);
-  //     }
-  //   };
-
-  //   fetchAndUpdateFavorites();
-  // }, [workspaces, favorites]);
   //logout function: clear the local storage and set the token to null
   const handleLogout = async () => {
     localStorage.clear();

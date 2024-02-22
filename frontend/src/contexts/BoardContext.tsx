@@ -137,6 +137,24 @@ const BoardContextProvider = ({ children }: WorkspaceContextProviderProps) => {
       console.error("Failed to fetch favorites", error);
     }
   };
+
+  //useEffect re render the page when there is change to favorites ??????
+  // useEffect(() => {
+  //   const fetchAndUpdateFavorites = async () => {
+  //     if (localStorage['token'] && workspaces.length > 0) {
+  //       const newFavorites = [];
+  //       for (let workspace of workspaces) {
+  //         const res = await workspaceBoards.fetchBoard(localStorage['token'], workspace.uuid);
+  //         const favBoards = res?.data.filter((board: any) => board.isStared === true) || [];
+  //         newFavorites.push(...favBoards);
+  //       }
+  //       setFavorites(newFavorites);
+  //     }
+  //   };
+
+  //   fetchAndUpdateFavorites();
+  // }, [ favorites]);
+
   useEffect(() => {
     let socket = io("http://localhost:3002/api/v2/boards", {});
     socket.on("board", (data) => {});
@@ -146,6 +164,7 @@ const BoardContextProvider = ({ children }: WorkspaceContextProviderProps) => {
     if (token) {
       if (selectedWorkspace) {
         getBoards();
+        fetchFavorites(token, selectedWorkspace);
       }
     }
   }, [token, selectedWorkspace]);
