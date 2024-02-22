@@ -50,17 +50,12 @@ export interface UserContextType {
   token: string | null;
 
   setToken: (token: string | null) => void;
-  cards: Cards[];
   handleLogout: (token: any | null) => Promise<void>;
   authenticated: boolean | false;
   userData: any;
   setAuthenticated: (authenticated: boolean) => void;
-  setCards: React.Dispatch<React.SetStateAction<Cards[]>>;
-  fetchCards: (token: any, listUuid: string) => Promise<void>;
   favorites: Boards[];
   setFavorites: React.Dispatch<React.SetStateAction<Boards[]>>;
-  createCard: (token: any, cardData: any, listUuid: string) => Promise<void>;
-  deleteCard: (token: any, cardData: any, listUuid: string) => Promise<void>;
   validateToken: (token: any) => Promise<void>;
 }
 interface UserContextProviderProps {
@@ -71,16 +66,12 @@ const UserContext = createContext<UserContextType | null>(null);
 
 const UserContextProvider = ({ children }: UserContextProviderProps) => {
   const [token, setToken] = useState<string | null>(null);
-  const [workspaces, setWorkspaces] = useState<Workspace[]>([]);
-  const [localSelectedWorkspace, setLocalSelectedWorkspace] = useState("");
-  const [cards, setCards] = useState<Cards[]>([]);
   const [authenticated, setAuthenticated] = useState<boolean>(false);
   const [user, setUser] = useState<any>(null);
   const [authenticatedLoaded, setAuthenticatedLoaded] =
     useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(true);
   const [favorites, setFavorites] = useState<Boards[]>([]);
-  const [isNewCardCreated, setIsNewCardCreated] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
 
@@ -89,7 +80,6 @@ const UserContextProvider = ({ children }: UserContextProviderProps) => {
       let res = await userAuth.validateToken(token);
       if (res?.status === true) {
         setAuthenticated(true);
-        fetchWorkspaces(token);
         setUser(res?.data?.user);
       }
     } catch (error) {
@@ -122,27 +112,6 @@ const UserContextProvider = ({ children }: UserContextProviderProps) => {
     }
   };
 
-  //  fetch workspaces for the current user
-  const fetchWorkspaces = async (token: any) => {
-    if (!token) {
-      console.log("Token is missing");
-    }
-
-    try {
-      let res = await userWorkspaces.fetchWorkspaces(token);
-
-      setWorkspaces(res?.data || []);
-    } catch (error: any) {
-      // Handle error if needed
-      console.error(
-        "Error fetching workspaces:",
-        error || error.message || error.response
-      );
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   //create a new workspace
 
   const createWorkspace = async (token: any, boardData: any) => {
@@ -167,55 +136,6 @@ const UserContextProvider = ({ children }: UserContextProviderProps) => {
         "Error creating workspace:",
         error || error.message || error.response
       );
-    }
-  };
-
-  const fetchCards = async (token: any, listUuid: string) => {
-    try {
-      const res = await listCards.getCards(token, listUuid);
-
-      // Check if res.data is defined before using it
-      if (res && res.data) {
-        setCards((prevCards) => {
-          // Filter out cards for other lists
-          const filteredCards = prevCards.filter(
-            (card) => card.listUuid !== listUuid
-          );
-          // Concatenate the new cards
-          return [...filteredCards, ...res.data];
-        });
-      } else {
-        console.error("Data not available in API response");
-      }
-    } catch (error) {
-      console.error("Failed to fetch cards", error);
-    }
-  };
-
-  const createCard = async (token: any, cardData: any, listUuid: string) => {
-    console.log("cards before creation: ", cards);
-    try {
-      const title = cardData;
-      const res = await listCards.createCard(token, title, listUuid);
-      if (res && res.newCard) {
-        setCards((prevCards) => [res.newCard, ...prevCards]);
-      }
-    } catch (error) {
-      console.error("Failed to create card", error);
-    } finally {
-      setIsNewCardCreated(true);
-    }
-  };
-
-  const deleteCard = async (token: any, cardData: any, listUuid: string) => {
-    console.log("lets delete the card");
-    try {
-      const res = await listCards.deleteCard(token, cardData, listUuid);
-      if (res?.status === true) {
-        setCards(cards.filter((card) => card.uuid !== cardData.uuid));
-      }
-    } catch (error) {
-      console.error("Failed to delete card", error);
     }
   };
 
@@ -245,17 +165,6 @@ const UserContextProvider = ({ children }: UserContextProviderProps) => {
     }
   }, [token]); //if the token changes, validate it
 
-  //UseEffect for fetching boards  and then the lists
-
-  //useEffect to fetch the favorites on mounting
-  // useEffect(() => {
-  //   // Check if both token and workspaces are available
-  //   if (token && workspaces.length > 0) {
-  //     // Fetch favorites
-  //     fetchFavorites(token, workspaces);
-  //   }
-  // }, [workspaces]);
-
   //useEffect re render the page when there is change to favorites ??????
   // useEffect(() => {
   //   const fetchAndUpdateFavorites = async () => {
@@ -275,7 +184,7 @@ const UserContextProvider = ({ children }: UserContextProviderProps) => {
   //logout function: clear the local storage and set the token to null
   const handleLogout = async () => {
     localStorage.clear();
-    setWorkspaces([]);
+    // setWorkspaces([]);
     setToken(null);
     setAuthenticated(false);
     setAuthenticatedLoaded(false);
@@ -289,14 +198,9 @@ const UserContextProvider = ({ children }: UserContextProviderProps) => {
     setAuthenticated,
     userData: user,
     handleLogout,
-    cards,
-    setCards,
-    fetchCards,
     validateToken,
     favorites,
     setFavorites,
-    createCard,
-    deleteCard,
   };
   return (
     <UserContext.Provider value={contextValue}>
