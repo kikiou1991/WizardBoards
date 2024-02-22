@@ -11,7 +11,6 @@ import {
 import { io } from "socket.io-client";
 import { ListContext, ListContextType } from "./ListContext";
 import { listCards } from "@/lib/v2/cards";
-import { BoardContext, BoardContextType } from "./BoardContext";
 
 // Interfaces Section
 
@@ -27,7 +26,7 @@ export interface CardContextType {
   setCards: React.Dispatch<React.SetStateAction<Cards[]>>;
   isNewCardCreated: boolean;
   setIsNewCardCreated: React.Dispatch<React.SetStateAction<boolean>>;
-  fetchCards: (token: any, boardUuid: string) => Promise<void>;
+  fetchCards: (token: any, listUuid: string) => Promise<void>;
   createCard: (token: any, cardData: any, listUuid: string) => Promise<void>;
   deleteCard: (token: any, cardData: any, listUuid: string) => Promise<void>;
 }
@@ -40,7 +39,6 @@ const CardContext = createContext<CardContextType | null>(null);
 const CardContextProvider = ({ children }: CardContextProviderProps) => {
   const { token } = useContext(UserContext) as UserContextType;
   const { lists, setLists } = useContext(ListContext) as ListContextType;
-  const { selectedBoard } = useContext(BoardContext) as BoardContextType;
   const [cards, setCards] = useState<Cards[]>([]);
   const [isNewCardCreated, setIsNewCardCreated] = useState(false);
 
@@ -49,12 +47,22 @@ const CardContextProvider = ({ children }: CardContextProviderProps) => {
     socket.on("card", (data) => {});
   }, []);
 
-  const fetchCards = async (token: any, boardUuid: string) => {
-    console.log("selectedBoard: ", boardUuid);
+  const fetchCards = async (token: any, listUuid: string) => {
     try {
-      const res = await listCards.fetchCard(token, boardUuid);
-      if (res) {
-        setCards(res);
+      const res = await listCards.fetchCard(token, listUuid);
+
+      // Check if res.data is defined before using it
+      if (res && res.data) {
+        setCards((prevCards) => {
+          // Filter out cards for other lists
+          const filteredCards = prevCards.filter(
+            (card) => card.listUuid !== listUuid
+          );
+          // Concatenate the new cards
+          return [...filteredCards, ...res.data];
+        });
+      } else {
+        console.error("Data not available in API response");
       }
     } catch (error) {
       console.error("Failed to fetch cards", error);
@@ -88,8 +96,12 @@ const CardContextProvider = ({ children }: CardContextProviderProps) => {
   };
   // fetch cards for each lists on render or if the lists change
   useEffect(() => {
-    fetchCards(localStorage["token"], selectedBoard);
-  }, [selectedBoard]);
+    if (localStorage["token"] && lists.length > 0) {
+      for (let list of lists) {
+        fetchCards(localStorage["token"], list.uuid);
+      }
+    }
+  }, [lists]);
 
   const contextValue: CardContextType = {
     cards,
