@@ -50,7 +50,6 @@ const CardContextProvider = ({ children }: CardContextProviderProps) => {
   const fetchCards = async (token: any, listUuid: string) => {
     try {
       const res = await listCards.fetchCard(token, listUuid);
-      console.log("res: ", res);
       // Check if res.data is defined before using it
       if (res && res.data) {
         setCards((prevCards) => {

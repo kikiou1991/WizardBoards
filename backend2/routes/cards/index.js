@@ -43,7 +43,6 @@ module.exports = async (app, db, io) => {
   });
   app.post("/api/v2/cards", async (req, res, next) => {
     const { listUuid, data } = req.body;
-    const { title } = data;
     console.log("The data that the server gets from the client: ", data);
     const user = req.user;
 
@@ -72,7 +71,6 @@ module.exports = async (app, db, io) => {
         {
           ...data,
           cardIndex,
-          title: title,
           createdAt: new Date().toISOString(),
           listUuid: listUuid,
           list: [listUuid],
