@@ -49,10 +49,10 @@ const CardContextProvider = ({ children }: CardContextProviderProps) => {
     socket.on("card", (data) => {});
   }, []);
 
-  const fetchCards = async (token: any, selectedBoard: string) => {
-    console.log("selectedBoard: ", selectedBoard);
+  const fetchCards = async (token: any, boardUuid: string) => {
+    console.log("selectedBoard: ", boardUuid);
     try {
-      const res = await listCards.fetchCard(token, selectedBoard);
+      const res = await listCards.fetchCard(token, boardUuid);
       if (res) {
         setCards(res);
       }
@@ -88,12 +88,8 @@ const CardContextProvider = ({ children }: CardContextProviderProps) => {
   };
   // fetch cards for each lists on render or if the lists change
   useEffect(() => {
-    if (localStorage["token"] && lists.length > 0) {
-      for (let list of lists) {
-        fetchCards(localStorage["token"], list.uuid);
-      }
-    }
-  }, [lists]);
+    fetchCards(localStorage["token"], selectedBoard);
+  }, []);
 
   const contextValue: CardContextType = {
     cards,
