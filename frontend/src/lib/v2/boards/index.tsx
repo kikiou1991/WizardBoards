@@ -25,16 +25,18 @@ export const workspaceBoards = {
   },
   createBoard: async (token: any, boardData: any, workspaceUuid: string) => {
     try {
-      const { name } = boardData;
-      const simplifiedBoardData = { name, workspaceUuid };
-      console.log(simplifiedBoardData);
+      const { boardUuid } = boardData;
       const response = await fetch("https://wizardboards.co.uk/api/v2/boards", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(simplifiedBoardData),
+        body: JSON.stringify({
+          data: boardData,
+          workspaceUuid: workspaceUuid,
+          boardUuid: boardUuid,
+        }),
       });
 
       if (!response.ok) {

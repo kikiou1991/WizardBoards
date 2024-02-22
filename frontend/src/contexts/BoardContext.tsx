@@ -74,6 +74,7 @@ const BoardContextProvider = ({ children }: WorkspaceContextProviderProps) => {
 
   //create the boards
   const createBoard = async (token: any, boardData: any) => {
+    console.log("boardData is: ", boardData);
     try {
       const { name, workspaceUuid } = boardData;
 
