@@ -3,7 +3,7 @@ export const listCards = {
     try {
       console.log("start fetching cards");
       const response = await fetch(
-        `https://wizardboards.co.ukl/api/v2/cards?listUuid=${encodeURIComponent(
+        `https://wizardboards.co.uk/api/v2/cards?listUuid=${encodeURIComponent(
           listUuid
         )}`,
         {
