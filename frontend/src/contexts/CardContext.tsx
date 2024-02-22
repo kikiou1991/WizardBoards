@@ -43,7 +43,7 @@ const CardContextProvider = ({ children }: CardContextProviderProps) => {
   const [isNewCardCreated, setIsNewCardCreated] = useState(false);
 
   useEffect(() => {
-    let socket = io("http://localhost:3002/api/v2/boards", {});
+    let socket = io("http://localhost:3002/api/v2/cards", {});
     socket.on("card", (data) => {});
   }, []);
 
@@ -51,7 +51,7 @@ const CardContextProvider = ({ children }: CardContextProviderProps) => {
     console.log("fetching cards with listUuid: ", listUuid);
     try {
       const res = await listCards.fetchCard(token, listUuid);
-
+      console.log("res: ", res);
       // Check if res.data is defined before using it
       if (res && res.data) {
         setCards((prevCards) => {
