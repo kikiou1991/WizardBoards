@@ -16,8 +16,9 @@ export const listCards = {
       if (!response.ok) {
         throw new Error("Failed to fetch cards");
       }
-
+      console.log("response: ", response);
       const data = await response.json();
+      console.log("data: ", data);
       return data;
     } catch (error: any) {
       console.error("Error fetching the cards: ", error.message);
