@@ -119,24 +119,24 @@ const BoardContextProvider = ({ children }: WorkspaceContextProviderProps) => {
     setBoards(res?.data || []);
   };
 
-  const fetchFavorites = async (token: any, workspaces: any) => {
-    try {
-      // Iterate over each workspace
-      for (let workspace of workspaces) {
-        // Fetch boards for the current workspace
-        const res = await workspaceBoards.getBoards(token, workspace.uuid);
+  // const fetchFavorites = async (token: any, workspaces: any) => {
+  //   try {
+  //     // Iterate over each workspace
+  //     for (let workspace of workspaces) {
+  //       // Fetch boards for the current workspace
+  //       const res = await workspaceBoards.getBoards(token, workspace.uuid);
 
-        // Filter out the boards that are marked as favorites
-        const favBoards =
-          res?.data.filter((board: any) => board.isStared === true) || [];
+  //       // Filter out the boards that are marked as favorites
+  //       const favBoards =
+  //         res?.data.filter((board: any) => board.isStared === true) || [];
 
-        // Update the favorites state
-        setFavorites((prevFavorites) => [...prevFavorites, ...favBoards]);
-      }
-    } catch (error) {
-      console.error("Failed to fetch favorites", error);
-    }
-  };
+  //       // Update the favorites state
+  //       setFavorites((prevFavorites) => [...prevFavorites, ...favBoards]);
+  //     }
+  //   } catch (error) {
+  //     console.error("Failed to fetch favorites", error);
+  //   }
+  // };
 
   //useEffect re render the page when there is change to favorites ??????
   // useEffect(() => {
@@ -168,11 +168,11 @@ const BoardContextProvider = ({ children }: WorkspaceContextProviderProps) => {
     }
   }, [token, selectedWorkspace]);
 
-  useEffect(() => {
-    if (token) {
-      fetchFavorites(token, selectedWorkspace);
-    }
-  }, [token, selectedWorkspace]);
+  // useEffect(() => {
+  //   if (token) {
+  //     fetchFavorites(token, selectedWorkspace);
+  //   }
+  // }, [token, selectedWorkspace]);
   const contextValue: BoardContextType = {
     boards,
     setBoards,
