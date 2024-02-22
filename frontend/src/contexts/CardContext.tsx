@@ -94,6 +94,14 @@ const CardContextProvider = ({ children }: CardContextProviderProps) => {
       console.error("Failed to delete card", error);
     }
   };
+  // fetch cards for each lists on render or if the lists change
+  useEffect(() => {
+    if (localStorage["token"] && lists.length > 0) {
+      for (let list of lists) {
+        fetchCards(localStorage["token"], list.uuid);
+      }
+    }
+  }, [lists]);
 
   const contextValue: CardContextType = {
     cards,

@@ -22,9 +22,11 @@ import useOutsideClick from "@/components/customHooks/useOutsideClick";
 import BoardView from "../boardview/page";
 import { BoardContext, BoardContextType } from "@/contexts/BoardContext";
 import { ListContext, ListContextType } from "@/contexts/ListContext";
+import { CardContext, CardContextType } from "@/contexts/CardContext";
 
 const Project = () => {
-  const { token, cards } = useContext(UserContext) as UserContextType;
+  const { token } = useContext(UserContext) as UserContextType;
+  const { cards } = useContext(CardContext) as CardContextType;
   const { isBoardSelectedGlobal } = useContext(
     BoardContext
   ) as BoardContextType;
