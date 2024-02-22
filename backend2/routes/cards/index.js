@@ -9,7 +9,7 @@ module.exports = async (app, db, io) => {
       if (!listUuid) {
         return res
           .status(400)
-          .json({ message: "Invalid board UUID", success: false, data: null });
+          .json({ message: "Invalid list UUID", success: false, data: null });
       }
       if (!user || !user._id) {
         return res.status(400).json({
