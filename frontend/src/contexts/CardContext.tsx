@@ -11,6 +11,7 @@ import {
 import { io } from "socket.io-client";
 import { ListContext, ListContextType } from "./ListContext";
 import { listCards } from "@/lib/v2/cards";
+import { BoardContext, BoardContextType } from "./BoardContext";
 
 // Interfaces Section
 
@@ -26,7 +27,7 @@ export interface CardContextType {
   setCards: React.Dispatch<React.SetStateAction<Cards[]>>;
   isNewCardCreated: boolean;
   setIsNewCardCreated: React.Dispatch<React.SetStateAction<boolean>>;
-  fetchCards: (token: any, listUuid: string) => Promise<void>;
+  fetchCards: (token: any, boardUuid: string) => Promise<void>;
   createCard: (token: any, cardData: any, listUuid: string) => Promise<void>;
   deleteCard: (token: any, cardData: any, listUuid: string) => Promise<void>;
 }
@@ -39,6 +40,7 @@ const CardContext = createContext<CardContextType | null>(null);
 const CardContextProvider = ({ children }: CardContextProviderProps) => {
   const { token } = useContext(UserContext) as UserContextType;
   const { lists, setLists } = useContext(ListContext) as ListContextType;
+  const { selectedBoard } = useContext(BoardContext) as BoardContextType;
   const [cards, setCards] = useState<Cards[]>([]);
   const [isNewCardCreated, setIsNewCardCreated] = useState(false);
 
@@ -47,9 +49,10 @@ const CardContextProvider = ({ children }: CardContextProviderProps) => {
     socket.on("card", (data) => {});
   }, []);
 
-  const fetchCards = async (token: any, boardUuid: string) => {
+  const fetchCards = async (token: any, selectedBoard: string) => {
+    console.log("selectedBoard: ", selectedBoard);
     try {
-      const res = await listCards.fetchCard(token, boardUuid);
+      const res = await listCards.fetchCard(token, selectedBoard);
       if (res) {
         setCards(res);
       }
