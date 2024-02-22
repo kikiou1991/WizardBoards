@@ -50,7 +50,7 @@ export const listCards = {
       const response = await fetch(
         `https://wizardboards.co.uk/api/v2/cards/archive`,
         {
-          method: "DELETE",
+          method: "POST",
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
