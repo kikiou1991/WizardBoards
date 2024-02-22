@@ -1,7 +1,6 @@
 export const listCards = {
   fetchCard: async (token: any, listUuid: string) => {
     try {
-      console.log("start fetching cards");
       const response = await fetch(
         `https://wizardboards.co.uk/api/v2/cards?listUuid=${encodeURIComponent(
           listUuid

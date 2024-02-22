@@ -22,19 +22,19 @@ module.exports = async (app, db, io) => {
       }
 
       let list = await db.collection("lists").findOne({ uuid: listUuid });
-      const cards = list.cards.map((card) => ({
-        title: card.title,
-        uuid: card.uuid,
-        description: card.description,
-        comments: card.comments,
-        cardIndex: card.cardIndex,
-        listUuid: card.listUuid,
-      }));
+      let listCards = list.cards;
+      let fetchedCards = [];
+      for (let i = 0; i < listCards.length; i++) {
+        let card = await db.collection("cards").findOne({ _id: listCards[i] });
+        if (card) {
+          fetchedCards.push(card);
+        }
+      }
 
       return res.status(200).json({
         success: true,
         message: "Board fetched successfully",
-        data: cards,
+        data: fetchedCards,
       });
     } catch (error) {
       console.error(error, "Failed to get boards");
