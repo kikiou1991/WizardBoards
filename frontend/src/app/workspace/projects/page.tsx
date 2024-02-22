@@ -14,7 +14,6 @@ import {
   Droppable,
   DropResult,
 } from "@hello-pangea/dnd";
-import { start } from "repl";
 import { useContext, useEffect, useRef, useState } from "react";
 import { UserContext, UserContextType } from "@/contexts/Usercontext";
 import Icon from "@/components/Icons";
@@ -98,9 +97,10 @@ const Project = () => {
       </div>
       <DragDropContext onDragEnd={handleDragEnd}>
         <div className="flex w-full h-full overflow-x-auto items-start py-5 px-5 gap-5">
-          {lists.map((list: any) => (
-            <Lists key={list.id} name={list.title} id={list.uuid} />
-          ))}
+          {lists.length !== 0 &&
+            lists.map((list: any) => (
+              <Lists key={list.id} name={list.title} id={list.uuid} />
+            ))}
           {isActive ? (
             <div
               ref={ref}
