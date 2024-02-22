@@ -1,21 +1,26 @@
 export const workspaceBoards = {
   getBoards: async (token: any, workspaceUuid: string) => {
     try {
-      const response = await fetch(`https://wizardboards.co.uk/api/v2/boards?workspaceUuid=${encodeURIComponent(workspaceUuid)}`, {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-      });
+      const response = await fetch(
+        `https://wizardboards.co.uk/api/v2/boards?workspaceUuid=${encodeURIComponent(
+          workspaceUuid
+        )}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
       if (!response.ok) {
-        throw new Error('Failed to create board');
+        throw new Error("Failed to create board");
       }
 
       const boards = await response.json();
       return boards;
     } catch (error) {
-      console.error('Error creating the board', error);
+      console.error("Error creating the board", error);
     }
   },
   createBoard: async (token: any, boardData: any, workspaceUuid: string) => {
@@ -23,47 +28,50 @@ export const workspaceBoards = {
       const { name } = boardData;
       const simplifiedBoardData = { name, workspaceUuid };
       console.log(simplifiedBoardData);
-      const response = await fetch('https://wizardboards.co.uk/api/v2/boards', {
-        method: 'POST',
+      const response = await fetch("https://wizardboards.co.uk/api/v2/boards", {
+        method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(simplifiedBoardData),
       });
 
       if (!response.ok) {
-        throw new Error('Failed to create board');
+        throw new Error("Failed to create board");
       }
 
       const newBoard = await response.json();
       return { newBoard };
     } catch (error) {
-      console.error('Error creating the board', error);
+      console.error("Error creating the board", error);
     }
   },
   deleteBoard: async (token: any, workspaceUuid: string, boardData: any) => {
-    console.log('workspaceUuid', workspaceUuid)
-    console.log('boardData', boardData)
+    console.log("workspaceUuid", workspaceUuid);
+    console.log("boardData", boardData);
     try {
-      const response = await fetch(`https://wizardoards.co.uk/api/v2/boards/archive?workspaceUuid=${workspaceUuid}`, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          boardUuid: boardData,
-        }),
-      });
+      const response = await fetch(
+        `https://wizardboards.co.uk/api/v2/boards/archive?workspaceUuid=${workspaceUuid}`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            boardUuid: boardData,
+          }),
+        }
+      );
       if (response.ok) {
         const data = await response.json();
         return data;
       } else {
-        throw new Error('Failed to delete board');
+        throw new Error("Failed to delete board");
       }
     } catch (error) {
-      console.error('Error deleting the board', error);
+      console.error("Error deleting the board", error);
     }
   },
 };
