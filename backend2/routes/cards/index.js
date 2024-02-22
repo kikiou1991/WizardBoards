@@ -3,6 +3,7 @@ module.exports = async (app, db, io) => {
   let namespace = io.of("/api/v2/cards");
   app.get("/api/v2/cards", async (req, res, next) => {
     try {
+      console.log("req.query", req.query);
       const listUuid = req.query.listUuid;
       const user = req.user;
 
