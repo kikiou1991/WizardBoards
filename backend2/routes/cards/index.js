@@ -70,7 +70,7 @@ module.exports = async (app, db, io) => {
         {
           ...data,
           cardIndex,
-          title: data.title,
+
           listUuid: listUuid,
           list: [listUuid],
           uuid: uuidv4(),
