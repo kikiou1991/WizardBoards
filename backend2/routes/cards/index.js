@@ -21,13 +21,13 @@ module.exports = async (app, db, io) => {
       }
 
       let list = await db.collection("lists").findOne({ uuid: listUuid });
-      let listCards = list.cards;
       let fetchedCards = [];
-      if (listCards.length !== 0) {
-        for (let i = 0; i < listCards.length; i++) {
+
+      if (list && list.cards && list.cards.length > 0) {
+        for (let i = 0; i < list.cards.length; i++) {
           let card = await db
             .collection("cards")
-            .findOne({ _id: listCards[i] });
+            .findOne({ _id: list.cards[i] });
           if (card) {
             fetchedCards.push(card);
           }
