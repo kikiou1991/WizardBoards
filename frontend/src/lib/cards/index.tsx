@@ -28,6 +28,7 @@ export const listCards = {
   },
 
   getCards: async (token: any, listUuid: string) => {
+    console.log(listUuid, "listUuid");
     try {
       const response = await fetch(
         `https://wizardboards.co.uk/api/cards?listUuid=${encodeURIComponent(
