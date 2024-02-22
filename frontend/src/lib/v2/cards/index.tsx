@@ -1,9 +1,9 @@
 export const listCards = {
-  fetchCard: async (token: any, listUuid: string) => {
+  fetchCard: async (token: any, boardUuid: string) => {
     try {
       const response = await fetch(
-        `https://wizardboards.co.ukl/api/v2/cards?listUuid=${encodeURIComponent(
-          listUuid
+        `https://wizardboards.co.ukl/api/v2/cards?boardUuid=${encodeURIComponent(
+          boardUuid
         )}`,
         {
           method: "GET",

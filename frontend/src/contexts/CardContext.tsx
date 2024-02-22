@@ -47,22 +47,11 @@ const CardContextProvider = ({ children }: CardContextProviderProps) => {
     socket.on("card", (data) => {});
   }, []);
 
-  const fetchCards = async (token: any, listUuid: string) => {
+  const fetchCards = async (token: any, boardUuid: string) => {
     try {
-      const res = await listCards.fetchCard(token, listUuid);
-
-      // Check if res.data is defined before using it
-      if (res && res.data) {
-        setCards((prevCards) => {
-          // Filter out cards for other lists
-          const filteredCards = prevCards.filter(
-            (card) => card.listUuid !== listUuid
-          );
-          // Concatenate the new cards
-          return [...filteredCards, ...res.data];
-        });
-      } else {
-        console.error("Data not available in API response");
+      const res = await listCards.fetchCard(token, boardUuid);
+      if (res) {
+        setCards(res);
       }
     } catch (error) {
       console.error("Failed to fetch cards", error);
