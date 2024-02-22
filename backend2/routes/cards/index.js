@@ -20,7 +20,7 @@ module.exports = async (app, db, io) => {
       }
 
       let list = await db.collection("lists").findOne({ uuid: listUuid });
-
+      console.log("list", list);
       let listCards = list.cards;
       let fetchedCards = [];
       for (let i = 0; i < listCards.length; i++) {
@@ -33,7 +33,7 @@ module.exports = async (app, db, io) => {
       return res.status(200).json({
         success: true,
         message: "Board fetched successfully",
-        data: fetchedLists,
+        data: fetchedCards,
       });
     } catch (error) {
       console.error(error, "Failed to get boards");
