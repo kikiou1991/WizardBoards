@@ -4,7 +4,7 @@ import { Button } from "@nextui-org/react";
 import React, { useState } from "react";
 
 const Settings = () => {
-  const [visibility, setVisibility] = useState("Public" as string);
+  const [visibility, setVisibility] = useState("Private" as string);
 
   const handleVisibilityChange = () => {
     if (visibility === "Public") {
@@ -16,14 +16,16 @@ const Settings = () => {
   return (
     <div className="flex flex-col flex-wrap overflow-x-hidden overflow-y-auto p-3 gap-2 ">
       <WorkspaceHeader />
-      <div className="text-foreground items-center ">
+      <div className="text-foreground items-center">
         <div className="border-b-1 py-4">Workspace visibility</div>
-        <div className="flex flex-row ">
-          <div className="flex justify-start items-center py-3">
+        <div className="flex flex-row py-3 items-center">
+          <div className="flex justify-start items-center ">
             {visibility} This Workspace is private. It is not visible to anyone
             outside of this workspace
           </div>
-          <Button className="ml-auto mr-10">Change</Button>
+          <Button onClick={handleVisibilityChange} className="ml-auto mr-10">
+            Change
+          </Button>
         </div>
       </div>
       <div className="upgrade bg-slate-400 w-[1200px] h-[400px]">
