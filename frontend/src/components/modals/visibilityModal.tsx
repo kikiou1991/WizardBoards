@@ -1,5 +1,5 @@
 import { Button, Listbox, ListboxItem } from "@nextui-org/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ListboxWrapper } from "../listboxwrapper";
 import Icon from "../Icons";
 
@@ -9,6 +9,23 @@ interface Props {
 
 const VisibilityModal = ({ toggle }: Props) => {
   const [selectedKeys, setSelectedKeys] = useState("private" as string);
+  const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
+
+  useEffect(() => {
+    const changeButton = document.getElementById("changeButton");
+    if (changeButton) {
+      const buttonRect = changeButton.getBoundingClientRect();
+      const modalWidth = 280; // Adjust this according to your modal width
+      const modalHeight = 230; // Adjust this according to your modal height
+
+      // Calculate the position of the modal relative to the button
+      const top = buttonRect.top + buttonRect.height;
+      const left = buttonRect.left + (buttonRect.width - modalWidth) / 2;
+
+      // Set the modal position
+      setModalPosition({ top, left });
+    }
+  }, []);
 
   const handleChange = () => {
     setSelectedKeys(selectedKeys === "private" ? "public" : "private");
@@ -18,6 +35,7 @@ const VisibilityModal = ({ toggle }: Props) => {
   return (
     <div
       onClick={toggle}
+      style={{ top: modalPosition.top, left: modalPosition.left }}
       className="absolute z-10 bg-foreground text-background rounded-lg w-[280px] h-[230px]"
     >
       <div className="flex flex-col gap-3">

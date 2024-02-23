@@ -28,7 +28,11 @@ const Settings = () => {
             {visibility} This Workspace is private. It is not visible to anyone
             outside of this workspace
           </div>
-          <Button onClick={handleVisibilityChange} className="ml-auto mr-10">
+          <Button
+            onClick={handleVisibilityChange}
+            id="changeButton"
+            className="ml-auto mr-10"
+          >
             Change
           </Button>
         </div>
