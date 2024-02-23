@@ -23,10 +23,7 @@ const VisibilityModal = ({ toggle }: Props) => {
       <div className="flex flex-col gap-3">
         <div className="items-center flex sm:flex-col flex-row px-2 pt-2 pb-3">
           <div>Select Workspace Visibility</div>
-          <Button
-            className="ml-auto bg-inherit text-background p-0"
-            isIconOnly={true}
-          >
+          <Button className="bg-inherit text-background p-0" isIconOnly={true}>
             X
           </Button>
         </div>
@@ -58,7 +55,9 @@ const VisibilityModal = ({ toggle }: Props) => {
                   <Icon name="publicSymbol" />
                   <p>Private</p>
                 </div>
-                <p>This workspace is public It`s visible to anyone.</p>
+                <p className="text-sm">
+                  This workspace is public It`s visible to anyone.
+                </p>
               </div>
             </ListboxItem>
           </Listbox>
