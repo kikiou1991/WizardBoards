@@ -10,13 +10,16 @@ const Settings = () => {
       <div className="settings text-foreground ">
         <div className="border-b-1 py-4">Workspace visibility</div>
         <div>
-          {visibility} "This Workspace is private. It is not visible to anyone
-          outside of this workspace"
+          {visibility} This Workspace is private. It is not visible to anyone
+          outside of this workspace
         </div>
       </div>
-      <div>
-        <p className="font-bold">Upgrade to premium today</p>{" "}
-        {"for more settings"}
+      <div className="upgrade bg-secondaryBG w-10 h-8">
+        <div className="flex flex-row gap-1">
+          <p className="font-bold">Upgrade to premium today</p>
+          <p>for more settings</p>
+        </div>
+        <div>Some other settings you could do</div>
       </div>
       <div>
         <p className="text-red-500">Delete this workspace?</p>
