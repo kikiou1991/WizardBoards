@@ -41,10 +41,10 @@ const Settings = () => {
         </div>
         <div>Some other settings you could do</div>
       </div>
+      <VisibilityModal toggle={toggleModal} />
       <div className="flex cursor-pointer">
         <p className="text-red-500">Delete this workspace?</p>
       </div>
-      <VisibilityModal toggle={toggleModal} />
     </div>
   );
 };
