@@ -133,7 +133,7 @@ const BoardContextProvider = ({ children }: WorkspaceContextProviderProps) => {
           res?.data.filter((board: any) => board.isStared === true) || [];
 
         // Update the favorites state
-        setFavorites((prevFavorites) => [...prevFavorites, ...favBoards]);
+        setFavorites(favBoards);
       }
     } catch (error) {
       console.error("Failed to fetch favorites", error);
