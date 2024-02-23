@@ -29,7 +29,7 @@ const WorkspaceHeader = () => {
         <div className="flex rounded-md w-[45px] h-[45px] font-bold text-3xl text-white p-2 items-center justify-center  bg-gradient-to-r from-sky-500 to-indigo-500">
           {initial}
         </div>
-        <h2 className="font-bold text-white text-2xl">
+        <h2 className="font-bold text-foreground text-2xl">
           {selectedWorkspaceName}
         </h2>
       </div>

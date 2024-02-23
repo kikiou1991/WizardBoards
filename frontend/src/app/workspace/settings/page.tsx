@@ -7,8 +7,8 @@ const Settings = () => {
   return (
     <div className="flex flex-col flex-wrap overflow-x-hidden overflow-y-auto p-3 gap-2 ">
       <WorkspaceHeader />
-      <div className="settings">
-        <div>Workspace visibility</div>
+      <div className="settings text-foreground ">
+        <div className="border-b-1 py-4">Workspace visibility</div>
         <div>
           {visibility} "This Workspace is private. It is not visible to anyone
           outside of this workspace"
