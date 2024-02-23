@@ -22,7 +22,10 @@ const VisibilityModal = ({ toggle }: Props) => {
       <div className="flex flex-col gap-3">
         <div className="items-center flex flex-row p-2">
           <div>Select Workspace Visibility</div>
-          <Button className="ml-auto bg-inherit p-0" isIconOnly={true}>
+          <Button
+            className="ml-auto bg-inherit text-background p-0"
+            isIconOnly={true}
+          >
             X
           </Button>
         </div>
@@ -36,8 +39,20 @@ const VisibilityModal = ({ toggle }: Props) => {
             selectedKeys={selectedKeys}
             onSelectionChange={handleChange}
           >
-            <ListboxItem key="private">Private</ListboxItem>
-            <ListboxItem key="public">Public</ListboxItem>
+            <ListboxItem
+              key="private"
+              startContent
+              description="This workspace is private. It is not visible to anyone outside this workspace."
+            >
+              Private
+            </ListboxItem>
+            <ListboxItem
+              key="public"
+              startContent
+              description="This workspace is public It`s visible to anyone."
+            >
+              Public
+            </ListboxItem>
           </Listbox>
         </ListboxWrapper>
       </div>
