@@ -20,9 +20,9 @@ const VisibilityModal = ({ toggle }: Props) => {
       className="absolute z-10 bg-foreground text-background rounded-lg w-[280px] h-[230px]"
     >
       <div className="flex flex-col gap-3">
-        <div className="items-center">
+        <div className="items-center flex flex-row p-2">
           <div>Select Workspace Visibility</div>
-          <Button className="ml-auto" isIconOnly={true}>
+          <Button className="ml-auto bg-inherit p-0" isIconOnly={true}>
             X
           </Button>
         </div>
