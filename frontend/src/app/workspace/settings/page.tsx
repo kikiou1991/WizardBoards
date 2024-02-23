@@ -29,7 +29,7 @@ const Settings = () => {
         </div>
       </div>
       <div className="upgrade bg-slate-400 w-[1200px] h-[400px]">
-        <div className="flex flex-row gap-1">
+        <div className="flex flex-row gap-1 items-center">
           <p className="font-bold">Upgrade to premium today</p>
           <p>for more settings</p>
           <Button className="ml-auto mr-10">Upgrade</Button>
