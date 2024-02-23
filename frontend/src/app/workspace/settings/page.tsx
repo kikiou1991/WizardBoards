@@ -7,12 +7,10 @@ import React, { useRef, useState } from "react";
 
 const Settings = () => {
   const [visibility, setVisibility] = useState("Private" as string);
-  const [isOpen, setIsOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
 
   const ref = useRef(null);
   const toggleModal = () => {
-    setIsOpen(!isOpen);
     setIsVisible(!isVisible);
   };
 
