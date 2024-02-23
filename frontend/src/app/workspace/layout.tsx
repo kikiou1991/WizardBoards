@@ -1,6 +1,6 @@
-'use client';
-import NavbarTop from '@/components/navbar/navbar';
-import Sidebar from '@/components/sidebar/sidebar';
+"use client";
+import NavbarTop from "@/components/navbar/navbar";
+import Sidebar from "@/components/sidebar/sidebar";
 
 type LayoutProps = {
   title?: string;
@@ -17,13 +17,15 @@ export default function WorkspaceLayout({
   };
 }) {
   return (
-    <div className='flex h-screen max-h-screen flex-col overflow-hidden'>
+    <div className="flex h-screen max-h-screen flex-col overflow-hidden">
       <NavbarTop />
-      <div className='flex h-fit grow  flex-row '>
-        <div className='w-1/3 md:w-1/6 h-full ' style={{ minWidth: '260px' }}>
+      <div className="flex h-fit grow  flex-row ">
+        <div className="w-1/3 md:w-1/6 h-full " style={{ minWidth: "260px" }}>
           <Sidebar />
         </div>
-        <div className='w-2/3 md:w-5/6 h-full flex flex-col bg-secondaryBG '>{children}</div>
+        <div className="w-2/3 md:w-5/6 h-full flex flex-col bg-secondaryBG overflow-hidden">
+          {children}
+        </div>
       </div>
     </div>
   );
