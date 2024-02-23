@@ -20,7 +20,7 @@ const VisibilityModal = ({ toggle }: Props) => {
 
       // Calculate the position of the modal relative to the button
       const top = buttonRect.top + buttonRect.height;
-      const left = buttonRect.left + (buttonRect.width - modalWidth);
+      const left = buttonRect.left + (buttonRect.width - modalWidth) * 2;
 
       // Set the modal position
       setModalPosition({ top, left });
