@@ -1,9 +1,18 @@
 "use client";
 import WorkspaceHeader from "@/components/workspaceHeader";
+import { Button } from "@nextui-org/react";
 import React, { useState } from "react";
 
 const Settings = () => {
   const [visibility, setVisibility] = useState("Public" as string);
+
+  const handleVisibilityChange = () => {
+    if (visibility === "Public") {
+      setVisibility("Private");
+    } else {
+      setVisibility("Public");
+    }
+  };
   return (
     <div className="flex flex-col flex-wrap overflow-x-hidden overflow-y-auto p-3 gap-2 ">
       <WorkspaceHeader />
@@ -13,11 +22,13 @@ const Settings = () => {
           {visibility} This Workspace is private. It is not visible to anyone
           outside of this workspace
         </div>
+        <Button>Change</Button>
       </div>
-      <div className="upgrade bg-blue-500 w-10 h-8">
+      <div className="upgrade bg-blue-500 w-[500px] h-[500px]">
         <div className="flex flex-row gap-1">
           <p className="font-bold">Upgrade to premium today</p>
           <p>for more settings</p>
+          <Button className="primary">Upgrade</Button>
         </div>
         <div>Some other settings you could do</div>
       </div>
