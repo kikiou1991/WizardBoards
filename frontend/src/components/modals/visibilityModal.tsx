@@ -40,19 +40,26 @@ const VisibilityModal = ({ toggle }: Props) => {
             selectedKeys={selectedKeys}
             onSelectionChange={handleChange}
           >
-            <ListboxItem
-              key="private"
-              startContent={<Icon name="privateSymbol" />}
-              description="This workspace is private. It is not visible to anyone outside this workspace."
-            >
-              Private
+            <ListboxItem key="private">
+              <div className="flex flex-col">
+                <div className="flex flex-row gap-1 items-center">
+                  <Icon name="privateSymbol" />
+                  <p>Private</p>
+                </div>
+                <p>
+                  This workspace is private. It is not visible to anyone outside
+                  this workspace.
+                </p>
+              </div>
             </ListboxItem>
-            <ListboxItem
-              key="public"
-              startContent={<Icon name="publicSymbol" />}
-              description="This workspace is public It`s visible to anyone."
-            >
-              Public
+            <ListboxItem key="public">
+              <div className="flex flex-col">
+                <div className="flex flex-row gap-1 items-center">
+                  <Icon name="publicSymbol" />
+                  <p>Private</p>
+                </div>
+                <p>This workspace is public It`s visible to anyone.</p>
+              </div>
             </ListboxItem>
           </Listbox>
         </ListboxWrapper>
