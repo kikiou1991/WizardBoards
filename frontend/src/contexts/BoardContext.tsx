@@ -69,8 +69,7 @@ const BoardContextProvider = ({ children }: WorkspaceContextProviderProps) => {
   const [selectedBoard, setSelectedBoard] = useState("");
   const [isBoardSelectedGlobal, setIsBoardSelectedGlobal] = useState(false);
   const [favorites, setFavorites] = useState<Boards[]>([]);
-  console.log("selectedBoard", selectedBoard);
-
+  console.log("current boards: ", boards);
   //create the boards
   const createBoard = async (token: any, boardData: any) => {
     if (!boardData || !token) return;

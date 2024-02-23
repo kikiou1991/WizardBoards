@@ -62,7 +62,6 @@ const ListContextProvider = ({ children }: WorkspaceContextProviderProps) => {
     BoardContext
   ) as BoardContextType;
   const [lists, setLists] = useState<Lists[]>([]);
-  console.log("lists: ", lists);
 
   useEffect(() => {
     let socket = io("http://localhost:3002/api/v2/lists", {});
