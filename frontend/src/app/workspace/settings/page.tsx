@@ -19,7 +19,7 @@ const Settings = () => {
     }
   };
   return (
-    <div className="flex flex-col z-0 flex-wrap overflow-x-hidden overflow-y-auto p-3 gap-2 ">
+    <div className="flex flex-col z-0 flex-wrap overflow-x-auto overflow-y-auto p-3 gap-2 mx-5">
       <WorkspaceHeader />
       <div className="text-foreground items-center">
         <div className="border-b-1 py-4">Workspace visibility</div>
