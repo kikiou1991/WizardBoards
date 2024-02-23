@@ -113,7 +113,7 @@ const NavbarTop = () => {
       classNames={{ base: "w-screen", wrapper: "w-screen max-w-none px-0" }}
     >
       {/* Left navigation section icon, header, and add button */}
-      <NavbarContent className="items-center  flex flex-grow-0 gap-1  justify-start ">
+      <NavbarContent className="items-center flex flex-grow-0 gap-1  justify-start ">
         {/* File / Other Products / Navigation */}
         <Dropdown
           className="bg-background text-foreground hover:bg-secondaryBG"
