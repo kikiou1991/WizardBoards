@@ -13,6 +13,7 @@ const Settings = () => {
   const ref = useRef(null);
   const toggleModal = () => {
     setIsOpen(!isOpen);
+    setIsVisible(!isVisible);
   };
 
   const handleVisibilityChange = () => {
