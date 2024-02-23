@@ -14,14 +14,14 @@ const Settings = () => {
           outside of this workspace
         </div>
       </div>
-      <div className="upgrade bg-secondaryBG w-10 h-8">
+      <div className="upgrade bg-blue-500 w-10 h-8">
         <div className="flex flex-row gap-1">
           <p className="font-bold">Upgrade to premium today</p>
           <p>for more settings</p>
         </div>
         <div>Some other settings you could do</div>
       </div>
-      <div>
+      <div className="flex">
         <p className="text-red-500">Delete this workspace?</p>
       </div>
     </div>
