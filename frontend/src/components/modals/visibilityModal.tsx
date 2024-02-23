@@ -1,16 +1,44 @@
-import React from "react";
+import { Button, Listbox, ListboxItem } from "@nextui-org/react";
+import React, { useState } from "react";
+import { ListboxWrapper } from "../listboxwrapper";
 
 interface Props {
   toggle: () => void;
 }
 
 const VisibilityModal = ({ toggle }: Props) => {
+  const [selectedKeys, setSelectedKeys] = useState("private" as string);
+
+  const handleChange = () => {
+    setSelectedKeys(selectedKeys === "private" ? "public" : "private");
+  };
+
   return (
     <div
       onClick={toggle}
-      className="absolute z-10 bg-foreground text-background rounded-lg w-[250px] h-[250px]"
+      className="absolute z-10 bg-foreground text-background rounded-lg w-[280px] h-[230px]"
     >
-      VisibilityModal
+      <div className="flex flex-col gap-3">
+        <div className="items-center">
+          <div>Select Workspace Visibility</div>
+          <Button className="ml-auto" isIconOnly={true}>
+            X
+          </Button>
+        </div>
+        <ListboxWrapper>
+          <Listbox
+            aria-label="Single selection example"
+            variant="flat"
+            disallowEmptySelection
+            selectionMode="single"
+            selectedKeys={selectedKeys}
+            onSelectionChange={handleChange}
+          >
+            <ListboxItem key="private">Private</ListboxItem>
+            <ListboxItem key="public">Public</ListboxItem>
+          </Listbox>
+        </ListboxWrapper>
+      </div>
     </div>
   );
 };
