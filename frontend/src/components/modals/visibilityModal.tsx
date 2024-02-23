@@ -12,6 +12,7 @@ const VisibilityModal = ({ toggle }: Props) => {
   const handleChange = () => {
     setSelectedKeys(selectedKeys === "private" ? "public" : "private");
   };
+  console.log(selectedKeys);
 
   return (
     <div
@@ -27,8 +28,9 @@ const VisibilityModal = ({ toggle }: Props) => {
         </div>
         <ListboxWrapper>
           <Listbox
-            aria-label="Single selection example"
+            aria-label="Single selectin"
             variant="flat"
+            color="primary"
             disallowEmptySelection
             selectionMode="single"
             selectedKeys={selectedKeys}
