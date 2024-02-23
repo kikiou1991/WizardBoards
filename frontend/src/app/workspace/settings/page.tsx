@@ -1,10 +1,15 @@
 "use client";
+import VisibilityModal from "@/components/modals/visibilityModal";
 import WorkspaceHeader from "@/components/workspaceHeader";
 import { Button } from "@nextui-org/react";
 import React, { useState } from "react";
 
 const Settings = () => {
   const [visibility, setVisibility] = useState("Private" as string);
+
+  const toggleModal = () => {
+    console.log("Toggling modal");
+  };
 
   const handleVisibilityChange = () => {
     if (visibility === "Public") {
@@ -36,9 +41,10 @@ const Settings = () => {
         </div>
         <div>Some other settings you could do</div>
       </div>
-      <div className="flex">
+      <div className="flex cursor-pointer">
         <p className="text-red-500">Delete this workspace?</p>
       </div>
+      <VisibilityModal toggle={toggleModal} />
     </div>
   );
 };
