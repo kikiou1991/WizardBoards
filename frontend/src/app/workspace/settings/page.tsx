@@ -23,14 +23,14 @@ const Settings = () => {
             {visibility} This Workspace is private. It is not visible to anyone
             outside of this workspace
           </div>
-          <Button className="flex justify-end">Change</Button>
+          <Button className="ml-auto">Change</Button>
         </div>
       </div>
       <div className="upgrade bg-blue-500 w-[900px] h-[400px]">
         <div className="flex flex-row gap-1">
           <p className="font-bold">Upgrade to premium today</p>
           <p>for more settings</p>
-          <Button className="primary justify-end">Upgrade</Button>
+          <Button className="ml-auto">Upgrade</Button>
         </div>
         <div>Some other settings you could do</div>
       </div>
