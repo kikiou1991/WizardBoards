@@ -1,6 +1,7 @@
 import { Button, Listbox, ListboxItem } from "@nextui-org/react";
 import React, { useState } from "react";
 import { ListboxWrapper } from "../listboxwrapper";
+import Icon from "../Icons";
 
 interface Props {
   toggle: () => void;
@@ -20,7 +21,7 @@ const VisibilityModal = ({ toggle }: Props) => {
       className="absolute z-10 bg-foreground text-background rounded-lg w-[280px] h-[230px]"
     >
       <div className="flex flex-col gap-3">
-        <div className="items-center flex flex-row p-2">
+        <div className="items-center flex sm:flex-col flex-row px-2 pt-2 pb-3">
           <div>Select Workspace Visibility</div>
           <Button
             className="ml-auto bg-inherit text-background p-0"
@@ -33,7 +34,7 @@ const VisibilityModal = ({ toggle }: Props) => {
           <Listbox
             aria-label="Single selectin"
             variant="flat"
-            color="primary"
+            color="default"
             disallowEmptySelection
             selectionMode="single"
             selectedKeys={selectedKeys}
@@ -41,14 +42,14 @@ const VisibilityModal = ({ toggle }: Props) => {
           >
             <ListboxItem
               key="private"
-              startContent
+              startContent={<Icon name="privateSymbol" />}
               description="This workspace is private. It is not visible to anyone outside this workspace."
             >
               Private
             </ListboxItem>
             <ListboxItem
               key="public"
-              startContent
+              startContent={<Icon name="publicSymbol" />}
               description="This workspace is public It`s visible to anyone."
             >
               Public
