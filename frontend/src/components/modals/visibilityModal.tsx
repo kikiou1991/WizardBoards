@@ -3,11 +3,7 @@ import React, { useEffect, useState } from "react";
 import { ListboxWrapper } from "../listboxwrapper";
 import Icon from "../Icons";
 
-interface Props {
-  toggle: () => void;
-}
-
-const VisibilityModal = ({ toggle }: Props) => {
+const VisibilityModal = () => {
   const [selectedKeys, setSelectedKeys] = useState("private" as string);
   const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
 
@@ -34,7 +30,6 @@ const VisibilityModal = ({ toggle }: Props) => {
 
   return (
     <div
-      onClick={toggle}
       style={{ top: modalPosition.top, left: modalPosition.left }}
       className="absolute z-10 bg-foreground text-background rounded-lg w-[280px] h-[230px]"
     >

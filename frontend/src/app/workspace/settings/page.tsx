@@ -36,14 +36,17 @@ const Settings = () => {
             outside of this workspace
           </div>
           <Button
-            onClick={handleVisibilityChange}
+            onClick={() => {
+              handleVisibilityChange();
+              toggleModal();
+            }}
             id="changeButton"
             className="ml-auto mr-10"
           >
             Change
           </Button>
           <div ref={ref} className={`${isVisible ? "" : "hidden"} p-0 m-0`}>
-            <VisibilityModal toggle={toggleModal} />
+            <VisibilityModal />
           </div>
         </div>
       </div>
