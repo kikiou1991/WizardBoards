@@ -19,7 +19,7 @@ const BoardView = () => {
       <div className="h-8 flex flex-row gap-2 hover:bg-secondaryBG items-center  px-2">
         <div className="flex flex-row gap-2 flex-grow ">
           <Icon name="board" />
-          <Link href="/workspace/home">Boards</Link>
+          <Link href="/workspace/projects">Boards</Link>
         </div>
       </div>
       <div className="h-8 flex flex-row gap-2 items-center hover:bg-secondaryBG pl-2">

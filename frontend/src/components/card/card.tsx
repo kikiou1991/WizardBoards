@@ -18,6 +18,7 @@ interface Props {
 const Cards = ({ name, index }: Props) => {
   const { token } = useContext(UserContext) as UserContextType;
   const { cards, deleteCard } = useContext(CardContext) as CardContextType;
+  console.log("card number one: ", cards[0]);
 
   const [isHovered, setIsHovered] = React.useState(false);
 

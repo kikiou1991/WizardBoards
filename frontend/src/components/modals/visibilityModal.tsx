@@ -1,25 +1,24 @@
 import { Button, Listbox, ListboxItem } from "@nextui-org/react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ListboxWrapper } from "../listboxwrapper";
 import Icon from "../Icons";
 
-const VisibilityModal = () => {
+interface Props {
+  toggleModal: () => void;
+}
+const VisibilityModal = ({ toggleModal }: Props) => {
   const [selectedKeys, setSelectedKeys] = useState("private" as string);
   const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
-
+  const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    const changeButton = document.getElementById("changeButton");
-    if (changeButton) {
-      const buttonRect = changeButton.getBoundingClientRect();
-      const modalWidth = 280; // Adjust this according to your modal width
-      const modalHeight = 230; // Adjust this according to your modal height
+    const button = document.getElementById("changeButton");
+    const modal = ref.current;
 
-      // Calculate the position of the modal relative to the button
-      const top = buttonRect.top + buttonRect.height;
-      const left = buttonRect.left + (buttonRect.width - modalWidth) + 30;
-
-      // Set the modal position
-      setModalPosition({ top, left });
+    if (button && modal) {
+      const buttonRect = button.getBoundingClientRect();
+      modal.style.position = "absolute";
+      modal.style.top = `${buttonRect.bottom}px`; // Position modal below the button
+      modal.style.left = `${buttonRect.left - 100}px`; // Position modal more towards the left corner
     }
   }, []);
 
@@ -32,11 +31,16 @@ const VisibilityModal = () => {
     <div
       style={{ top: modalPosition.top, left: modalPosition.left }}
       className="absolute z-10 bg-foreground text-background rounded-lg w-[280px] h-[230px]"
+      ref={ref}
     >
-      <div className="flex flex-col gap-3">
-        <div className="items-center flex sm:flex-col flex-row px-2 pt-2 pb-3">
+      <div className="flex flex-col">
+        <div className="items-center flex flex-row px-2 pt-2 pb-3">
           <div>Select Workspace Visibility</div>
-          <Button className="bg-inherit text-background p-0" isIconOnly={true}>
+          <Button
+            className="bg-inherit text-background p-0 ml-auto"
+            isIconOnly={true}
+            onClick={toggleModal}
+          >
             X
           </Button>
         </div>

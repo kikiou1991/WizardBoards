@@ -45,7 +45,6 @@ const Project = () => {
 
     // Remove the "card-" prefix from draggableId and turn it into a number
     const cardUuid = parseInt(draggableId.replace("card-", ""));
-    console.log("cardUuid: ", cardUuid);
 
     // Find the id of the starting list
     const startListId = source.droppableId;

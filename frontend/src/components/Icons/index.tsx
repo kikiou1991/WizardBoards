@@ -4,13 +4,14 @@ interface Props {
   name: string;
   onClick?: () => void;
   classname?: string;
+  id?: string;
 }
 
 interface Icons {
   [key: string]: JSX.Element | undefined;
 }
 
-const Icon: React.FC<Props> = ({ name, onClick, classname }) => {
+const Icon: React.FC<Props> = ({ name, onClick, classname, id }) => {
   const icons: Icons = {
     shape: (
       <svg
@@ -438,6 +439,7 @@ const Icon: React.FC<Props> = ({ name, onClick, classname }) => {
     ),
     groupVis: (
       <svg
+        id={id}
         width="24"
         height="24"
         role="presentation"
