@@ -13,7 +13,7 @@ const Settings = () => {
 
   const ref = useRef(null);
   const toggleModal = () => {
-    setIsVisible(!isVisible);
+    setIsVisible(false);
   };
 
   const handleVisibilityChange = () => {
@@ -29,14 +29,14 @@ const Settings = () => {
   useOutsideClick(ref, toggleModal);
 
   return (
-    <div className="mx-10">
+    <div className="mx-14">
       <WorkspaceHeader />
-      <div className="flex flex-col z-0 mx-4 md:mx-28 flex-wrap overflow-x-hidden overflow-y-auto p-3 gap-2">
+      <div className="flex flex-col z-0 mx-auto flex-wrap overflow-x-hidden overflow-y-auto p-3 gap-2 w-full">
         <div className="text-foreground items-center">
-          <div className="border-b-1 py-4 pl-3">Workspace visibility</div>
+          <div className="py-4 pl-3">Workspace visibility</div>
           <div className="flex flex-row py-3 items-center">
             <div className="flex justify-start items-center gap-2">
-              <div className="flex flex-row gap-1 ml-5">
+              <div className="flex flex-row gap-1 mx-auto">
                 <Icon name={iconName} />
                 <p className="font-bold">{visibility}</p>
               </div>
@@ -46,10 +46,10 @@ const Settings = () => {
             <Button
               onClick={() => {
                 handleVisibilityChange();
-                toggleModal();
+                setIsVisible(true);
               }}
               id="changeButton"
-              className="ml-auto mr-[250px]"
+              className="ml-auto mr-14"
             >
               Change
             </Button>
@@ -59,10 +59,10 @@ const Settings = () => {
           </div>
         </div>
         <div className="upgrade mx-auto bg-slate-400 w-[1200px] h-[400px] ">
-          <div className="flex flex-row gap-1 ml-2 items-center py-3">
+          <div className="flex flex-row gap-1 items-center py-3">
             <p className="font-bold pl-2">Upgrade to premium today</p>
             <p>for more settings</p>
-            <Button className="ml-auto mr-[248px]">Upgrade</Button>
+            <Button className="ml-auto mr-14">Upgrade</Button>
           </div>
           <div className="p-2">Some other settings you could do</div>
         </div>

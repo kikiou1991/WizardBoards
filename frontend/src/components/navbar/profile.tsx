@@ -79,7 +79,9 @@ const Profile = ({ name, email }: Props) => {
                 className="hover:bg-secondaryBG"
                 aria-label="aria class"
               >
-                <p className="font-semibold">Settings</p>
+                <a href="/workspace/settings" className="font-semibold">
+                  Settings
+                </a>
               </DropdownItem>
             </DropdownSection>
             <DropdownSection aria-label="aria class">

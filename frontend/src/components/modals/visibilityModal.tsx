@@ -18,7 +18,7 @@ const VisibilityModal = ({ toggleModal }: Props) => {
       const buttonRect = button.getBoundingClientRect();
       modal.style.position = "absolute";
       modal.style.top = `${buttonRect.bottom}px`; // Position modal below the button
-      modal.style.left = `${buttonRect.left - 100}px`; // Position modal more towards the left corner
+      modal.style.left = `${buttonRect.left - 250}px`; // Position modal more towards the left corner
     }
   }, []);
 

@@ -211,50 +211,60 @@ const NavbarTop = () => {
             </div>
           </DropdownTrigger>
           <DropdownMenu>
-            <DropdownSection>
-              {favorites.map((favorite: any) => (
-                <DropdownItem
-                  key={favorite.uuid}
-                  className={`flex flex-row py-2 px-1 group/item h-10 `}
-                  onMouseEnter={() => setIsHovered(true)}
-                  onMouseLeave={() => setIsHovered(false)}
-                >
-                  <div className="bg-inherit flex flex-row  group/item items-center flex-nowrap">
-                    {/* Add logic here to route favorite boards to their respective pages
-                     */}
-                    <div
-                      className="flex flex-row gap-2 flex-grow w-full px-2 text-base"
-                      onClick={() => {}}
-                    >
-                      <Image
-                        className="rounded"
-                        src={favorite.imageLink}
-                        width={40}
-                        height={32}
-                        alt="board-background"
-                      />
-                      <Link href="/workspace/projects">
-                        <p>
-                          {favorite.name.length > 12
-                            ? `${favorite.name.substring(0, 12)}...`
-                            : favorite.name}
-                        </p>
-                        <p>{favorite?.workspace?.name}</p>
-                      </Link>
-                    </div>
-                    <div className="flex flex-grow-0">
-                      <Button
-                        className="bg-inherit visible transform transition-transform hover:scale-110 "
-                        size="sm"
-                        isIconOnly
-                      >
-                        <Icon name="starYellow" classname="" />
-                      </Button>
-                    </div>
+            {favorites.length === 0 ? (
+              <DropdownSection>
+                <DropdownItem className="flex flex-row py-2 px-2 group/item h-10 ">
+                  <div>
+                    <p>Star a board to access them quickly and easily.</p>
                   </div>
                 </DropdownItem>
-              ))}
-            </DropdownSection>
+              </DropdownSection>
+            ) : (
+              <DropdownSection>
+                {favorites.map((favorite: any) => (
+                  <DropdownItem
+                    key={favorite.uuid}
+                    className={`flex flex-row py-2 px-1 group/item h-10 `}
+                    onMouseEnter={() => setIsHovered(true)}
+                    onMouseLeave={() => setIsHovered(false)}
+                  >
+                    <div className="bg-inherit flex flex-row  group/item items-center flex-nowrap">
+                      {/* Add logic here to route favorite boards to their respective pages
+                       */}
+                      <div
+                        className="flex flex-row gap-2 flex-grow w-full px-2 text-base"
+                        onClick={() => {}}
+                      >
+                        <Image
+                          className="rounded"
+                          src={favorite.imageLink}
+                          width={40}
+                          height={32}
+                          alt="board-background"
+                        />
+                        <Link href="/workspace/projects">
+                          <p>
+                            {favorite.name.length > 12
+                              ? `${favorite.name.substring(0, 12)}...`
+                              : favorite.name}
+                          </p>
+                          <p>{favorite?.workspace?.name}</p>
+                        </Link>
+                      </div>
+                      <div className="flex flex-grow-0">
+                        <Button
+                          className="bg-inherit visible transform transition-transform hover:scale-110 "
+                          size="sm"
+                          isIconOnly
+                        >
+                          <Icon name="starYellow" classname="" />
+                        </Button>
+                      </div>
+                    </div>
+                  </DropdownItem>
+                ))}
+              </DropdownSection>
+            )}
           </DropdownMenu>
         </Dropdown>
         <MyWorkSpaceModal />

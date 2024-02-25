@@ -23,7 +23,7 @@ export default function WorkspaceLayout({
         <div className="w-1/3 md:w-1/6 h-full " style={{ minWidth: "260px" }}>
           <Sidebar />
         </div>
-        <div className="w-2/3 md:w-5/6 h-full flex flex-col bg-secondaryBG">
+        <div className="w-2/3 md:w-5/6 h-full flex flex-col bg-secondaryBG ">
           {children}
         </div>
       </div>
