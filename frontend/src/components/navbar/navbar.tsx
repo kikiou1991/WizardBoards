@@ -26,6 +26,7 @@ import {
   WorkspaceContextType,
 } from "@/contexts/WorkspaceContext";
 import { BoardContext, BoardContextType } from "@/contexts/BoardContext";
+import NavMenuDesktop from "../NavMenu";
 
 interface UserData {
   name: string;
@@ -49,13 +50,6 @@ const NavbarTop = () => {
     BoardContext
   ) as BoardContextType;
   const ref = useRef(null);
-  // State to store selected workspace
-
-  const handleWorkspaceChange = (workspaceId: string) => {
-    setSelectedBoard("");
-    setSelectedWorkspace(workspaceId);
-    setIsBoardSelectedGlobal(false);
-  };
 
   const handleOpenNotificationWindow = () => {
     setIsVisible(!isVisible);
@@ -111,163 +105,10 @@ const NavbarTop = () => {
       className=" cursor-pointer border-b-[2px] border-border text-foreground bg-background flex flex-row px-5"
       classNames={{ base: "w-screen", wrapper: "w-screen max-w-none px-0" }}
     >
-      {/* Left navigation section icon, header, and add button */}
-      <NavbarContent className="items-center flex flex-grow-0 gap-1  justify-start ">
-        {/* File / Other Products / Navigation */}
-        <Dropdown
-          className="bg-background text-foreground hover:bg-secondaryBG"
-          placement="bottom-start"
-        >
-          <DropdownTrigger>
-            <Button
-              className="bg-inherit hover:bg-secondaryBG "
-              size="sm"
-              isIconOnly
-            >
-              <Icon
-                name="menu"
-                classname={"bg-white data-[hover=true]:bg-background"}
-              />
-            </Button>
-          </DropdownTrigger>
-          <DropdownMenu>
-            <DropdownSection className="group/item data-[hover=true]:bg-secondaryBG">
-              <DropdownItem>Contact us</DropdownItem>
-              <DropdownItem>Subscribe</DropdownItem>
-              <DropdownItem>Sign out</DropdownItem>
-            </DropdownSection>
-          </DropdownMenu>
-        </Dropdown>
-        {/* Logo */}
-        <div className="p-2 flex flex-row items-center">
-          <Icon name="projectIcon" classname={"bg-white"} />
-          <Link href="/workspace/home" className="pl-1">
-            WizarBoards
-          </Link>
-        </div>
+      {/* Left navigation section while screensize is large */}
+      <NavMenuDesktop />
 
-        {/*DropDown For WorkSpaces */}
-        {workspaces.length > 0 && (
-          <Dropdown
-            key="workspacesDropdown"
-            className="bg-background text-foreground "
-            placement="bottom-start"
-          >
-            <DropdownTrigger>
-              <div className="flex gap-1 items-center hover:bg-secondaryBG p-2 rounded-md">
-                <p>Workspaces</p>
-                <Icon name="downarrow" classname={"bg-white"} />
-              </div>
-            </DropdownTrigger>
-            <DropdownMenu>
-              <DropdownSection
-                className="bg-inherit hover:bg-secondaryBG"
-                showDivider
-              >
-                <DropdownItem
-                  className="flex flex-row flex-nowrap"
-                  style={{ minWidth: "200px" }}
-                >
-                  <div className="flex flex-row items-center">
-                    <div className="flex rounded-md w-[30px] h-[30px] font-bold text-xl  items-center px-1 m-1 justify-center text-foreground bg-gradient-to-r from-sky-500 to-indigo-500">
-                      {
-                        workspaces.find((w) => w.uuid === selectedWorkspace)
-                          ?.name[0]
-                      }
-                    </div>
-                    <p className="p-2 text-lg">
-                      {workspaces.length > 0 &&
-                        workspaces.find((w) => w.uuid === selectedWorkspace)
-                          ?.name}
-                    </p>
-                  </div>
-                </DropdownItem>
-              </DropdownSection>
-              <DropdownSection>
-                {workspaces.map((workspace: any) => (
-                  <DropdownItem
-                    key={workspace.uuid}
-                    onClick={() => {
-                      handleWorkspaceChange(workspace.uuid);
-                    }}
-                    className={`flex flex-row py-2 px-2 group/item h-10 `}
-                  >
-                    <Link href="/workspace/projects">{workspace.name}</Link>
-                  </DropdownItem>
-                ))}
-              </DropdownSection>
-            </DropdownMenu>
-          </Dropdown>
-        )}
-        <Dropdown
-          className="bg-background text-foreground"
-          placement="bottom-start"
-        >
-          <DropdownTrigger>
-            <div className="flex gap-1 items-center  hover:bg-secondaryBG p-2 rounded-md">
-              <p>Starred</p>
-              <Icon name="downarrow" classname={"bg-white"} />
-            </div>
-          </DropdownTrigger>
-          <DropdownMenu>
-            {favorites.length === 0 ? (
-              <DropdownSection>
-                <DropdownItem className="flex flex-row py-2 px-2 group/item h-10 ">
-                  <div>
-                    <p>Star a board to access them quickly and easily.</p>
-                  </div>
-                </DropdownItem>
-              </DropdownSection>
-            ) : (
-              <DropdownSection>
-                {favorites.map((favorite: any) => (
-                  <DropdownItem
-                    key={favorite.uuid}
-                    className={`flex flex-row py-2 px-1 group/item h-10 `}
-                    onMouseEnter={() => setIsHovered(true)}
-                    onMouseLeave={() => setIsHovered(false)}
-                  >
-                    <div className="bg-inherit flex flex-row  group/item items-center flex-nowrap">
-                      {/* Add logic here to route favorite boards to their respective pages
-                       */}
-                      <div
-                        className="flex flex-row gap-2 flex-grow w-full px-2 text-base"
-                        onClick={() => {}}
-                      >
-                        <Image
-                          className="rounded"
-                          src={favorite.imageLink}
-                          width={40}
-                          height={32}
-                          alt="board-background"
-                        />
-                        <Link href="/workspace/projects">
-                          <p>
-                            {favorite.name.length > 12
-                              ? `${favorite.name.substring(0, 12)}...`
-                              : favorite.name}
-                          </p>
-                          <p>{favorite?.workspace?.name}</p>
-                        </Link>
-                      </div>
-                      <div className="flex flex-grow-0">
-                        <Button
-                          className="bg-inherit visible transform transition-transform hover:scale-110 "
-                          size="sm"
-                          isIconOnly
-                        >
-                          <Icon name="starYellow" classname="" />
-                        </Button>
-                      </div>
-                    </div>
-                  </DropdownItem>
-                ))}
-              </DropdownSection>
-            )}
-          </DropdownMenu>
-        </Dropdown>
-        <MyWorkSpaceModal />
-      </NavbarContent>
+      {/* Need to add NavMenu for smaller screens where Workspaces +  Starred get combined into More with a drop down */}
 
       {/* Empty space between left and right sections */}
       <div className={` flex-grow ${isOpen ? "" : "hidden"}`}>
