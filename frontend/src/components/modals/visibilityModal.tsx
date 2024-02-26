@@ -25,7 +25,6 @@ const VisibilityModal = ({ toggleModal }: Props) => {
   const handleChange = () => {
     setSelectedKeys(selectedKeys === "private" ? "public" : "private");
   };
-  console.log(selectedKeys);
 
   return (
     <div

@@ -68,11 +68,18 @@ module.exports = async (app, db, io) => {
         const random = Math.floor(Math.random() * 10);
         return timestamp * 10 + random;
       };
+      const generateCardPosition = async () => {
+        const count = await db.collection("cards").countDocuments({ listUuid });
+        //generate a postion based on the count
+        return count + 1;
+      };
       const cardIndex = generateCardIndex();
+      const position = await generateCardPosition();
       let newcard = await db.collection("cards").insertOne(
         {
           ...data,
           cardIndex,
+          position,
           createdAt: new Date().toISOString(),
           listUuid: listUuid,
           list: [listUuid],

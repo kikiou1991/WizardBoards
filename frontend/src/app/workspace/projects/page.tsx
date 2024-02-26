@@ -36,10 +36,7 @@ const Project = () => {
   const ref = useRef<HTMLDivElement | null>(null);
 
   const handleDragEnd = (result: DropResult) => {
-    console.log(result);
     const { source, destination, draggableId } = result;
-    console.log("source: ", source);
-    console.log("destination: ", destination);
 
     if (!destination) return;
 
@@ -49,9 +46,11 @@ const Project = () => {
     // Find the id of the starting list
     const startListId = source.droppableId;
 
+    // create new array of cards from the lists
+
     // Find the list that the card was dragged from
     const startList = lists.find((list) => list.uuid === startListId);
-
+    console.log("this is the start list: ", startList);
     // Find the id of the list that the card was dragged to
     const finishListId = destination.droppableId;
 
@@ -59,14 +58,47 @@ const Project = () => {
     const finishList = lists.find((list) => list.uuid === finishListId);
     //filter the cards in the source list
     const filteredCards = cards.filter((card) => card.listUuid === startListId);
+
+    //filtered cards before any mobvements
+    console.log("this is the filtered cards: ", filteredCards);
     //target the card object that we are dragging
-    const cardToDrag = filteredCards.find(
+    const removedCard = filteredCards.find(
       (card) => card.cardIndex === cardUuid
     );
-    console.log("cardToDrag: ", cardToDrag);
+
+    // find the index of the removed card if its in the same list
+
     // Handle item drag in same list or to another list
     if (startListId === finishListId) {
       console.log("Dragged within the same list");
+      const removedCardIndex = filteredCards.findIndex(
+        (card) => card.cardIndex === cardUuid
+      );
+      //lets remove the card from the list
+      const newArray = filteredCards.splice(removedCardIndex, 1);
+      console.log(
+        "this is the filtered cards after the card has been removed: ",
+        newArray
+      );
+
+      //lets find where the card was dropped
+      const newCardIndex = destination.index;
+      //now lets find the index of the destination card
+      const destinationCardPos = filteredCards.findIndex(
+        (card) => card.cardIndex === newCardIndex
+      );
+      //now we want to insert the removed card at the index of the destination card
+
+      //now we want to insert the removed card at the index of the destination card
+      //we need finish list
+      //console log the finish list before the card is added
+      if (removedCard) {
+        newArray.splice(destination.index, 0, removedCard);
+        console.log(
+          "this is the filtered cards array after the card has been added: ",
+          filteredCards
+        );
+      }
     } else {
       console.log("Dragged to another list");
     }

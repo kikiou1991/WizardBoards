@@ -95,7 +95,7 @@ const Lists = ({ name, id }: Props) => {
             <div
               ref={provided.innerRef}
               {...provided.droppableProps}
-              className="flex flex-col items-center h-full gap-1 px-1 "
+              className="flex flex-col items-center h-full gap-2 px-1 "
             >
               {filteredCards.map((card: any) => (
                 <Cards

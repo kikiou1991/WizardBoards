@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
 const Table = () => {
-  return (
-    <div>table</div>
-  )
-}
+  return <div className="">Table feature to come</div>;
+};
 
-export default Table
+export default Table;
