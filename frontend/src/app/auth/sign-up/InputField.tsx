@@ -1,68 +1,90 @@
-'use client';
-import {UserContext, UserContextType} from '@/contexts/Usercontext';
-import {Button, Input} from '@nextui-org/react';
-import {useRouter} from 'next/navigation';
-import React, {useContext, useState} from 'react';
-import toast from 'react-hot-toast';
+"use client";
+import { UserContext, UserContextType } from "@/contexts/Usercontext";
+import { Button, Input } from "@nextui-org/react";
+import { useRouter } from "next/navigation";
+import React, { useContext, useState } from "react";
+import toast from "react-hot-toast";
 
 // Import statements...
 
 const InputField = () => {
   const [loading, setLoading] = React.useState(false);
-  const [validationState, setValidationState] = useState('valid');
+  const [validationState, setValidationState] = useState("valid");
   const [buttonDisabled, setButtonDisabled] = React.useState(true);
-  const [fullName, setFullName] = useState('');
-  const [email, setEmail] = useState('');
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
   const [user, setUser] = React.useState({
-    password: '',
-    passwordConfirm: '',
+    password: "",
+    passwordConfirm: "",
   });
   const router = useRouter();
 
-  const {authenticated} = useContext(UserContext) as UserContextType;
+  const { authenticated } = useContext(UserContext) as UserContextType;
 
   if (authenticated) {
     router.replace(`/workspace/home`);
   }
   const validateEmail = (email: string) => {
-    if (email === '') return null;
-    setValidationState(email?.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i) ? 'valid' : 'invalid');
-    setButtonDisabled(email?.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i) && user.password === user.passwordConfirm ? false : true);
+    if (email === "") return null;
+    setValidationState(
+      email?.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i)
+        ? "valid"
+        : "invalid"
+    );
+    setButtonDisabled(
+      email?.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i) &&
+        user.password === user.passwordConfirm
+        ? false
+        : true
+    );
   };
 
   const handleChangeEmail = (value: any) => {
-    setValidationState('valid');
+    setValidationState("valid");
     setEmail(value);
     validateEmail(value);
   };
 
   const handleChangePassword = (value: string) => {
-    setUser({...user, password: value});
-    setButtonDisabled(validationState === 'valid' && value === user.passwordConfirm ? false : true);
+    setUser({ ...user, password: value });
+    setButtonDisabled(
+      validationState === "valid" && value === user.passwordConfirm
+        ? false
+        : true
+    );
   };
 
   const handleChangePasswordConfirm = (value: string) => {
-    setUser({...user, passwordConfirm: value});
-    setButtonDisabled(validationState === 'valid' && value === user.password ? false : true);
+    setUser({ ...user, passwordConfirm: value });
+    setButtonDisabled(
+      validationState === "valid" && value === user.password ? false : true
+    );
   };
 
   //name change input function handler
 
   const handleChangeFullName = (value: string) => {
     setFullName(value);
-    setButtonDisabled(validationState === 'valid' && value !== '' ? false : true);
+    setButtonDisabled(
+      validationState === "valid" && value !== "" ? false : true
+    );
   };
 
   const signUp = async () => {
-    let errorMessage = '';
+    let errorMessage = "";
 
-    if (email == null || validationState === 'invalid' || user.password !== user.passwordConfirm || fullName.trim() === '') {
-      errorMessage = 'Please try again';
+    if (
+      email == null ||
+      validationState === "invalid" ||
+      user.password !== user.passwordConfirm ||
+      fullName.trim() === ""
+    ) {
+      errorMessage = "Please try again";
       toast.error(errorMessage);
     } else {
       setLoading(true);
       setButtonDisabled(false);
-      toast.success('All done');
+      toast.success("All done");
 
       const requestBody = {
         email: email,
@@ -70,16 +92,15 @@ const InputField = () => {
         fullName: fullName,
       };
 
-
       try {
-        const response = await fetch('https://wizardboards.co.uk/api/v2/signup', {
-          method: 'POST',
+        const response = await fetch("http://localhost:3002/api/v2/signup", {
+          method: "POST",
           headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-            Authorization: 'Bearer ' + localStorage.getItem('token'),
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("token"),
           },
-          credentials: 'include',
+          credentials: "include",
           body: JSON.stringify({
             email: email,
             password: user.password,
@@ -89,10 +110,10 @@ const InputField = () => {
         if (response.ok) {
           // Handle successful response
 
-          router.push('/auth/sign-in');
+          router.push("/auth/sign-in");
         } else {
           // Handle error response
-          errorMessage = 'Sign up failed. Please try again.';
+          errorMessage = "Sign up failed. Please try again.";
           console.error(errorMessage, await response.text());
           toast.error(errorMessage);
         }
@@ -100,7 +121,7 @@ const InputField = () => {
         // Handle fetch error
         setLoading(false);
         setButtonDisabled(false);
-        errorMessage = 'Sign up failed. Please try again.';
+        errorMessage = "Sign up failed. Please try again.";
         console.error(errorMessage, error.message);
         toast.error(errorMessage);
       }
@@ -109,12 +130,49 @@ const InputField = () => {
 
   return (
     <>
-      <Input onChange={(e) => handleChangeEmail(e.target.value)} type='email' label='Email' placeholder='junior@nextui.org' className='max-w-xs' isRequired isClearable />
-      <Input onChange={(e) => handleChangeFullName(e.target.value)} isRequired isClearable type='text' label='Fullname' className='max-w-xs' placeholder='Enter your full name' />
-      <Input onChange={(e) => handleChangePassword(e.target.value)} isRequired isClearable type='password' label='Password' className='max-w-xs' placeholder='Enter your password' />
-      <Input onChange={(e) => handleChangePasswordConfirm(e.target.value)} isRequired isClearable type='password' label='Confirm Password' className='max-w-xs' placeholder='Re-enter your password' />
+      <Input
+        onChange={(e) => handleChangeEmail(e.target.value)}
+        type="email"
+        label="Email"
+        placeholder="junior@nextui.org"
+        className="max-w-xs"
+        isRequired
+        isClearable
+      />
+      <Input
+        onChange={(e) => handleChangeFullName(e.target.value)}
+        isRequired
+        isClearable
+        type="text"
+        label="Fullname"
+        className="max-w-xs"
+        placeholder="Enter your full name"
+      />
+      <Input
+        onChange={(e) => handleChangePassword(e.target.value)}
+        isRequired
+        isClearable
+        type="password"
+        label="Password"
+        className="max-w-xs"
+        placeholder="Enter your password"
+      />
+      <Input
+        onChange={(e) => handleChangePasswordConfirm(e.target.value)}
+        isRequired
+        isClearable
+        type="password"
+        label="Confirm Password"
+        className="max-w-xs"
+        placeholder="Re-enter your password"
+      />
 
-      <Button color='primary' className='max-w-xs' onPressEnd={signUp} disabled={buttonDisabled}>
+      <Button
+        color="primary"
+        className="max-w-xs"
+        onPressEnd={signUp}
+        disabled={buttonDisabled}
+      >
         Register
       </Button>
     </>

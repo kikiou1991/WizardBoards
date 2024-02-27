@@ -2,7 +2,7 @@ export const boardLists = {
   getLists: async (token: any, boardUuid: string) => {
     try {
       const response = await fetch(
-        `https://wizardboards.co.uk/api/v2/lists?boardUuid=${boardUuid}`,
+        `http://localhost:3002/api/v2/lists?boardUuid=${boardUuid}`,
         {
           method: "GET",
           headers: {
@@ -48,7 +48,7 @@ export const boardLists = {
   deleteList: async (token: any, boardUuid: string, listData: any) => {
     try {
       const response = await fetch(
-        "https://wizardboards.co.uk/api/v2/lists/archive",
+        "http://localhost:3002/api/v2/lists/archive",
         {
           method: "POST",
           headers: {

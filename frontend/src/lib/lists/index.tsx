@@ -1,12 +1,12 @@
 export const boardLists = {
   createLists: async (token: any, listData: any, boardUuid: string) => {
     try {
-      const {title} = listData;
-      const response = await fetch('https://wizardboards.co.uk/api/lists', {
-        method: 'POST',
+      const { title } = listData;
+      const response = await fetch("http://localhost:3002/api/lists", {
+        method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           boardUuid,
@@ -14,32 +14,37 @@ export const boardLists = {
         }),
       });
       if (!response.ok) {
-        throw new Error('Failed to create list');
+        throw new Error("Failed to create list");
       }
 
       const newList = await response.json();
-      return {newList};
+      return { newList };
     } catch (error: any) {
-      console.error('Error creating list: ', error.message);
+      console.error("Error creating list: ", error.message);
     }
   },
 
   getLists: async (token: any, boardUuid: string) => {
     try {
-      const response = await fetch(`https://wizardboards.co.uk/api/lists?boardUuid=${encodeURIComponent(boardUuid)}`, {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await fetch(
+        `http://localhost:3002/api/lists?boardUuid=${encodeURIComponent(
+          boardUuid
+        )}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       if (!response.ok) {
-        throw new Error('Failed to fetch lists');
+        throw new Error("Failed to fetch lists");
       }
 
       const data = await response.json();
       return data;
     } catch (error: any) {
-      console.error('Error fetching lists: ', error.message);
+      console.error("Error fetching lists: ", error.message);
     }
   },
 };

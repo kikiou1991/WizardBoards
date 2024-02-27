@@ -20,6 +20,7 @@ interface Cards {
   uuid: string;
   cardIndex: number;
   listUuid: string;
+  position: number;
 }
 export interface CardContextType {
   cards: Cards[];

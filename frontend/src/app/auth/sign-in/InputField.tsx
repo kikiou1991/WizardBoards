@@ -1,18 +1,20 @@
-'use client';
-import {UserContext, UserContextType} from '@/contexts/Usercontext';
-import {Button, Input} from '@nextui-org/react';
-import {useRouter} from 'next/navigation';
-import React, {useContext} from 'react';
-import toast from 'react-hot-toast';
+"use client";
+import { UserContext, UserContextType } from "@/contexts/Usercontext";
+import { Button, Input } from "@nextui-org/react";
+import { useRouter } from "next/navigation";
+import React, { useContext } from "react";
+import toast from "react-hot-toast";
 
 const InputField = () => {
   const [buttonDisabled, setButtonDisabled] = React.useState(true);
   const [inputValue, setInputValue] = React.useState({
-    email: '',
-    password: '',
+    email: "",
+    password: "",
   });
   const router = useRouter();
-  const {authenticated, setAuthenticated, setToken} = useContext(UserContext) as UserContextType;
+  const { authenticated, setAuthenticated, setToken } = useContext(
+    UserContext
+  ) as UserContextType;
   if (authenticated) {
     router.replace(`/workspace/home`);
   }
@@ -36,26 +38,26 @@ const InputField = () => {
 
   const updateButtonState = (newEmail: string, newPassword: string) => {
     // Enable the button only if both email and password are not empty
-    setButtonDisabled(!(newEmail.trim() !== '' && newPassword.trim() !== ''));
+    setButtonDisabled(!(newEmail.trim() !== "" && newPassword.trim() !== ""));
   };
 
   const handleLogin = async (e: any) => {
-    if (inputValue.email === '') {
-      toast.error('Please enter your email');
+    if (inputValue.email === "") {
+      toast.error("Please enter your email");
       return;
     }
-    if (inputValue.password === '') {
-      toast.error('Please enter your password');
+    if (inputValue.password === "") {
+      toast.error("Please enter your password");
       return;
     }
 
     try {
-      const response = await fetch('https://wizardboards.co.uk/api/v2/login/', {
-        method: 'POST',
+      const response = await fetch("http://localhost:3002/api/v2/login/", {
+        method: "POST",
         headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + localStorage.getItem('token'),
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("token"),
         },
         body: JSON.stringify({
           email: inputValue.email,
@@ -69,13 +71,12 @@ const InputField = () => {
         if (result.success) {
           // Successful login
 
-
           //store the token in local storage
-          localStorage.setItem('token', result.token);
+          localStorage.setItem("token", result.token);
           setAuthenticated(true);
           setToken(result.token);
 
-          router.push('/workspace/home');
+          router.push("/workspace/home");
         } else {
           // Incorrect credentials
           toast.error(result.message);
@@ -86,16 +87,37 @@ const InputField = () => {
       }
     } catch (error: any) {
       // Handle fetch error
-      console.error('Failed to log in user', error.message);
-      toast.error('Failed to log in user');
+      console.error("Failed to log in user", error.message);
+      toast.error("Failed to log in user");
     }
   };
   return (
     <>
-      <Input value={inputValue?.email} onValueChange={(e) => handleEmailChange(e)} type='email' label='Email' placeholder='junior@nextui.org' className='max-w-xs' isRequired />
-      <Input value={inputValue?.password} onValueChange={(e) => handlePasswordChange(e)} isRequired type='password' label='Password' className='max-w-xs' placeholder='Enter your password' />
+      <Input
+        value={inputValue?.email}
+        onValueChange={(e) => handleEmailChange(e)}
+        type="email"
+        label="Email"
+        placeholder="junior@nextui.org"
+        className="max-w-xs"
+        isRequired
+      />
+      <Input
+        value={inputValue?.password}
+        onValueChange={(e) => handlePasswordChange(e)}
+        isRequired
+        type="password"
+        label="Password"
+        className="max-w-xs"
+        placeholder="Enter your password"
+      />
 
-      <Button color='primary' className='max-w-xs' isDisabled={buttonDisabled} onPress={handleLogin}>
+      <Button
+        color="primary"
+        className="max-w-xs"
+        isDisabled={buttonDisabled}
+        onPress={handleLogin}
+      >
         Login
       </Button>
     </>

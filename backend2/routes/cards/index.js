@@ -4,7 +4,6 @@ module.exports = async (app, db, io) => {
   app.get("/api/v2/cards", async (req, res, next) => {
     try {
       const listUuid = req.query.listUuid;
-      console.log("listUuid", listUuid);
       const user = req.user;
 
       if (!listUuid) {

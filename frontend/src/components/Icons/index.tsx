@@ -632,7 +632,7 @@ const Icon: React.FC<Props> = ({ name, onClick, classname, id }) => {
           fill="currentColor"
         ></path>
         <path
-          fill-rule="evenodd"
+          fillRule="evenodd"
           clipRule="evenodd"
           d="M10.3817 5.69846C10.0982 6.10344 10 6.63103 10 7V9H8V7C8 6.36897 8.15175 5.39656 8.74327 4.55154C9.37523 3.64874 10.4367 3 12 3C13.5633 3 14.6248 3.64874 15.2567 4.55154C15.8482 5.39656 16 6.36897 16 7V9H14V7C14 6.63103 13.9018 6.10344 13.6183 5.69846C13.3752 5.35126 12.9367 5 12 5C11.0633 5 10.6248 5.35126 10.3817 5.69846Z"
           fill="currentColor"

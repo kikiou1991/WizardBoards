@@ -2,7 +2,7 @@ export const workspaceBoards = {
   getBoards: async (token: any, workspaceUuid: string) => {
     try {
       const response = await fetch(
-        `https://wizardboards.co.uk/api/v2/boards?workspaceUuid=${encodeURIComponent(
+        `http://localhost:3002/api/v2/boards?workspaceUuid=${encodeURIComponent(
           workspaceUuid
         )}`,
         {
@@ -26,7 +26,7 @@ export const workspaceBoards = {
   createBoard: async (token: any, boardData: any, workspaceUuid: string) => {
     try {
       const { boardUuid } = boardData;
-      const response = await fetch("https://wizardboards.co.uk/api/v2/boards", {
+      const response = await fetch("http://localhost:3002/api/v2/boards", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -54,7 +54,7 @@ export const workspaceBoards = {
     console.log("boardData", boardData);
     try {
       const response = await fetch(
-        `https://wizardboards.co.uk/api/v2/boards/archive?workspaceUuid=${workspaceUuid}`,
+        `http://localhost:3002/api/v2/boards/archive?workspaceUuid=${workspaceUuid}`,
         {
           method: "POST",
           headers: {

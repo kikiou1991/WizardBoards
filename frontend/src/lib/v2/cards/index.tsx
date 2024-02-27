@@ -2,7 +2,7 @@ export const listCards = {
   fetchCard: async (token: any, listUuid: string) => {
     try {
       const response = await fetch(
-        `https://wizardboards.co.uk/api/v2/cards?listUuid=${encodeURIComponent(
+        `http://localhost:3002/api/v2/cards?listUuid=${encodeURIComponent(
           listUuid
         )}`,
         {
@@ -23,7 +23,7 @@ export const listCards = {
   },
   createCard: async (token: any, cardData: any, listUuid: string) => {
     try {
-      const response = await fetch(`https://wizardboards.co.uk/api/v2/cards`, {
+      const response = await fetch(`http://localhost:3002/api/v2/cards`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -47,7 +47,7 @@ export const listCards = {
   deleteCard: async (token: any, cardUuid: string, listUuid: string) => {
     try {
       const response = await fetch(
-        `https://wizardboards.co.uk/api/v2/cards/archive`,
+        `http://localhost:3002/api/v2/cards/archive`,
         {
           method: "POST",
           headers: {

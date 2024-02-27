@@ -90,20 +90,23 @@ const Lists = ({ name, id }: Props) => {
         {name}
       </div>
       <div ref={listRef} className="overflow-y-auto py-1">
-        <Droppable droppableId={id}>
+        <Droppable droppableId={id} direction="vertical">
           {(provided) => (
             <div
               ref={provided.innerRef}
               {...provided.droppableProps}
               className="flex flex-col items-center h-full gap-2 px-1 "
             >
-              {filteredCards.map((card: any) => (
-                <Cards
-                  key={card.uuid}
-                  name={card.title}
-                  index={card.cardIndex}
-                />
-              ))}
+              {filteredCards
+                .slice()
+                .sort((a, b) => a.position - b.position)
+                .map((card: any) => (
+                  <Cards
+                    key={card.uuid}
+                    name={card.title}
+                    index={card.cardIndex}
+                  />
+                ))}
               {inputFieldRendered && (
                 <Input
                   ref={ref}

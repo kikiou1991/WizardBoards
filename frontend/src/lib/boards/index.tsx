@@ -1,54 +1,59 @@
 export const workspaceBoards = {
   createBoard: async (token: any, boardData: any, workspaceUuid: string) => {
     try {
-      const {name} = boardData;
-      const simplifiedBoardData = {name, workspaceUuid};
-      const response = await fetch('https://wizardboards.co.uk/api/boards', {
-        method: 'POST',
+      const { name } = boardData;
+      const simplifiedBoardData = { name, workspaceUuid };
+      const response = await fetch("http://localhost:3002/api/boards", {
+        method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(simplifiedBoardData),
       });
 
       if (!response.ok) {
-        throw new Error('Failed to create board');
+        throw new Error("Failed to create board");
       }
 
       const newBoard = await response.json();
-      return {newBoard};
+      return { newBoard };
     } catch (error) {
-      console.error('Error creating the board', error);
+      console.error("Error creating the board", error);
     }
   },
 
   fetchBoard: async (token: any, workspaceUuid: string) => {
     try {
-      const response = await fetch(`https://wizardboards.co.uk/api/boards?workspaceUuid=${encodeURIComponent(workspaceUuid)}`, {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await fetch(
+        `http://localhost:3002/api/boards?workspaceUuid=${encodeURIComponent(
+          workspaceUuid
+        )}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       if (!response.ok) {
-        throw new Error('Failed to fetch boards');
+        throw new Error("Failed to fetch boards");
       }
 
       const data = await response.json();
       return data;
     } catch (error) {
-      console.error('Error fetching the board', error);
+      console.error("Error fetching the board", error);
     }
   },
 
   deleteBoard: async (token: any, workspaceUuid: string, boardUuid: string) => {
     try {
-      const response = await fetch('https://wizardboards.co.uk/api/boards/delete', {
-        method: 'DELETE',
+      const response = await fetch("http://localhost:3002/api/boards/delete", {
+        method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json', // Ensure the correct content type
+          "Content-Type": "application/json", // Ensure the correct content type
         },
         body: JSON.stringify({
           workspaceUuid,
@@ -59,30 +64,33 @@ export const workspaceBoards = {
         const data = await response.json();
         return data;
       } else {
-        throw new Error('Failed to delete board');
+        throw new Error("Failed to delete board");
       }
     } catch (error) {
-      console.error('Error deleting the board', error);
+      console.error("Error deleting the board", error);
     }
   },
 
   upDateBoard: async (token: any, boardUuid: string, boardData: any) => {
     try {
-      const response = await fetch(`https://wizardboards.co.uk/api/boards/update/?boardUuid=${boardUuid}`, {
-        method: 'PATCH',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(boardData),
-      });
+      const response = await fetch(
+        `http://localhost:3002/api/boards/update/?boardUuid=${boardUuid}`,
+        {
+          method: "PATCH",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(boardData),
+        }
+      );
       if (!response.ok) {
-        throw new Error('Failed to update board');
+        throw new Error("Failed to update board");
       }
       const data = await response.json();
       return data;
     } catch (error: any) {
-      console.error('Error updating the board', error);
+      console.error("Error updating the board", error);
     }
   },
 };
