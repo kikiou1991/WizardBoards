@@ -131,6 +131,7 @@ const Lists = ({ name, id }: Props) => {
                   }}
                 />
               )}
+              {provided.placeholder}
             </div>
           )}
         </Droppable>

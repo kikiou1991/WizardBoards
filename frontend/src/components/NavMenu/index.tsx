@@ -37,13 +37,17 @@ const NavMenuDesktop = () => {
   return (
     <>
       {" "}
-      <NavbarContent className="items-center flex flex-grow-0 gap-1  justify-start ">
+      <NavbarContent
+        aria-label="aria class"
+        className="items-center flex flex-grow-0 gap-1  justify-start "
+      >
         {/* File / Other Products / Navigation */}
         <Dropdown
+          aria-label="aria class"
           className="bg-background text-foreground hover:bg-secondaryBG"
           placement="bottom-start"
         >
-          <DropdownTrigger>
+          <DropdownTrigger aria-label="aria class">
             <Button
               className="bg-inherit hover:bg-secondaryBG "
               size="sm"
@@ -55,11 +59,14 @@ const NavMenuDesktop = () => {
               />
             </Button>
           </DropdownTrigger>
-          <DropdownMenu>
-            <DropdownSection className="group/item data-[hover=true]:bg-secondaryBG">
-              <DropdownItem>Contact us</DropdownItem>
-              <DropdownItem>Subscribe</DropdownItem>
-              <DropdownItem>Sign out</DropdownItem>
+          <DropdownMenu aria-label="aria class">
+            <DropdownSection
+              aria-label="aria class"
+              className="group/item data-[hover=true]:bg-secondaryBG"
+            >
+              <DropdownItem aria-label="aria class">Contact us</DropdownItem>
+              <DropdownItem aria-label="aria class">Subscribe</DropdownItem>
+              <DropdownItem aria-label="aria class">Sign out</DropdownItem>
             </DropdownSection>
           </DropdownMenu>
         </Dropdown>
@@ -74,22 +81,25 @@ const NavMenuDesktop = () => {
         {/*DropDown For WorkSpaces */}
         {workspaces.length > 0 && (
           <Dropdown
+            aria-label="aria class"
             key="workspacesDropdown"
             className="bg-background text-foreground "
             placement="bottom-start"
           >
-            <DropdownTrigger>
+            <DropdownTrigger aria-label="aria class">
               <div className="flex gap-1 items-center hover:bg-secondaryBG p-2 rounded-md">
                 <p>Workspaces</p>
                 <Icon name="downarrow" classname={"bg-white"} />
               </div>
             </DropdownTrigger>
-            <DropdownMenu>
+            <DropdownMenu aria-label="aria class">
               <DropdownSection
+                aria-label="aria class"
                 className="bg-inherit hover:bg-secondaryBG"
                 showDivider
               >
                 <DropdownItem
+                  aria-label="aria class"
                   className="flex flex-row flex-nowrap"
                   style={{ minWidth: "200px" }}
                 >
@@ -108,9 +118,10 @@ const NavMenuDesktop = () => {
                   </div>
                 </DropdownItem>
               </DropdownSection>
-              <DropdownSection>
+              <DropdownSection aria-label="aria class">
                 {workspaces.map((workspace: any) => (
                   <DropdownItem
+                    aria-label="aria class"
                     key={workspace.uuid}
                     onClick={() => {
                       handleWorkspaceChange(workspace.uuid);
@@ -128,25 +139,29 @@ const NavMenuDesktop = () => {
           className="bg-background text-foreground"
           placement="bottom-start"
         >
-          <DropdownTrigger>
+          <DropdownTrigger aria-label="aria class">
             <div className="flex gap-1 items-center  hover:bg-secondaryBG p-2 rounded-md">
               <p>Starred</p>
               <Icon name="downarrow" classname={"bg-white"} />
             </div>
           </DropdownTrigger>
-          <DropdownMenu>
+          <DropdownMenu aria-label="aria class">
             {favorites.length === 0 ? (
-              <DropdownSection>
-                <DropdownItem className="flex flex-row py-2 px-2 group/item h-10 ">
+              <DropdownSection aria-label="aria class">
+                <DropdownItem
+                  aria-label="aria class"
+                  className="flex flex-row py-2 px-2 group/item h-10 "
+                >
                   <div>
                     <p>Star a board to access them quickly and easily.</p>
                   </div>
                 </DropdownItem>
               </DropdownSection>
             ) : (
-              <DropdownSection>
+              <DropdownSection aria-label="aria class">
                 {favorites.map((favorite: any) => (
                   <DropdownItem
+                    aria-label="aria class"
                     key={favorite.uuid}
                     className={`flex flex-row py-2 px-1 group/item h-10 `}
                     onMouseEnter={() => setIsHovered(true)}

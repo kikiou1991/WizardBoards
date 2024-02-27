@@ -53,7 +53,7 @@ const VisibilityModal = ({ toggleModal }: Props) => {
             selectedKeys={selectedKeys}
             onSelectionChange={handleChange}
           >
-            <ListboxItem key="private">
+            <ListboxItem key="private" textValue="public">
               <div className="flex flex-col">
                 <div className="flex flex-row gap-1 items-center">
                   <Icon name="privateSymbol" />
@@ -65,7 +65,7 @@ const VisibilityModal = ({ toggleModal }: Props) => {
                 </p>
               </div>
             </ListboxItem>
-            <ListboxItem key="public">
+            <ListboxItem key="public" textValue="private">
               <div className="flex flex-col">
                 <div className="flex flex-row gap-1 items-center">
                   <Icon name="publicSymbol" />

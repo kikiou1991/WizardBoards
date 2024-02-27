@@ -90,15 +90,20 @@ const MyWorkSpaceModal = () => {
         className="bg-background text-foreground w-"
         placement="bottom-start"
         closeOnSelect={false}
+        aria-label="aria class"
       >
-        <DropdownTrigger className=" hover:bg-cards p-1 rounded-md text-base">
+        <DropdownTrigger
+          aria-label="aria class"
+          className=" hover:bg-cards p-1 rounded-md text-base"
+        >
           <Button size="md">
             <p>Create</p>
           </Button>
         </DropdownTrigger>
-        <DropdownMenu>
-          <DropdownSection>
+        <DropdownMenu aria-label="aria class">
+          <DropdownSection aria-label="aria class">
             <DropdownItem
+              aria-label="aria class"
               className="data-[hover=true]:bg-secondaryBG"
               description="A board is made up of cards ordered on lists."
               startContent={<MyModalNewBoard iconName="addBoard" />}
@@ -106,6 +111,7 @@ const MyWorkSpaceModal = () => {
               <p>Create new board</p>
             </DropdownItem>
             <DropdownItem
+              aria-label="aria class"
               className="data-[hover=true]:bg-secondaryBG"
               description="A workspace is a group of boards and people."
               startContent={<Icon name="addWorkspace" />}
