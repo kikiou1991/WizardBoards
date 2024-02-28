@@ -46,15 +46,21 @@ module.exports = async (app, db, io) => {
   app.post("/api/v2/cards", async (req, res, next) => {
     const { listUuid, data } = req.body;
     const user = req.user;
-
+    console.log("listUuid", listUuid);
+    console.log("data", data);
     if (data?.uuid) {
-      let updatedCard = await db
-        .collection("cards")
-        .findOneAndUpdate(
-          { uuid: data.uuid },
-          { $set: { ...data } },
-          { returnDocument: "after", returnNewDocument: true }
-        );
+      let updatedCard = await db.collection("cards").findOneAndUpdate(
+        { uuid: data.uuid },
+        {
+          $set: {
+            title: data.title,
+            cardIndex: data.cardIndex,
+            position: data.position,
+            listUuid: data.listUuid,
+          },
+        },
+        { returnDocument: "after", returnNewDocument: true }
+      );
       namespace.emit("card", { type: "update", data: updatedCard });
       return res.status(200).json({
         success: true,

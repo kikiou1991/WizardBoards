@@ -22,6 +22,7 @@ export const listCards = {
     }
   },
   createCard: async (token: any, cardData: any, listUuid: string) => {
+    console.log("cardData: ", cardData, "listUuid: ", listUuid);
     try {
       const response = await fetch(`http://localhost:3002/api/v2/cards`, {
         method: "POST",

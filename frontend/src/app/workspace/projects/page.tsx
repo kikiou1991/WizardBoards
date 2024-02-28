@@ -22,14 +22,24 @@ import BoardView from "../boardview/page";
 import { BoardContext, BoardContextType } from "@/contexts/BoardContext";
 import { ListContext, ListContextType } from "@/contexts/ListContext";
 import { CardContext, CardContextType } from "@/contexts/CardContext";
+import { workspaceBoards } from "@/lib/v2/boards";
+import {
+  WorkspaceContext,
+  WorkspaceContextType,
+} from "@/contexts/WorkspaceContext";
+import { boardLists } from "@/lib/v2/lists";
+import { listCards } from "@/lib/v2/cards";
 
 const Project = () => {
   const { token } = useContext(UserContext) as UserContextType;
   const { cards } = useContext(CardContext) as CardContextType;
-  const { isBoardSelectedGlobal } = useContext(
+  const { isBoardSelectedGlobal, selectedBoard } = useContext(
     BoardContext
   ) as BoardContextType;
   const { lists } = useContext(ListContext) as ListContextType;
+  const { selectedWorkspace } = useContext(
+    WorkspaceContext
+  ) as WorkspaceContextType;
   const [isActive, setIsActive] = useState(true);
   const [listTitle, setListTitle] = useState("");
 
@@ -86,7 +96,7 @@ const Project = () => {
       const destinationCard = filteredCards.find(
         (card) => card.cardIndex === newCardIndex
       );
-
+      console.log("before moving the card, list:", filteredCards);
       // Update the position of the removed card
       if (removedCard && destinationCard) {
         removedCard.position = destinationCard.position;
@@ -94,16 +104,21 @@ const Project = () => {
 
       // Insert the removed card at the index of the destination card
       filteredCards.splice(destinationCardPos, 0, removedCard);
-      console.log("filteredCards", filteredCards);
       // Update positions of cards after the insertion point
       filteredCards.forEach((card) => {
-        if (card.position > destinationCardPos && card !== removedCard) {
+        if (
+          card.position > destinationCardPos &&
+          card !== removedCard &&
+          card.position <= removedCard.position
+        ) {
           card.position++;
         }
       });
-
       const newList = filteredCards; // You can directly use filteredCards instead of newList
-      console.log("newList", newList);
+      // boardLists.createList(token, newList, selectedBoard);
+      newList.forEach((card) => {
+        listCards.createCard(token, card, card.listUuid);
+      });
     } else {
       console.log("Dragged to another list");
       // Remove the card from the source list
