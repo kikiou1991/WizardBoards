@@ -36,7 +36,7 @@ const Project = () => {
   const { isBoardSelectedGlobal, selectedBoard } = useContext(
     BoardContext
   ) as BoardContextType;
-  const { lists } = useContext(ListContext) as ListContextType;
+  const { lists, createList } = useContext(ListContext) as ListContextType;
   const { selectedWorkspace } = useContext(
     WorkspaceContext
   ) as WorkspaceContextType;
@@ -129,7 +129,18 @@ const Project = () => {
     setListTitle(value);
   };
 
-  const handleSubmitList = (token: any, listTitle: string) => {};
+  const handleSubmitList = (token: any, listTitle: any) => {
+    if (listTitle === "") {
+      return;
+    }
+    try {
+      createList(token, { title: listTitle }, selectedBoard);
+      setListTitle("");
+      toggleIsActive();
+    } catch (error: any) {
+      console.error("Error creating a new list: ", error.message);
+    }
+  };
 
   const toggleIsActive = () => {
     setIsActive(!isActive);

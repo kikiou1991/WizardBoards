@@ -22,7 +22,7 @@ export const boardLists = {
     }
   },
   createList: async (token: any, listData: any, boardUuid: string) => {
-    console.log("list uuid", listData[0].uuid);
+    console.log("data is:", listData);
     try {
       const response = await fetch("http://localhost:3002/api/v2/lists", {
         method: "POST",
@@ -32,8 +32,9 @@ export const boardLists = {
         },
         body: JSON.stringify({
           boardUuid,
-          listUUID: listData[0].listUuid,
-          data: listData, //should contain the title and the listUuid, when it gets updated
+
+          data: listData,
+          //should contain the title and the listUuid, when it gets updated
         }),
       });
       if (!response.ok) {

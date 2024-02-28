@@ -63,11 +63,6 @@ const ListContextProvider = ({ children }: WorkspaceContextProviderProps) => {
   ) as BoardContextType;
   const [lists, setLists] = useState<Lists[]>([]);
 
-  useEffect(() => {
-    let socket = io("http://localhost:3002/api/v2/lists", {});
-    socket.on("list", (data) => {});
-  }, []);
-
   //we are going to need to fetch the lists
   const fetchLists = async (token: any, boardUuid: string) => {
     if (!boardUuid) return;
@@ -83,8 +78,7 @@ const ListContextProvider = ({ children }: WorkspaceContextProviderProps) => {
 
   const createList = async (token: any, listData: any, boardUuid: string) => {
     try {
-      const title = listData;
-      const res = await boardLists.createList(token, title, boardUuid);
+      const res = await boardLists.createList(token, listData, boardUuid);
       if (res && res.newList) {
         setLists([res.newList, ...lists]);
       }
@@ -112,6 +106,27 @@ const ListContextProvider = ({ children }: WorkspaceContextProviderProps) => {
     }
   }, [boards, selectedBoard]);
 
+  useEffect(() => {
+    let socket = io("http://localhost:3002/api/v2/lists", {});
+    socket.on("list", (data) => {
+      if (data.type === "create") {
+        console.log("running the socket to create a list");
+        const newList = data.data;
+        console.log("newList", newList);
+        setLists((prevLists) => {
+          console.log("prevLists", prevLists);
+          return [...prevLists, newList];
+        });
+      } else {
+        throw new Error("Failed to create list with socket");
+      }
+    });
+    return () => {
+      console.log("cleaning up the socket");
+      socket.disconnect(); //clean up the socket
+    };
+  }, []);
+  console.log("lists: ", lists);
   const contextValue: ListContextType = {
     lists,
     setLists,
