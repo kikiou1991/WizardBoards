@@ -112,9 +112,7 @@ const ListContextProvider = ({ children }: WorkspaceContextProviderProps) => {
       if (data.type === "create") {
         console.log("running the socket to create a list");
         const newList = data.data;
-        console.log("newList", newList);
         setLists((prevLists) => {
-          console.log("prevLists", prevLists);
           return [...prevLists, newList];
         });
       } else {

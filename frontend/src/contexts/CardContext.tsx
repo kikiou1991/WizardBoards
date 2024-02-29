@@ -70,6 +70,7 @@ const CardContextProvider = ({ children }: CardContextProviderProps) => {
     }
   };
   const createCard = async (token: any, cardData: any, listUuid: string) => {
+    console.log("creating/updateing card with this data: ", cardData);
     try {
       const res = await listCards.createCard(token, cardData, listUuid);
       if (res && res.newCard) {
@@ -101,6 +102,25 @@ const CardContextProvider = ({ children }: CardContextProviderProps) => {
       }
     }
   }, [lists]);
+  useEffect(() => {
+    let socket = io("http://localhost:3002/api/v2/cards", {});
+    socket.on("card", (data) => {
+      if (data.type === "create") {
+        console.log("running the socket to create a card");
+        const newCard = data.data;
+        setCards((prevCards) => {
+          return [newCard, ...prevCards];
+        });
+      } else if (data.type === "update") {
+        console.log("running the socket to update a card");
+      } else {
+        throw new Error("Failed to create card with socket");
+      }
+      return () => {
+        socket.disconnect();
+      };
+    });
+  }, []);
 
   const contextValue: CardContextType = {
     cards,

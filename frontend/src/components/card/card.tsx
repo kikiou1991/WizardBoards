@@ -22,12 +22,18 @@ const Cards = ({ name, index }: Props) => {
   const [isHovered, setIsHovered] = React.useState(false);
 
   const handleDeleteCard = async () => {
+    console.log(cards);
     try {
       const cardToDelete = cards.find((card) => card.cardIndex === index);
       if (cardToDelete) {
         const { uuid, listUuid } = cardToDelete;
 
         await deleteCard(token, uuid, listUuid);
+        // cards.forEach((card) => {
+        //   if (card.position > cardToDelete.position) {
+        //     card.position -= 1;
+        //   }
+        // });
       }
     } catch (error) {
       console.error("Failed to delete card:", error);
@@ -40,7 +46,7 @@ const Cards = ({ name, index }: Props) => {
     <Draggable draggableId={`card-${index}`} index={index}>
       {(provided) => (
         <div
-          className="w-60 rounded-md border-solid border-2 border-border bg-cards px-2 py-2 items-center overflow-x-hidden text-wrap flex relative"
+          className="w-60 rounded-md border-solid border-2  hover:border-blue-500 hover:border-2 shadow-sm border-border bg-cards px-2 py-2 items-center overflow-x-hidden text-wrap flex relative"
           style={{ minWidth: "242px", minHeight: "80px" }}
           ref={provided.innerRef}
           {...provided.draggableProps}

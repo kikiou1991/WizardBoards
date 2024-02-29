@@ -99,6 +99,7 @@ module.exports = async (app, db, io) => {
           { $push: { cards: newcard.insertedId } },
           { returnDocument: "after", returnNewDocument: true }
         );
+      namespace.emit("card", { type: "create", data: newcard });
       return res.status(201).json({
         message: "Card created successfully",
         success: true,
