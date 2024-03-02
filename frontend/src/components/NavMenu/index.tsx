@@ -18,6 +18,7 @@ import {
 import { BoardContext, BoardContextType } from "@/contexts/BoardContext";
 import Image from "next/image";
 import { UserContext, UserContextType } from "@/contexts/Usercontext";
+import NewBoardPopUp from "../newboardpopup";
 
 const NavMenuDesktop = () => {
   const [isHovered, setIsHovered] = useState(false);
@@ -214,6 +215,7 @@ const NavMenuDesktop = () => {
             )}
           </DropdownMenu>
         </Dropdown>
+
         <MyWorkSpaceModal />
       </NavbarContent>
     </>

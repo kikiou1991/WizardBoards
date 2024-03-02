@@ -27,6 +27,7 @@ import {
 } from "@/contexts/WorkspaceContext";
 import { BoardContext, BoardContextType } from "@/contexts/BoardContext";
 import NavMenuDesktop from "../NavMenu";
+import NewBoardPopUp from "../newboardpopup";
 
 interface UserData {
   name: string;

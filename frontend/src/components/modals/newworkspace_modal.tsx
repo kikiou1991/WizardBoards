@@ -24,10 +24,11 @@ import {
   WorkspaceContext,
   WorkspaceContextType,
 } from "@/contexts/WorkspaceContext";
+import NewBoardPopUp from "../newboardpopup";
 
 interface Workspace {
-  uuid: string;
-  name: string;
+  uuid?: string;
+  name?: string;
 }
 
 const MyWorkSpaceModal = () => {
@@ -41,6 +42,12 @@ const MyWorkSpaceModal = () => {
     WorkspaceContext
   ) as WorkspaceContextType;
   const { createBoard } = useContext(BoardContext) as BoardContextType;
+  const [isVisible, setIsVisible] = useState(false);
+
+  const handleVisible = () => {
+    console.log("clicked");
+    setIsVisible(!isVisible);
+  };
 
   const openWorkspaceModal = () => {
     setBoardModalOpen(false);
@@ -89,7 +96,7 @@ const MyWorkSpaceModal = () => {
       <Dropdown
         className="bg-background text-foreground w-"
         placement="bottom-start"
-        closeOnSelect={false}
+        closeOnSelect={true}
         aria-label="aria class"
       >
         <DropdownTrigger
@@ -107,6 +114,7 @@ const MyWorkSpaceModal = () => {
               className="data-[hover=true]:bg-secondaryBG"
               description="A board is made up of cards ordered on lists."
               startContent={<MyModalNewBoard iconName="addBoard" />}
+              onClick={handleVisible}
             >
               <p>Create new board</p>
             </DropdownItem>
@@ -115,78 +123,12 @@ const MyWorkSpaceModal = () => {
               className="data-[hover=true]:bg-secondaryBG"
               description="A workspace is a group of boards and people."
               startContent={<Icon name="addWorkspace" />}
-              onClick={openWorkspaceModal}
             >
               <p>Create Workspace</p>
             </DropdownItem>
           </DropdownSection>
         </DropdownMenu>
       </Dropdown>
-
-      {/* Render Board Modal */}
-      <Modal
-        isOpen={isBoardModalOpen}
-        onClose={closeModals}
-        backdrop="blur"
-        radius="lg"
-        classNames={{
-          body: "py-6 border-foreground",
-          backdrop: "bg-secondayBG/50 backdrop-opacity-40",
-          base: "border-foreground bg-primary dark:bg-background text-foreground",
-          header: "border-b-[1px] border-border",
-          footer: "border-t-[1px] border-border",
-          closeButton: "hover:bg-white/5 active:bg-transparent",
-        }}
-      >
-        <ModalContent>
-          <ModalHeader className="flex flex-col gap-1 items-center align-middle">
-            <h1>Create Board</h1>
-          </ModalHeader>
-          <ModalBody>
-            <Input
-              isRequired
-              type="email"
-              label="Board Title"
-              description="Name your new board"
-              className="max-w-xs font-semibold text-slate-100"
-              color="default"
-              labelPlacement="outside"
-              value={boardTitle}
-              onChange={(e) => setBoardTitle(e.target.value)}
-            />
-            <div className="flex flex-row items-center">
-              <Select
-                isRequired
-                size="sm"
-                label="Workspace"
-                placeholder="Select a workspace"
-                className="max-w-xs text-foreground "
-                onChange={(value: any) => setSelectedWorkspace(value)}
-              >
-                {workspaces.map((workspace) => (
-                  <SelectItem
-                    className="text-foreground"
-                    key={workspace.uuid}
-                    value={workspace.uuid}
-                  >
-                    {workspace.name}
-                  </SelectItem>
-                ))}
-              </Select>
-            </div>
-          </ModalBody>
-          <ModalFooter>
-            <Button
-              onPress={handleCreateBoard}
-              className="items-center"
-              color="primary"
-              variant="solid"
-            >
-              Create
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
 
       {/* Render Workspace Modal */}
       <Modal
@@ -243,6 +185,14 @@ const MyWorkSpaceModal = () => {
           </ModalFooter>
         </ModalContent>
       </Modal>
+      <div className="relative">
+        <NewBoardPopUp
+          top={10}
+          left={6}
+          isVisible={isVisible}
+          setVisi={handleVisible}
+        />
+      </div>
     </>
   );
 };
