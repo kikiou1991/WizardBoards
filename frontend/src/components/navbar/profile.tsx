@@ -57,12 +57,9 @@ const Profile = ({ name, email }: Props) => {
               showDivider
               aria-label="aria class"
             >
-              <DropdownItem
-                className="hover:bg-secondaryBG"
-                aria-label="aria class"
-              >
+              <DropdownItem className="" aria-label="aria class">
                 <p className="font-semibold">Signed in as</p>
-                <p className="font-semibold p-0">{email}</p>
+                <p className="font-semibold p-0 ">{email}</p>
               </DropdownItem>
               <DropdownItem
                 className="hover:bg-secondaryBG"

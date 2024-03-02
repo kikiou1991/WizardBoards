@@ -17,9 +17,11 @@ import {
 } from "@/contexts/WorkspaceContext";
 import { BoardContext, BoardContextType } from "@/contexts/BoardContext";
 import Image from "next/image";
+import { UserContext, UserContextType } from "@/contexts/Usercontext";
 
 const NavMenuDesktop = () => {
   const [isHovered, setIsHovered] = useState(false);
+  const { handleLogout } = useContext(UserContext) as UserContextType;
 
   const { workspaces, selectedWorkspace, setSelectedWorkspace } = useContext(
     WorkspaceContext
@@ -70,7 +72,9 @@ const NavMenuDesktop = () => {
               <DropdownItem aria-label="aria class">
                 <a>Subscribe</a>
               </DropdownItem>
-              <DropdownItem aria-label="aria class">Sign out</DropdownItem>
+              <DropdownItem aria-label="aria class">
+                <a onClick={handleLogout}>Sign out</a>
+              </DropdownItem>
             </DropdownSection>
           </DropdownMenu>
         </Dropdown>
