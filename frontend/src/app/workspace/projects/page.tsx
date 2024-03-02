@@ -22,7 +22,7 @@ import BoardView from "../boardview/page";
 import { BoardContext, BoardContextType } from "@/contexts/BoardContext";
 import { ListContext, ListContextType } from "@/contexts/ListContext";
 import { CardContext, CardContextType } from "@/contexts/CardContext";
-import { workspaceBoards } from "@/lib/v2/boards";
+
 import {
   WorkspaceContext,
   WorkspaceContextType,

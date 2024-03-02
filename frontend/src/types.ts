@@ -28,4 +28,6 @@ export interface Cards {
   uuid: string;
   cardIndex: number;
   listUuid: string;
+  position: number;
+  list: string[];
 }

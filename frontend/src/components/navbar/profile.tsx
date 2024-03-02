@@ -44,7 +44,9 @@ const Profile = ({ name, email }: Props) => {
           <DropdownMenu aria-label="aria class">
             <DropdownSection aria-label="aria class">
               <DropdownItem>
-                <p className="py-1 px-0">Account</p>
+                <a href="/workspace/account" className="py-1 px-0">
+                  Account
+                </a>
                 <div className="sm:hidden">
                   <Socials />
                 </div>
@@ -74,7 +76,9 @@ const Profile = ({ name, email }: Props) => {
                 className="hover:bg-secondaryBG"
                 aria-label="aria class"
               >
-                <p className="font-semibold">Help, feedback</p>
+                <a href="/workspace/contact" className="font-semibold">
+                  Help, feedback
+                </a>
               </DropdownItem>
               <DropdownItem
                 className="hover:bg-secondaryBG"

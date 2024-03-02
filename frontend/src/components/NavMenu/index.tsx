@@ -64,8 +64,12 @@ const NavMenuDesktop = () => {
               aria-label="aria class"
               className="group/item data-[hover=true]:bg-secondaryBG"
             >
-              <DropdownItem aria-label="aria class">Contact us</DropdownItem>
-              <DropdownItem aria-label="aria class">Subscribe</DropdownItem>
+              <DropdownItem aria-label="aria class">
+                <a href="/workspace/contact">Contact us</a>
+              </DropdownItem>
+              <DropdownItem aria-label="aria class">
+                <a>Subscribe</a>
+              </DropdownItem>
               <DropdownItem aria-label="aria class">Sign out</DropdownItem>
             </DropdownSection>
           </DropdownMenu>
