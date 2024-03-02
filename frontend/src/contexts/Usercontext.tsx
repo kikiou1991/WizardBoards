@@ -16,36 +16,10 @@ import {
   useState,
 } from "react";
 import { BoardContext, BoardContextType } from "./BoardContext";
+import { Workspace, Boards, Lists, Cards } from "@/types";
+
 // Interfaces Section
-interface Workspace {
-  _id: string;
-  name: string;
-  uuid: string;
-}
-interface Boards {
-  _id: string;
-  name: string;
-  uuid: string;
-  isStared: boolean;
-  workspace: Workspace;
-  lists: Lists[];
-}
 
-interface Lists {
-  _id: string;
-  name: string;
-  uuid: string;
-  boardId: string;
-  cards: Cards[];
-}
-
-interface Cards {
-  _id: string;
-  title: string;
-  uuid: string;
-  cardIndex: number;
-  listUuid: string;
-}
 export interface UserContextType {
   token: string | null;
   setToken: (token: string | null) => void;
@@ -70,7 +44,6 @@ const UserContextProvider = ({ children }: UserContextProviderProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const pathname = usePathname();
   const router = useRouter();
-
   const validateToken = async (token: any) => {
     try {
       let res = await userAuth.validateToken(token);
@@ -98,6 +71,7 @@ const UserContextProvider = ({ children }: UserContextProviderProps) => {
       validateToken(token);
     }
   }, [token]); //if the token changes, validate it
+  console.log("user: ", user);
 
   //logout function: clear the local storage and set the token to null
   const handleLogout = async () => {

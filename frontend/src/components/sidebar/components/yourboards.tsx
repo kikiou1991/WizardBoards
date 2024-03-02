@@ -50,6 +50,14 @@ const YourBoards = () => {
       console.error("Error deleting board: ", error);
     }
   };
+  //return a new board array where we sort them by the isStared property
+  const orderBoardsByStar = [
+    boards.sort((a: any, b: any) => {
+      return a.isStared === b.isStared ? 0 : a.isStared ? -1 : 1;
+    }),
+  ];
+  console.log("orderBoardsByStar: ", orderBoardsByStar);
+  console.log("boards: ", boards);
 
   const handleStar = async (boardUuid: string) => {
     try {
@@ -88,7 +96,7 @@ const YourBoards = () => {
       <div className="pt-2 flex flex-col">
         {boards && boards.length > 0 ? (
           <ul className=" ">
-            {boards.map((board: any) => {
+            {orderBoardsByStar[0].map((board: any) => {
               return (
                 <li
                   className={`px-2 group/item h-8 hover:bg-secondaryBG flex flex-row ${

@@ -76,7 +76,10 @@ module.exports = async (app, db, io) => {
       const generateCardPosition = async () => {
         const count = await db.collection("cards").countDocuments({ listUuid });
         //generate a postion based on the count
-        return count + 1;
+        if (count === 0) return 1000;
+        else {
+          return (count + 1) * 1000;
+        }
       };
       const cardIndex = generateCardIndex();
       const position = await generateCardPosition();

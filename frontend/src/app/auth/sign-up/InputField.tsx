@@ -84,16 +84,9 @@ const InputField = () => {
     } else {
       setLoading(true);
       setButtonDisabled(false);
-      toast.success("All done");
-
-      const requestBody = {
-        email: email,
-        password: user.password,
-        fullName: fullName,
-      };
 
       try {
-        const response = await fetch("http://localhost:3002/api/v2/signup", {
+        const response = await fetch("http://localhost:3002/api/v2/register", {
           method: "POST",
           headers: {
             Accept: "application/json",

@@ -6,16 +6,26 @@ import { UserContext, UserContextType } from "@/contexts/Usercontext";
 import { BoardContext, BoardContextType } from "@/contexts/BoardContext";
 import VisibilityModal from "../modals/visibilityModal";
 import useOutsideClick from "../customHooks/useOutsideClick";
+import {
+  WorkspaceContext,
+  WorkspaceContextType,
+} from "@/contexts/WorkspaceContext";
 
 const BoardNav = () => {
   const { token } = useContext(UserContext) as UserContextType;
   const { selectedBoard, boards, createBoard } = useContext(
     BoardContext
   ) as BoardContextType;
+  const { workspaces, selectedWorkspace } = useContext(
+    WorkspaceContext
+  ) as WorkspaceContextType;
   const [isHovered, setIsHovered] = useState(false);
   const [visibility, setVisibility] = useState("Private" as string);
   const [isVisible, setIsVisible] = useState(false);
-
+  const users = workspaces.find(
+    (workspace) => workspace.uuid === selectedWorkspace
+  )?.users;
+  console.log(users);
   const ref = useRef(null);
   const toggleModal = () => {
     setIsVisible(!isVisible);

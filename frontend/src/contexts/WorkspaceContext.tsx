@@ -9,18 +9,14 @@ import {
   useState,
 } from "react";
 import { io } from "socket.io-client";
+import { Workspace } from "@/types";
 
 // Interfaces Section
-interface Workspace {
-  _id: string;
-  name: string;
-  uuid: string;
-}
 
 //
 //
 //
-// This section does work atm, it fetches all of the worksapces for the given user
+//
 //
 //
 //
@@ -36,6 +32,7 @@ export interface WorkspaceContextType {
   setWorkspace: (workspace: Workspace | null) => void;
   createWorkspace: (token: any, boardData: any) => void;
   fetchWorkspaces: (token: any) => void;
+  deleteWorkspace: (token: any, workspaceData: any) => void;
 }
 interface WorkspaceContextProviderProps {
   children: ReactNode;
@@ -101,6 +98,19 @@ const WorkspaceContextProvider = ({
       );
     }
   };
+  const deleteWorkspace = async (token: any, workspaceData: any) => {
+    try {
+      const res = await userWorkspaces.deleteWorkspace(token, workspaceData);
+      if (res?.status === true) {
+        console.log("Workspace deleted successfully:", res);
+        setWorkspaces((prevWorkspaces) =>
+          prevWorkspaces.filter(
+            (workspace) => workspace.uuid !== workspaceData.uuid
+          )
+        );
+      }
+    } catch (error) {}
+  };
 
   //set workspaces for the current user
   const setWorkspace = (workspace: Workspace | null) => {
@@ -122,6 +132,7 @@ const WorkspaceContextProvider = ({
     setSelectedWorkspace,
     createWorkspace,
     fetchWorkspaces,
+    deleteWorkspace,
   };
   return (
     <WorkspaceContext.Provider value={contextValue}>

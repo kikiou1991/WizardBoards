@@ -75,7 +75,8 @@ const NavbarTop = () => {
           return;
         }
         //use the token to get the user info
-        const response = await fetch("http://localhost:3002/api/users/me", {
+        const response = await fetch("http://localhost:3002/api/v2/validate", {
+          method: "POST",
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -84,7 +85,7 @@ const NavbarTop = () => {
           //fetch the user data
           const userData = await response.json();
 
-          setUser(userData);
+          setUser(userData.data);
         } else {
           //handle user fetch errors
           console.error("Failed to fetch user data", response.statusText);

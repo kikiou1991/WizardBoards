@@ -31,7 +31,7 @@ const BoardView = () => {
           <MyModalEmail name="addIcon" />
         </div>
       </div>
-      <div className="h-8 flex flex-row  hover:bg-secondaryBG  pl-2 ">
+      <div className="h-8 flex flex-row items-center  hover:bg-secondaryBG  pl-2 ">
         <div className="flex flex-row gap-2 flex-grow">
           <Icon name="settings" classname="p-1" />
           <Link href="/workspace/settings" className="font-semibold">

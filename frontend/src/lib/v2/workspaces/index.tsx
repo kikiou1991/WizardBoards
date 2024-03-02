@@ -38,4 +38,27 @@ export const userWorkspaces = {
       console.error("Error creating workspace: ", error.message);
     }
   },
+  deleteWorkspace: async (token: any, workspaceData: string) => {
+    try {
+      const response = await fetch(
+        "http://localhost:3002/api/v2/workspaces/archive",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            workspaceUUID: workspaceData,
+          }),
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Failed to delete workspace");
+      } else {
+        const data = await response.json();
+        return data;
+      }
+    } catch (error: any) {}
+  },
 };

@@ -42,84 +42,126 @@ const Project = () => {
   ) as WorkspaceContextType;
   const [isActive, setIsActive] = useState(true);
   const [listTitle, setListTitle] = useState("");
-
   const ref = useRef<HTMLDivElement | null>(null);
+  //function to calculate the new position of the card
+  const calculatePosition = (
+    card: any, //the moved card
+    position: number, //
+    cards: any[]
+  ) => {
+    let prevCardPosition = 0; // Initialize with 0 in case there's no previous card
+    let nextCardPosition = 0; // Initialize with 0 in case there's no next card
+
+    // Find the previous and next card positions
+    for (const c of cards) {
+      if (c.position < position && c.position > prevCardPosition) {
+        prevCardPosition = c.position;
+      }
+      if (
+        c.position > position &&
+        (nextCardPosition === 0 || c.position < nextCardPosition)
+      ) {
+        nextCardPosition = c.position;
+      }
+    }
+
+    let newPosition = 0;
+
+    // Calculate the new position based on the positions of adjacent cards
+    if (prevCardPosition === 0) {
+      newPosition = position / 2; // If there's no previous card, halve the position of the next card
+    } else if (nextCardPosition === 0) {
+      newPosition = position + card.position; // If there's no next card, add the position of the moved card
+    } else {
+      newPosition = (prevCardPosition + nextCardPosition) / 2; // Otherwise, average the positions of adjacent cards
+    }
+
+    return newPosition;
+  };
 
   const handleDragEnd = (result: DropResult) => {
     const { source, destination, draggableId } = result;
-    console.log(result);
     if (!destination) return;
 
     // Remove the "card-" prefix from draggableId and turn it into a number
     const cardUuid = parseInt(draggableId.replace("card-", ""));
-
     // Find the id of the starting list
     const startListId = source.droppableId;
 
-    // create new array of cards from the lists
-
     // Find the list that the card was dragged from
     const startList = lists.find((list) => list.uuid === startListId);
+
     // Find the id of the list that the card was dragged to
     const finishListId = destination.droppableId;
-
     // Find the list that the card was dragged to
     const finishList = lists.find((list) => list.uuid === finishListId);
+
     //filter the cards in the source list
     const filteredCards = cards.filter((card) => card.listUuid === startListId);
 
     //target the card object that we are dragging
-    const removedCard = filteredCards.find(
+    let removedCard = filteredCards.find((card) => card.cardIndex === cardUuid);
+    //find the index of the card that we are dragging
+    const removedCardIndex = filteredCards.findIndex(
       (card) => card.cardIndex === cardUuid
     );
+    const targetCardIndex = filteredCards.findIndex(
+      (card) => card.cardIndex === destination.index
+    );
+    if (targetCardIndex === removedCardIndex) return;
+    const targetPos = filteredCards[targetCardIndex]?.position;
 
     // Handle item drag in same list or to another list
     if (startListId === finishListId) {
-      console.log("Dragged within the same list");
-      //find the list we are dragging inside of
-      const currentList = lists.find((list) => list.uuid === finishListId);
-      console.log("current list: ", currentList);
-      const removedCardIndex = filteredCards.findIndex(
-        (card) => card.cardIndex === cardUuid
-      );
-      // Remove the card from the list
-      const removedCard = filteredCards.splice(removedCardIndex, 1)[0];
-      let originalPosition = removedCard.position;
-      // Find where the card was dropped
-      const newCardIndex = destination.index;
-
-      // Find the index of the destination card
-      const destinationCardIndex = filteredCards.findIndex(
-        (card) => card.cardIndex === newCardIndex
-      );
-      // Find the position of the destination card
-      let destinationCardPos = filteredCards[destinationCardIndex].position;
-      // Update the position of the removed card
-      let destinationCard = filteredCards[destinationCardIndex];
-      // Insert the removed card at the index of the destination card
-      filteredCards.splice(destinationCardIndex, 0, removedCard);
-      console.log(
-        "we inserted the card at the destination index: ",
-        filteredCards
-      );
-      //next we update the position of the removed card
-      let newCardPos = 0;
-      console.log("destination card position before: ", destinationCardPos);
+      //remove the card from the source list
+      filteredCards.splice(removedCardIndex, 1);
+      //insert the card at the target Index
       if (removedCard) {
-        removedCard.position = destinationCardPos;
-        newCardPos = removedCard.position;
-        destinationCard.position++;
-        if (currentList?.cards?.length < destinationCard.position) {
-          destinationCard.position--;
-        }
+        filteredCards.splice(targetCardIndex, 0, removedCard);
+        removedCard.position = calculatePosition(
+          removedCard,
+          targetPos,
+          filteredCards
+        );
+        listCards.createCard(token, removedCard, finishListId);
       }
-      console.log("new card position: ", newCardPos);
-      console.log("original card position: ", originalPosition);
-      console.log("destination cards new position: ", destinationCard.position);
-      filteredCards.forEach((card) => {});
     } else {
       console.log("Dragged to another list");
       // Remove the card from the source list
+      filteredCards.splice(removedCardIndex, 1);
+      //find the the destination list
+      const targetList = lists.find((list) => list.uuid === finishListId);
+      console.log(targetList);
+      //now find the target card within the target list
+      const targetListCards = cards.filter(
+        (card) => card.listUuid === targetList?.uuid
+      );
+      const targetCardIndex = targetListCards.findIndex(
+        (card) => card.cardIndex === destination.index
+      );
+      const targetPos = targetListCards[targetCardIndex]?.position;
+      //we need to update the list array  and the listUuid of the removed card to the target list uuid
+      if (removedCard && targetList) {
+        removedCard = {
+          ...removedCard,
+          listUuid: targetList?.uuid,
+          list: [targetList?.uuid],
+        };
+      }
+      //insert the card at the destination list
+      if (removedCard) {
+        targetListCards.splice(targetCardIndex, 0, removedCard);
+        //lets find the target card from the destination list
+        removedCard.position = calculatePosition(
+          removedCard,
+          targetPos,
+          targetListCards
+        );
+        if (targetList) {
+          listCards.createCard(token, removedCard, targetList?.uuid);
+        }
+        console.log("removedCard after insertion: ", targetListCards);
+      }
     }
   };
 

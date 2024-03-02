@@ -11,37 +11,10 @@ import {
 import { io } from "socket.io-client";
 import { BoardContext, BoardContextType } from "./BoardContext";
 import { boardLists } from "@/lib/v2/lists";
+import { Workspace, Boards, Lists, Cards } from "@/types";
 
 // Interfaces Section
-interface Workspace {
-  _id: string;
-  name: string;
-  uuid: string;
-}
-interface Boards {
-  _id: string;
-  name: string;
-  uuid: string;
-  isStared: boolean;
-  workspace: Workspace;
-  lists: Lists[];
-}
 
-interface Lists {
-  _id: string;
-  name: string;
-  uuid: string;
-  boardId: string;
-  cards: Cards[];
-}
-
-interface Cards {
-  _id: string;
-  title: string;
-  uuid: string;
-  cardIndex: number;
-  listUuid: string;
-}
 export interface ListContextType {
   lists: Lists[];
   setLists: React.Dispatch<React.SetStateAction<Lists[]>>;
@@ -124,7 +97,6 @@ const ListContextProvider = ({ children }: WorkspaceContextProviderProps) => {
       socket.disconnect(); //clean up the socket
     };
   }, []);
-  console.log("lists: ", lists);
   const contextValue: ListContextType = {
     lists,
     setLists,

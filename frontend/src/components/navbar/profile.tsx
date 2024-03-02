@@ -20,6 +20,7 @@ interface Props {
 }
 
 const Profile = ({ name, email }: Props) => {
+  const { userData } = useContext(UserContext) as UserContextType;
   const { handleLogout } = useContext(UserContext) as UserContextType;
   return (
     <Navbar className="bg-background px-1" classNames={{ wrapper: "px-0" }}>
@@ -37,7 +38,7 @@ const Profile = ({ name, email }: Props) => {
               color="primary"
               name={name}
               size="sm"
-              src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+              src="https://t3.ftcdn.net/jpg/03/46/83/96/240_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg"
             />
           </DropdownTrigger>
           <DropdownMenu aria-label="aria class">

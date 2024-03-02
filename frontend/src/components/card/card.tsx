@@ -22,18 +22,12 @@ const Cards = ({ name, index }: Props) => {
   const [isHovered, setIsHovered] = React.useState(false);
 
   const handleDeleteCard = async () => {
-    console.log(cards);
     try {
       const cardToDelete = cards.find((card) => card.cardIndex === index);
       if (cardToDelete) {
         const { uuid, listUuid } = cardToDelete;
 
         await deleteCard(token, uuid, listUuid);
-        // cards.forEach((card) => {
-        //   if (card.position > cardToDelete.position) {
-        //     card.position -= 1;
-        //   }
-        // });
       }
     } catch (error) {
       console.error("Failed to delete card:", error);

@@ -25,7 +25,7 @@ const WorkspaceHeader = () => {
 
   return (
     <div className="flex flex-row gap-2 items-center justify-center border-b-1 p-8">
-      <div className="flex flex-row gap-2 justify-center items-center ml-5">
+      <div className="flex flex-row gap-2 justify-center items-center mx-5">
         <div className="flex rounded-md w-[45px] h-[45px] font-bold text-3xl text-white p-2 items-center justify-center  bg-gradient-to-r from-sky-500 to-indigo-500">
           {initial}
         </div>
