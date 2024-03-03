@@ -43,8 +43,6 @@ const YourBoards = () => {
 
   const handleDelete = async (boardUuid: string) => {
     try {
-      console.log("boardUuid: ", boardUuid);
-      console.log("selectedWorkspace: ", selectedWorkspace);
       await deleteBoard(context?.token, selectedWorkspace, boardUuid);
     } catch (error) {
       console.error("Error deleting board: ", error);
@@ -56,8 +54,6 @@ const YourBoards = () => {
       return a.isStared === b.isStared ? 0 : a.isStared ? -1 : 1;
     }),
   ];
-  console.log("orderBoardsByStar: ", orderBoardsByStar);
-  console.log("boards: ", boards);
 
   const handleStar = async (boardUuid: string) => {
     try {

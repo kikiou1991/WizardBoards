@@ -37,7 +37,7 @@ const Cards = ({ name, index }: Props) => {
   const onMouseLeave = () => setIsHovered(false);
 
   return (
-    <Draggable draggableId={`card-${index}`} index={index}>
+    <Draggable draggableId={`card-${index}`} index={index} key={index}>
       {(provided) => (
         <div
           className="w-60 rounded-md border-solid border-2  hover:border-blue-500 hover:border-2 shadow-sm border-border bg-cards px-2 py-2 items-center overflow-x-hidden text-wrap flex relative"

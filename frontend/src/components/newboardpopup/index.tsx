@@ -7,7 +7,8 @@ import {
 import { Button, Input, Select, SelectItem } from "@nextui-org/react";
 import Image from "next/image";
 import React, { useContext, useState } from "react";
-
+import Icon from "../Icons";
+import { imageUrls } from "@/lib/imagesData";
 interface Position {
   top?: number;
   left?: number;
@@ -31,9 +32,15 @@ const NewBoardPopUp = ({
   const [boardTitle, setBoardTitle] = useState("");
   const [selectedWorkspace, setSelectedWorkspace] = useState<string | null>("");
   const [workSpaceTitle, setWorkSpaceTitle] = useState("");
+  const [isSelected, setIsSelected] = useState(true);
+  const [selectedImg, setSelectedImg] = useState<"2" | "3" | "4" | "5">("2");
   const context = useContext(UserContext);
+
+  const handleImageSelect = (id: any) => {
+    setSelectedImg(id);
+  };
+
   const handleCreateBoard = async () => {
-    console.log("clicked");
     if (!boardTitle || !localSelectedWorkspace) {
       return;
     }
@@ -54,30 +61,97 @@ const NewBoardPopUp = ({
     <div
       className={`container absolute z-10 overflow-y-auto right-0 ${
         isVisible ? "hidden" : "block"
-      } bg-foreground text-background rounded-lg w-[310px] h-[540px]`}
+      } bg-foreground text-background rounded-lg w-[310px] h-[585px]`}
       style={{ top, left }}
     >
+      {" "}
+      <Button
+        isIconOnly
+        className="bg-inherit text-black absolute top-1 right-1"
+        onClick={setVisi}
+      >
+        X
+      </Button>
       <div className="image-container items-center gap-2 flex flex-col mt-5 relative">
         <div className="flex flex-row justify-center">
           <div>Create board</div>
-          <Button
-            isIconOnly
-            className="bg-inherit text-black absolute top-1 right-1"
-            onClick={setVisi}
-          >
-            X
-          </Button>
         </div>
         <Image
-          src="https://images.unsplash.com/photo-1548630826-2ec01a41f48f?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          src={imageUrls[selectedImg || "2"]}
           alt="some background image"
+          id="2"
           width={190}
           height={100}
           className="rounded-lg"
         />
         <div className="font-semibold">Board cover</div>
-        <div className="flex flex-row gap-1"></div>
-        <div className="flex flex-col gap-2 mt-5">
+        <div className="flex flex-row gap-1">
+          <div className="relative">
+            <Image
+              src="https://images.unsplash.com/photo-1548630826-2ec01a41f48f?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              alt="some background image"
+              id="2"
+              width={70}
+              height={70}
+              className="rounded-lg"
+              onClick={() => handleImageSelect("2")}
+            />
+            {selectedImg === "2" && (
+              <div className="absolute top-3 left-5 text-primary font-semibold">
+                <Icon name="tickSymbol" />
+              </div>
+            )}
+          </div>
+          <div className="relative">
+            <Image
+              src="https://images.unsplash.com/photo-1539103377911-4909a1eae382?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              alt="some background image"
+              id="3"
+              width={70}
+              height={80}
+              className="rounded-lg"
+              onClick={() => handleImageSelect("3")}
+            />
+            {selectedImg === "3" && (
+              <div className="absolute top-3 left-5 text-primary font-semibold">
+                <Icon name="tickSymbol" />
+              </div>
+            )}
+          </div>
+          <div className="relative">
+            <Image
+              src="https://images.unsplash.com/photo-1618944847023-38aa001235f0?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              alt="some background image"
+              id="4"
+              width={70}
+              height={80}
+              className="rounded-lg"
+              onClick={() => handleImageSelect("4")}
+            />
+            {selectedImg === "4" && (
+              <div className="absolute top-3 left-5 text-primary font-semibold">
+                <Icon name="tickSymbol" />
+              </div>
+            )}
+          </div>
+          <div className="relative">
+            <Image
+              src="https://images.unsplash.com/photo-1515816052601-210d5501d471?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              alt="some background image"
+              id="5"
+              width={70}
+              height={80}
+              className="rounded-lg"
+              onClick={() => handleImageSelect("5")}
+            />
+            {selectedImg === "5" && (
+              <div className="absolute top-3 left-5 text-primary font-semibold">
+                <Icon name="tickSymbol" />
+              </div>
+            )}
+          </div>
+        </div>
+        <div className="flex flex-col gap-3 mt-5">
           <Input
             isRequired
             type="text"
@@ -86,6 +160,11 @@ const NewBoardPopUp = ({
             className="text-foreground"
             onChange={(e) => setBoardTitle(e.target.value)}
           ></Input>
+          {
+            <p className="text-danger text-sm pl-1">
+              You must enter a board title{" "}
+            </p>
+          }
           <div className="flex flex-row items-center">
             <Select
               isRequired
@@ -113,7 +192,7 @@ const NewBoardPopUp = ({
               handleCreateBoard();
             }}
             onClick={setVisi}
-            className="items-center"
+            className="items-center mt-3"
             color="primary"
             variant="solid"
             isDisabled={!boardTitle || !localSelectedWorkspace}
@@ -121,7 +200,7 @@ const NewBoardPopUp = ({
             Create
           </Button>
         </div>
-        <p className="text-sm flex items-center justify-center ml-1">
+        <p className="text-sm flex px-2 mb-2 items-center justify-center ml-1">
           By using images from Unsplash, you agree to their license and Terms of
           Service
         </p>
