@@ -29,6 +29,7 @@ import {
 } from "@/contexts/WorkspaceContext";
 import { boardLists } from "@/lib/v2/lists";
 import { listCards } from "@/lib/v2/cards";
+import CardDetails from "@/components/cardDetails";
 
 const Project = () => {
   const { token } = useContext(UserContext) as UserContextType;
@@ -197,6 +198,9 @@ const Project = () => {
     <div className="relative grow  flex flex-col overflow-hidden ">
       <div className="relative w-full py-2 px-1 border-b-1 border-border items-center">
         <BoardNav />
+      </div>
+      <div className="relative">
+        <CardDetails />
       </div>
       <DragDropContext onDragEnd={handleDragEnd}>
         <div className="flex w-full h-full overflow-x-auto items-start py-5 px-5 gap-5">

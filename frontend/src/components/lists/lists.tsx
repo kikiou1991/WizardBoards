@@ -13,6 +13,7 @@ import { Button, Input } from "@nextui-org/react";
 import Icon from "../Icons";
 import useOutsideClick from "../customHooks/useOutsideClick";
 import { CardContext, CardContextType } from "@/contexts/CardContext";
+import CardDetails from "../cardDetails";
 
 interface Props {
   name: string;
