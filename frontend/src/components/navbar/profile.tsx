@@ -11,7 +11,6 @@ import {
   NavbarContent,
 } from "@nextui-org/react";
 import { useContext } from "react";
-import Socials from "./socials";
 
 interface Props {
   name: string;
@@ -47,9 +46,7 @@ const Profile = ({ name, email }: Props) => {
                 <a href="/workspace/account" className="py-1 px-0">
                   Account
                 </a>
-                <div className="sm:hidden">
-                  <Socials />
-                </div>
+                <div className="sm:hidden"></div>
               </DropdownItem>
             </DropdownSection>
             <DropdownSection

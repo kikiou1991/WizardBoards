@@ -71,7 +71,7 @@ const NavMenuDesktop = () => {
                 <a href="/workspace/contact">Contact us</a>
               </DropdownItem>
               <DropdownItem aria-label="aria class">
-                <a>Subscribe</a>
+                <a href="/workspace/subscribe">Subscribe</a>
               </DropdownItem>
               <DropdownItem aria-label="aria class">
                 <a onClick={handleLogout}>Sign out</a>

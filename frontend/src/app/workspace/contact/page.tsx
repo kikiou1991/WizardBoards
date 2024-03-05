@@ -1,6 +1,7 @@
 "use client";
 
 import { sendEmail } from "@/app/actions";
+import Socials from "@/components/navbar/socials";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 
@@ -91,6 +92,9 @@ const ContactPage = () => {
             </button>
           </form>
         )}
+      </div>
+      <div className="">
+        <Socials />
       </div>
     </div>
   );

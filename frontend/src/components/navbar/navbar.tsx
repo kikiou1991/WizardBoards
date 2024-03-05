@@ -140,9 +140,6 @@ const NavbarTop = () => {
         </Button>
 
         {/* Social Media Links */}
-        <div className="hidden sm:flex pr-1">
-          <Socials />
-        </div>
 
         {/*Profile Navigation / Logout / Profile settings */}
 
