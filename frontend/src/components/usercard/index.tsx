@@ -12,7 +12,7 @@ const UserCard = ({ user, addUser }: UserData) => {
   return (
     <div
       onClick={addUser}
-      className="text-foreground rounded-md m-1 flex flex-row p-2 bg-blue-600 items-center gap-2"
+      className="text-foreground hover:cursor-pointer rounded-md m-1 flex flex-row p-2 bg-blue-600 items-center gap-2"
     >
       {" "}
       <Avatar

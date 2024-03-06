@@ -100,10 +100,6 @@ const NavbarTop = () => {
 
   //This section will move, its only for testing purposes
 
-  const handleAddUser = () => {
-    alert("user added to card");
-  };
-
   return (
     <Navbar
       isBordered
@@ -116,25 +112,7 @@ const NavbarTop = () => {
       {/* Need to add NavMenu for smaller screens where Workspaces +  Starred get combined into More with a drop down */}
 
       {/* Empty space between left and right sections */}
-      <div className={` flex-grow `}>
-        <div className="relative">
-          <PopUpWrapper
-            classNames="bg-foreground absolute top-16 right-20 z-20 "
-            width="200px"
-            height="300px"
-          >
-            <p className="text-background">People added: </p>
-            <div className="added members"></div>
-            <div className="border-b-1 border-solid border-black"></div>
-            <PopUpBody classNames="overflow-y-auto">
-              <UserCard addUser={handleAddUser} user={user} />
-              <UserCard addUser={handleAddUser} user={user} />
-              <UserCard addUser={handleAddUser} user={user} />
-              <UserCard addUser={handleAddUser} user={user} />
-            </PopUpBody>
-          </PopUpWrapper>
-        </div>
-      </div>
+      <div className={` flex-grow `}></div>
       {/* <Button onClick={toggleModals} className='bg-white text-black'>
         Modal
       </Button> */}

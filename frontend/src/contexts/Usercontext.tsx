@@ -28,6 +28,7 @@ export interface UserContextType {
   userData: any;
   setAuthenticated: (authenticated: boolean) => void;
   validateToken: (token: any) => Promise<void>;
+  user: any;
 }
 interface UserContextProviderProps {
   children: ReactNode;
@@ -91,6 +92,7 @@ const UserContextProvider = ({ children }: UserContextProviderProps) => {
     userData: user,
     handleLogout,
     validateToken,
+    user,
   };
   return (
     <UserContext.Provider value={contextValue}>

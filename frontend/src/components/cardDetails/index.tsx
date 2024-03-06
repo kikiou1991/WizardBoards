@@ -1,16 +1,28 @@
 import { Avatar, Button, Input } from "@nextui-org/react";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Icon from "../Icons";
 import Comment from "../comment";
+import PopUpWrapper from "../CustomPopUp/Wrapper";
+import PopUpBody from "../CustomPopUp/Body";
+import UserCard from "../usercard";
+import { UserContext, UserContextType } from "@/contexts/Usercontext";
 
 //This board will depend on the data from the backend, when a card is clicked it will show the details of the card
 //We get the right card by its id
 
 const CardDetails = () => {
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const { user } = useContext(UserContext) as UserContextType;
+  const [isMemberVisible, setIsMemberVisible] = useState(false);
 
   const closeModal = () => {
     setIsVisible(false);
+  };
+  const closeAddMember = () => {
+    setIsMemberVisible(false);
+  };
+  const handleAddUser = () => {
+    alert("user added to card");
   };
 
   return (
@@ -102,9 +114,49 @@ const CardDetails = () => {
                 </div>
               </div>
             </div>
-            <div className="actions items-start flex flex-col w-[20%] gap-2 mt-8">
+            <div
+              className={`actions items-start flex flex-col w-[20%] gap-2 mt-8 `}
+            >
+              <div
+                className={`relative ${isMemberVisible ? "block" : "hidden"}`}
+              >
+                <PopUpWrapper
+                  classNames="bg-foreground absolute top-10 left-20 z-20 "
+                  width="200px"
+                  height="300px"
+                >
+                  <div className="flex flex-row">
+                    <p className="flex text-background font-semibold items-center justify-center py-1">
+                      Members{" "}
+                    </p>
+                    <Button
+                      isIconOnly
+                      className="bg-inherit ml-auto hover:bg-slate-400 text-black top-1 right-1"
+                      onClick={closeAddMember}
+                      size="sm"
+                    >
+                      X
+                    </Button>
+                  </div>
+
+                  <div className="added members"></div>
+                  <div className="border-b-1 border-solid border-black"></div>
+                  <PopUpBody classNames="overflow-y-auto">
+                    <p className="font-semibold text-sm px-1">Board members</p>
+
+                    <UserCard addUser={handleAddUser} user={user} />
+                    <UserCard addUser={handleAddUser} user={user} />
+                    <UserCard addUser={handleAddUser} user={user} />
+                    <UserCard addUser={handleAddUser} user={user} />
+                  </PopUpBody>
+                </PopUpWrapper>
+              </div>
               <p className="text-sm">Add to card</p>
-              <Button size="sm" className="bg-primary mr-2">
+              <Button
+                size="sm"
+                className="bg-primary mr-2"
+                onClick={() => setIsMemberVisible(true)}
+              >
                 Member
               </Button>
               <Button size="sm" className="bg-primary mr-2">
