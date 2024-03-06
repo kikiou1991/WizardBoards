@@ -1,13 +1,24 @@
 import React from "react";
+import PopUpBody from "../Body";
 
 interface PopUpWrapperProps {
   children: React.ReactNode;
   classNames?: string;
+  width?: string;
+  height?: string;
 }
 
-//will need to change any to the correct type
-const PopUpWrapper = ({ children, classNames }: PopUpWrapperProps) => {
-  return <div className={`${classNames}`}>{children}</div>;
+const PopUpWrapper = ({
+  children,
+  classNames,
+  width = "500px",
+  height = "150px",
+}: PopUpWrapperProps) => {
+  return (
+    <div className={`${classNames} h-[${height}] w-[${width}]  rounded-lg`}>
+      {children}
+    </div>
+  );
 };
 
 export default PopUpWrapper;

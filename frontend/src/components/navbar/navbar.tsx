@@ -1,6 +1,7 @@
 "use client";
 import Icon from "@/components/Icons";
 import {
+  Avatar,
   Button,
   Dropdown,
   DropdownItem,
@@ -28,15 +29,14 @@ import {
 import { BoardContext, BoardContextType } from "@/contexts/BoardContext";
 import NavMenuDesktop from "../NavMenu";
 import NewBoardPopUp from "../newboardpopup";
+import PopUpBody from "../CustomPopUp/Body";
+import PopUpWrapper from "../CustomPopUp/Wrapper";
+import UserCard from "../usercard";
 
 interface UserData {
   name: string;
   email: string;
   fullName: string;
-}
-interface Workspace {
-  uuid: string;
-  name: string;
 }
 
 const NavbarTop = () => {
@@ -98,6 +98,12 @@ const NavbarTop = () => {
     fetchUserData();
   }, []);
 
+  //This section will move, its only for testing purposes
+
+  const handleAddUser = () => {
+    alert("user added to card");
+  };
+
   return (
     <Navbar
       isBordered
@@ -110,8 +116,24 @@ const NavbarTop = () => {
       {/* Need to add NavMenu for smaller screens where Workspaces +  Starred get combined into More with a drop down */}
 
       {/* Empty space between left and right sections */}
-      <div className={` flex-grow ${isOpen ? "" : "hidden"}`}>
-        {/* <WorkspaceModal ref={ref} /> */}
+      <div className={` flex-grow `}>
+        <div className="relative">
+          <PopUpWrapper
+            classNames="bg-foreground absolute top-16 right-20 z-20 "
+            width="200px"
+            height="300px"
+          >
+            <p className="text-background">People added: </p>
+            <div className="added members"></div>
+            <div className="border-b-1 border-solid border-black"></div>
+            <PopUpBody classNames="overflow-y-auto">
+              <UserCard addUser={handleAddUser} user={user} />
+              <UserCard addUser={handleAddUser} user={user} />
+              <UserCard addUser={handleAddUser} user={user} />
+              <UserCard addUser={handleAddUser} user={user} />
+            </PopUpBody>
+          </PopUpWrapper>
+        </div>
       </div>
       {/* <Button onClick={toggleModals} className='bg-white text-black'>
         Modal
@@ -138,8 +160,6 @@ const NavbarTop = () => {
         >
           <Icon name="notiBell" classname={"stroke-current "} />
         </Button>
-
-        {/* Social Media Links */}
 
         {/*Profile Navigation / Logout / Profile settings */}
 

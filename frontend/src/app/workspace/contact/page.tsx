@@ -93,9 +93,6 @@ const ContactPage = () => {
           </form>
         )}
       </div>
-      <div className="">
-        <Socials />
-      </div>
     </div>
   );
 };
