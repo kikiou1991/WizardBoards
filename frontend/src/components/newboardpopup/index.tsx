@@ -60,7 +60,7 @@ const NewBoardPopUp = ({
   return (
     <div
       className={`container absolute z-10 overflow-y-auto right-0 ${
-        isVisible ? "hidden" : "block"
+        isVisible ? "hidden" : "block animate-slide-down"
       } bg-foreground text-background rounded-lg w-[310px] h-[585px]`}
       style={{ top, left }}
     >

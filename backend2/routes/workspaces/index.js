@@ -6,13 +6,11 @@ module.exports = async (app, db, io) => {
       const user = req.user;
 
       if (!user || !user._id) {
-        return res
-          .status(400)
-          .json({
-            message: "Invalid user information",
-            success: false,
-            data: null,
-          });
+        return res.status(400).json({
+          message: "Invalid user information",
+          success: false,
+          data: null,
+        });
       }
       const workspaces = await db
         .collection("workspaces")
@@ -36,13 +34,11 @@ module.exports = async (app, db, io) => {
 
       const user = req.user;
       if (!user || !user._id) {
-        return res
-          .status(400)
-          .json({
-            message: "Invalid user information",
-            success: false,
-            data: null,
-          });
+        return res.status(400).json({
+          message: "Invalid user information",
+          success: false,
+          data: null,
+        });
       }
       if (data?.uuid) {
         const workspace = await db
@@ -56,13 +52,11 @@ module.exports = async (app, db, io) => {
           .collection("workspaces")
           .findOne({ uuid: data.uuid });
         namespace.emit("workspace", { type: "update", data: workspace });
-        return res
-          .status(200)
-          .json({
-            success: true,
-            message: "Workspace updated successfully",
-            data: workspace,
-          });
+        return res.status(200).json({
+          success: true,
+          message: "Workspace updated successfully",
+          data: workspace,
+        });
       } else {
         const uuid = uuidv4();
         const workspace = await db
@@ -75,13 +69,11 @@ module.exports = async (app, db, io) => {
           .collection("workspaces")
           .findOne({ uuid: workspace.insertedId });
         namespace.emit("workspace", { type: "create", data: created });
-        return res
-          .status(201)
-          .json({
-            success: true,
-            message: "Workspace created successfully",
-            data: created,
-          });
+        return res.status(201).json({
+          success: true,
+          message: "Workspace created successfully",
+          data: created,
+        });
       }
     } catch (error) {
       console.error(error, "Failed to create board");
@@ -93,34 +85,28 @@ module.exports = async (app, db, io) => {
       const { workspaceUUID } = req.body;
       const user = req.user;
       if (!user || !user._id) {
-        return res
-          .status(400)
-          .json({
-            message: "Invalid user information",
-            success: false,
-            data: null,
-          });
+        return res.status(400).json({
+          message: "Invalid user information",
+          success: false,
+          data: null,
+        });
       }
       if (!workspaceUUID) {
-        return res
-          .status(400)
-          .json({
-            message: "Invalid workspace information",
-            success: false,
-            data: null,
-          });
+        return res.status(400).json({
+          message: "Invalid workspace information",
+          success: false,
+          data: null,
+        });
       }
       const workspace = await db
         .collection("workspaces")
         .findOne({ uuid: workspaceUUID });
       if (!workspace) {
-        return res
-          .status(400)
-          .json({
-            message: "Invalid workspace information",
-            success: false,
-            data: null,
-          });
+        return res.status(400).json({
+          message: "Invalid workspace information",
+          success: false,
+          data: null,
+        });
       }
       const deletedWorkspace = await db
         .collection("workspaces")
@@ -129,15 +115,50 @@ module.exports = async (app, db, io) => {
           { returnDocument: "after", returnNewDocument: true }
         );
       namespace.emit("workspace", { type: "delete", data: deletedWorkspace });
-      return res
-        .status(200)
-        .json({
-          success: true,
-          message: "Workspace deleted successfully",
-          data: deletedWorkspace,
-        });
+      return res.status(200).json({
+        success: true,
+        message: "Workspace deleted successfully",
+        data: deletedWorkspace,
+      });
     } catch (error) {
       console.error(error, "Failed to archive board");
+      next(error);
+    }
+  });
+
+  app.post("/api/v2/workspaces/user", async (req, res, next) => {
+    try {
+      const { workspaceUuid, userUuid } = req.body;
+      const user = req.user;
+      if (!user || !user._id) {
+        return res.status(400).json({
+          message: "Invalid user information",
+          success: false,
+          data: null,
+        });
+      }
+      if (!workspaceUuid) {
+        return res.status(400).json({
+          message: "Invalid workspace uuid",
+          success: false,
+          data: null,
+        });
+      }
+      let updatedWorkspace = await db.collection("workspaces").findOneAndUpdate(
+        {
+          uuid: workspaceUuid,
+        },
+        { $push: { users: userUuid } },
+        { returnOriginal: false }
+      );
+      namespace.emit("workspace", { type: "update", data: updatedWorkspace });
+      return res.status(200).json({
+        succcess: true,
+        message: "User added to workspace successfully",
+        data: updatedWorkspace,
+      });
+    } catch (error) {
+      console.error(error, "Failed to add user to workspace");
       next(error);
     }
   });

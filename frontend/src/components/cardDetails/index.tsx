@@ -117,21 +117,34 @@ const CardDetails = () => {
             <div
               className={`actions items-start flex flex-col w-[20%] gap-2 mt-8 `}
             >
+              <p className="text-sm">Add to card</p>
+              <Button size="sm" className="bg-primary mr-2">
+                Label
+              </Button>
+              <Button
+                size="sm"
+                className="bg-primary mr-2"
+                onClick={() => setIsMemberVisible(!isMemberVisible)}
+              >
+                Member
+              </Button>
               <div
-                className={`relative ${isMemberVisible ? "block" : "hidden"}`}
+                className={`relative ${
+                  isMemberVisible ? "block animate-slide-down" : "hidden"
+                }`}
               >
                 <PopUpWrapper
-                  classNames="bg-foreground absolute top-10 left-20 z-20 "
+                  classNames="bg-foreground absolute top-0 left-0 z-20 "
                   width="200px"
                   height="300px"
                 >
-                  <div className="flex flex-row">
+                  <div className="flex flex-row ">
                     <p className="flex text-background font-semibold items-center justify-center py-1">
                       Members{" "}
                     </p>
                     <Button
                       isIconOnly
-                      className="bg-inherit ml-auto hover:bg-slate-400 text-black top-1 right-1"
+                      className="bg-inherit ml-auto rounded-full hover:bg-slate-400 text-black top-1 right-1"
                       onClick={closeAddMember}
                       size="sm"
                     >
@@ -143,6 +156,10 @@ const CardDetails = () => {
                   <div className="border-b-1 border-solid border-black"></div>
                   <PopUpBody classNames="overflow-y-auto">
                     <p className="font-semibold text-sm px-1">Board members</p>
+                    {/* Will need to iterate through the current workspace members and render a UserCard for each of them 
+                    workspace.users is an array of user.uuids(strings) so then we would fetch the userdata from the backend
+                     and render the usercard with the user data
+                    */}
 
                     <UserCard addUser={handleAddUser} user={user} />
                     <UserCard addUser={handleAddUser} user={user} />
@@ -151,17 +168,6 @@ const CardDetails = () => {
                   </PopUpBody>
                 </PopUpWrapper>
               </div>
-              <p className="text-sm">Add to card</p>
-              <Button
-                size="sm"
-                className="bg-primary mr-2"
-                onClick={() => setIsMemberVisible(true)}
-              >
-                Member
-              </Button>
-              <Button size="sm" className="bg-primary mr-2">
-                Label
-              </Button>
             </div>
           </div>
         </div>
