@@ -72,7 +72,6 @@ const UserContextProvider = ({ children }: UserContextProviderProps) => {
       validateToken(token);
     }
   }, [token]); //if the token changes, validate it
-  console.log("user: ", user);
 
   //logout function: clear the local storage and set the token to null
   const handleLogout = async () => {

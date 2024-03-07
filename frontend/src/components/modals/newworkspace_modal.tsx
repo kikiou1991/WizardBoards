@@ -44,9 +44,6 @@ const MyWorkSpaceModal = () => {
   const { createBoard } = useContext(BoardContext) as BoardContextType;
   const [isVisible, setIsVisible] = useState(true);
 
-  if (isVisible) {
-    console.log("i appeared");
-  }
   const handleVisible = () => {
     setIsVisible(!isVisible);
   };

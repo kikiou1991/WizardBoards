@@ -13,9 +13,10 @@ import { CardContext, CardContextType } from "@/contexts/CardContext";
 interface Props {
   name: string;
   index: number;
+  showCardDetails?: () => void;
 }
 
-const Cards = ({ name, index }: Props) => {
+const Cards = ({ name, index, showCardDetails }: Props) => {
   const { token } = useContext(UserContext) as UserContextType;
   const { cards, deleteCard } = useContext(CardContext) as CardContextType;
 
@@ -42,6 +43,7 @@ const Cards = ({ name, index }: Props) => {
         <div
           className="w-60 rounded-md border-solid border-2  hover:border-blue-500 hover:border-2 shadow-sm border-border bg-cards px-2 py-2 items-center overflow-x-hidden text-wrap flex relative"
           style={{ minWidth: "242px", minHeight: "80px" }}
+          onClick={showCardDetails}
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}

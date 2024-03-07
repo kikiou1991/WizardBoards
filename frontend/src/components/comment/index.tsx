@@ -11,7 +11,6 @@ const Comment = ({ text, avatar }: CommentProps) => {
   return (
     <div className="flex flex-row gap-3 items-center">
       <Avatar
-        isBordered
         as="button"
         className="transition-transform p"
         size="sm"

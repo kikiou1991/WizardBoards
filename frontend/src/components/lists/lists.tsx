@@ -18,12 +18,14 @@ import CardDetails from "../cardDetails";
 interface Props {
   name: string;
   id: string;
+  showCardDetails: () => void;
 }
 
-const Lists = ({ name, id }: Props) => {
+const Lists = ({ name, id, showCardDetails }: Props) => {
   const { token } = useContext(UserContext) as UserContextType;
-  const { cards, createCard } = useContext(CardContext) as CardContextType;
-
+  const { cards, createCard, setCardDetails } = useContext(
+    CardContext
+  ) as CardContextType;
   const [inputFieldRendered, setInputFieldRendered] = useState(false);
   const [cardTitle, setCardTitle] = useState("");
   const [newCardAdded, setNewCardAdded] = useState(false);
@@ -106,6 +108,9 @@ const Lists = ({ name, id }: Props) => {
                     key={card.uuid}
                     name={card.title}
                     index={card.cardIndex}
+                    showCardDetails={() => {
+                      setCardDetails(card), showCardDetails();
+                    }}
                   />
                 ))}
               {inputFieldRendered && (

@@ -30,10 +30,11 @@ import {
 import { boardLists } from "@/lib/v2/lists";
 import { listCards } from "@/lib/v2/cards";
 import CardDetails from "@/components/cardDetails";
+import { Cards } from "@/types";
 
 const Project = () => {
   const { token } = useContext(UserContext) as UserContextType;
-  const { cards } = useContext(CardContext) as CardContextType;
+  const { cards, cardDetails } = useContext(CardContext) as CardContextType;
   const { isBoardSelectedGlobal, selectedBoard } = useContext(
     BoardContext
   ) as BoardContextType;
@@ -43,7 +44,15 @@ const Project = () => {
   ) as WorkspaceContextType;
   const [isActive, setIsActive] = useState(true);
   const [listTitle, setListTitle] = useState("");
+  const [isHidden, setIsHidden] = useState(true);
+
+  const toggleCardDetails = () => {
+    setIsHidden(!isHidden);
+  };
+
   const ref = useRef<HTMLDivElement | null>(null);
+
+  console.log("card details: ", cardDetails);
   //function to calculate the new position of the card
   const calculatePosition = (
     card: any, //the moved card
@@ -200,12 +209,22 @@ const Project = () => {
         <BoardNav />
       </div>
       <div className="relative">
-        <CardDetails />
+        {/* track current card */}
+        <CardDetails
+          title={cardDetails?.title}
+          isHidden={isHidden}
+          setIsHidden={toggleCardDetails}
+        />
       </div>
       <DragDropContext onDragEnd={handleDragEnd}>
         <div className="flex w-full h-full overflow-x-auto items-start py-5 px-5 gap-5">
           {lists.map((list: any, key: any) => (
-            <Lists key={list.uuid} name={list.title} id={list.uuid} />
+            <Lists
+              showCardDetails={toggleCardDetails}
+              key={list.uuid}
+              name={list.title}
+              id={list.uuid}
+            />
           ))}
           {isActive ? (
             <div

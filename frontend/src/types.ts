@@ -23,8 +23,8 @@ export interface Lists {
 }
 
 export interface Cards {
-  _id: string;
   title: string;
+  _id: string;
   uuid: string;
   cardIndex: number;
   listUuid: string;

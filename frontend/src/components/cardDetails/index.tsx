@@ -9,14 +9,25 @@ import { UserContext, UserContextType } from "@/contexts/Usercontext";
 
 //This board will depend on the data from the backend, when a card is clicked it will show the details of the card
 //We get the right card by its id
+interface CardDetailProps {
+  title: string;
+  members?: string[];
+  description?: string;
+  isHidden?: boolean;
+  setIsHidden: (value: boolean) => void;
+}
 
-const CardDetails = () => {
-  const [isVisible, setIsVisible] = useState(true);
+const CardDetails = ({
+  title,
+  description,
+  isHidden,
+  setIsHidden,
+}: CardDetailProps) => {
   const { user } = useContext(UserContext) as UserContextType;
   const [isMemberVisible, setIsMemberVisible] = useState(false);
 
   const closeModal = () => {
-    setIsVisible(false);
+    setIsHidden(true);
   };
   const closeAddMember = () => {
     setIsMemberVisible(false);
@@ -28,7 +39,7 @@ const CardDetails = () => {
   return (
     <div
       className={`fixed inset-0 flex justify-center overflow-y-auto items-center z-20 bg-black bg-opacity-50 ${
-        isVisible ? "block" : "hidden"
+        isHidden ? "block" : "hidden"
       }`}
     >
       <div
@@ -40,11 +51,11 @@ const CardDetails = () => {
           className="flex flex-col bg-foreground text-background rounded-lg w-[580px]"
         >
           <div className="title bar flex flex-row items-center justify-between">
-            <div className=" px-2 font-semibold">{"Name of Card"}</div>
+            <div className=" px-2 font-semibold">{title}</div>
             <Button
               isIconOnly
               className="bg-inherit text-black hover:bg-white rounded-full"
-              onClick={closeModal}
+              onClick={() => setIsHidden(true)}
             >
               X
             </Button>
@@ -133,8 +144,8 @@ const CardDetails = () => {
               >
                 <PopUpWrapper
                   classNames="bg-white absolute top-0 left-0 z-20 "
-                  width="200px"
-                  height="300px"
+                  width={"400px"}
+                  height={"350px"}
                 >
                   <div className="flex flex-row justify-between items-center">
                     <p className="flex text-background font-semibold ml-1">

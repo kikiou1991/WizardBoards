@@ -23,6 +23,8 @@ export interface CardContextType {
   fetchCards: (token: any, listUuid: string) => Promise<void>;
   createCard: (token: any, cardData: any, listUuid: string) => Promise<void>;
   deleteCard: (token: any, cardData: any, listUuid: string) => Promise<void>;
+  cardDetails: Cards;
+  setCardDetails: React.Dispatch<React.SetStateAction<any>>;
 }
 interface CardContextProviderProps {
   children: ReactNode;
@@ -35,6 +37,7 @@ const CardContextProvider = ({ children }: CardContextProviderProps) => {
   const { lists, setLists } = useContext(ListContext) as ListContextType;
   const [cards, setCards] = useState<Cards[]>([]);
   const [isNewCardCreated, setIsNewCardCreated] = useState(false);
+  const [cardDetails, setCardDetails] = useState<any>(null);
 
   const fetchCards = async (token: any, listUuid: string) => {
     if (!listUuid) return;
@@ -127,6 +130,8 @@ const CardContextProvider = ({ children }: CardContextProviderProps) => {
     fetchCards,
     createCard,
     deleteCard,
+    cardDetails,
+    setCardDetails,
   };
   return (
     <CardContext.Provider value={contextValue}>{children}</CardContext.Provider>

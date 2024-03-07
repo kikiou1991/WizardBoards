@@ -67,13 +67,13 @@ const NewBoardPopUp = ({
     <div
       className={`container absolute z-20 overflow-y-auto right-0 ${
         isVisible ? "hidden" : "block"
-      } bg-foreground text-background rounded-lg w-[310px] h-[565px]`}
+      } bg-background text-foreground border-foreground border-1 shadow-md rounded-lg w-[310px] h-[565px]`}
       style={{ top, left }}
     >
       {" "}
       <Button
         isIconOnly
-        className="bg-inherit text-black absolute top-1 right-1 rounded-full hover:bg-white"
+        className="bg-inherit text-black absolute top-1 right-1 rounded-full hover:bg-secondaryBG hover:text-foreground"
         onClick={setVisi}
       >
         X

@@ -11,12 +11,12 @@ interface PopUpWrapperProps {
 const PopUpWrapper = ({
   children,
   classNames,
-  width = "500px",
-  height = "150px",
+  width,
+  height,
 }: PopUpWrapperProps) => {
   return (
     <div
-      className={`${classNames} h-[${height}] w-[${width}]  rounded-lg shadow-lg border-1 border-slate-200`}
+      className={`${classNames}  h-[${height}] w-[${width}] rounded-lg shadow-lg `}
     >
       {children}
     </div>
