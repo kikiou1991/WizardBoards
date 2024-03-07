@@ -6,7 +6,7 @@ import {
 } from "@/contexts/WorkspaceContext";
 import { Button, Input, Select, SelectItem } from "@nextui-org/react";
 import Image from "next/image";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Icon from "../Icons";
 import { imageUrls } from "@/lib/imagesData";
 interface Position {
@@ -34,11 +34,16 @@ const NewBoardPopUp = ({
   const [workSpaceTitle, setWorkSpaceTitle] = useState("");
   const [isSelected, setIsSelected] = useState(true);
   const [selectedImg, setSelectedImg] = useState<"2" | "3" | "4" | "5">("2");
+  const [newBoardImg, setNewBoardImg] = useState("");
   const context = useContext(UserContext);
-
   const handleImageSelect = (id: any) => {
     setSelectedImg(id);
   };
+  useEffect(() => {
+    if (selectedImg !== null) {
+      setNewBoardImg(imageUrls[selectedImg]);
+    }
+  }, [selectedImg]); //when the selected image changes, we set the new board image
 
   const handleCreateBoard = async () => {
     if (!boardTitle || !localSelectedWorkspace) {
@@ -48,6 +53,7 @@ const NewBoardPopUp = ({
       await createBoard(context?.token, {
         name: boardTitle,
         workspaceUuid: localSelectedWorkspace,
+        // newBoardImg, we can use this once the backend has been changed so it will require this when a board is created
       });
       setBoardTitle("");
       setSelectedWorkspace("");
@@ -86,7 +92,7 @@ const NewBoardPopUp = ({
           className="rounded-lg"
         />
         <div className="font-semibold">Board cover</div>
-        <div className="flex flex-row gap-1">
+        <div className="flex flex-row gap-1 mx-4">
           <div className="relative">
             <Image
               src="https://images.unsplash.com/photo-1548630826-2ec01a41f48f?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -158,6 +164,7 @@ const NewBoardPopUp = ({
         </div>
         <div className="flex flex-col gap-3 mt-5">
           <Input
+            autoFocus
             isRequired
             type="text"
             size="sm"
