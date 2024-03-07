@@ -80,8 +80,9 @@ const NewBoardPopUp = ({
           src={imageUrls[selectedImg || "2"]}
           alt="some background image"
           id="2"
-          width={190}
+          width={100}
           height={100}
+          style={{ width: "200px", height: "120px" }}
           className="rounded-lg"
         />
         <div className="font-semibold">Board cover</div>
@@ -91,8 +92,9 @@ const NewBoardPopUp = ({
               src="https://images.unsplash.com/photo-1548630826-2ec01a41f48f?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
               alt="some background image"
               id="2"
-              width={70}
-              height={70}
+              width={100}
+              height={100}
+              style={{ width: "70px", height: "50px" }}
               className="rounded-lg"
               onClick={() => handleImageSelect("2")}
             />
@@ -107,8 +109,9 @@ const NewBoardPopUp = ({
               src="https://images.unsplash.com/photo-1539103377911-4909a1eae382?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
               alt="some background image"
               id="3"
-              width={70}
-              height={80}
+              width={100}
+              height={100}
+              style={{ width: "70px", height: "50px" }}
               className="rounded-lg"
               onClick={() => handleImageSelect("3")}
             />
@@ -123,8 +126,9 @@ const NewBoardPopUp = ({
               src="https://images.unsplash.com/photo-1618944847023-38aa001235f0?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
               alt="some background image"
               id="4"
-              width={70}
-              height={80}
+              width={100}
+              height={100}
+              style={{ width: "70px", height: "50px" }}
               className="rounded-lg"
               onClick={() => handleImageSelect("4")}
             />
@@ -139,8 +143,9 @@ const NewBoardPopUp = ({
               src="https://images.unsplash.com/photo-1515816052601-210d5501d471?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
               alt="some background image"
               id="5"
-              width={70}
-              height={80}
+              width={100}
+              height={100}
+              style={{ width: "70px", height: "50px" }}
               className="rounded-lg"
               onClick={() => handleImageSelect("5")}
             />
