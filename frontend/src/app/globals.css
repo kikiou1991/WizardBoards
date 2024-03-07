@@ -48,18 +48,3 @@ body {
   background: #555;
 } */
 /* CSS */
-//slide down animation for popups
-@keyframes slideDown {
-  from {
-    transform: translateY(-50%);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-.animate-slide-down {
-  animation: slideDown 0.5s ease-in-out forwards;
-}

@@ -59,15 +59,15 @@ const NewBoardPopUp = ({
 
   return (
     <div
-      className={`container absolute z-10 overflow-y-auto right-0 ${
-        isVisible ? "hidden" : "block animate-slide-down"
-      } bg-foreground text-background rounded-lg w-[310px] h-[585px]`}
+      className={`container absolute z-20 overflow-y-auto right-0 ${
+        isVisible ? "hidden" : "block"
+      } bg-foreground text-background rounded-lg w-[310px] h-[565px]`}
       style={{ top, left }}
     >
       {" "}
       <Button
         isIconOnly
-        className="bg-inherit text-black absolute top-1 right-1 hover:bg-white"
+        className="bg-inherit text-black absolute top-1 right-1 rounded-full hover:bg-white"
         onClick={setVisi}
       >
         X
@@ -160,11 +160,7 @@ const NewBoardPopUp = ({
             className="text-foreground"
             onChange={(e) => setBoardTitle(e.target.value)}
           ></Input>
-          {
-            <p className="text-danger text-sm pl-1">
-              You must enter a board title{" "}
-            </p>
-          }
+
           <div className="flex flex-row items-center">
             <Select
               isRequired
@@ -192,7 +188,7 @@ const NewBoardPopUp = ({
               handleCreateBoard();
             }}
             onClick={setVisi}
-            className="items-center mt-3"
+            className="items-center p-0 mt-2"
             color="primary"
             variant="solid"
             isDisabled={!boardTitle || !localSelectedWorkspace}
@@ -200,7 +196,7 @@ const NewBoardPopUp = ({
             Create
           </Button>
         </div>
-        <p className="text-sm flex px-2 mb-2 items-center justify-center ml-1">
+        <p className="text-sm flex px-2 my-2 items-center justify-center ml-1">
           By using images from Unsplash, you agree to their license and Terms of
           Service
         </p>

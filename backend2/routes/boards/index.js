@@ -7,22 +7,18 @@ module.exports = async (app, db, io) => {
       const user = req.user;
 
       if (!workspaceUuid) {
-        return res
-          .status(400)
-          .json({
-            message: "Invalid workspace ID",
-            success: false,
-            data: null,
-          });
+        return res.status(400).json({
+          message: "Invalid workspace ID",
+          success: false,
+          data: null,
+        });
       }
       if (!user || !user._id) {
-        return res
-          .status(400)
-          .json({
-            message: "Invalid user information",
-            success: false,
-            data: null,
-          });
+        return res.status(400).json({
+          message: "Invalid user information",
+          success: false,
+          data: null,
+        });
       }
 
       const workspace = await db.collection("workspaces").findOne({
@@ -61,24 +57,19 @@ module.exports = async (app, db, io) => {
       const { data, workspaceUuid, boardUuid } = req.body;
       const user = req.user;
       if (!user || !user._id) {
-        return res
-          .status(400)
-          .json({
-            message: "Invalid user information",
+        return res.status(400).json({
+          message: "Invalid user information",
+          success: false,
+          data: null,
+        });
+      }
+      if (!boardUuid) {
+        if (!workspaceUuid) {
+          return res.status(400).json({
+            message: "Invalid workspace ID",
             success: false,
             data: null,
           });
-      }
-      if (!boardUuid) {
-        console.log("Creating new board");
-        if (!workspaceUuid) {
-          return res
-            .status(400)
-            .json({
-              message: "Invalid workspace ID",
-              success: false,
-              data: null,
-            });
         }
         let uuid = uuidv4();
         const defaultImageLink =
@@ -105,13 +96,11 @@ module.exports = async (app, db, io) => {
           .collection("boards")
           .findOne({ _id: createdBoard.insertedId });
         namespace.emit("board", { type: "create", data: boardThatCreated });
-        return res
-          .status(201)
-          .json({
-            message: "Board created successfully",
-            success: true,
-            data: boardThatCreated,
-          });
+        return res.status(201).json({
+          message: "Board created successfully",
+          success: true,
+          data: boardThatCreated,
+        });
       } else {
         let result = await db.collection("boards").findOneAndUpdate(
           { uuid: boardUuid },
@@ -125,13 +114,11 @@ module.exports = async (app, db, io) => {
         console.log("Board updated successfully", result);
         namespace.emit("board", { type: "update", data: result });
 
-        return res
-          .status(201)
-          .json({
-            message: "Board updated successfully",
-            success: true,
-            data: result,
-          });
+        return res.status(201).json({
+          message: "Board updated successfully",
+          success: true,
+          data: result,
+        });
       }
     } catch (error) {
       console.error(error, "Failed to create board");
@@ -143,13 +130,11 @@ module.exports = async (app, db, io) => {
       const { boardUuid } = req.body;
       const user = req.user;
       if (!user || !user._id) {
-        return res
-          .status(400)
-          .json({
-            message: "Invalid user information",
-            success: false,
-            data: null,
-          });
+        return res.status(400).json({
+          message: "Invalid user information",
+          success: false,
+          data: null,
+        });
       }
       let updatedWorkspace = await db
         .collection("workspaces")
@@ -163,13 +148,11 @@ module.exports = async (app, db, io) => {
         .deleteOne({ uuid: boardUuid }, { returnOriginal: true });
       namespace.emit("board", { type: "delete", data: result });
 
-      return res
-        .status(201)
-        .json({
-          message: "Board archived successfully",
-          success: true,
-          data: { result: result, updatedWorkspace: updatedWorkspace },
-        });
+      return res.status(201).json({
+        message: "Board archived successfully",
+        success: true,
+        data: { result: result, updatedWorkspace: updatedWorkspace },
+      });
     } catch (error) {
       console.error(error, "Failed to archive board");
       next(error);

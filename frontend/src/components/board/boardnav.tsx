@@ -65,8 +65,8 @@ const BoardNav = () => {
   const currentBoard = boards.find((board) => board.uuid === selectedBoard);
 
   return (
-    <div className="flex flex-row items-center justify-start flex-wrap mr-5">
-      <div className=" ml-2 mr-auto text-foreground flex  items-center ">
+    <div className="flex flex-row items-center justify-start flex-wrap">
+      <div className="flex justify-between text-foreground items-center ">
         <div className="px-3 py-0">{currentBoard?.name}</div>
         <Button
           className={`data-${
@@ -98,7 +98,7 @@ const BoardNav = () => {
           <Icon name="groupVis" />
         </Button>
       </div>
-      <div className="flex  px-2 py-2 mr-2 ml-auto">
+      <div className="flex ml-auto py-2 ">
         <AvatarGroup size="sm">
           <Avatar src="https://i.pravatar.cc/150?u=a042581f4e29026704d" />
           <Avatar src="https://i.pravatar.cc/150?u=a042581f4e29026024d" />

@@ -48,7 +48,6 @@ const MyWorkSpaceModal = () => {
     console.log("i appeared");
   }
   const handleVisible = () => {
-    console.log("clicked");
     setIsVisible(!isVisible);
   };
 

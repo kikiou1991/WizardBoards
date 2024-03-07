@@ -15,7 +15,9 @@ const PopUpWrapper = ({
   height = "150px",
 }: PopUpWrapperProps) => {
   return (
-    <div className={`${classNames} h-[${height}] w-[${width}]  rounded-lg`}>
+    <div
+      className={`${classNames} h-[${height}] w-[${width}]  rounded-lg shadow-lg border-1 border-slate-200`}
+    >
       {children}
     </div>
   );

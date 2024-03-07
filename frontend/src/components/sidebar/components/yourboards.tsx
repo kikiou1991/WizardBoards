@@ -18,6 +18,7 @@ import {
   WorkspaceContext,
   WorkspaceContextType,
 } from "@/contexts/WorkspaceContext";
+import NewBoardPopUp from "@/components/newboardpopup";
 
 const YourBoards = () => {
   const { token } = useContext(UserContext) as UserContextType;
@@ -34,11 +35,16 @@ const YourBoards = () => {
     createBoard,
   } = useContext(BoardContext) as BoardContextType;
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null); // Maintain the ID of the selected board item
+  const [isVisible, setIsVisible] = useState(false);
 
   const handleBoardChange = (boardId: string) => {
     setSelectedBoard(boardId);
     setIsBoardSelectedGlobal(true);
     setSelectedItemId(boardId); // Set the selected item ID
+  };
+
+  const handleVisible = () => {
+    setIsVisible(!isVisible);
   };
 
   const handleDelete = async (boardUuid: string) => {
@@ -85,11 +91,23 @@ const YourBoards = () => {
 
   return (
     <div>
-      <div className="flex flex-row px-2 pt-2">
+      <div className="flex flex-row pl-2 hover:cursor-pointer items-center">
         <h2 className="font-semibold flex-grow">Your Boards</h2>
-        <MyModalNewBoard iconName="addIcon" />
+        <Button
+          onPress={handleVisible}
+          className="bg-inherit  ml-auto"
+          isIconOnly
+        >
+          <Icon name="addIcon" />
+        </Button>
+        <NewBoardPopUp
+          left={260}
+          top={100}
+          isVisible={isVisible}
+          setVisi={handleVisible}
+        />
       </div>
-      <div className="pt-2 flex flex-col">
+      <div className="pt-1 flex flex-col">
         {boards && boards.length > 0 ? (
           <ul className=" ">
             {orderBoardsByStar[0].map((board: any) => {

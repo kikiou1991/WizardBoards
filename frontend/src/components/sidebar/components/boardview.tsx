@@ -17,27 +17,31 @@ const BoardView = () => {
   return (
     <div className="gap-1 flex flex-col ">
       <div className="h-8 flex flex-row gap-2 hover:bg-secondaryBG items-center  px-2">
-        <div className="flex flex-row gap-2 flex-grow ">
-          <Icon name="board" />
-          <Link href="/workspace/projects">Boards</Link>
-        </div>
+        <Link href="/workspace/projects">
+          <div className="flex flex-row gap-2 flex-grow ">
+            <Icon name="board" />
+            {"Boards"}
+          </div>
+        </Link>
       </div>
       <div className="h-8 flex flex-row gap-2 items-center hover:bg-secondaryBG pl-2">
-        <div className="flex flex-row gap-2 flex-grow ">
-          <Icon name="members" />
-          <Link href="/workspace/members">Members</Link>
-        </div>
-        <div className="pr-1">
+        <Link href="/workspace/members">
+          <div className="flex flex-row gap-2 flex-grow ">
+            <Icon name="members" />
+            <p>Members</p>
+          </div>
+        </Link>
+        <div className="mr-2 ml-auto">
           <MyModalEmail name="addIcon" />
         </div>
       </div>
       <div className="h-8 flex flex-row items-center  hover:bg-secondaryBG  pl-2 ">
-        <div className="flex flex-row gap-2 flex-grow">
-          <Icon name="settings" classname="p-1" />
-          <Link href="/workspace/settings" className="font-semibold">
-            Settings
-          </Link>
-        </div>
+        <Link href="/workspace/settings" className="font-semibold">
+          <div className="flex flex-row gap-2 flex-grow">
+            <Icon name="settings" classname="p-1" />
+            <p>Settings</p>
+          </div>
+        </Link>
       </div>
     </div>
   );

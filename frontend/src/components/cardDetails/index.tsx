@@ -27,7 +27,7 @@ const CardDetails = () => {
 
   return (
     <div
-      className={`fixed inset-0 flex justify-center overflow-y-auto items-center z-10 bg-black bg-opacity-50 ${
+      className={`fixed inset-0 flex justify-center overflow-y-auto items-center z-20 bg-black bg-opacity-50 ${
         isVisible ? "block" : "hidden"
       }`}
     >
@@ -39,11 +39,11 @@ const CardDetails = () => {
           id="modal-content"
           className="flex flex-col bg-foreground text-background rounded-lg w-[580px]"
         >
-          <div className="title bar flex flex-row items-center p-2">
-            <div className=" px-2 ">{"name of card"}</div>
+          <div className="title bar flex flex-row items-center justify-between">
+            <div className=" px-2 font-semibold">{"Name of Card"}</div>
             <Button
               isIconOnly
-              className="bg-inherit ml-auto text-black top-1 right-1"
+              className="bg-inherit text-black hover:bg-white rounded-full"
               onClick={closeModal}
             >
               X
@@ -129,22 +129,20 @@ const CardDetails = () => {
                 Member
               </Button>
               <div
-                className={`relative ${
-                  isMemberVisible ? "block animate-slide-down" : "hidden"
-                }`}
+                className={`relative ${isMemberVisible ? "block " : "hidden"}`}
               >
                 <PopUpWrapper
-                  classNames="bg-foreground absolute top-0 left-0 z-20 "
+                  classNames="bg-white absolute top-0 left-0 z-20 "
                   width="200px"
                   height="300px"
                 >
-                  <div className="flex flex-row ">
-                    <p className="flex text-background font-semibold items-center justify-center py-1">
+                  <div className="flex flex-row justify-between items-center">
+                    <p className="flex text-background font-semibold ml-1">
                       Members{" "}
                     </p>
                     <Button
                       isIconOnly
-                      className="bg-inherit ml-auto rounded-full hover:bg-slate-400 text-black top-1 right-1"
+                      className="bg-inherit  rounded-full hover:bg-foreground text-black"
                       onClick={closeAddMember}
                       size="sm"
                     >

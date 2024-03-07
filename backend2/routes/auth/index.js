@@ -35,7 +35,7 @@ module.exports = async (app, db) => {
         httpOnly: false,
       });
       res.status(201).json({
-        message: "User signed up successfully",
+        message: "User signed up successfully bla bla",
         success: true,
         token: token,
         data: {
@@ -47,8 +47,7 @@ module.exports = async (app, db) => {
       console.error(error, "Failed to login in user");
     }
   });
-  app.post("/api/v2/login", async (req, res) => {
-    console.log("the request body is:", req.body);
+  app.post("/api/v2/login", async (req, res, next) => {
     try {
       const { email, password } = req.body;
       if (!email) {
@@ -101,9 +100,9 @@ module.exports = async (app, db) => {
     }
   });
   app.post("/api/v2/validate", async (req, res) => {
+    console.log("validate");
     try {
       const token = req.headers?.authorization?.split(" ")[1];
-      console.log("the token is:", token);
       if (!token) {
         return res
           .status(401)
@@ -133,7 +132,7 @@ module.exports = async (app, db) => {
             } else {
               return res
                 .status(404)
-                .json({ status: false, message: "User not found" });
+                .json({ status: false, message: "User not found here" });
             }
           } catch (error) {
             console.error("User retrieval error:", error);
