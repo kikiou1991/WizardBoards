@@ -92,6 +92,7 @@ async function startServer() {
   const boards = require("./routes/boards")(app, db, io);
   const lists = require("./routes/lists")(app, db, io);
   const cards = require("./routes/cards")(app, db, io);
+  const users = require("./routes/users")(app, db, io);
   const workspaces = require("./routes/workspaces")(app, db, io);
 }
 

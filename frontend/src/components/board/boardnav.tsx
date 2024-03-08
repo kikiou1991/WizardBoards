@@ -1,6 +1,6 @@
 "use client";
 import { Avatar, AvatarGroup, Button } from "@nextui-org/react";
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import Icon from "../Icons";
 import { UserContext, UserContextType } from "@/contexts/Usercontext";
 import { BoardContext, BoardContextType } from "@/contexts/BoardContext";
@@ -13,6 +13,7 @@ import {
 import PopUpWrapper from "../CustomPopUp/Wrapper";
 import PopUpBody from "../CustomPopUp/Body";
 import Image from "next/image";
+import { userList } from "@/lib/v2/users";
 
 const BoardNav = () => {
   const { token } = useContext(UserContext) as UserContextType;
@@ -26,16 +27,27 @@ const BoardNav = () => {
   const [visibility, setVisibility] = useState("Private" as string);
   const [isVisible, setIsVisible] = useState(false);
   const [userInfoVisible, setUserInfoVisible] = useState(true);
+  const [currentUsers, setCurrentUsers] = useState([] as any);
   const ref = useRef(null);
   const users = workspaces.find(
     (workspace) => workspace.uuid === selectedWorkspace
   )?.users;
 
-  console.log(users);
   //we need to fetch all users from the backend that belong to this workpsace
   //next we need to store their avatar, email
   //we then show the avatars in the boardnav
   //if we click on an avatar we should be able to see the user details
+  const fetchUsers = async (token: any, selectedWorkspace: any) => {
+    try {
+      const res = await userList.getAllUsers(token, selectedWorkspace);
+      console.log("data is: ", res?.users.data);
+    } catch (error: unknown) {
+      console.error("Error while trying to fetch users: ", error);
+    }
+  };
+  useEffect(() => {
+    fetchUsers(token, selectedWorkspace);
+  }, [selectedWorkspace]);
 
   const toggleModal = () => {
     setIsVisible(!isVisible);

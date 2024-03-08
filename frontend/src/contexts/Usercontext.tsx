@@ -21,8 +21,8 @@ import { Workspace, Boards, Lists, Cards } from "@/types";
 // Interfaces Section
 
 export interface UserContextType {
-  token: string | null;
-  setToken: (token: string | null) => void;
+  token: any | null;
+  setToken: (token: any | null) => void;
   handleLogout: (token: any | null) => Promise<void>;
   authenticated: boolean | false;
   userData: any;
