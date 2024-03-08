@@ -127,9 +127,7 @@ module.exports = async (app, db, io) => {
   });
 
   app.post("/api/v2/workspaces/user", async (req, res, next) => {
-    console.log("Adding user to workspace", req.user);
     try {
-      console.log("Adding user to workspace", req.body);
       const { workspaceUuid, userUuid } = req.body;
       const user = req.user;
       if (!user || !user._id) {

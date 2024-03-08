@@ -10,7 +10,7 @@ module.exports = async (app, db) => {
       const existingUser = await db.collection("users").findOne({ email });
       if (existingUser) {
         return res.json({
-          message: "User already exist, please sign in",
+          message: "User already exists!",
           success: false,
           data: null,
         });
@@ -35,7 +35,7 @@ module.exports = async (app, db) => {
         httpOnly: false,
       });
       res.status(201).json({
-        message: "User signed up successfully bla bla",
+        message: "User signed up successfully",
         success: true,
         token: token,
         data: {
@@ -100,7 +100,6 @@ module.exports = async (app, db) => {
     }
   });
   app.post("/api/v2/validate", async (req, res) => {
-    console.log("validate");
     try {
       const token = req.headers?.authorization?.split(" ")[1];
       if (!token) {

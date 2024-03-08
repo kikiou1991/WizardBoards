@@ -34,7 +34,6 @@ export interface Comment {
   _id: string;
   text: string;
   user: User;
-  card: Cards;
   createdAt: string;
 }
 
