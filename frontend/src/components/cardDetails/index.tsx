@@ -50,16 +50,25 @@ const CardDetails = ({
           id="modal-content"
           className="flex flex-col bg-foreground text-background rounded-lg w-[580px]"
         >
-          <div className="title bar flex flex-row items-center justify-between">
-            <div className=" px-2 font-semibold">{title}</div>
-            <Button
-              isIconOnly
-              className="bg-inherit text-black hover:bg-white rounded-full"
-              onClick={() => setIsHidden(true)}
-            >
-              X
-            </Button>
+          {" "}
+          <div className="title bar relative flex flex-row items-center justify-between">
+            <div className="ml-4 py-2 mt-4 flex flex-row items-center">
+              <Icon name="table" />
+
+              <div className="text-xl px-2 font-semibold">{title}</div>
+              <Button
+                isIconOnly
+                className="bg-inherit absolute top-0 right-0 text-black hover:bg-white rounded-full"
+                onClick={() => setIsHidden(true)}
+              >
+                X
+              </Button>
+            </div>
           </div>
+          {/* The members section is only visible if at least one user is added to the card
+              For each of the users we will render the users avatar
+          */}
+          <div className="text-sm font-semibold ml-3">Members</div>
           <div className="flex flex-row h-full w-full gap-3">
             <div className="main ml-3 w-[80%] h-full">
               <div className="section h-[40%]">

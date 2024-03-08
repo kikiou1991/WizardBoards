@@ -5,6 +5,15 @@ export interface Workspace {
   users: string[];
 }
 
+export interface User {
+  _id: string;
+  name: string;
+  email: string;
+  uuid: string;
+  workspaces: Workspace[];
+  boards: Boards[];
+}
+
 export interface Boards {
   _id: string;
   name: string;
@@ -21,6 +30,13 @@ export interface Lists {
   boardId: string;
   cards: Cards[];
 }
+export interface Comment {
+  _id: string;
+  text: string;
+  user: User;
+  card: Cards;
+  createdAt: string;
+}
 
 export interface Cards {
   title: string;
@@ -30,4 +46,6 @@ export interface Cards {
   listUuid: string;
   position: number;
   list: string[];
+  users: User[];
+  comments: Comment[];
 }

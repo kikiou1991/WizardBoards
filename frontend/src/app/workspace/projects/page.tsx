@@ -52,7 +52,6 @@ const Project = () => {
 
   const ref = useRef<HTMLDivElement | null>(null);
 
-  console.log("card details: ", cardDetails);
   //function to calculate the new position of the card
   const calculatePosition = (
     card: any, //the moved card
