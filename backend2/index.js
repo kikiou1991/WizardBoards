@@ -33,8 +33,6 @@ const excludedPaths = ["/api/v2/login", "/api/v2/register"];
 const checkTokenMiddleware = (req, res, next) => {
   const token = req.headers?.authorization?.split(" ")[1];
   const path = req.baseUrl;
-  console.log("path:", path);
-  console.log(process.env.PORT);
   // Check if the path is in the excluded paths list
   if (excludedPaths.includes(path)) {
     return next(); // Skip token verification for excluded paths

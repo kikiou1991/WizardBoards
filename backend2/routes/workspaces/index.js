@@ -144,6 +144,9 @@ module.exports = async (app, db, io) => {
           data: null,
         });
       }
+
+      //add the user to the workspace.users array
+
       let updatedWorkspace = await db.collection("workspaces").findOneAndUpdate(
         {
           uuid: workspaceUuid,
@@ -151,6 +154,17 @@ module.exports = async (app, db, io) => {
         { $push: { users: userUuid } },
         { returnOriginal: false }
       );
+      console.log("updatedWorkspace", updatedWorkspace);
+      //add the workspace to the user.workspaces array
+      let updatedUser = await db.collection("users").findOneAndUpdate(
+        {
+          uuid: userUuid,
+        },
+        { $push: { workspaces: updatedWorkspace._id } },
+        { returnOriginal: false }
+      );
+      console.log("updatedUser", updatedUser);
+      namespace.emit("users", { type: "update", data: updatedUser });
       namespace.emit("workspace", { type: "update", data: updatedWorkspace });
       return res.status(200).json({
         succcess: true,
