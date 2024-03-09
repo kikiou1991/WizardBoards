@@ -61,4 +61,33 @@ export const userWorkspaces = {
       }
     } catch (error: any) {}
   },
+  addUserToWorkspace: async (
+    token: any,
+    workspaceUuid: string,
+    userUuid: string
+  ) => {
+    try {
+      const response = await fetch(
+        `http://localhost:3002/api/v2/workspaces/user`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            workspaceUuid,
+            userUuid,
+          }),
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Failed to add user to workspace");
+      }
+      const data = await response.json();
+      return data;
+    } catch (error: unknown) {
+      console.error("Error while trying to add user to workspace: ", error);
+    }
+  },
 };

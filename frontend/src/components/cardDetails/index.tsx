@@ -1,11 +1,17 @@
 import { Avatar, Button, Input } from "@nextui-org/react";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Icon from "../Icons";
 import Comment from "../comment";
 import PopUpWrapper from "../CustomPopUp/Wrapper";
 import PopUpBody from "../CustomPopUp/Body";
 import UserCard from "../usercard";
 import { UserContext, UserContextType } from "@/contexts/Usercontext";
+import { userList } from "@/lib/v2/users";
+import {
+  WorkspaceContext,
+  WorkspaceContextType,
+} from "@/contexts/WorkspaceContext";
+import { User } from "@/types";
 
 //This board will depend on the data from the backend, when a card is clicked it will show the details of the card
 //We get the right card by its id
@@ -23,17 +29,21 @@ const CardDetails = ({
   isHidden,
   setIsHidden,
 }: CardDetailProps) => {
-  const { user } = useContext(UserContext) as UserContextType;
+  const { user, token } = useContext(UserContext) as UserContextType;
   const [isMemberVisible, setIsMemberVisible] = useState(false);
-
+  const [currentUsers, setCurrentUsers] = useState([] as any);
+  const [currentMemebers, setCurrentMembers] = useState([] as any);
+  const { selectedWorkspace } = useContext(
+    WorkspaceContext
+  ) as WorkspaceContextType;
   const closeModal = () => {
     setIsHidden(true);
   };
   const closeAddMember = () => {
     setIsMemberVisible(false);
   };
-  const handleAddUser = () => {
-    alert("user added to card");
+  const handleAddUser = (user: User) => {
+    setCurrentMembers([...currentMemebers, user]);
   };
 
   return (
@@ -152,17 +162,22 @@ const CardDetails = ({
                 className={`relative ${isMemberVisible ? "block " : "hidden"}`}
               >
                 <PopUpWrapper
-                  classNames="bg-white absolute top-0 left-0 z-20 "
+                  classNames="bg-white absolute top-0 left-0  min-h-[100px] w-[200px]  z-20 "
                   width={"400px"}
                   height={"350px"}
                 >
-                  <div className="flex flex-row justify-between items-center">
-                    <p className="flex text-background font-semibold ml-1">
+                  <div className="flex flex-col gap-1 min-h-[50px]">
+                    <p className="flex text-background font-semibold ml-1 mt-2">
                       Members{" "}
                     </p>
+                    <div>
+                      {currentMemebers?.map((member: any) => {
+                        return <UserCard key={member.uuid} user={member} />;
+                      })}
+                    </div>
                     <Button
                       isIconOnly
-                      className="bg-inherit  rounded-full hover:bg-foreground text-black"
+                      className="bg-inherit  absolute top-0 right-0 rounded-full hover:bg-foreground text-black"
                       onClick={closeAddMember}
                       size="sm"
                     >
@@ -178,11 +193,15 @@ const CardDetails = ({
                     workspace.users is an array of user.uuids(strings) so then we would fetch the userdata from the backend
                      and render the usercard with the user data
                     */}
-
-                    <UserCard addUser={handleAddUser} user={user} />
-                    <UserCard addUser={handleAddUser} user={user} />
-                    <UserCard addUser={handleAddUser} user={user} />
-                    <UserCard addUser={handleAddUser} user={user} />
+                    {currentUsers?.map((user: any) => {
+                      return (
+                        <UserCard
+                          key={user.uuid}
+                          addUser={() => handleAddUser(user)}
+                          user={user}
+                        />
+                      );
+                    })}
                   </PopUpBody>
                 </PopUpWrapper>
               </div>

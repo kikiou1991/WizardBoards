@@ -35,7 +35,7 @@ const YourBoards = () => {
     createBoard,
   } = useContext(BoardContext) as BoardContextType;
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null); // Maintain the ID of the selected board item
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
 
   const handleBoardChange = (boardId: string) => {
     setSelectedBoard(boardId);

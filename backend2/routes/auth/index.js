@@ -2,6 +2,7 @@ require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { createSecretToken } = require("../../utils/secretToken");
+const { ObjectId } = require("mongodb");
 const { v4: uuidv4 } = require("uuid");
 module.exports = async (app, db) => {
   app.post("/api/v2/register", async (req, res) => {
@@ -118,9 +119,9 @@ module.exports = async (app, db) => {
           });
         } else {
           try {
-            const user = await db
-              .collection("users")
-              .findOne({ uuid: data.id });
+            let objId = new ObjectId(data.id);
+            console.log("ObjId:", objId);
+            const user = await db.collection("users").findOne({ _id: objId });
             if (user) {
               return res.status(200).json({
                 status: true,

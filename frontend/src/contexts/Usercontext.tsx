@@ -17,6 +17,8 @@ import {
 } from "react";
 import { BoardContext, BoardContextType } from "./BoardContext";
 import { Workspace, Boards, Lists, Cards } from "@/types";
+import { WorkspaceContext, WorkspaceContextType } from "./WorkspaceContext";
+import { userList } from "@/lib/v2/users";
 
 // Interfaces Section
 
@@ -29,6 +31,7 @@ export interface UserContextType {
   setAuthenticated: (authenticated: boolean) => void;
   validateToken: (token: any) => Promise<void>;
   user: any;
+  allUsers: any;
 }
 interface UserContextProviderProps {
   children: ReactNode;
@@ -39,7 +42,11 @@ const UserContext = createContext<UserContextType | null>(null);
 const UserContextProvider = ({ children }: UserContextProviderProps) => {
   const [token, setToken] = useState<string | null>(null);
   const [authenticated, setAuthenticated] = useState<boolean>(false);
+  // const { setWorkspaces } = useContext(
+  //   WorkspaceContext
+  // ) as WorkspaceContextType;
   const [user, setUser] = useState<any>(null);
+  const [allUsers, setAllUsers] = useState<any>([]);
   const [authenticatedLoaded, setAuthenticatedLoaded] =
     useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -48,15 +55,31 @@ const UserContextProvider = ({ children }: UserContextProviderProps) => {
   const validateToken = async (token: any) => {
     try {
       let res = await userAuth.validateToken(token);
+      console.log("res", res);
       if (res?.status === true) {
-        setAuthenticated(true);
-        setUser(res?.data?.user);
+        setUser(res?.data);
       }
+      setAuthenticated(true);
     } catch (error) {
       // Handle error if needed
       console.error("Error validating token:", error);
     } finally {
       setAuthenticatedLoaded(true);
+    }
+  };
+
+  const fetchUsers = async (token: any, selectedWorkspace: any) => {
+    try {
+      const res = await userList.getAllUsers(token);
+      setAllUsers(
+        res?.users.data.map((user: any) => {
+          const { password, ...rest } = user;
+          return rest;
+        })
+        //we return everything but the users` password
+      );
+    } catch (error: unknown) {
+      console.error("Error while trying to fetch users: ", error);
     }
   };
 
@@ -72,6 +95,12 @@ const UserContextProvider = ({ children }: UserContextProviderProps) => {
       validateToken(token);
     }
   }, [token]); //if the token changes, validate it
+
+  useEffect(() => {
+    if (token) {
+      fetchUsers(token, "selectedWorkspace");
+    }
+  }, [token]);
 
   //logout function: clear the local storage and set the token to null
   const handleLogout = async () => {
@@ -92,6 +121,7 @@ const UserContextProvider = ({ children }: UserContextProviderProps) => {
     handleLogout,
     validateToken,
     user,
+    allUsers,
   };
   return (
     <UserContext.Provider value={contextValue}>

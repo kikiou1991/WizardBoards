@@ -163,7 +163,6 @@ module.exports = async (app, db, io) => {
         { $push: { workspaces: updatedWorkspace._id } },
         { returnOriginal: false }
       );
-      console.log("updatedUser", updatedUser);
       namespace.emit("users", { type: "update", data: updatedUser });
       namespace.emit("workspace", { type: "update", data: updatedWorkspace });
       return res.status(200).json({

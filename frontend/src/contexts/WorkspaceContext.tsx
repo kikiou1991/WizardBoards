@@ -33,6 +33,12 @@ export interface WorkspaceContextType {
   createWorkspace: (token: any, boardData: any) => void;
   fetchWorkspaces: (token: any) => void;
   deleteWorkspace: (token: any, workspaceData: any) => void;
+  setWorkspaces: React.Dispatch<React.SetStateAction<Workspace[]>>;
+  addUserToWorkspace: (
+    token: any,
+    workspaceUuid: string,
+    userUuid: string
+  ) => void;
 }
 interface WorkspaceContextProviderProps {
   children: ReactNode;
@@ -51,6 +57,7 @@ const WorkspaceContextProvider = ({
   const [selectedWorkspace, setSelectedWorkspace] = useState("");
   const [localSelectedWorkspace, setLocalSelectedWorkspace] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  // console.log("first workpsace details", workspaces[0]);
 
   const fetchWorkspaces = async (token: any) => {
     if (!token) {
@@ -111,6 +118,24 @@ const WorkspaceContextProvider = ({
       }
     } catch (error) {}
   };
+  const addUserToWorkspace = async (
+    token: any,
+    workspaceUuid: string,
+    userUuid: string
+  ) => {
+    try {
+      const res = await userWorkspaces.addUserToWorkspace(
+        token,
+        workspaceUuid,
+        userUuid
+      );
+      if (res?.status === true) {
+        console.log("User added to workspace successfully:", res);
+      }
+    } catch (error) {
+      console.error("Error adding user to workspace:", error);
+    }
+  };
 
   //set workspaces for the current user
   const setWorkspace = (workspace: Workspace | null) => {
@@ -133,6 +158,8 @@ const WorkspaceContextProvider = ({
     createWorkspace,
     fetchWorkspaces,
     deleteWorkspace,
+    setWorkspaces,
+    addUserToWorkspace,
   };
   return (
     <WorkspaceContext.Provider value={contextValue}>

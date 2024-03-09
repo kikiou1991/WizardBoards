@@ -19,7 +19,7 @@
     "http": "^0.0.1-security",
     "http-proxy-middleware": "^2.0.6",
     "jsonwebtoken": "^9.0.2",
-    "mongodb": "^6.3.0",
+    "mongodb": "^6.4.0",
     "mongoose": "^8.0.3",
     "socket.io": "^4.7.4",
     "uuid": "^9.0.1"

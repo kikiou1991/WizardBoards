@@ -19,7 +19,7 @@ const UserCard = ({ user, addUser }: UserData) => {
         as="button"
         className="transition-transform p"
         size="sm"
-        src="https://t3.ftcdn.net/jpg/03/46/83/96/240_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg"
+        src="https://avatarfiles.alphacoders.com/324/324846.jpg"
       />
       <p className="text-black font-semibold">
         {user ? user.fullName : "Anonymus..."}

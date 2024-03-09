@@ -14,6 +14,7 @@ import PopUpWrapper from "../CustomPopUp/Wrapper";
 import PopUpBody from "../CustomPopUp/Body";
 import Image from "next/image";
 import { userList } from "@/lib/v2/users";
+import { User } from "@/types";
 
 const BoardNav = () => {
   const { token } = useContext(UserContext) as UserContextType;
@@ -26,28 +27,38 @@ const BoardNav = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [visibility, setVisibility] = useState("Private" as string);
   const [isVisible, setIsVisible] = useState(false);
-  const [userInfoVisible, setUserInfoVisible] = useState(true);
+  const [userInfoVisible, setUserInfoVisible] = useState(false);
   const [currentUsers, setCurrentUsers] = useState([] as any);
+  const [userCardContent, setUserCardContent] = useState([] as any);
   const ref = useRef(null);
   const users = workspaces.find(
     (workspace) => workspace.uuid === selectedWorkspace
   )?.users;
-
-  //we need to fetch all users from the backend that belong to this workpsace
-  //next we need to store their avatar, email
-  //we then show the avatars in the boardnav
-  //if we click on an avatar we should be able to see the user details
-  const fetchUsers = async (token: any, selectedWorkspace: any) => {
+  const handleUserDataChange = (user: any) => {
+    setUserCardContent(user);
+  };
+  const fetchUsers = async (token: any) => {
     try {
-      const res = await userList.getAllUsers(token, selectedWorkspace);
-      console.log("data is: ", res?.users.data);
+      const res = await userList.getAllUsers(token);
+      setCurrentUsers(res?.users.data);
     } catch (error: unknown) {
       console.error("Error while trying to fetch users: ", error);
     }
   };
+  console.log("currentUsers", currentUsers);
+  const emailShortener = (email: string) => {
+    if (email) {
+      const atIndex = email.indexOf("@");
+      if (atIndex !== -1) {
+        return email.substring(0, atIndex);
+      } else {
+        return email;
+      }
+    }
+  };
   useEffect(() => {
-    fetchUsers(token, selectedWorkspace);
-  }, [selectedWorkspace]);
+    fetchUsers(token);
+  }, [token]);
 
   const toggleModal = () => {
     setIsVisible(!isVisible);
@@ -140,15 +151,20 @@ const BoardNav = () => {
                   className="rounded-full 3xl hover:cursor-pointer border-2 border-white"
                   width={80}
                   height={90}
-                  src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+                  src={
+                    userCardContent?.image ||
+                    "https://avatarfiles.alphacoders.com/324/324846.jpg"
+                  }
                   alt="user-avatar"
                   onClick={() => {
-                    console.log("clicked");
+                    console.log("display user details here");
                   }}
                 />
                 <div className="flex flex-col mb-2 text-black">
-                  <div className="font-semibold">Ashoka Tano</div>
-                  <div>@ashokatano</div>
+                  <div className="font-semibold">
+                    {userCardContent?.fullName}
+                  </div>
+                  <div>@{emailShortener(userCardContent?.email)}</div>
                 </div>
               </div>
             </PopUpBody>
@@ -158,18 +174,18 @@ const BoardNav = () => {
           </PopUpWrapper>
         </div>
         <AvatarGroup size="sm" className="hover:cursor-pointer">
-          {/* here we will map through the array we get and display an avatar, when it is clicked it will show the user card details component */}
-          <Avatar
-            onClick={() => {
-              setUserInfoVisible(true);
-            }}
-            src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
-          />
-          <Avatar src="https://i.pravatar.cc/150?u=a042581f4e29026024d" />
-          <Avatar src="https://i.pravatar.cc/150?u=a04258a2462d826712d" />
-          <Avatar src="https://i.pravatar.cc/150?u=a042581f4e29026704d" />
-          <Avatar src="https://i.pravatar.cc/150?u=a04258114e29026302d" />
-          <Avatar src="https://i.pravatar.cc/150?u=a04258114e29026702d" />
+          {currentUsers?.map((user: any) => {
+            return (
+              <Avatar
+                isBordered
+                key={user.uuid}
+                src={user.avatar}
+                onClick={() => {
+                  setUserInfoVisible(true), handleUserDataChange(user);
+                }}
+              />
+            );
+          })}
         </AvatarGroup>
       </div>
     </div>
