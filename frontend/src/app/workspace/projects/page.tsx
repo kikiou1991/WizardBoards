@@ -55,44 +55,38 @@ const Project = () => {
   const handleDragEnd = (result: DropResult) => {
     const { source, destination, draggableId } = result;
     if (!destination) return;
-
-    // Remove the "card-" prefix from draggableId and turn it into a number
+    console.log("dragged item: ", draggableId);
     const cardUuid = parseInt(draggableId);
-    // Find the id of the starting list
+
     const startListId = source.droppableId;
-
-    // Find the list that the card was dragged from
-    const startList = lists.find((list) => list.uuid === startListId);
-
-    // Find the id of the list that the card was dragged to
     const finishListId = destination.droppableId;
-    // Find the list that the card was dragged to
+
+    const startList = lists.find((list) => list.uuid === startListId);
     const finishList = lists.find((list) => list.uuid === finishListId);
 
     //filter the cards in the source list
-    let filteredCards = cards.filter((card) => card.listUuid === startListId);
+    let sourceCards = cards.filter((card) => card.listUuid === startListId);
 
     //target the card object that we are dragging
-    let removedCard = filteredCards.find((card) => card.cardIndex === cardUuid);
+    let removedCard = sourceCards.find((card) => card.cardIndex === cardUuid);
     //find the index of the card that we are dragging
-    const removedCardIndex = filteredCards.findIndex(
+    const removedCardIndex = sourceCards.findIndex(
       (card) => card.cardIndex === cardUuid
     );
-    const targetCardIndex = filteredCards.findIndex(
+    const targetCardIndex = sourceCards.findIndex(
       (card) => card.cardIndex === destination.index
     );
     if (targetCardIndex === removedCardIndex) return;
-    const targetPos = filteredCards[targetCardIndex]?.position;
 
     // Handle item drag in same list or to another list
     if (startListId === finishListId) {
       //remove the card from the source list
-      filteredCards.splice(removedCardIndex, 1);
+      sourceCards.splice(removedCardIndex, 1);
       //insert the card at the target Index
       if (removedCard) {
-        filteredCards.splice(targetCardIndex, 0, removedCard);
+        sourceCards.splice(targetCardIndex, 0, removedCard);
         // Update positions
-        const updatedCards = filteredCards.map((card, index) => ({
+        const updatedCards = sourceCards.map((card, index) => ({
           ...card,
           position: index + 1,
         }));
@@ -102,10 +96,9 @@ const Project = () => {
     } else {
       console.log("Dragged to another list");
       // Remove the card from the source list
-      filteredCards.splice(removedCardIndex, 1);
+      sourceCards.splice(removedCardIndex, 1);
       //find the the destination list
       const targetList = lists.find((list) => list.uuid === finishListId);
-      console.log(targetList);
       //now find the target card within the target list
       const targetListCards = cards.filter(
         (card) => card.listUuid === targetList?.uuid

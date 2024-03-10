@@ -7,7 +7,7 @@ const { v4: uuidv4 } = require("uuid");
 module.exports = async (app, db) => {
   app.post("/api/v2/register", async (req, res) => {
     try {
-      const { email, password, createdAt, fullName } = req.body;
+      const { email, password, fullName } = req.body;
       const existingUser = await db.collection("users").findOne({ email });
       if (existingUser) {
         return res.json({
