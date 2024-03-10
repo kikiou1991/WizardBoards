@@ -6,9 +6,10 @@ import {
   createContext,
   useContext,
   useEffect,
+  useRef,
   useState,
 } from "react";
-import { io } from "socket.io-client";
+import { io, Socket } from "socket.io-client";
 import { BoardContext, BoardContextType } from "./BoardContext";
 import { boardLists } from "@/lib/v2/lists";
 import { Workspace, Boards, Lists, Cards } from "@/types";
@@ -50,6 +51,7 @@ const ListContextProvider = ({ children }: WorkspaceContextProviderProps) => {
   //we are going to need to create the lists
 
   const createList = async (token: any, listData: any, boardUuid: string) => {
+    console.log("listData", listData);
     try {
       const res = await boardLists.createList(token, listData, boardUuid);
       if (res && res.newList) {
@@ -78,25 +80,50 @@ const ListContextProvider = ({ children }: WorkspaceContextProviderProps) => {
       }
     }
   }, [boards, selectedBoard]);
+  const socketRef = useRef<Socket | null>(null);
 
   useEffect(() => {
-    let socket = io("http://localhost:3002/api/v2/lists", {});
-    socket.on("list", (data) => {
+    if (!socketRef.current) {
+      socketRef.current = io("http://localhost:3002/api/v2/lists", {});
+    }
+    console.log("is this working?");
+    const socket = socketRef.current;
+
+    socket.on("list", (data: any) => {
       if (data.type === "create") {
         console.log("running the socket to create a list");
         const newList = data.data;
+        if (!lists.some((list) => list.uuid === newList.uuid)) {
+          setLists((prevLists) => {
+            console.log("prevLists", prevLists);
+            return [...prevLists, newList];
+            // return [...prevLists, newList];
+          });
+        }
+      } else if (data.type === "update") {
+        console.log("running the socket to update a list");
+        const updatedList = data.data;
+        console.log("updatedList", updatedList);
         setLists((prevLists) => {
-          return [...prevLists, newList];
+          return prevLists?.map((list) => {
+            if (list.uuid === updatedList?.uuid) {
+              return updatedList;
+            }
+            return list;
+          });
         });
       } else {
         throw new Error("Failed to create list with socket");
       }
     });
     return () => {
-      console.log("cleaning up the socket");
-      socket.disconnect(); //clean up the socket
+      if (socketRef.current) {
+        socketRef.current.disconnect();
+        socketRef.current = null;
+      }
     };
   }, []);
+
   const contextValue: ListContextType = {
     lists,
     setLists,

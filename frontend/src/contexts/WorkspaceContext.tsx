@@ -57,7 +57,6 @@ const WorkspaceContextProvider = ({
   const [selectedWorkspace, setSelectedWorkspace] = useState("");
   const [localSelectedWorkspace, setLocalSelectedWorkspace] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  // console.log("first workpsace details", workspaces[0]);
 
   const fetchWorkspaces = async (token: any) => {
     if (!token) {

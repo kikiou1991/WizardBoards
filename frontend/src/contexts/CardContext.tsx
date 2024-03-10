@@ -6,12 +6,15 @@ import {
   createContext,
   useContext,
   useEffect,
+  useRef,
   useState,
 } from "react";
-import { io } from "socket.io-client";
+import { io, Socket } from "socket.io-client";
 import { ListContext, ListContextType } from "./ListContext";
 import { listCards } from "@/lib/v2/cards";
 import { Cards } from "@/types";
+import { useRouter } from "next/navigation";
+import { WorkspaceContext, WorkspaceContextType } from "./WorkspaceContext";
 
 // Interfaces Section
 
@@ -25,6 +28,7 @@ export interface CardContextType {
   deleteCard: (token: any, cardData: any, listUuid: string) => Promise<void>;
   cardDetails: Cards;
   setCardDetails: React.Dispatch<React.SetStateAction<any>>;
+  handleLogout: () => void;
 }
 interface CardContextProviderProps {
   children: ReactNode;
@@ -33,12 +37,16 @@ interface CardContextProviderProps {
 const CardContext = createContext<CardContextType | null>(null);
 
 const CardContextProvider = ({ children }: CardContextProviderProps) => {
-  const { token } = useContext(UserContext) as UserContextType;
+  const { token, setToken, setAuthenticated, setAuthenticatedLoaded } =
+    useContext(UserContext) as UserContextType;
   const { lists, setLists } = useContext(ListContext) as ListContextType;
+  const { setWorkspaces } = useContext(
+    WorkspaceContext
+  ) as WorkspaceContextType;
   const [cards, setCards] = useState<Cards[]>([]);
   const [isNewCardCreated, setIsNewCardCreated] = useState(false);
   const [cardDetails, setCardDetails] = useState<any>(null);
-
+  const router = useRouter();
   const fetchCards = async (token: any, listUuid: string) => {
     if (!listUuid) return;
     try {
@@ -63,9 +71,9 @@ const CardContextProvider = ({ children }: CardContextProviderProps) => {
   const createCard = async (token: any, cardData: any, listUuid: string) => {
     try {
       const res = await listCards.createCard(token, cardData, listUuid);
-      if (res && res.newCard) {
-        setCards((prevCards) => [...prevCards, res.newCard]);
-      }
+      // if (res && res.newCard) {
+      //   setCards((prevCards) => [...prevCards, res.newCard]);
+      // }
     } catch (error) {
       console.error("Failed to create card", error);
     } finally {
@@ -94,33 +102,64 @@ const CardContextProvider = ({ children }: CardContextProviderProps) => {
       }
     }
   }, [lists]);
+  const socketRef = useRef<Socket | null>(null);
   useEffect(() => {
-    let socket = io("http://localhost:3002/api/v2/cards", {});
-    socket.on("card", (data, uuid) => {
+    if (!socketRef.current) {
+      socketRef.current = io("http://localhost:3002/api/v2/cards", {});
+      console.log("connecting socket");
+    }
+
+    const socket = socketRef.current;
+
+    socket.on("card", (data: any, uuid: string) => {
       console.log("socket data", data);
       if (data.type === "create") {
         console.log("running the socket to create a card");
         const newCard = data.data;
-        setCards((prevCards) => {
-          return [...prevCards, newCard];
-        });
+        // Check if the card already exists
+        if (!cards.some((card) => card.uuid === newCard.uuid)) {
+          setCards((prevCards) => {
+            return [...prevCards, newCard];
+          });
+        }
       } else if (data.type === "update") {
         console.log("running the socket to update a card");
         const updatedCard = data.data;
+        console.log("updatedCard", updatedCard);
         setCards((prevCards) => {
-          return [...prevCards, updatedCard];
+          return prevCards?.map((card) => {
+            if (card.uuid === updatedCard.uuid) {
+              return updatedCard;
+            }
+            return card;
+          });
         });
       } else if (data.type === "delete") {
         console.log("running the socket to delete a card");
-        // setCards(cards.filter((card) => data.data.uuid !== card.uuid));
+        setCards((prevCards) =>
+          prevCards.filter((card) => card.uuid !== data.data.uuid)
+        );
       } else {
         throw new Error("Failed to create card with socket");
       }
-      return () => {
-        socket.disconnect();
-      };
     });
+
+    return () => {
+      if (socketRef.current) {
+        console.log("disconnecting socket");
+        socketRef.current.disconnect();
+        socketRef.current = null;
+      }
+    };
   }, []);
+  const handleLogout = async () => {
+    localStorage.clear();
+    setWorkspaces([]);
+    setToken(null);
+    setAuthenticated(false);
+    setAuthenticatedLoaded(false);
+    router?.replace("/auth/sign-in");
+  };
 
   const contextValue: CardContextType = {
     cards,
@@ -132,6 +171,7 @@ const CardContextProvider = ({ children }: CardContextProviderProps) => {
     deleteCard,
     cardDetails,
     setCardDetails,
+    handleLogout,
   };
   return (
     <CardContext.Provider value={contextValue}>{children}</CardContext.Provider>

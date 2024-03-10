@@ -23,7 +23,7 @@ module.exports = async (app, db, io) => {
 
       const workspace = await db.collection("workspaces").findOne({
         uuid: workspaceUuid,
-        users: { $in: [user._id] },
+        users: { $in: [user.uuid] },
       });
 
       if (!workspace) {
@@ -111,8 +111,6 @@ module.exports = async (app, db, io) => {
           },
           { returnDocument: "after" }
         );
-        console.log("Board updated successfully", result);
-        namespace.emit("board", { type: "update", data: result });
 
         return res.status(201).json({
           message: "Board updated successfully",
@@ -143,10 +141,14 @@ module.exports = async (app, db, io) => {
           { $pull: { boards: boardUuid } },
           { returnOriginal: true }
         );
+      let deletedBoard = await db
+        .collection("boards")
+        .findOne({ uuid: boardUuid });
       let result = await db
         .collection("boards")
         .deleteOne({ uuid: boardUuid }, { returnOriginal: true });
-      namespace.emit("board", { type: "delete", data: result });
+
+      namespace.emit("board", { type: "delete", data: deletedBoard });
 
       return res.status(201).json({
         message: "Board archived successfully",

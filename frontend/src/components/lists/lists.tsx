@@ -68,7 +68,7 @@ const Lists = ({ name, id, showCardDetails }: Props) => {
       setInputFieldRendered(true);
     }
   };
-  const filteredCards = cards.filter((card) => card.listUuid === id);
+  const filteredCards = cards?.filter((card) => card.listUuid === id);
 
   useEffect(() => {
     if (listRef.current) {
@@ -92,21 +92,22 @@ const Lists = ({ name, id, showCardDetails }: Props) => {
       >
         {name}
       </div>
-      <div ref={listRef} className="overflow-y-auto py-1">
+      <div ref={listRef} className="overflow-y-hidden py-1">
         <Droppable droppableId={id} direction="vertical">
           {(provided) => (
             <div
               ref={provided.innerRef}
               {...provided.droppableProps}
-              className="flex flex-col items-center h-full gap-2 px-1"
+              className="flex flex-col items-center h-full  px-1"
             >
               {filteredCards
-                .slice()
-                .sort((a, b) => a.position - b.position)
-                .map((card: any) => (
+                ?.slice()
+                ?.sort((a, b) => a.position - b.position)
+                ?.map((card: any) => (
                   <Cards
                     key={card.uuid}
                     name={card.title}
+                    position={card.position}
                     index={card.cardIndex}
                     showCardDetails={() => {
                       setCardDetails(card), showCardDetails();
@@ -120,7 +121,7 @@ const Lists = ({ name, id, showCardDetails }: Props) => {
                   onValueChange={(newValue: string) =>
                     handleValueChange(newValue)
                   }
-                  className="bg-blue text-black  font-semibold"
+                  className="bg-blue text-black mt-2 font-semibold"
                   placeholder="Enter a title for this card..."
                   style={{
                     height: "40px",

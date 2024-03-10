@@ -2,7 +2,7 @@ export const boardLists = {
   createLists: async (token: any, listData: any, boardUuid: string) => {
     try {
       const { title } = listData;
-      const response = await fetch("http://localhost:3002/api/lists", {
+      const response = await fetch("http://localhost:3002/api/v2/lists", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,

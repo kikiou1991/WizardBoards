@@ -1,4 +1,5 @@
 "use client";
+import { CardContext, CardContextType } from "@/contexts/CardContext";
 import { UserContext, UserContextType } from "@/contexts/Usercontext";
 import {
   Avatar,
@@ -20,7 +21,7 @@ interface Props {
 
 const Profile = ({ name, email }: Props) => {
   const { userData } = useContext(UserContext) as UserContextType;
-  const { handleLogout } = useContext(UserContext) as UserContextType;
+  const { handleLogout } = useContext(CardContext) as CardContextType;
   return (
     <Navbar className="bg-background px-1" classNames={{ wrapper: "px-0" }}>
       <NavbarContent as="div" className="items-center">

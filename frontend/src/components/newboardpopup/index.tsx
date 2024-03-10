@@ -73,7 +73,7 @@ const NewBoardPopUp = ({
       {" "}
       <Button
         isIconOnly
-        className="bg-inherit text-black absolute top-1 right-1 rounded-full hover:bg-secondaryBG hover:text-foreground"
+        className="bg-inherit text-black absolute z-20 top-1 right-1 rounded-full hover:bg-secondaryBG hover:text-foreground"
         onClick={setVisi}
       >
         X

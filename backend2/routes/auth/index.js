@@ -81,7 +81,7 @@ module.exports = async (app, db) => {
           data: null,
         });
       }
-      const token = createSecretToken(user._id);
+      const token = createSecretToken(user?._id);
       res.cookie("token", token, {
         withCredentials: true,
         httpOnly: false,
@@ -120,7 +120,6 @@ module.exports = async (app, db) => {
         } else {
           try {
             let objId = new ObjectId(data.id);
-            console.log("ObjId:", objId);
             const user = await db.collection("users").findOne({ _id: objId });
             if (user) {
               return res.status(200).json({

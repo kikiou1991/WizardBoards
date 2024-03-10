@@ -46,27 +46,35 @@ module.exports = async (app, db, io) => {
   app.post("/api/v2/cards", async (req, res, next) => {
     const { listUuid, data } = req.body;
     const user = req.user;
-    console.log("listUuid", listUuid);
-    console.log("data", data);
-    if (data?.uuid) {
-      let updatedCard = await db.collection("cards").findOneAndUpdate(
-        { uuid: data.uuid },
-        {
-          $set: {
-            title: data.title,
-            cardIndex: data.cardIndex,
-            position: data.position,
-            listUuid: data.listUuid,
+    //we could potentially get all the data from the client
+    //this can be an array of card objects
+    //then we find the card we want to update we use the findOneAndUpdate method
+    let cardUuid = data[0]?.uuid;
+    if (cardUuid) {
+      //we can loop through the array and check the db for each card using their uuid
+      const bulkData = data.map((card) => ({
+        updateOne: {
+          filter: { uuid: card.uuid },
+          update: {
+            $set: {
+              title: card.title,
+              cardIndex: card.cardIndex,
+              position: card.position,
+              listUuid: card.listUuid,
+            },
           },
         },
-        { returnDocument: "after", returnNewDocument: true }
-      );
-      namespace.emit("card", { type: "update", data: updatedCard });
-      return res.status(200).json({
-        success: true,
-        message: "Card updated successfully",
-        data: updatedCard,
-      });
+      }));
+      let updatedCards = await db
+        .collection("cards")
+        .bulkWrite(bulkData, { ordered: false, upsert: true });
+      //next we want to check the updated cards and return that?
+
+      let updatedCardsInList = await db
+        .collection("lists")
+        .findOne({ uuid: listUuid });
+      console.log("updatedList", updatedCardsInList);
+      namespace.emit("list", { type: "update", data: updatedCardsInList });
     } else {
       const generateCardIndex = () => {
         const timestamp = new Date().getTime();
@@ -76,9 +84,9 @@ module.exports = async (app, db, io) => {
       const generateCardPosition = async () => {
         const count = await db.collection("cards").countDocuments({ listUuid });
         //generate a postion based on the count
-        if (count === 0) return 1000;
+        if (count === 0) return 1;
         else {
-          return (count + 1) * 1000;
+          return count + 1;
         }
       };
       const cardIndex = generateCardIndex();
@@ -95,6 +103,7 @@ module.exports = async (app, db, io) => {
         },
         { returnDocument: "after", returnNewDocument: true }
       );
+      console.log("newcard", newcard);
       let list = await db
         .collection("lists")
         .findOneAndUpdate(
@@ -102,7 +111,12 @@ module.exports = async (app, db, io) => {
           { $push: { cards: newcard.insertedId } },
           { returnDocument: "after", returnNewDocument: true }
         );
-      namespace.emit("card", { type: "create", data: newcard });
+      let createdCard = await db
+        .collection("cards")
+        .findOne({ _id: newcard.insertedId });
+
+      namespace.emit("card", { type: "create", data: createdCard });
+
       return res.status(201).json({
         message: "Card created successfully",
         success: true,

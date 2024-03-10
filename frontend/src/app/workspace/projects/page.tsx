@@ -35,7 +35,7 @@ import { Cards } from "@/types";
 const Project = () => {
   const { token } = useContext(UserContext) as UserContextType;
   const { cards, cardDetails } = useContext(CardContext) as CardContextType;
-  const { isBoardSelectedGlobal, selectedBoard } = useContext(
+  const { isBoardSelectedGlobal, selectedBoard, boards } = useContext(
     BoardContext
   ) as BoardContextType;
   const { lists, createList } = useContext(ListContext) as ListContextType;
@@ -44,49 +44,13 @@ const Project = () => {
   ) as WorkspaceContextType;
   const [isActive, setIsActive] = useState(true);
   const [listTitle, setListTitle] = useState("");
-  const [isHidden, setIsHidden] = useState(true);
+  const [isHidden, setIsHidden] = useState(false);
 
   const toggleCardDetails = () => {
     setIsHidden(!isHidden);
   };
-
+  const board = boards.find((board) => board.uuid === selectedBoard);
   const ref = useRef<HTMLDivElement | null>(null);
-
-  //function to calculate the new position of the card
-  const calculatePosition = (
-    card: any, //the moved card
-    position: number, //
-    cards: any[]
-  ) => {
-    let prevCardPosition = 0; // Initialize with 0 in case there's no previous card
-    let nextCardPosition = 0; // Initialize with 0 in case there's no next card
-
-    // Find the previous and next card positions
-    for (const c of cards) {
-      if (c.position < position && c.position > prevCardPosition) {
-        prevCardPosition = c.position;
-      }
-      if (
-        c.position > position &&
-        (nextCardPosition === 0 || c.position < nextCardPosition)
-      ) {
-        nextCardPosition = c.position;
-      }
-    }
-
-    let newPosition = 0;
-
-    // Calculate the new position based on the positions of adjacent cards
-    if (prevCardPosition === 0) {
-      newPosition = position / 2; // If there's no previous card, halve the position of the next card
-    } else if (nextCardPosition === 0) {
-      newPosition = position + card.position; // If there's no next card, add the position of the moved card
-    } else {
-      newPosition = (prevCardPosition + nextCardPosition) / 2; // Otherwise, average the positions of adjacent cards
-    }
-
-    return newPosition;
-  };
 
   const handleDragEnd = (result: DropResult) => {
     const { source, destination, draggableId } = result;
@@ -106,7 +70,7 @@ const Project = () => {
     const finishList = lists.find((list) => list.uuid === finishListId);
 
     //filter the cards in the source list
-    const filteredCards = cards.filter((card) => card.listUuid === startListId);
+    let filteredCards = cards.filter((card) => card.listUuid === startListId);
 
     //target the card object that we are dragging
     let removedCard = filteredCards.find((card) => card.cardIndex === cardUuid);
@@ -127,12 +91,13 @@ const Project = () => {
       //insert the card at the target Index
       if (removedCard) {
         filteredCards.splice(targetCardIndex, 0, removedCard);
-        removedCard.position = calculatePosition(
-          removedCard,
-          targetPos,
-          filteredCards
-        );
-        listCards.createCard(token, removedCard, finishListId);
+        // Update positions
+        const updatedCards = filteredCards.map((card, index) => ({
+          ...card,
+          position: index + 1,
+        }));
+
+        listCards.createCard(token, updatedCards, updatedCards[0]?.listUuid);
       }
     } else {
       console.log("Dragged to another list");
@@ -160,20 +125,16 @@ const Project = () => {
       //insert the card at the destination list
       if (removedCard) {
         targetListCards.splice(targetCardIndex, 0, removedCard);
-        //lets find the target card from the destination list
-        removedCard.position = calculatePosition(
-          removedCard,
-          targetPos,
-          targetListCards
-        );
-        if (targetList) {
-          listCards.createCard(token, removedCard, targetList?.uuid);
-        }
+        // Update positions
+        const updatedCards = targetListCards.map((card, index) => ({
+          ...card,
+          position: index + 1,
+        }));
+        // listCards.createCard(token, updatedCards);
         console.log("removedCard after insertion: ", targetListCards);
       }
     }
   };
-
   const handleValueChange = (value: string) => {
     setListTitle(value);
   };

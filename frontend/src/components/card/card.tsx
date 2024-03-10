@@ -13,6 +13,7 @@ import { CardContext, CardContextType } from "@/contexts/CardContext";
 interface Props {
   name: string;
   index: number;
+  position: number;
   showCardDetails?: () => void;
 }
 
@@ -41,8 +42,12 @@ const Cards = ({ name, index, showCardDetails }: Props) => {
     <Draggable draggableId={`card-${index}`} index={index} key={index}>
       {(provided) => (
         <div
-          className="w-60 rounded-md border-solid border-2  hover:border-blue-500 hover:border-2 shadow-sm border-border bg-cards px-2 py-2 items-center overflow-x-hidden text-wrap flex relative"
-          style={{ minWidth: "242px", minHeight: "80px" }}
+          className="w-60 rounded-md border-solid mt-2 border-2 py-2 hover:border-blue-500 hover:border-2 shadow-sm border-border bg-cards px-2  items-center overflow-x-hidden text-wrap flex relative"
+          style={{
+            minWidth: "242px",
+            minHeight: "80px",
+            ...provided.draggableProps.style,
+          }}
           onClick={showCardDetails}
           ref={provided.innerRef}
           {...provided.draggableProps}

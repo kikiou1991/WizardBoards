@@ -14,9 +14,8 @@ module.exports = async (app, db, io) => {
       }
       const workspaces = await db
         .collection("workspaces")
-        .find({ users: user._id })
+        .find({ users: user.uuid })
         .toArray();
-
       return res.status(200).json({
         success: true,
         message: "Workspaces fetched successfully",
@@ -154,7 +153,6 @@ module.exports = async (app, db, io) => {
         { $push: { users: userUuid } },
         { returnOriginal: false }
       );
-      console.log("updatedWorkspace", updatedWorkspace);
       //add the workspace to the user.workspaces array
       let updatedUser = await db.collection("users").findOneAndUpdate(
         {

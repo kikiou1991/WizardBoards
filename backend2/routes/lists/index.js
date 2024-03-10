@@ -1,4 +1,5 @@
 const { v4: uuidv4 } = require("uuid");
+const { ObjectId } = require("mongodb");
 module.exports = async (app, db, io) => {
   let namespace = io.of("/api/v2/lists");
   app.get("/api/v2/lists", async (req, res, next) => {
@@ -23,7 +24,7 @@ module.exports = async (app, db, io) => {
 
       let boardLists = board.lists;
       let fetchedLists = [];
-      for (let i = 0; i < boardLists.length; i++) {
+      for (let i = 0; i < boardLists?.length; i++) {
         let list = await db.collection("lists").findOne({ _id: boardLists[i] });
         if (list) {
           fetchedLists.push(list);
@@ -57,14 +58,15 @@ module.exports = async (app, db, io) => {
         .json({ message: "Invalid board UUID", success: false, data: null });
     }
     if (listUUID) {
-      let list = await db
-        .collection("lists")
-        .findOneAndUpdate(
-          { uuid: listUUID },
-          { $set: { ...data } },
-          { returnDocument: "after", returnNewDocument: true }
-        );
-      console.log("list:", list);
+      //turn the string data into ObjectID
+
+      let list = await db.collection("lists").findOneAndUpdate(
+        { uuid: listUUID },
+        {
+          $set: { ...data },
+        },
+        { returnDocument: "after", returnNewDocument: true }
+      );
       namespace.emit("list", { type: "update", data: list });
       return res.status(200).json({
         success: true,
@@ -89,6 +91,7 @@ module.exports = async (app, db, io) => {
       let newList = await db
         .collection("lists")
         .findOne({ _id: list.insertedId });
+
       namespace.emit("list", { type: "create", data: newList });
 
       return res.status(201).json({

@@ -6,9 +6,10 @@ import {
   createContext,
   useContext,
   useEffect,
+  useRef,
   useState,
 } from "react";
-import { io } from "socket.io-client";
+import { io, Socket } from "socket.io-client";
 import { WorkspaceContext, WorkspaceContextType } from "./WorkspaceContext";
 import { Boards } from "@/types";
 
@@ -28,6 +29,7 @@ export interface BoardContextType {
 interface WorkspaceContextProviderProps {
   children: ReactNode;
 }
+
 //call the useContext
 const BoardContext = createContext<BoardContextType | null>(null);
 
@@ -44,21 +46,31 @@ const BoardContextProvider = ({ children }: WorkspaceContextProviderProps) => {
   const createBoard = async (token: any, boardData: any) => {
     if (!boardData || !token) return;
     try {
-      const { name, workspaceUuid } = boardData;
+      const { isStared, name, workspaceUuid, boardUuid } = boardData;
 
       if (!name) {
         console.error("Board name is required");
         return;
       }
-      console.log("workspaceUuid", workspaceUuid);
       const res = await workspaceBoards.createBoard(
         token,
-        { name, workspaceUuid },
-        localSelectedWorkspace
+        { isStared, name, workspaceUuid, boardUuid },
+        workspaceUuid
       );
 
-      if (res && res.newBoard) {
-        setBoards([res.newBoard, ...boards]);
+      if (res) {
+        // setBoards((prevBoards) => {
+        //   const updatedBoards = [...prevBoards];
+        //   const existingBoardIndex = updatedBoards.findIndex(
+        //     (board) => board.uuid === res.data.uuid
+        //   );
+        //   if (existingBoardIndex !== -1) {
+        //     updatedBoards[existingBoardIndex] = res.data;
+        //   } else {
+        //     updatedBoards.push(res.data);
+        //   }
+        //   return updatedBoards;
+        // });
       }
     } catch (error) {
       console.error("Error creating the board", error);
@@ -77,7 +89,6 @@ const BoardContextProvider = ({ children }: WorkspaceContextProviderProps) => {
         boardData
       );
       if (res?.status === true) {
-        setBoards(boards.filter((board) => board.uuid !== boardData._id));
       }
     } catch (error) {
       console.error("Error creating a new board", error);
@@ -89,24 +100,31 @@ const BoardContextProvider = ({ children }: WorkspaceContextProviderProps) => {
     setBoards(res?.data || []);
   };
 
-  // const fetchFavorites = async (token: any, workspaces: any) => {
-  //   try {
-  //     // Iterate over each workspace
-  //     for (let workspace of workspaces) {
-  //       // Fetch boards for the current workspace
-  //       const res = await workspaceBoards.getBoards(token, workspace.uuid);
+  useEffect(() => {
+    const fetchFavorites = async (token: any, workspaces: any) => {
+      try {
+        // Iterate over each workspace
+        let favorites: any[] = [];
+        for (let workspace of workspaces) {
+          // Fetch boards for the current workspace
+          const res = await workspaceBoards.getBoards(token, workspace.uuid);
+          // Filter out the boards that are marked as favorites
 
-  //       // Filter out the boards that are marked as favorites
-  //       const favBoards =
-  //         res?.data.filter((board: any) => board.isStared === true) || [];
+          res?.data.forEach((board: any) => {
+            if (board.isStared === true) {
+              favorites.push(board);
+            }
+          });
+        }
+        setFavorites(favorites);
+      } catch (error) {
+        console.error("Failed to fetch favorites", error);
+      }
+    };
 
-  //       // Update the favorites state
-  //       setFavorites(favBoards);
-  //     }
-  //   } catch (error) {
-  //     console.error("Failed to fetch favorites", error);
-  //   }
-  // };
+    // Fetch favorites when the component mounts
+    fetchFavorites(token, workspaces);
+  }, [token, workspaces]);
 
   //useEffect re render the page when there is change to favorites ??????
   // useEffect(() => {
@@ -125,11 +143,45 @@ const BoardContextProvider = ({ children }: WorkspaceContextProviderProps) => {
   //   fetchAndUpdateFavorites();
   // }, [ favorites]);
 
-  useEffect(() => {
-    let socket = io("http://localhost:3002/api/v2/boards", {});
-    socket.on("board", (data) => {});
-  }, []);
+  const socketRef = useRef<Socket | null>(null);
 
+  useEffect(() => {
+    if (!socketRef.current) {
+      socketRef.current = io("http://localhost:3002/api/v2/boards", {});
+      socketRef.current.on("board", (data) => {
+        console.log("data", data);
+        if (data?.type === "update") {
+          setBoards((prevBoards) => {
+            const updatedBoards = [...prevBoards];
+            const existingBoardIndex = updatedBoards.findIndex(
+              (board) => board.uuid === data.data.uuid
+            );
+            if (existingBoardIndex !== -1) {
+              updatedBoards[existingBoardIndex] = data.data;
+            } else {
+              updatedBoards.push(data.data);
+            }
+            return updatedBoards;
+          });
+        } else if (data?.type === "delete") {
+          setBoards(boards.filter((board) => board.uuid !== data.data.uuid));
+        } else if (data?.type === "create") {
+          setBoards((prevBoards) => {
+            const updatedBoards = [...prevBoards];
+            updatedBoards.push(data.data);
+            return updatedBoards;
+          });
+        }
+      });
+    }
+
+    return () => {
+      if (socketRef.current) {
+        socketRef.current.disconnect();
+        socketRef.current = null;
+      }
+    };
+  }, []);
   useEffect(() => {
     if (token || !selectedWorkspace) {
       if (selectedWorkspace) {

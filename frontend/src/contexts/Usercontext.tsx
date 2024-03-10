@@ -25,13 +25,13 @@ import { userList } from "@/lib/v2/users";
 export interface UserContextType {
   token: any | null;
   setToken: (token: any | null) => void;
-  handleLogout: (token: any | null) => Promise<void>;
   authenticated: boolean | false;
   userData: any;
   setAuthenticated: (authenticated: boolean) => void;
   validateToken: (token: any) => Promise<void>;
   user: any;
   allUsers: any;
+  setAuthenticatedLoaded: (authenticatedLoaded: boolean) => void;
 }
 interface UserContextProviderProps {
   children: ReactNode;
@@ -55,7 +55,6 @@ const UserContextProvider = ({ children }: UserContextProviderProps) => {
   const validateToken = async (token: any) => {
     try {
       let res = await userAuth.validateToken(token);
-      console.log("res", res);
       if (res?.status === true) {
         setUser(res?.data);
       }
@@ -103,14 +102,6 @@ const UserContextProvider = ({ children }: UserContextProviderProps) => {
   }, [token]);
 
   //logout function: clear the local storage and set the token to null
-  const handleLogout = async () => {
-    localStorage.clear();
-    // setWorkspaces([]);
-    setToken(null);
-    setAuthenticated(false);
-    setAuthenticatedLoaded(false);
-    router.replace("/auth/sign-in");
-  };
 
   const contextValue: UserContextType = {
     token,
@@ -118,10 +109,10 @@ const UserContextProvider = ({ children }: UserContextProviderProps) => {
     authenticated,
     setAuthenticated,
     userData: user,
-    handleLogout,
     validateToken,
     user,
     allUsers,
+    setAuthenticatedLoaded,
   };
   return (
     <UserContext.Provider value={contextValue}>

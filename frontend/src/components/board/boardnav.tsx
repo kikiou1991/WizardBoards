@@ -31,12 +31,16 @@ const BoardNav = () => {
   const [currentUsers, setCurrentUsers] = useState([] as any);
   const [userCardContent, setUserCardContent] = useState([] as any);
   const ref = useRef(null);
+  const [members, setMembers] = useState([] as any);
   const users = workspaces.find(
     (workspace) => workspace.uuid === selectedWorkspace
   )?.users;
   const handleUserDataChange = (user: any) => {
     setUserCardContent(user);
   };
+  const workspaceId = workspaces.find(
+    (workspace) => workspace.uuid === selectedWorkspace
+  )?._id;
   const fetchUsers = async (token: any) => {
     try {
       const res = await userList.getAllUsers(token);
@@ -45,7 +49,17 @@ const BoardNav = () => {
       console.error("Error while trying to fetch users: ", error);
     }
   };
-  console.log("currentUsers", currentUsers);
+
+  const fetchCurrentUsers = () => {
+    const usersWithSelectedWorkspace = currentUsers.filter((user: any) =>
+      user.workspaces?.includes(workspaceId)
+    );
+    setMembers(usersWithSelectedWorkspace);
+  };
+
+  useEffect(() => {
+    fetchCurrentUsers();
+  }, [currentUsers]);
   const emailShortener = (email: string) => {
     if (email) {
       const atIndex = email.indexOf("@");
@@ -174,11 +188,11 @@ const BoardNav = () => {
           </PopUpWrapper>
         </div>
         <AvatarGroup size="sm" className="hover:cursor-pointer">
-          {currentUsers?.map((user: any) => {
+          {members?.map((user: any, index: any) => {
             return (
               <Avatar
                 isBordered
-                key={user.uuid}
+                key={index}
                 src={user.avatar}
                 onClick={() => {
                   setUserInfoVisible(true), handleUserDataChange(user);

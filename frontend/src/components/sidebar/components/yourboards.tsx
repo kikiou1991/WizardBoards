@@ -64,10 +64,11 @@ const YourBoards = () => {
   const handleStar = async (boardUuid: string) => {
     try {
       const selectedBoard = boards.find((board) => board.uuid === boardUuid);
-
       let res = await createBoard(token, {
         isStared: !selectedBoard?.isStared,
         name: selectedBoard?.name,
+        workspaceUuid: selectedWorkspace,
+        boardUuid: boardUuid,
       });
       //
       //

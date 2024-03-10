@@ -48,9 +48,10 @@ const checkTokenMiddleware = (req, res, next) => {
       } else {
         try {
           if (data?.id) {
-            console.log("data:", data.id);
+            const { ObjectId } = require("mongodb");
+
             db.collection("users")
-              .findOne({ id: data.uuid })
+              .findOne({ _id: new ObjectId(data.id) })
               .then((data) => {
                 if (data) {
                   req.user = data;
