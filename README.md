@@ -5,11 +5,9 @@ WizardBoards is a Trello Clone built using the MERN stack (MongoDB, Express.js, 
 ## Features
 
 - **Board Management:** Create, edit, and delete boards.
-- **List Management:** Add, reorder, and delete lists within a board.
 - **Card Management:** Create, edit, and delete cards within lists.
-- **Drag-and-Drop:** Intuitive drag-and-drop functionality for lists and cards.
+- **Drag-and-Drop:** Intuitive drag-and-drop functionality for cards.
 - **User Authentication:** Secure user authentication system with JWT.
-- **Responsive Design:** Mobile-friendly UI for a seamless experience.
 
 Technologies Used
 MongoDB: Database for storing boards, lists, and cards.
