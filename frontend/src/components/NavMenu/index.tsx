@@ -19,10 +19,11 @@ import { BoardContext, BoardContextType } from "@/contexts/BoardContext";
 import Image from "next/image";
 import { UserContext, UserContextType } from "@/contexts/Usercontext";
 import NewBoardPopUp from "../newboardpopup";
+import { CardContext, CardContextType } from "@/contexts/CardContext";
 
 const NavMenuDesktop = () => {
   const [isHovered, setIsHovered] = useState(false);
-  const { handleLogout } = useContext(UserContext) as UserContextType;
+  const { handleLogout } = useContext(CardContext) as CardContextType;
 
   const { workspaces, selectedWorkspace, setSelectedWorkspace } = useContext(
     WorkspaceContext
@@ -70,9 +71,7 @@ const NavMenuDesktop = () => {
               <DropdownItem aria-label="aria class">
                 <a href="/workspace/contact">Contact us</a>
               </DropdownItem>
-              <DropdownItem aria-label="aria class">
-                <a href="/workspace/subscribe">Subscribe</a>
-              </DropdownItem>
+
               <DropdownItem aria-label="aria class">
                 <a onClick={handleLogout}>Sign out</a>
               </DropdownItem>

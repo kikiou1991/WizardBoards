@@ -26,6 +26,7 @@ export const workspaceBoards = {
   createBoard: async (token: any, boardData: any, workspaceUuid: string) => {
     console.log("workspaceUuid", workspaceUuid);
     console.log("boardData", boardData);
+    console.log("board image", boardData.image);
     try {
       const { boardUuid } = boardData;
       const response = await fetch("http://localhost:3002/api/v2/boards", {

@@ -46,7 +46,7 @@ const BoardContextProvider = ({ children }: WorkspaceContextProviderProps) => {
   const createBoard = async (token: any, boardData: any) => {
     if (!boardData || !token) return;
     try {
-      const { isStared, name, workspaceUuid, boardUuid } = boardData;
+      const { isStared, name, workspaceUuid, boardUuid, image } = boardData;
 
       if (!name) {
         console.error("Board name is required");
@@ -54,7 +54,7 @@ const BoardContextProvider = ({ children }: WorkspaceContextProviderProps) => {
       }
       const res = await workspaceBoards.createBoard(
         token,
-        { isStared, name, workspaceUuid, boardUuid },
+        { isStared, name, workspaceUuid, boardUuid, image },
         workspaceUuid
       );
 

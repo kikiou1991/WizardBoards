@@ -122,6 +122,7 @@ const MyWorkSpaceModal = () => {
               className="data-[hover=true]:bg-secondaryBG"
               description="A workspace is a group of boards and people."
               startContent={<Icon name="addWorkspace" />}
+              onClick={openWorkspaceModal}
             >
               <p>Create Workspace</p>
             </DropdownItem>

@@ -25,6 +25,9 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+.word-wrap {
+  word-wrap: break-word; /* This property ensures long words or email addresses wrap to the next line */
+}
 
 /* width */
 ::-webkit-scrollbar {

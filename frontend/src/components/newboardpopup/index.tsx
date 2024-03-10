@@ -52,8 +52,8 @@ const NewBoardPopUp = ({
     try {
       await createBoard(context?.token, {
         name: boardTitle,
+        image: newBoardImg,
         workspaceUuid: localSelectedWorkspace,
-        // newBoardImg, we can use this once the backend has been changed so it will require this when a board is created
       });
       setBoardTitle("");
       setSelectedWorkspace("");
@@ -101,7 +101,9 @@ const NewBoardPopUp = ({
               width={100}
               height={100}
               style={{ width: "70px", height: "50px" }}
-              className="rounded-lg"
+              className={`rounded-lg border-2 ${
+                selectedImg === "2" ? "border-primary" : "border-transparent"
+              }`}
               onClick={() => handleImageSelect("2")}
             />
             {selectedImg === "2" && (
@@ -118,7 +120,9 @@ const NewBoardPopUp = ({
               width={100}
               height={100}
               style={{ width: "70px", height: "50px" }}
-              className="rounded-lg"
+              className={`rounded-lg border-3 ${
+                selectedImg === "3" ? "border-primary" : "border-transparent"
+              }`}
               onClick={() => handleImageSelect("3")}
             />
             {selectedImg === "3" && (
@@ -135,7 +139,9 @@ const NewBoardPopUp = ({
               width={100}
               height={100}
               style={{ width: "70px", height: "50px" }}
-              className="rounded-lg"
+              className={`rounded-lg border-2 ${
+                selectedImg === "4" ? "border-primary" : "border-transparent"
+              }`}
               onClick={() => handleImageSelect("4")}
             />
             {selectedImg === "4" && (
@@ -152,7 +158,9 @@ const NewBoardPopUp = ({
               width={100}
               height={100}
               style={{ width: "70px", height: "50px" }}
-              className="rounded-lg"
+              className={`rounded-lg border-2 ${
+                selectedImg === "5" ? "border-primary" : "border-transparent"
+              }`}
               onClick={() => handleImageSelect("5")}
             />
             {selectedImg === "5" && (

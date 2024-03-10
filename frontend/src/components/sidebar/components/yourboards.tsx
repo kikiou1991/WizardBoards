@@ -70,14 +70,6 @@ const YourBoards = () => {
         workspaceUuid: selectedWorkspace,
         boardUuid: boardUuid,
       });
-      //
-      //
-      //
-      //This section needs looking at, need to send the data we get to the backend with the changes(starred or name change)
-      //
-      //
-      //
-
       if (selectedBoard) {
         setBoards((prevBoards) =>
           prevBoards.map((board) =>

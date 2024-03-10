@@ -9,9 +9,7 @@ const Table = () => {
         <div className="text-2xl font-semibold py-3">Table</div>
       </div>
       <div className="table-area flex w-full h-full items-center justify-center">
-        <div className="text-3xl ">
-          This feature is not complete yet! Please check back later!
-        </div>
+        <div className="text-3xl "></div>
       </div>
     </div>
   );

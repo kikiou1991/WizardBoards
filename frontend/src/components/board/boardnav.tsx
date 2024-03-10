@@ -18,7 +18,7 @@ import { User } from "@/types";
 
 const BoardNav = () => {
   const { token } = useContext(UserContext) as UserContextType;
-  const { selectedBoard, boards, createBoard } = useContext(
+  const { selectedBoard, boards, createBoard, setBoards } = useContext(
     BoardContext
   ) as BoardContextType;
   const { workspaces, selectedWorkspace } = useContext(
@@ -99,13 +99,21 @@ const BoardNav = () => {
   const handleStar = async (boardUuid: string) => {
     try {
       const selectedBoard = boards.find((board) => board.uuid === boardUuid);
-      console.log("boardUuid: ", boardUuid);
-      console.log("selectedBoard: ", selectedBoard?.isStared);
-
-      await createBoard(token, {
+      let res = await createBoard(token, {
         isStared: !selectedBoard?.isStared,
         name: selectedBoard?.name,
+        workspaceUuid: selectedWorkspace,
+        boardUuid: boardUuid,
       });
+      if (selectedBoard) {
+        setBoards((prevBoards) =>
+          prevBoards.map((board) =>
+            board.uuid === boardUuid
+              ? { ...board, isStared: !selectedBoard.isStared }
+              : board
+          )
+        );
+      } else return;
     } catch (error) {}
   };
 
@@ -121,7 +129,9 @@ const BoardNav = () => {
           }:bg-secondaryBG px-2 bg-inherit transfrom transition-transform hover:scale-125`}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
-          onPress={(e) => handleStar(selectedBoard)}
+          onClick={() => {
+            handleStar(selectedBoard);
+          }}
           isIconOnly
         >
           {currentBoard?.isStared ? (
@@ -130,9 +140,7 @@ const BoardNav = () => {
             <Icon name={isHovered ? "starYellow" : "star"} />
           )}
         </Button>
-        <div className={`${isVisible ? "" : "hidden"} p-0 m-0`}>
-          <VisibilityModal toggleModal={toggleModal} />
-        </div>
+        <div className={`${isVisible ? "" : "hidden"} p-0 m-0`}></div>
         <Button
           id="changeButton"
           className="px-2 bg-inherit transfrom transition-transform hover:scale-125"
@@ -174,11 +182,13 @@ const BoardNav = () => {
                     console.log("display user details here");
                   }}
                 />
-                <div className="flex flex-col mb-2 text-black">
+                <div className="flex flex-col mb-2 text-black w-fit text-wrap">
                   <div className="font-semibold">
                     {userCardContent?.fullName}
                   </div>
-                  <div>@{emailShortener(userCardContent?.email)}</div>
+                  <div className="word-wrap">
+                    @{emailShortener(userCardContent?.email)}
+                  </div>
                 </div>
               </div>
             </PopUpBody>
