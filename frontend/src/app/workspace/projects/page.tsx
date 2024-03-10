@@ -57,7 +57,7 @@ const Project = () => {
     if (!destination) return;
 
     // Remove the "card-" prefix from draggableId and turn it into a number
-    const cardUuid = parseInt(draggableId.replace("card-", ""));
+    const cardUuid = parseInt(draggableId);
     // Find the id of the starting list
     const startListId = source.droppableId;
 
@@ -174,10 +174,11 @@ const Project = () => {
           title={cardDetails?.title}
           isHidden={isHidden}
           setIsHidden={toggleCardDetails}
+          uuid={cardDetails?.uuid}
         />
       </div>
-      <DragDropContext onDragEnd={handleDragEnd}>
-        <div className="flex w-full h-full overflow-x-auto items-start py-5 px-5 gap-5">
+      <div className="flex w-full h-full overflow-x-auto items-start py-5 px-5 gap-5">
+        <DragDropContext onDragEnd={handleDragEnd}>
           {lists.map((list: any, key: any) => (
             <Lists
               showCardDetails={toggleCardDetails}
@@ -247,8 +248,8 @@ const Project = () => {
               <div>Create a new list...</div>
             </Button>
           )}
-        </div>
-      </DragDropContext>
+        </DragDropContext>
+      </div>
     </div>
   ) : (
     <div>

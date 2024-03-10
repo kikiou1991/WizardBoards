@@ -11,6 +11,7 @@ const io = new Server(server, {
     origin: true,
     credentials: true,
   },
+  connectionStateRecovery: {},
 });
 const port = 3002;
 require("dotenv").config();

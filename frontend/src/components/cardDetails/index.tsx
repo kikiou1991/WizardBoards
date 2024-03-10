@@ -12,6 +12,7 @@ import {
   WorkspaceContextType,
 } from "@/contexts/WorkspaceContext";
 import { User } from "@/types";
+import { CardContext, CardContextType } from "@/contexts/CardContext";
 
 //This board will depend on the data from the backend, when a card is clicked it will show the details of the card
 //We get the right card by its id
@@ -21,6 +22,7 @@ interface CardDetailProps {
   description?: string;
   isHidden?: boolean;
   setIsHidden: (value: boolean) => void;
+  uuid: string;
 }
 
 const CardDetails = ({
@@ -28,6 +30,7 @@ const CardDetails = ({
   description,
   isHidden,
   setIsHidden,
+  uuid,
 }: CardDetailProps) => {
   const { user, token } = useContext(UserContext) as UserContextType;
   const [isMemberVisible, setIsMemberVisible] = useState(false);
@@ -36,6 +39,7 @@ const CardDetails = ({
   const { selectedWorkspace } = useContext(
     WorkspaceContext
   ) as WorkspaceContextType;
+  const { cards, deleteCard } = useContext(CardContext) as CardContextType;
   const closeModal = () => {
     setIsHidden(true);
   };
@@ -44,6 +48,17 @@ const CardDetails = ({
   };
   const handleAddUser = (user: User) => {
     setCurrentMembers([...currentMemebers, user]);
+  };
+  const handleDeleteCard = async () => {
+    try {
+      const cardToDelete = cards.find((card) => card.uuid === uuid);
+      if (cardToDelete) {
+        const { uuid, listUuid } = cardToDelete;
+        await deleteCard(token, uuid, listUuid);
+      }
+    } catch (error) {
+      console.error("Failed to delete card:", error);
+    }
   };
 
   return (
@@ -89,7 +104,7 @@ const CardDetails = ({
                   </div>
                   {/* This should be a separate component */}
                   <Input
-                    placeholder="Write unit tests for fetching posts"
+                    placeholder="Write unit tests..."
                     type="text"
                     classNames={{
                       base: "max-w-full sm:max-w-[28rem] h-10 bg-foreground",
@@ -116,7 +131,7 @@ const CardDetails = ({
                     src="https://t3.ftcdn.net/jpg/03/46/83/96/240_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg"
                   />
                   <Input
-                    placeholder="Write unit tests for fetching posts"
+                    placeholder="Add a comment below..."
                     className="w-full"
                     type="text"
                     classNames={{
@@ -145,12 +160,22 @@ const CardDetails = ({
               </div>
             </div>
             <div
-              className={`actions items-start flex flex-col w-[20%] gap-2 mt-8 `}
+              className={`actions items-start flex flex-col w-[25%] gap-2 mt-8 `}
             >
               <p className="text-sm">Add to card</p>
-              <Button size="sm" className="bg-primary mr-2">
-                Label
-              </Button>
+              <div className="bg-cards items-center rounded-lg hover:bg-slate-300">
+                <Button
+                  size="sm"
+                  color="primary"
+                  onPress={() => {
+                    handleDeleteCard();
+                  }}
+                  className="text-white"
+                >
+                  Delete Card
+                </Button>
+              </div>
+
               <Button
                 size="sm"
                 className="bg-primary mr-2"

@@ -100,20 +100,24 @@ const Lists = ({ name, id, showCardDetails }: Props) => {
               {...provided.droppableProps}
               className="flex flex-col items-center h-full  px-1"
             >
-              {filteredCards
-                ?.slice()
-                ?.sort((a, b) => a.position - b.position)
-                ?.map((card: any) => (
-                  <Cards
-                    key={card.uuid}
-                    name={card.title}
-                    position={card.position}
-                    index={card.cardIndex}
-                    showCardDetails={() => {
-                      setCardDetails(card), showCardDetails();
-                    }}
-                  />
-                ))}
+              {filteredCards.length !== 0 ? (
+                filteredCards
+                  ?.slice()
+                  ?.sort((a, b) => a.position - b.position)
+                  ?.map((card: any) => (
+                    <Cards
+                      key={card.uuid}
+                      name={card.title}
+                      position={card.position}
+                      index={card.cardIndex}
+                      showCardDetails={() => {
+                        setCardDetails(card), showCardDetails();
+                      }}
+                    />
+                  ))
+              ) : (
+                <div className="h-[20px]">{""}</div>
+              )}
               {inputFieldRendered && (
                 <Input
                   ref={ref}

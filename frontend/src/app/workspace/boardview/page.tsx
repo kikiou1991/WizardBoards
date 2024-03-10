@@ -59,10 +59,7 @@ const BoardView = () => {
             >
               <Link href="/workspace/projects">
                 <Card className="col-span-12 sm:col-span-4 w-[220px] h-[200px]">
-                  <CardHeader className="absolute bg-foreground z-10 top-1 flex-col !items-start">
-                    <p className="text-tiny text-black/60 uppercase font-bold">
-                      Supercharged
-                    </p>
+                  <CardHeader className="absolute bg-foreground z-10 top-0 flex-col !items-start">
                     <h4 className="text-black font-bold text-large flex text-wrap">
                       {board.name}
                     </h4>
