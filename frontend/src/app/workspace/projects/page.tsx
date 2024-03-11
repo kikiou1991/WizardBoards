@@ -31,6 +31,7 @@ import { boardLists } from "@/lib/v2/lists";
 import { listCards } from "@/lib/v2/cards";
 import CardDetails from "@/components/cardDetails";
 import { Cards } from "@/types";
+import { start } from "repl";
 
 const Project = () => {
   const { token } = useContext(UserContext) as UserContextType;
@@ -38,7 +39,9 @@ const Project = () => {
   const { isBoardSelectedGlobal, selectedBoard, boards } = useContext(
     BoardContext
   ) as BoardContextType;
-  const { lists, createList } = useContext(ListContext) as ListContextType;
+  const { lists, createList, setLists } = useContext(
+    ListContext
+  ) as ListContextType;
   const { selectedWorkspace } = useContext(
     WorkspaceContext
   ) as WorkspaceContextType;
@@ -51,6 +54,13 @@ const Project = () => {
   };
   const board = boards.find((board) => board.uuid === selectedBoard);
   const ref = useRef<HTMLDivElement | null>(null);
+
+  const reOrder = (list: any, startIndex: number, endIndex: number) => {
+    const result = Array.from(list);
+    const [removed] = result.splice(startIndex, 1);
+    result.splice(endIndex, 0, removed);
+    return result;
+  };
 
   const handleDragEnd = (result: DropResult) => {
     const { source, destination, draggableId } = result;
@@ -123,10 +133,41 @@ const Project = () => {
           ...card,
           position: index + 1,
         }));
-        // listCards.createCard(token, updatedCards);
-        console.log("removedCard after insertion: ", targetListCards);
+        const updatedSourceCards = sourceCards.map((card, index) => ({
+          ...card,
+          position: index + 1,
+        }));
+        setLists((prevLists) => {
+          // Find the source list
+          const updatedSourceListIndex = prevLists.findIndex(
+            (list) => list.uuid === startListId
+          );
+          // Find the destination list
+          const updatedDestListIndex = prevLists.findIndex(
+            (list) => list.uuid === finishListId
+          );
+          // Update the source list
+          const updatedSourceList = {
+            ...prevLists[updatedSourceListIndex],
+            cards: updatedSourceCards,
+          };
+          // Update the destination list
+          const updatedDestList = {
+            ...prevLists[updatedDestListIndex],
+            cards: updatedCards,
+          };
+          // Create a new array with the updated source and destination lists
+          const updatedLists = [...prevLists];
+          console.log("updatedLists", updatedLists);
+          // updatedLists[updatedSourceListIndex] = updatedSourceList;
+          // updatedLists[updatedDestListIndex] = updatedDestList;
+
+          return updatedLists;
+        });
       }
     }
+    console.log("lists", lists);
+    return lists;
   };
   const handleValueChange = (value: string) => {
     setListTitle(value);
