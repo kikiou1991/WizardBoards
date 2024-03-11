@@ -51,7 +51,7 @@ const BoardNav = () => {
   };
 
   const fetchCurrentUsers = () => {
-    const usersWithSelectedWorkspace = currentUsers.filter((user: any) =>
+    const usersWithSelectedWorkspace = currentUsers?.filter((user: any) =>
       user.workspaces?.includes(workspaceId)
     );
     setMembers(usersWithSelectedWorkspace);

@@ -24,14 +24,14 @@ const BoardView = () => {
           </div>
         </Link>
       </div>
-      <div className="h-8 flex flex-row gap-2 items-center hover:bg-secondaryBG pl-2">
+      <div className="h-8 flex flex-row gap-2 items-center  hover:bg-secondaryBG pl-2">
         <Link href="/workspace/members">
           <div className="flex flex-row gap-2 flex-grow ">
             <Icon name="members" />
             <p>Members</p>
           </div>
         </Link>
-        <div className="mr-2 ml-auto">
+        <div className="mr-2 ml-auto hover:cursor-pointer">
           <MyModalEmail name="addIcon" />
         </div>
       </div>

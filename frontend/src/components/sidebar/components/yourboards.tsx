@@ -171,21 +171,19 @@ const YourBoards = () => {
                       } bg-background top-4 left-10 items-center flex flex-col border-2 border-white z-20 w-[230px] h-[${popUpHeight}] `}
                     >
                       {" "}
-                      <div className="h-[85%] flex justify-center mt-3 items-center">
-                        <h2 className="px-2 text-center mt-5">
-                          {textVisible
-                            ? board?.name
-                            : "Do you want to delete this board?"}
+                      <div className="flex flex-row w-full h-[50%] items-center justify-center pb-2">
+                        <h2 className="px-2 text-center">
+                          {textVisible ? board?.name : `Close ${board?.name}?`}
                         </h2>
                         <Button
-                          className="bg-inherit absolute z-20 top-0 right-0 text-black hover:bg-white rounded-full"
+                          className="bg-inherit ml-auto text-black hover:bg-white rounded-full"
                           isIconOnly
                           onClick={() => setIsOpen(!isOpen)}
                         >
                           X
                         </Button>
                       </div>
-                      <PopUpBody classNames="flex items-center hover:cursor-pointer justify-center flex-row w-full px-2 h-[20%]">
+                      <PopUpBody classNames="flex items-center hover:cursor-pointer justify-center flex-row w-full h-[50%] px-2 ">
                         {textVisible ? (
                           <Button
                             className="w-full bg-inherit"
@@ -195,13 +193,18 @@ const YourBoards = () => {
                             <Icon name="bin" />
                           </Button>
                         ) : (
-                          <Button
-                            className="w-full hover:text-red-500 bg-inherit"
-                            onClick={() => handleDelete}
-                          >
-                            Close Board
-                            <Icon name="bin" />
-                          </Button>
+                          <div>
+                            <p className="text-center py-2">
+                              Once you close this board, you can't undo it!
+                            </p>
+                            <Button
+                              className="w-full hover:text-red-500 bg-inherit"
+                              onClick={() => handleDelete}
+                            >
+                              Close Board
+                              <Icon name="bin" />
+                            </Button>
+                          </div>
                         )}
                       </PopUpBody>
                     </PopUpWrapper>

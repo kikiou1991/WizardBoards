@@ -17,6 +17,7 @@ const InputField = () => {
     password: "",
     passwordConfirm: "",
   });
+  console.log(user);
   const router = useRouter();
 
   const { authenticated } = useContext(UserContext) as UserContextType;
@@ -46,6 +47,12 @@ const InputField = () => {
     const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
     const isLongEnough = password.length >= 8;
 
+    setValidationState(
+      isLongEnough && hasNumber && hasLetter && hasSpecialChar
+        ? "valid"
+        : "invalid"
+    );
+
     setButtonDisabled(
       validationState === "valid" &&
         hasNumber &&
@@ -58,9 +65,9 @@ const InputField = () => {
   };
 
   const handleChangeEmail = (value: any) => {
+    validateEmail(value);
     setValidationState("valid");
     setEmail(value);
-    validateEmail(value);
   };
 
   const handleChangePassword = (value: string) => {
@@ -139,7 +146,7 @@ const InputField = () => {
         onChange={(e) => handleChangeEmail(e.target.value)}
         type="email"
         label="Email"
-        placeholder="junior@nextui.org"
+        placeholder="wizard@wizardboards.co.uk"
         className="max-w-xs"
         isRequired
         isClearable
