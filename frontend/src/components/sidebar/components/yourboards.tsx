@@ -19,6 +19,8 @@ import {
   WorkspaceContextType,
 } from "@/contexts/WorkspaceContext";
 import NewBoardPopUp from "@/components/newboardpopup";
+import PopUpWrapper from "@/components/CustomPopUp/Wrapper";
+import PopUpBody from "@/components/CustomPopUp/Body";
 
 const YourBoards = () => {
   const { token } = useContext(UserContext) as UserContextType;
@@ -36,11 +38,17 @@ const YourBoards = () => {
   } = useContext(BoardContext) as BoardContextType;
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null); // Maintain the ID of the selected board item
   const [isVisible, setIsVisible] = useState(true);
-
+  const [isOpen, setIsOpen] = useState(true);
+  const [popUpHeight, setPopUpHeight] = useState("100px");
+  const [textVisible, setTextVisible] = useState(true);
   const handleBoardChange = (boardId: string) => {
     setSelectedBoard(boardId);
     setIsBoardSelectedGlobal(true);
     setSelectedItemId(boardId); // Set the selected item ID
+  };
+  const openDeleteMenu = () => {
+    setPopUpHeight("350px");
+    setTextVisible(false);
   };
 
   const handleVisible = () => {
@@ -50,6 +58,7 @@ const YourBoards = () => {
   const handleDelete = async (boardUuid: string) => {
     try {
       await deleteBoard(context?.token, selectedWorkspace, boardUuid);
+      console.log("deleting board?");
     } catch (error) {
       console.error("Error deleting board: ", error);
     }
@@ -84,8 +93,9 @@ const YourBoards = () => {
 
   return (
     <div>
-      <div className="flex flex-row pl-2 hover:cursor-pointer items-center">
+      <div className="flex relative flex-row pl-2 hover:cursor-pointer items-center">
         <h2 className="font-semibold flex-grow">Your Boards</h2>
+
         <Button
           onPress={handleVisible}
           className="bg-inherit  ml-auto"
@@ -95,7 +105,7 @@ const YourBoards = () => {
         </Button>
         <NewBoardPopUp
           left={260}
-          top={100}
+          bottom={10}
           isVisible={isVisible}
           setVisi={handleVisible}
         />
@@ -128,60 +138,16 @@ const YourBoards = () => {
                         : board.name}
                     </Link>
                   </div>
-                  <div className="ml-auto flex group/edit invisible group-hover/item:visible">
-                    <Dropdown
-                      className="bg-background text-[#E5EAF3]"
-                      placement="bottom-start"
-                      classNames={{
-                        base: "before:bg-background",
-                        content:
-                          "py-1 px-1 border border-default-200 bg-background dark:from-default-50 dark:to-black",
-                      }}
+                  <div className="ml-auto relative flex group/edit invisible group-hover/item:visible">
+                    <Button
+                      className="bg-inherit hover:bg-secondaryBG"
+                      size="sm"
+                      isIconOnly
+                      onClick={() => setIsOpen(false)}
                     >
-                      <DropdownTrigger>
-                        <Button
-                          className="bg-inherit hover:bg-secondaryBG"
-                          size="sm"
-                          isIconOnly
-                        >
-                          <Icon name="verticalDots" />
-                        </Button>
-                      </DropdownTrigger>
-                      <DropdownMenu className="bg-background">
-                        <DropdownSection className="align-center">
-                          <DropdownItem className="data-[hover=true]:bg-secondaryBG text-center font-bold">
-                            {board.name}
-                          </DropdownItem>
-                        </DropdownSection>
-                        <DropdownSection>
-                          <DropdownItem
-                            key="delete"
-                            endContent={<Icon name="bin" />}
-                          >
-                            <Button
-                              className="bg-inherit hover:bg-transparent"
-                              onPress={() => handleDelete(board.uuid)}
-                            >
-                              Delete Board by clicking the red button
-                            </Button>
-                          </DropdownItem>
-                        </DropdownSection>
-                        <DropdownSection>
-                          <DropdownItem
-                            key="Close board"
-                            className="data-[hover=true]:bg-inherit flex flex-row text-center"
-                          >
-                            <Button
-                              onPress={() => handleDelete(board.uuid)}
-                              color="danger"
-                              size="md"
-                            >
-                              Close Board
-                            </Button>
-                          </DropdownItem>
-                        </DropdownSection>
-                      </DropdownMenu>
-                    </Dropdown>
+                      <Icon name="verticalDots" />
+                    </Button>
+
                     <Button
                       onPress={(e) => handleStar(board.uuid)}
                       className={
@@ -199,6 +165,46 @@ const YourBoards = () => {
                         }
                       />
                     </Button>
+                    <PopUpWrapper
+                      classNames={`absolute ${
+                        isOpen ? "hidden" : "block"
+                      } bg-background top-4 left-10 items-center flex flex-col border-2 border-white z-20 w-[230px] h-[${popUpHeight}] `}
+                    >
+                      {" "}
+                      <div className="h-[85%] flex justify-center mt-3 items-center">
+                        <h2 className="px-2 text-center mt-5">
+                          {textVisible
+                            ? board?.name
+                            : "Do you want to delete this board?"}
+                        </h2>
+                        <Button
+                          className="bg-inherit absolute z-20 top-0 right-0 text-black hover:bg-white rounded-full"
+                          isIconOnly
+                          onClick={() => setIsOpen(!isOpen)}
+                        >
+                          X
+                        </Button>
+                      </div>
+                      <PopUpBody classNames="flex items-center hover:cursor-pointer justify-center flex-row w-full px-2 h-[20%]">
+                        {textVisible ? (
+                          <Button
+                            className="w-full bg-inherit"
+                            onClick={openDeleteMenu}
+                          >
+                            Close Board
+                            <Icon name="bin" />
+                          </Button>
+                        ) : (
+                          <Button
+                            className="w-full hover:text-red-500 bg-inherit"
+                            onClick={() => handleDelete}
+                          >
+                            Close Board
+                            <Icon name="bin" />
+                          </Button>
+                        )}
+                      </PopUpBody>
+                    </PopUpWrapper>
                   </div>
                 </li>
               );

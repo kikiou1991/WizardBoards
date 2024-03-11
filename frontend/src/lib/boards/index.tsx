@@ -1,9 +1,11 @@
+import projectConfig from "@/components/projectConfig";
+
 export const workspaceBoards = {
   createBoard: async (token: any, boardData: any, workspaceUuid: string) => {
     try {
       const { name } = boardData;
       const simplifiedBoardData = { name, workspaceUuid };
-      const response = await fetch("http://localhost:3002/api/boards", {
+      const response = await fetch(`${projectConfig.apiBaseUrl}/boards`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
