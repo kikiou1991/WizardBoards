@@ -36,8 +36,8 @@ const Cards = ({ name, index, showCardDetails }: Props) => {
             ...provided.draggableProps.style,
           }}
           onClick={showCardDetails}
-          ref={provided.innerRef}
           {...provided.draggableProps}
+          ref={provided.innerRef}
           {...provided.dragHandleProps}
         >
           <div style={{ marginRight: "24px" }}>{name}</div>

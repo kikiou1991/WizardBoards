@@ -204,7 +204,14 @@ const NavMenuDesktop = () => {
                           size="sm"
                           isIconOnly
                         >
-                          <Icon name="starYellow" classname="" />
+                          <Icon
+                            name={favorite?.isStared ? "starYellow" : "star"}
+                            classname={
+                              favorite?.isStared
+                                ? "fill-warning"
+                                : "fill-current"
+                            }
+                          />
                         </Button>
                       </div>
                     </div>

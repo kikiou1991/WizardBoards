@@ -102,7 +102,6 @@ const Lists = ({ name, id, showCardDetails }: Props) => {
             >
               {filteredCards.length !== 0 ? (
                 filteredCards
-                  ?.slice()
                   ?.sort((a, b) => a.position - b.position)
                   ?.map((card: any) => (
                     <Cards

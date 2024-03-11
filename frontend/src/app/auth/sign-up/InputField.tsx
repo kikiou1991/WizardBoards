@@ -17,6 +17,7 @@ const InputField = () => {
     password: "",
     passwordConfirm: "",
   });
+  console.log(user);
   const router = useRouter();
 
   const { authenticated } = useContext(UserContext) as UserContextType;
@@ -38,20 +39,40 @@ const InputField = () => {
         : true
     );
   };
+  const validatePassword = (password: string) => {
+    if (password === "") return null;
+
+    const hasNumber = /\d/.test(password);
+    const hasLetter = /[a-zA-Z]/.test(password);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+    const isLongEnough = password.length >= 8;
+
+    setValidationState(
+      isLongEnough && hasNumber && hasLetter && hasSpecialChar
+        ? "valid"
+        : "invalid"
+    );
+
+    setButtonDisabled(
+      validationState === "valid" &&
+        hasNumber &&
+        hasLetter &&
+        hasSpecialChar &&
+        isLongEnough
+        ? false
+        : true
+    );
+  };
 
   const handleChangeEmail = (value: any) => {
+    validateEmail(value);
     setValidationState("valid");
     setEmail(value);
-    validateEmail(value);
   };
 
   const handleChangePassword = (value: string) => {
     setUser({ ...user, password: value });
-    setButtonDisabled(
-      validationState === "valid" && value === user.passwordConfirm
-        ? false
-        : true
-    );
+    validatePassword(value);
   };
 
   const handleChangePasswordConfirm = (value: string) => {
@@ -91,9 +112,7 @@ const InputField = () => {
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
-            Authorization: "Bearer " + localStorage.getItem("token"),
           },
-          credentials: "include",
           body: JSON.stringify({
             email: email,
             password: user.password,
@@ -127,7 +146,7 @@ const InputField = () => {
         onChange={(e) => handleChangeEmail(e.target.value)}
         type="email"
         label="Email"
-        placeholder="junior@nextui.org"
+        placeholder="wizard@wizardboards.co.uk"
         className="max-w-xs"
         isRequired
         isClearable
