@@ -1,12 +1,17 @@
+import projectConfig from "@/components/projectConfig";
+
 export const userWorkspaces = {
   getWorkspace: async (token: any) => {
     try {
-      const response = await fetch("http://localhost:3002/api/v2/workspaces", {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await fetch(
+        `${projectConfig.apiBaseUrl}/v2/workspaces`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       if (!response.ok) {
         throw new Error("Failed to fetch workspaces");
       }
@@ -20,16 +25,19 @@ export const userWorkspaces = {
   },
   createWorkspace: async (token: any, workspaceData: any) => {
     try {
-      const response = await fetch("http://localhost:3002/api/v2/workspaces", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          data: workspaceData,
-        }),
-      });
+      const response = await fetch(
+        `${projectConfig.apiBaseUrl}/v2/workspaces`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            data: workspaceData,
+          }),
+        }
+      );
       if (!response.ok) {
         throw new Error("Failed to create workspace");
       }
@@ -42,7 +50,7 @@ export const userWorkspaces = {
   deleteWorkspace: async (token: any, workspaceData: string) => {
     try {
       const response = await fetch(
-        "http://localhost:3002/api/v2/workspaces/archive",
+        `${projectConfig.apiBaseUrl}/v2/workspaces/archive`,
         {
           method: "POST",
           headers: {
@@ -69,7 +77,7 @@ export const userWorkspaces = {
   ) => {
     try {
       const response = await fetch(
-        `http://localhost:3002/api/v2/workspaces/user`,
+        `${projectConfig.apiBaseUrl}/v2/workspaces/user`,
         {
           method: "POST",
           headers: {

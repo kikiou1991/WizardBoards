@@ -28,9 +28,9 @@ export const workspaceBoards = {
   fetchBoard: async (token: any, workspaceUuid: string) => {
     try {
       const response = await fetch(
-        `http://localhost:3002/api/boards?workspaceUuid=${encodeURIComponent(
-          workspaceUuid
-        )}`,
+        `http://${
+          projectConfig.apiBaseUrl
+        }/boards?workspaceUuid=${encodeURIComponent(workspaceUuid)}`,
         {
           method: "GET",
           headers: {
@@ -51,17 +51,20 @@ export const workspaceBoards = {
 
   deleteBoard: async (token: any, workspaceUuid: string, boardUuid: string) => {
     try {
-      const response = await fetch("http://localhost:3002/api/boards/delete", {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json", // Ensure the correct content type
-        },
-        body: JSON.stringify({
-          workspaceUuid,
-          boardUuid,
-        }),
-      });
+      const response = await fetch(
+        "http://${projectConfig.apiBaseUrl}/boards/delete",
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json", // Ensure the correct content type
+          },
+          body: JSON.stringify({
+            workspaceUuid,
+            boardUuid,
+          }),
+        }
+      );
       if (response.ok) {
         const data = await response.json();
         return data;
@@ -76,7 +79,7 @@ export const workspaceBoards = {
   upDateBoard: async (token: any, boardUuid: string, boardData: any) => {
     try {
       const response = await fetch(
-        `http://localhost:3002/api/boards/update/?boardUuid=${boardUuid}`,
+        `http://${projectConfig.apiBaseUrl}/boards/update/?boardUuid=${boardUuid}`,
         {
           method: "PATCH",
           headers: {

@@ -32,6 +32,7 @@ import NewBoardPopUp from "../newboardpopup";
 import PopUpBody from "../CustomPopUp/Body";
 import PopUpWrapper from "../CustomPopUp/Wrapper";
 import UserCard from "../usercard";
+import projectConfig from "../projectConfig";
 
 interface UserData {
   name: string;
@@ -76,12 +77,15 @@ const NavbarTop = () => {
           return;
         }
         //use the token to get the user info
-        const response = await fetch("http://localhost:3002/api/v2/validate", {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await fetch(
+          `${projectConfig.apiBaseUrl}/v2/validate`,
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         if (response.ok) {
           //fetch the user data
           const userData = await response.json();

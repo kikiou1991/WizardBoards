@@ -1,8 +1,10 @@
+import projectConfig from "@/components/projectConfig";
+
 export const boardLists = {
   getLists: async (token: any, boardUuid: string) => {
     try {
       const response = await fetch(
-        `http://localhost:3002/api/v2/lists?boardUuid=${boardUuid}`,
+        `${projectConfig.apiBaseUrl}/v2/lists?boardUuid=${boardUuid}`,
         {
           method: "GET",
           headers: {
@@ -28,7 +30,7 @@ export const boardLists = {
     listUuid?: string
   ) => {
     try {
-      const response = await fetch("http://localhost:3002/api/v2/lists", {
+      const response = await fetch(`${projectConfig.apiBaseUrl}/v2/lists`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -55,7 +57,7 @@ export const boardLists = {
   deleteList: async (token: any, boardUuid: string, listData: any) => {
     try {
       const response = await fetch(
-        "http://localhost:3002/api/v2/lists/archive",
+        `${projectConfig.apiBaseUrl}/v2/lists/archive`,
         {
           method: "POST",
           headers: {

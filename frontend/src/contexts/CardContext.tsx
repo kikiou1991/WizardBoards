@@ -15,6 +15,7 @@ import { listCards } from "@/lib/v2/cards";
 import { Cards } from "@/types";
 import { useRouter } from "next/navigation";
 import { WorkspaceContext, WorkspaceContextType } from "./WorkspaceContext";
+import projectConfig from "@/components/projectConfig";
 
 // Interfaces Section
 
@@ -105,7 +106,7 @@ const CardContextProvider = ({ children }: CardContextProviderProps) => {
   const socketRef = useRef<Socket | null>(null);
   useEffect(() => {
     if (!socketRef.current) {
-      socketRef.current = io("http://localhost:3002/api/v2/cards", {});
+      socketRef.current = io(`${projectConfig.apiBaseUrl}/v2/cards`, {});
       console.log("connecting socket");
     }
 

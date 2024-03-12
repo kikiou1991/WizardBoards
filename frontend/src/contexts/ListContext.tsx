@@ -13,6 +13,7 @@ import { io, Socket } from "socket.io-client";
 import { BoardContext, BoardContextType } from "./BoardContext";
 import { boardLists } from "@/lib/v2/lists";
 import { Workspace, Boards, Lists, Cards } from "@/types";
+import projectConfig from "@/components/projectConfig";
 
 // Interfaces Section
 
@@ -84,7 +85,7 @@ const ListContextProvider = ({ children }: WorkspaceContextProviderProps) => {
 
   useEffect(() => {
     if (!socketRef.current) {
-      socketRef.current = io("http://localhost:3002/api/v2/lists", {});
+      socketRef.current = io(`${projectConfig.apiBaseUrl}/v2/lists`, {});
     }
     console.log("is this working?");
     const socket = socketRef.current;

@@ -1,4 +1,5 @@
 "use client";
+import projectConfig from "@/components/projectConfig";
 import { UserContext, UserContextType } from "@/contexts/Usercontext";
 import { Button, Input } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
@@ -52,7 +53,7 @@ const InputField = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:3002/api/v2/login/", {
+      const response = await fetch(`${projectConfig.apiBaseUrl}/v2/login/`, {
         method: "POST",
         headers: {
           Accept: "application/json",

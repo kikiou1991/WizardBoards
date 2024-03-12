@@ -12,6 +12,7 @@ import {
 import { io, Socket } from "socket.io-client";
 import { WorkspaceContext, WorkspaceContextType } from "./WorkspaceContext";
 import { Boards } from "@/types";
+import projectConfig from "@/components/projectConfig";
 
 export interface BoardContextType {
   boards: Boards[];
@@ -97,8 +98,10 @@ const BoardContextProvider = ({ children }: WorkspaceContextProviderProps) => {
 
   const getBoards = async () => {
     let res = await workspaceBoards.getBoards(token, selectedWorkspace);
+    console.log("res", res?.data);
     setBoards(res?.data || []);
   };
+  console.log("selectedWorkspace", selectedWorkspace);
 
   useEffect(() => {
     const fetchFavorites = async (token: any, workspaces: any) => {
@@ -147,7 +150,7 @@ const BoardContextProvider = ({ children }: WorkspaceContextProviderProps) => {
 
   useEffect(() => {
     if (!socketRef.current) {
-      socketRef.current = io("http://localhost:3002/api/v2/boards", {});
+      socketRef.current = io(`${projectConfig.apiBaseUrl}/v2/boards`, {});
       socketRef.current.on("board", (data) => {
         console.log("data", data);
         if (data?.type === "update") {

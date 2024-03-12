@@ -1,7 +1,9 @@
+import projectConfig from "@/components/projectConfig";
+
 export const userWorkspaces = {
   fetchWorkspaces: async (token: any) => {
     try {
-      const response = await fetch("http://localhost:3002/api/workspaces", {
+      const response = await fetch(`${projectConfig.apiBaseUrl}/workspaces`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -22,7 +24,7 @@ export const userWorkspaces = {
   },
   createWorkspace: async (token: any, boardData: any) => {
     try {
-      const response = await fetch("http://localhost:3002/api/workspaces", {
+      const response = await fetch(`${projectConfig.apiBaseUrl}/workspaces`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,

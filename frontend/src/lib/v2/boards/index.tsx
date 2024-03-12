@@ -1,10 +1,12 @@
+import projectConfig from "@/components/projectConfig";
+
 export const workspaceBoards = {
   getBoards: async (token: any, workspaceUuid: string) => {
     try {
       const response = await fetch(
-        `http://localhost:3002/api/v2/boards?workspaceUuid=${encodeURIComponent(
-          workspaceUuid
-        )}`,
+        `${
+          projectConfig.apiBaseUrl
+        }/v2/boards?workspaceUuid=${encodeURIComponent(workspaceUuid)}`,
         {
           method: "GET",
           headers: {
@@ -29,7 +31,7 @@ export const workspaceBoards = {
     console.log("board image", boardData.image);
     try {
       const { boardUuid } = boardData;
-      const response = await fetch("http://localhost:3002/api/v2/boards", {
+      const response = await fetch(`${projectConfig.apiBaseUrl}/v2/boards`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -57,7 +59,7 @@ export const workspaceBoards = {
     console.log("boardData", boardData);
     try {
       const response = await fetch(
-        `http://localhost:3002/api/v2/boards/archive?workspaceUuid=${workspaceUuid}`,
+        `${projectConfig.apiBaseUrl}/v2/boards/archive?workspaceUuid=${workspaceUuid}`,
         {
           method: "POST",
           headers: {

@@ -1,4 +1,5 @@
 "use client";
+import projectConfig from "@/components/projectConfig";
 import { UserContext, UserContextType } from "@/contexts/Usercontext";
 import { Button, Input } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
@@ -107,22 +108,26 @@ const InputField = () => {
       setButtonDisabled(false);
 
       try {
-        const response = await fetch("http://localhost:3002/api/v2/register", {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email: email,
-            password: user.password,
-            fullName: fullName,
-          }),
-        });
+        const response = await fetch(
+          `${projectConfig.apiBaseUrl}/v2/register`,
+          {
+            method: "POST",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email: email,
+              password: user.password,
+              fullName: fullName,
+            }),
+          }
+        );
         if (response.ok) {
           // Handle successful response
-
-          router.push("/auth/sign-in");
+          const result = await response.json();
+          localStorage.setItem("token", result.token);
+          router.push("/landingpage");
         } else {
           // Handle error response
           errorMessage = "Sign up failed. Please try again.";
@@ -169,6 +174,9 @@ const InputField = () => {
         className="max-w-xs"
         placeholder="Enter your password"
       />
+      <p className="text-sm">
+        At least: 8 charcters, 1 number, 1 special character
+      </p>
       <Input
         onChange={(e) => handleChangePasswordConfirm(e.target.value)}
         isRequired

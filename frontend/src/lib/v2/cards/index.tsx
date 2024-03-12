@@ -1,10 +1,12 @@
+import projectConfig from "@/components/projectConfig";
+
 export const listCards = {
   fetchCard: async (token: any, listUuid: string) => {
     try {
       const response = await fetch(
-        `http://localhost:3002/api/v2/cards?listUuid=${encodeURIComponent(
-          listUuid
-        )}`,
+        `http://${
+          projectConfig.apiBaseUrl
+        }/v2/cards?listUuid=${encodeURIComponent(listUuid)}`,
         {
           method: "GET",
           headers: {
@@ -23,7 +25,7 @@ export const listCards = {
   },
   createCard: async (token: any, cardData: any, listUuid: string) => {
     try {
-      const response = await fetch(`http://localhost:3002/api/v2/cards`, {
+      const response = await fetch(`${projectConfig.apiBaseUrl}/v2/cards`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -47,7 +49,7 @@ export const listCards = {
   deleteCard: async (token: any, cardUuid: string, listUuid: string) => {
     try {
       const response = await fetch(
-        `http://localhost:3002/api/v2/cards/archive`,
+        `${projectConfig.apiBaseUrl}/v2/cards/archive`,
         {
           method: "POST",
           headers: {

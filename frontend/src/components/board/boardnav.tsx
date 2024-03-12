@@ -38,9 +38,11 @@ const BoardNav = () => {
   const handleUserDataChange = (user: any) => {
     setUserCardContent(user);
   };
+  console.log("workspaces", workspaces);
   const workspaceId = workspaces.find(
     (workspace) => workspace.uuid === selectedWorkspace
   )?._id;
+  console.log("workspaceId", workspaceId);
   const fetchUsers = async (token: any) => {
     try {
       const res = await userList.getAllUsers(token);
@@ -49,14 +51,14 @@ const BoardNav = () => {
       console.error("Error while trying to fetch users: ", error);
     }
   };
-
+  console.log("currentUsers", currentUsers);
   const fetchCurrentUsers = () => {
     const usersWithSelectedWorkspace = currentUsers?.filter((user: any) =>
       user.workspaces?.includes(workspaceId)
     );
     setMembers(usersWithSelectedWorkspace);
   };
-
+  console.log("members", members);
   useEffect(() => {
     fetchCurrentUsers();
   }, [currentUsers]);

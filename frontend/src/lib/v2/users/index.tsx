@@ -1,7 +1,9 @@
+import projectConfig from "@/components/projectConfig";
+
 export const userList = {
   getAllUsers: async (token: any) => {
     try {
-      const response = await fetch(`http://localhost:3002/api/v2/users`, {
+      const response = await fetch(`${projectConfig.apiBaseUrl}/v2/users`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,

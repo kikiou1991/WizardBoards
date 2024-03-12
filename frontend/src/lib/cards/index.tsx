@@ -3,7 +3,7 @@ export const listCards = {
     console.log("token", token);
     try {
       const { title } = cardData;
-      const response = await fetch("http://localhost:3002/api/cards", {
+      const response = await fetch("http://${projectConfig.apiBaseUrl}/cards", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -30,7 +30,7 @@ export const listCards = {
   getCards: async (token: any, listUuid: string) => {
     try {
       const response = await fetch(
-        `http://localhost:3002/api/cards?listUuid=${encodeURIComponent(
+        `http://${projectConfig.apiBaseUrl}/cards?listUuid=${encodeURIComponent(
           listUuid
         )}`,
         {
@@ -54,17 +54,20 @@ export const listCards = {
 
   deleteCard: async (token: any, cardUuid: string, listUuid: string) => {
     try {
-      const response = await fetch(`http://localhost:3002/api/cards/delete`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          cardUuid,
-          listUuid,
-        }),
-      });
+      const response = await fetch(
+        `http://${projectConfig.apiBaseUrl}/cards/delete`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            cardUuid,
+            listUuid,
+          }),
+        }
+      );
       if (!response.ok) {
         throw new Error("Failed to delete card");
       }

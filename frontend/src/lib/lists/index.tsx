@@ -2,17 +2,20 @@ export const boardLists = {
   createLists: async (token: any, listData: any, boardUuid: string) => {
     try {
       const { title } = listData;
-      const response = await fetch("http://localhost:3002/api/v2/lists", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          boardUuid,
-          title,
-        }),
-      });
+      const response = await fetch(
+        "http://${projectConfig.apiBaseUrl}/v2/lists",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            boardUuid,
+            title,
+          }),
+        }
+      );
       if (!response.ok) {
         throw new Error("Failed to create list");
       }
@@ -27,9 +30,9 @@ export const boardLists = {
   getLists: async (token: any, boardUuid: string) => {
     try {
       const response = await fetch(
-        `http://localhost:3002/api/lists?boardUuid=${encodeURIComponent(
-          boardUuid
-        )}`,
+        `http://${
+          projectConfig.apiBaseUrl
+        }/lists?boardUuid=${encodeURIComponent(boardUuid)}`,
         {
           method: "GET",
           headers: {

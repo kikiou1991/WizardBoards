@@ -10,7 +10,7 @@ import {
 import { userWorkspaces } from "@/lib/v2/workspaces";
 import { Button, Input } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 type LayoutProps = {
   title?: string;
@@ -29,18 +29,28 @@ export default function WorkspaceLayout({
   const { createWorkspace, setWorkspaces } = useContext(
     WorkspaceContext
   ) as WorkspaceContextType;
-  const { token } = useContext(UserContext) as UserContextType;
+  const { token, setToken } = useContext(UserContext) as UserContextType;
   const [name, setName] = useState("");
   const router = useRouter();
   const handleChange = (value: string) => {
     setName(value);
   };
+  useEffect(() => {
+    if (localStorage["token"]) {
+      setToken(localStorage["token"]);
+    }
+  }, []);
   const handleSumbit = async () => {
+    console.log("what is the issue?");
     try {
+      console.log("something happened");
       const res = await userWorkspaces.createWorkspace(token, { name: name });
+      console.log("res", res);
       if (!res) {
+        console.log("no res");
         return;
       }
+      console.log("setting the workspaces");
       setWorkspaces(res.data);
       router.replace("/workspace/home");
     } catch (error: unknown) {
@@ -62,7 +72,7 @@ export default function WorkspaceLayout({
             className="w-[60%] mb-5"
             onChange={(e) => handleChange(e.target.value)}
           />
-          <Button color="primary" onClick={handleSumbit}>
+          <Button color="primary" onPressEnd={handleSumbit}>
             Submit
           </Button>
         </PopUpBody>
