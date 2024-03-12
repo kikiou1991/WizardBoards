@@ -175,7 +175,11 @@ const InputField = () => {
         placeholder="Enter your password"
       />
       <p className="text-sm">
-        At least: 8 charcters, 1 number, 1 special character
+        <span className="text-red-500">*</span>
+        <strong className="font-bold">At least: </strong>
+        <span className="font-semibold">8</span> characters,
+        <span className="font-semibold">1</span> number,
+        <span className="font-semibold">1</span> special character
       </p>
       <Input
         onChange={(e) => handleChangePasswordConfirm(e.target.value)}
