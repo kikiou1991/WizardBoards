@@ -105,15 +105,15 @@ const Settings = () => {
             Delete this workspace?
           </p>
         </div>
-        <div className="relative">
+        <div className="relative text-foreground">
           <PopUpWrapper
             classNames={`absolute  left-0 ${
               isOpen ? "block " : "hidden"
-            } top-0 z-20 w-[200px] bg-background`}
+            } top-0 z-20 w-[200px] bg-background  p-1 rounded-md shadow-md`}
           >
             <Button
               isIconOnly
-              className="rounded-full z-30 flex items-center bg-inherit hover:bg-white text-black ml-auto"
+              className="rounded-full z-30 flex items-center bg-inherit hover:bg-secondaryBG  ml-auto"
               onClick={() => setIsOpen(false)}
             >
               X

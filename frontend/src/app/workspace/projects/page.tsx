@@ -35,7 +35,9 @@ import { start } from "repl";
 
 const Project = () => {
   const { token } = useContext(UserContext) as UserContextType;
-  const { cards, cardDetails } = useContext(CardContext) as CardContextType;
+  const { cards, cardDetails, setCards } = useContext(
+    CardContext
+  ) as CardContextType;
   const { isBoardSelectedGlobal, selectedBoard, boards } = useContext(
     BoardContext
   ) as BoardContextType;
@@ -100,9 +102,27 @@ const Project = () => {
           ...card,
           position: index + 1,
         }));
-
-        listCards.createCard(token, updatedCards, updatedCards[0]?.listUuid);
+        setLists((prevLists) => {
+          // Find the source list
+          const updatedListIndex = prevLists.findIndex(
+            (list) => list.uuid === startListId
+          );
+          // Update the source list
+          const updatedList = {
+            ...prevLists[updatedListIndex],
+            cards: updatedCards,
+          };
+          console.log("updatedList", updatedList);
+          // Create a new array with the updated source list
+          const updatedLists = [...prevLists];
+          console.log("updatedLists", updatedLists);
+          // updatedLists[updatedListIndex] = updatedList;
+          return updatedLists;
+        });
+        console.log("lists", lists);
+        // listCards.createCard(token, updatedCards, updatedCards[0]?.listUuid);
       }
+      console.log("lists after block", lists);
     } else {
       console.log("Dragged to another list");
       // Remove the card from the source list
@@ -159,8 +179,11 @@ const Project = () => {
           // Create a new array with the updated source and destination lists
           const updatedLists = [...prevLists];
           console.log("updatedLists", updatedLists);
-          // updatedLists[updatedSourceListIndex] = updatedSourceList;
-          // updatedLists[updatedDestListIndex] = updatedDestList;
+          updatedLists[updatedSourceListIndex] = updatedSourceList;
+          updatedLists[updatedDestListIndex] = updatedDestList;
+
+          //might need a different approach, the same way we updated multiple cards with one api call we want to do the same with lists
+          //so we would use upDateMany on the backend and send back the updated list
 
           return updatedLists;
         });

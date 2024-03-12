@@ -12,9 +12,11 @@ module.exports = async (app, db, io) => {
           data: null,
         });
       }
+      console.log("user", user._id);
+      console.log("user", user.uuid);
       const workspaces = await db
         .collection("workspaces")
-        .find({ users: user.uuid })
+        .find({ users: user._id })
         .toArray();
       return res.status(200).json({
         success: true,
@@ -58,6 +60,7 @@ module.exports = async (app, db, io) => {
         });
       } else {
         const uuid = uuidv4();
+        console.log(user._id);
         const workspace = await db
           .collection("workspaces")
           .insertOne(
@@ -68,6 +71,7 @@ module.exports = async (app, db, io) => {
           .collection("workspaces")
           .findOne({ uuid: workspace.insertedId });
         namespace.emit("workspace", { type: "create", data: created });
+        console.log("created after emit", created);
         return res.status(201).json({
           success: true,
           message: "Workspace created successfully",
