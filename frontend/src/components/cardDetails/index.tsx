@@ -35,19 +35,45 @@ const CardDetails = ({
   const { user, token } = useContext(UserContext) as UserContextType;
   const [isMemberVisible, setIsMemberVisible] = useState(false);
   const [currentUsers, setCurrentUsers] = useState([] as any);
-  const [currentMemebers, setCurrentMembers] = useState([] as any);
-  const { selectedWorkspace } = useContext(
+  const [currentMembers, setCurrentMembers] = useState([] as any);
+  const { selectedWorkspace, workspaces } = useContext(
     WorkspaceContext
   ) as WorkspaceContextType;
   const { cards, deleteCard } = useContext(CardContext) as CardContextType;
   const closeModal = () => {
     setIsHidden(true);
   };
+  const workspaceId = workspaces.find(
+    (workspace) => workspace.uuid === selectedWorkspace
+  )?._id;
+  const fetchUsers = async (token: any) => {
+    try {
+      let res = await userList.getWorkspaceMembers(token, workspaceId);
+      setCurrentUsers(res?.users.data);
+    } catch (error: unknown) {
+      console.error("Error while trying to fetch users: ", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUsers(token);
+  }, [token]);
+
   const closeAddMember = () => {
     setIsMemberVisible(false);
   };
   const handleAddUser = (user: User) => {
-    setCurrentMembers([...currentMemebers, user]);
+    setCurrentMembers([...currentMembers, user]);
+    setCurrentUsers(currentUsers?.filter((u: User) => u.uuid !== user.uuid));
+  };
+
+  const removeMember = (user: User) => {
+    const updatedMembers = currentMembers.filter(
+      (u: User) => u.uuid !== user.uuid
+    );
+    setCurrentMembers(updatedMembers);
+
+    setCurrentUsers([...currentUsers, user]);
   };
   const handleDeleteCard = async () => {
     try {
@@ -93,11 +119,15 @@ const CardDetails = ({
           {/* The members section is only visible if at least one user is added to the card
               For each of the users we will render the users avatar
           */}
-          <div className="text-sm font-semibold ml-3">Members</div>
+          <div className="ml-2 flex flex-row min-h-[40px] gap-2 items-center">
+            {currentMembers?.length > 0 && (
+              <Avatar src={currentMembers.image} />
+            )}
+          </div>
           <div className="flex flex-row h-full w-full gap-3">
             <div className="main ml-3 w-[80%] h-full">
               <div className="section h-[40%]">
-                <div className="flex flex-col my-8 gap-2">
+                <div className="flex flex-col my-4 gap-2">
                   <div className="flex flex-row gap-1">
                     <Icon name="description" />
                     <p className="font-semibold">Description</p>
@@ -144,18 +174,8 @@ const CardDetails = ({
                     }}
                   ></Input>
                 </div>
-                <div className="comments by user flex flex-col gap-4 mb-5">
+                <div className="comments by user flex flex-col gap-4 min-h-[150px] mb-5">
                   <Comment text={"Some comment made by user"} />
-                  <Comment
-                    text={"Hello world"}
-                    avatar="https://i.pravatar.cc/150?u=a042581f4e29026704d"
-                  />
-                  <Comment
-                    text={"Hello world"}
-                    avatar="https://i.pravatar.cc/150?u=a042581f4e29026024d"
-                  />
-                  <Comment text={"React is so much funb"} />
-                  <Comment text={"Next.js is life"} />
                 </div>
               </div>
             </div>
@@ -188,16 +208,22 @@ const CardDetails = ({
               >
                 <PopUpWrapper
                   classNames="bg-white absolute top-0 left-0  min-h-[100px] w-[200px]  z-20 "
-                  width={"400px"}
+                  width={"300px"}
                   height={"350px"}
                 >
                   <div className="flex flex-col gap-1 min-h-[50px]">
-                    <p className="flex text-background font-semibold ml-1 mt-2">
+                    <p className="flex text-background font-semibold ml-1 min-h-[25px] mt-2">
                       Members{" "}
                     </p>
                     <div>
-                      {currentMemebers?.map((member: any) => {
-                        return <UserCard key={member.uuid} user={member} />;
+                      {currentMembers?.map((member: any) => {
+                        return (
+                          <UserCard
+                            key={member.uuid}
+                            user={member}
+                            removeUser={() => removeMember(user)}
+                          />
+                        );
                       })}
                     </div>
                     <Button

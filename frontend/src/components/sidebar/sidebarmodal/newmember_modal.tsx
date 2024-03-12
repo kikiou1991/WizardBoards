@@ -38,10 +38,13 @@ const MyModalEmail = ({ name, onClick }: Props) => {
       setSingleUser(user);
     } catch (error) {}
   };
-  // console.log("target", singleUser);
-  // useEffect(() => {
-  //   findUser();
-  // }, [userEmail]);
+  useEffect(() => {
+    findUser();
+  }, [userEmail]);
+
+  const handleChange = (value: string) => {
+    setUserEmail(value);
+  };
   //Handle the Modal Opening
   const openModal = () => {
     setIsOpen(true);
@@ -51,8 +54,6 @@ const MyModalEmail = ({ name, onClick }: Props) => {
     setIsOpen(false);
   };
   const handleAddUser = () => {
-    console.log("userEmail", userEmail);
-    console.log("singleUser", singleUser);
     //Add user to workspace
     if (singleUser) {
       addUserToWorkspace(token, selectedWorkspace, singleUser.uuid);
@@ -89,7 +90,7 @@ const MyModalEmail = ({ name, onClick }: Props) => {
           <ModalHeader className="flex flex-col gap-1">
             <h1>Invite to workspace</h1>
           </ModalHeader>
-          <ModalBody>
+          <ModalBody className="flex items-center">
             <Input
               type="email"
               label="Email"
@@ -97,12 +98,12 @@ const MyModalEmail = ({ name, onClick }: Props) => {
               description="Please enter the email address of the person you wish to invite."
               className="max-w-xs text-[#f25746] "
               color="default"
-              onChange={(e) => setUserEmail(e.target.value)}
+              onChange={(e) => handleChange(e.target.value)}
             />
             <Button
               color="primary"
-              onSubmit={() => handleAddUser}
-              className="mt-4"
+              onPressEnd={() => handleAddUser}
+              className=""
               type="submit"
             >
               Submit

@@ -3,26 +3,34 @@ import React from "react";
 
 type User = {
   fullName: string;
+  image: string;
 };
 interface UserData {
   user?: User | null;
   addUser?: () => void;
+  removeUser?: () => void;
 }
-const UserCard = ({ user, addUser }: UserData) => {
+const UserCard = ({ user, addUser, removeUser }: UserData) => {
   return (
     <div
-      onClick={addUser}
+      onClick={() => {
+        if (addUser) {
+          addUser();
+        }
+        if (removeUser) {
+          removeUser();
+        }
+      }}
       className="text-foreground hover:cursor-pointer rounded-md m-1 flex flex-row p-2 bg-blue-600 items-center gap-2"
     >
-      {" "}
       <Avatar
         as="button"
         className="transition-transform p"
         size="sm"
-        src="https://avatarfiles.alphacoders.com/324/324846.jpg"
+        src={user?.image}
       />
       <p className="text-black font-semibold">
-        {user ? user.fullName : "Anonymus..."}
+        {user ? user.fullName : "Anonymous..."}
       </p>
     </div>
   );

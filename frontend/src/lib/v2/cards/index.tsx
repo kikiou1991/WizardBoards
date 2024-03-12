@@ -4,9 +4,9 @@ export const listCards = {
   fetchCard: async (token: any, listUuid: string) => {
     try {
       const response = await fetch(
-        `http://${
-          projectConfig.apiBaseUrl
-        }/v2/cards?listUuid=${encodeURIComponent(listUuid)}`,
+        `${projectConfig.apiBaseUrl}/v2/cards?listUuid=${encodeURIComponent(
+          listUuid
+        )}`,
         {
           method: "GET",
           headers: {

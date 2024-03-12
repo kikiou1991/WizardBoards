@@ -1,9 +1,11 @@
+import projectConfig from "@/components/projectConfig";
+
 export const listCards = {
   createCard: async (token: any, cardData: any, listUuid: string) => {
     console.log("token", token);
     try {
       const { title } = cardData;
-      const response = await fetch("http://${projectConfig.apiBaseUrl}/cards", {
+      const response = await fetch(`${projectConfig.apiBaseUrl}/v2/cards`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
