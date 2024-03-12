@@ -177,4 +177,42 @@ module.exports = async (app, db, io) => {
       next(error);
     }
   });
+  app.get('/api/v2/workspaces/members', async (req, res, next) => {
+    try {
+      const { workspaceUUID } = req.query;
+      const user = req.user;
+      if (!user || !user._id) {
+        return res.status(400).json({
+          message: "Invalid user information",
+          success: false,
+          data: null,
+        });
+      }
+      if (!workspaceUUID) {
+        return res.status(400).json({
+          message: "Invalid workspace uuid",
+          success: false,
+          data: null,
+        });
+      }
+      let thisWorkspace = await db.collection("workspaces").findOne({ uuid: workspaceUUID });
+      let workspaceUsers = thisWorkspace.users;
+      let fetchedUsers = []
+      for (let i = 0; i < workspaceUsers.length; i++) {
+        let user = await db.collection("users").findOne({ _id: workspaceUsers[i] });
+        fetchedUsers.push(user);
+      }
+
+      return res.status(200).json({
+        success: true,
+        message: "Users fetched successfully",
+        data: fetchedUsers,
+      });
+
+
+    } catch (error) {
+      console.error(error, "Failed to add user to workspace");
+      next(error);
+    }
+  })
 };

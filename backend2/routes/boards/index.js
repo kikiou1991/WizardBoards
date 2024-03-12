@@ -5,7 +5,6 @@ module.exports = async (app, db, io) => {
     try {
       const workspaceUuid = req.query.workspaceUuid;
       const user = req.user;
-
       if (!workspaceUuid) {
         return res.status(400).json({
           message: "Invalid workspace ID",
@@ -23,9 +22,8 @@ module.exports = async (app, db, io) => {
 
       const workspace = await db.collection("workspaces").findOne({
         uuid: workspaceUuid,
-        users: { $in: [user.uuid] },
+        users: { $in: [user._id] },
       });
-
       if (!workspace) {
         return res
           .status(400)

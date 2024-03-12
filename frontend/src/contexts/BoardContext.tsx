@@ -101,7 +101,6 @@ const BoardContextProvider = ({ children }: WorkspaceContextProviderProps) => {
     console.log("res", res?.data);
     setBoards(res?.data || []);
   };
-  console.log("selectedWorkspace", selectedWorkspace);
 
   useEffect(() => {
     const fetchFavorites = async (token: any, workspaces: any) => {

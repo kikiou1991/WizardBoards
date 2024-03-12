@@ -219,7 +219,6 @@ const Project = () => {
 
   //Custom hook to close the input field when clicking outside of it
   useOutsideClick(ref, toggleIsActive);
-
   return isBoardSelectedGlobal ? (
     <div className="relative grow  flex flex-col overflow-hidden ">
       <div className="relative w-full py-2 px-1 border-b-1 border-border items-center">
