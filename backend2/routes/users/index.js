@@ -27,7 +27,7 @@ module.exports = async (app, db, io) => {
       next(error);
     }
   }),
-    app.get("/api/v2/users/email", async (req, res, next) => {
+    app.post("/api/v2/users/email", async (req, res, next) => {
       try {
         console.log("req.body", req.body);
         let { email } = req.body;

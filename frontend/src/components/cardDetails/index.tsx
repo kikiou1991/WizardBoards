@@ -13,6 +13,7 @@ import {
 } from "@/contexts/WorkspaceContext";
 import { User } from "@/types";
 import { CardContext, CardContextType } from "@/contexts/CardContext";
+// import TextArea from '@atlaskit/textarea';
 
 //This board will depend on the data from the backend, when a card is clicked it will show the details of the card
 //We get the right card by its id

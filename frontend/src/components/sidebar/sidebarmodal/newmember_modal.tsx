@@ -18,6 +18,7 @@ import {
 import { UserContext, UserContextType } from "@/contexts/Usercontext";
 import { User } from "@/types";
 import toast from "react-hot-toast";
+import { userList } from "@/lib/v2/users";
 
 interface Props {
   name: string;
@@ -32,15 +33,6 @@ const MyModalEmail = ({ name, onClick }: Props) => {
   const { allUsers, token } = useContext(UserContext) as UserContextType;
   const [userEmail, setUserEmail] = useState("");
   const [singleUser, setSingleUser] = useState<User | null>(null);
-  const findUser = () => {
-    try {
-      const user = allUsers.find((user: User) => user.email === userEmail);
-      setSingleUser(user);
-    } catch (error) {}
-  };
-  useEffect(() => {
-    findUser();
-  }, [userEmail]);
 
   const handleChange = (value: string) => {
     setUserEmail(value);
@@ -53,12 +45,21 @@ const MyModalEmail = ({ name, onClick }: Props) => {
   const closeModal = () => {
     setIsOpen(false);
   };
-  const handleAddUser = () => {
+  console.log("selectedWorkspace", selectedWorkspace);
+  const handleAddUser = async () => {
     //Add user to workspace
-    if (singleUser) {
-      addUserToWorkspace(token, selectedWorkspace, singleUser.uuid);
-    } else {
-      toast.error("No user exists with that email");
+    try {
+      const response = await userList.verifyUserEmail(token, userEmail);
+      const userUuid = response.data._id;
+      if (response) {
+        addUserToWorkspace(token, selectedWorkspace, userUuid);
+        toast.success("User added to workspace");
+        closeModal();
+      } else {
+        toast.error("User not found");
+      }
+    } catch (error: unknown) {
+      console.error("Error while trying to add user to workspace: ", error);
     }
   };
 
@@ -102,7 +103,7 @@ const MyModalEmail = ({ name, onClick }: Props) => {
             />
             <Button
               color="primary"
-              onPressEnd={() => handleAddUser()}
+              onPressEnd={handleAddUser}
               className=""
               type="submit"
             >
