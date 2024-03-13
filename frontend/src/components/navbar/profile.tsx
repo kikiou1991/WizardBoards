@@ -34,14 +34,13 @@ const Profile = ({ name, email }: Props) => {
             <Avatar
               isBordered
               as="button"
-              className="transition-transform p"
-              color="primary"
+              className="transition-transform "
               name={name}
               size="sm"
               src="https://t3.ftcdn.net/jpg/03/46/83/96/240_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg"
             />
           </DropdownTrigger>
-          <DropdownMenu aria-label="aria class">
+          <DropdownMenu aria-label="aria class ">
             <DropdownSection aria-label="aria class">
               <DropdownItem>
                 <a href="/workspace/account" className="py-1 px-0">

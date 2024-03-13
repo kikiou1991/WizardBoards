@@ -126,10 +126,11 @@ const YourBoards = () => {
                 >
                   <div className="flex flex-row gap-2 items-center flex-nowrap">
                     <Image
-                      className="rounded"
+                      className="rounded "
                       src={board.imageLink}
-                      width={26}
-                      height={20}
+                      width={100}
+                      height={100}
+                      style={{ width: "40px", height: "28px" }}
                       alt="board-background"
                     />
                     <Link href="/workspace/projects" className="text-nowarp">

@@ -1,4 +1,4 @@
-import { Avatar, Button, Input } from "@nextui-org/react";
+import { Avatar, AvatarGroup, Button, Input } from "@nextui-org/react";
 import React, { useContext, useEffect, useState } from "react";
 import Icon from "../Icons";
 import Comment from "../comment";
@@ -32,14 +32,23 @@ const CardDetails = ({
   setIsHidden,
   uuid,
 }: CardDetailProps) => {
+  //state and context imports
   const { user, token } = useContext(UserContext) as UserContextType;
-  const [isMemberVisible, setIsMemberVisible] = useState(false);
-  const [currentUsers, setCurrentUsers] = useState([] as any);
-  const [currentMembers, setCurrentMembers] = useState([] as any);
+  const { cards, deleteCard } = useContext(CardContext) as CardContextType;
   const { selectedWorkspace, workspaces } = useContext(
     WorkspaceContext
   ) as WorkspaceContextType;
-  const { cards, deleteCard } = useContext(CardContext) as CardContextType;
+  const [isMemberVisible, setIsMemberVisible] = useState(false);
+  const [currentUsers, setCurrentUsers] = useState([] as any);
+  const [currentMembers, setCurrentMembers] = useState([] as any);
+  const [commentDetails, setCommentDetails] = useState([
+    {
+      user: "",
+      comment: "",
+      date: "",
+    },
+  ] as any);
+  //Functions
   const closeModal = () => {
     setIsHidden(true);
   };
@@ -54,7 +63,6 @@ const CardDetails = ({
       console.error("Error while trying to fetch users: ", error);
     }
   };
-
   useEffect(() => {
     fetchUsers(token);
   }, [token]);
@@ -63,16 +71,19 @@ const CardDetails = ({
     setIsMemberVisible(false);
   };
   const handleAddUser = (user: User) => {
+    console.log("user", user);
     setCurrentMembers([...currentMembers, user]);
     setCurrentUsers(currentUsers?.filter((u: User) => u.uuid !== user.uuid));
   };
+  console.log("currentMembers", currentMembers);
 
   const removeMember = (user: User) => {
+    console.log("user", user);
     const updatedMembers = currentMembers.filter(
       (u: User) => u.uuid !== user.uuid
     );
-    setCurrentMembers(updatedMembers);
 
+    setCurrentMembers(updatedMembers);
     setCurrentUsers([...currentUsers, user]);
   };
   const handleDeleteCard = async () => {
@@ -119,30 +130,31 @@ const CardDetails = ({
           {/* The members section is only visible if at least one user is added to the card
               For each of the users we will render the users avatar
           */}
-          <div className="ml-2 flex flex-row min-h-[40px] gap-2 items-center">
-            {currentMembers?.length > 0 && (
-              <Avatar src={currentMembers.image} />
-            )}
+          <div className="flex flex-row ml-2 min-h-[40px] gap-1 items-center">
+            {currentMembers?.length > 0 &&
+              currentMembers.map((currentMember: any) => (
+                <Avatar key={currentMember.uuid} src={currentMember.image} />
+              ))}
           </div>
           <div className="flex flex-row h-full w-full gap-3">
             <div className="main ml-3 w-[80%] h-full">
               <div className="section h-[40%]">
-                <div className="flex flex-col my-4 gap-2">
+                <div className="flex flex-col my-4  gap-2">
                   <div className="flex flex-row gap-1">
                     <Icon name="description" />
                     <p className="font-semibold">Description</p>
                   </div>
-                  {/* This should be a separate component */}
+                  {/* This should be a separate component?? */}
                   <Input
                     placeholder="Write unit tests..."
                     type="text"
                     classNames={{
-                      base: "max-w-full sm:max-w-[28rem] h-10 bg-foreground",
-                      mainWrapper: "flex h-full w-full ml-4 bg-forground",
+                      base: "max-w-full sm:max-w-[28rem] ml-9 h-10 bg-foreground",
+                      mainWrapper: "flex h-full w-full  bg-forground",
                       input:
                         "text-small font-semibold group-data-[focus=true]:text-background",
                       inputWrapper:
-                        "dark:focus-within:!bg-foreground/70 data-[hover=true]:bg-foregound/80 h-full w-60  !cursor-text dark:focus-within:text-black bg-foreground hover:bg-foreground border-slate-100 rounded-md",
+                        "dark:focus-within:!bg-foreground/70 data-[hover=true]:bg-foregound/80 h-full w-60  !cursor-text dark:focus-within:text-black bg-white hover:bg-foreground border-slate-100 rounded-md",
                     }}
                   ></Input>
                 </div>
@@ -153,10 +165,10 @@ const CardDetails = ({
                   <h3 className="font-semibold">Comments</h3>
                 </div>
                 {/* Below should be dynamic data */}
-                <div className="flex flex-row gap-2 my-2 items-center">
+                <div className="flex flex-row gap-2 my-2  items-center">
                   <Avatar
                     as="button"
-                    className="transition-transform p"
+                    className="transition-transform"
                     size="sm"
                     src="https://t3.ftcdn.net/jpg/03/46/83/96/240_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg"
                   />
@@ -174,7 +186,7 @@ const CardDetails = ({
                     }}
                   ></Input>
                 </div>
-                <div className="comments by user flex flex-col gap-4 min-h-[150px] mb-5">
+                <div className="flex flex-col gap-4 min-h-[150px] mb-5">
                   <Comment text={"Some comment made by user"} />
                 </div>
               </div>
@@ -215,13 +227,13 @@ const CardDetails = ({
                     <p className="flex text-background font-semibold ml-1 min-h-[25px] mt-2">
                       Members{" "}
                     </p>
-                    <div>
+                    <div className="">
                       {currentMembers?.map((member: any) => {
                         return (
                           <UserCard
                             key={member.uuid}
                             user={member}
-                            removeUser={() => removeMember(user)}
+                            removeUser={() => removeMember(member)}
                           />
                         );
                       })}
@@ -247,7 +259,7 @@ const CardDetails = ({
                     {currentUsers?.map((user: any) => {
                       return (
                         <UserCard
-                          key={user.uuid}
+                          key={user?.uuid}
                           addUser={() => handleAddUser(user)}
                           user={user}
                         />

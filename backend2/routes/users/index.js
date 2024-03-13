@@ -15,18 +15,6 @@ module.exports = async (app, db, io) => {
       }
       //find all users, turn them into an array
       const users = await db.collection("users").find().toArray();
-      //convert the workspace ids to strings instead of the objectIds
-      // const modifiedUsers = users.map((user) => {
-      //   if (user.workspaces) {
-      //     user.workspaces = user.workspaces.map((workspace) => {
-      //       if (workspace instanceof objID) {
-      //         return workspace.toString();
-      //       }
-      //       return workspace;
-      //     });
-      //   }
-      //   return user;
-      // });
 
       //return the users as json
       return res.status(200).json({
@@ -38,5 +26,36 @@ module.exports = async (app, db, io) => {
       console.error(error, "Failed to get users");
       next(error);
     }
-  });
+  }),
+    app.get("/api/v2/users/email", async (req, res, next) => {
+      try {
+        console.log("req.body", req.body);
+        let { email } = req.body;
+        if (!email) {
+          return res.status(400).json({
+            success: false,
+            message: "Invalid email",
+            data: null,
+          });
+        }
+        //find the user with the email
+        const user = await db.collection("users").findOne({ email: email });
+        if (!user) {
+          return res.status(404).json({
+            success: false,
+            message: "User not found",
+            data: null,
+          });
+        }
+        //return the user
+        return res.status(200).json({
+          success: true,
+          message: "User found successfully",
+          data: user,
+        });
+      } catch (error) {
+        console.error(error, "Failed to get user by email");
+        next(error);
+      }
+    });
 };

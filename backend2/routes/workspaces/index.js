@@ -1,4 +1,5 @@
 const { v4: uuidv4 } = require("uuid");
+const { ObjectId } = require("mongodb");
 module.exports = async (app, db, io) => {
   let namespace = io.of("/api/v2/workspaces");
   app.get("/api/v2/workspaces", async (req, res, next) => {
@@ -149,12 +150,12 @@ module.exports = async (app, db, io) => {
       }
 
       //add the user to the workspace.users array
-
+      let objId = new ObjectId(userUuid);
       let updatedWorkspace = await db.collection("workspaces").findOneAndUpdate(
         {
           uuid: workspaceUuid,
         },
-        { $push: { users: userUuid } },
+        { $push: { users: objId } },
         { returnOriginal: false }
       );
       //add the workspace to the user.workspaces array
@@ -177,7 +178,7 @@ module.exports = async (app, db, io) => {
       next(error);
     }
   });
-  app.get('/api/v2/workspaces/members', async (req, res, next) => {
+  app.get("/api/v2/workspaces/members", async (req, res, next) => {
     try {
       const { workspaceUUID } = req.query;
       const user = req.user;
@@ -195,11 +196,15 @@ module.exports = async (app, db, io) => {
           data: null,
         });
       }
-      let thisWorkspace = await db.collection("workspaces").findOne({ uuid: workspaceUUID });
+      let thisWorkspace = await db
+        .collection("workspaces")
+        .findOne({ uuid: workspaceUUID });
       let workspaceUsers = thisWorkspace.users;
-      let fetchedUsers = []
+      let fetchedUsers = [];
       for (let i = 0; i < workspaceUsers.length; i++) {
-        let user = await db.collection("users").findOne({ _id: workspaceUsers[i] });
+        let user = await db
+          .collection("users")
+          .findOne({ _id: workspaceUsers[i] });
         fetchedUsers.push(user);
       }
 
@@ -208,11 +213,9 @@ module.exports = async (app, db, io) => {
         message: "Users fetched successfully",
         data: fetchedUsers,
       });
-
-
     } catch (error) {
       console.error(error, "Failed to add user to workspace");
       next(error);
     }
-  })
+  });
 };

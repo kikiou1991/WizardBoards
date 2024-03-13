@@ -134,7 +134,7 @@ const NavMenuDesktop = () => {
                     onClick={() => {
                       handleWorkspaceChange(workspace.uuid);
                     }}
-                    className={`flex flex-row py-2 px-2 group/item h-10 `}
+                    className={`flex flex-row items-center py-2 px-2 group/item h-10 `}
                   >
                     <Link href="/workspace/projects">{workspace.name}</Link>
                   </DropdownItem>
@@ -171,7 +171,7 @@ const NavMenuDesktop = () => {
                   <DropdownItem
                     aria-label="aria class"
                     key={favorite.uuid}
-                    className={`flex flex-row py-2 px-1 group/item h-10 `}
+                    className={`flex flex-row items-center py-2 px-1 group/item h-10 `}
                     onMouseEnter={() => setIsHovered(true)}
                     onMouseLeave={() => setIsHovered(false)}
                   >
@@ -179,7 +179,7 @@ const NavMenuDesktop = () => {
                       {/* Add logic here to route favorite boards to their respective pages
                        */}
                       <div
-                        className="flex flex-row gap-2 flex-grow w-full px-2 text-base"
+                        className="flex flex-row items-center gap-2 flex-grow w-full px-2 text-base"
                         onClick={() => {}}
                       >
                         <Image

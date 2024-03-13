@@ -102,7 +102,7 @@ const MyModalEmail = ({ name, onClick }: Props) => {
             />
             <Button
               color="primary"
-              onPressEnd={() => handleAddUser}
+              onPressEnd={() => handleAddUser()}
               className=""
               type="submit"
             >

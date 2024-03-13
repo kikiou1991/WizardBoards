@@ -65,7 +65,7 @@ const NewBoardPopUp = ({
 
   return (
     <div
-      className={`container absolute z-20 overflow-y-auto right-0 ${
+      className={`container absolute z-50 overflow-y-auto right-0 ${
         isVisible ? "hidden" : "block"
       } bg-background text-foreground border-foreground border-1 shadow-md rounded-lg w-[310px] h-[565px]`}
       style={{ top, left }}
@@ -73,8 +73,10 @@ const NewBoardPopUp = ({
       {" "}
       <Button
         isIconOnly
-        className="bg-inherit text-black absolute z-20 top-1 right-1 rounded-full hover:bg-secondaryBG hover:text-foreground"
+        size="sm"
+        className="bg-inherit absolute z-20 top-1 right-1 rounded-full hover:bg-secondaryBG text-foreground"
         onClick={setVisi}
+        onPress={() => setSelectedImg("2")}
       >
         X
       </Button>
