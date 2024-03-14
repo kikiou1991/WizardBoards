@@ -72,8 +72,10 @@ module.exports = async (app, db, io) => {
       let cardsId = new ObjectId(data._id);
       let updatedList = await db
         .collection("lists")
-        .findOneAndUpdate({ uuid: listUuid }, { $push: { cards: cardsId } });
-      console.log("updatedList", updatedList);
+        .findOneAndUpdate(
+          { uuid: listUuid },
+          { $addToSet: { cards: cardsId } }
+        );
       namespace.emit("list", { type: "update", data: updatedList });
 
       return res.status(201).json({
@@ -82,7 +84,6 @@ module.exports = async (app, db, io) => {
         data: updatedCard,
       });
     } else if (cardUuid) {
-      console.log("updating card with listUuid", listUuid);
       //we can loop through the array and check the db for each card using their uuid
       const bulkData = data.map((card) => ({
         updateOne: {
@@ -105,7 +106,6 @@ module.exports = async (app, db, io) => {
       let updatedCardsInList = await db
         .collection("lists")
         .findOne({ uuid: listUuid });
-      console.log("updatedList", updatedCardsInList);
       namespace.emit("list", { type: "update", data: updatedCardsInList });
     } else {
       const generateCardIndex = () => {

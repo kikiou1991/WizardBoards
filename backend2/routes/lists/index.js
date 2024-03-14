@@ -100,7 +100,6 @@ module.exports = async (app, db, io) => {
         data: newList,
       });
     }
-    next(error);
   });
   app.post("/api/v2/lists/archive", async (req, res, next) => {
     const { boardUuid, listUUID, data } = req.body;
@@ -144,7 +143,6 @@ module.exports = async (app, db, io) => {
       return res
         .status(400)
         .json({ message: "Invalid list UUID", success: false, data: null });
-      next(error);
     }
   });
 };
