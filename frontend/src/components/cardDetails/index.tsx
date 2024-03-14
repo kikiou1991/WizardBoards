@@ -13,6 +13,7 @@ import {
 } from "@/contexts/WorkspaceContext";
 import { User } from "@/types";
 import { CardContext, CardContextType } from "@/contexts/CardContext";
+import TextArea from "../textareainput";
 // import TextArea from '@atlaskit/textarea';
 
 //This board will depend on the data from the backend, when a card is clicked it will show the details of the card
@@ -76,7 +77,6 @@ const CardDetails = ({
     setCurrentMembers([...currentMembers, user]);
     setCurrentUsers(currentUsers?.filter((u: User) => u.uuid !== user.uuid));
   };
-  console.log("currentMembers", currentMembers);
 
   const removeMember = (user: User) => {
     console.log("user", user);
@@ -94,6 +94,7 @@ const CardDetails = ({
         const { uuid, listUuid } = cardToDelete;
         await deleteCard(token, uuid, listUuid);
       }
+      setIsHidden(true);
     } catch (error) {
       console.error("Failed to delete card:", error);
     }
@@ -140,13 +141,14 @@ const CardDetails = ({
           <div className="flex flex-row h-full w-full gap-3">
             <div className="main ml-3 w-[80%] h-full">
               <div className="section h-[40%]">
-                <div className="flex flex-col my-4  gap-2">
+                <div className="flex flex-col my-4 min-h-48 gap-2">
                   <div className="flex flex-row gap-1">
                     <Icon name="description" />
                     <p className="font-semibold">Description</p>
                   </div>
                   {/* This should be a separate component?? */}
-                  <Input
+                  <TextArea />
+                  {/* <Input
                     placeholder="Write unit tests..."
                     type="text"
                     classNames={{
@@ -157,7 +159,7 @@ const CardDetails = ({
                       inputWrapper:
                         "dark:focus-within:!bg-foreground/70 data-[hover=true]:bg-foregound/80 h-full w-60  !cursor-text dark:focus-within:text-black bg-white hover:bg-foreground border-slate-100 rounded-md",
                     }}
-                  ></Input>
+                  ></Input> */}
                 </div>
               </div>
               <div className="h-[60%] ">

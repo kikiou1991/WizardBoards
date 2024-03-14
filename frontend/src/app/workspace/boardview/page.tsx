@@ -7,6 +7,7 @@ import {
   Image,
   Button,
   CardFooter,
+  Spinner,
 } from "@nextui-org/react";
 import { UserContext, UserContextType } from "@/contexts/Usercontext";
 import Link from "next/link";
@@ -17,6 +18,7 @@ import {
   WorkspaceContextType,
 } from "@/contexts/WorkspaceContext";
 import WorkspaceHeader from "@/components/workspaceHeader";
+import { useRouter } from "next/navigation";
 
 interface Workspace {
   uuid: string;
@@ -37,14 +39,18 @@ const BoardView = () => {
     (workspace: Workspace) => workspace.uuid === selectedWorkspace
   )?.name[0];
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
+  const router = useRouter();
   const handleBoardChange = (boardId: string) => {
     setSelectedBoard(boardId);
     setIsBoardSelectedGlobal(true);
     setSelectedItemId(boardId);
+
+    router.push(`/workspace/projects?board=${boardId}`);
   };
 
   return (
     <div className="flex flex-col flex-wrap overflow-x-hidden overflow-y-auto p-3 gap-2 ">
+      <Spinner size="lg" color="primary" />
       <WorkspaceHeader />
       <div className="px-2 text-2xl font-bold text-foreground">
         <h2 className="">Boards</h2>

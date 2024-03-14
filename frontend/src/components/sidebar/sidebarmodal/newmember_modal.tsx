@@ -45,7 +45,6 @@ const MyModalEmail = ({ name, onClick }: Props) => {
   const closeModal = () => {
     setIsOpen(false);
   };
-  console.log("selectedWorkspace", selectedWorkspace);
   const handleAddUser = async () => {
     //Add user to workspace
     try {

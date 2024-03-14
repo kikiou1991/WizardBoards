@@ -18,10 +18,11 @@ import CardDetails from "../cardDetails";
 interface Props {
   name: string;
   id: string;
+  cards: any;
   showCardDetails: () => void;
 }
 
-const Lists = ({ name, id, showCardDetails }: Props) => {
+const Lists = ({ name, id, showCardDetails, cards: givenCards }: Props) => {
   const { token } = useContext(UserContext) as UserContextType;
   const { cards, createCard, setCardDetails } = useContext(
     CardContext
@@ -69,7 +70,7 @@ const Lists = ({ name, id, showCardDetails }: Props) => {
     }
   };
   const filteredCards = cards?.filter((card) => card.listUuid === id);
-
+  console.log("filteredCards", filteredCards);
   useEffect(() => {
     if (listRef.current) {
       // Scroll to the bottom when a new card is added
@@ -79,7 +80,6 @@ const Lists = ({ name, id, showCardDetails }: Props) => {
   }, [newCardAdded, inputFieldRendered]); // Trigger effect when cards change
 
   useOutsideClick(ref, toggleInput);
-
   // Filter cards based on the current list ID
   return (
     <div

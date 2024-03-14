@@ -1,4 +1,5 @@
 const { v4: uuidv4 } = require("uuid");
+const { ObjectId } = require("mongodb");
 module.exports = async (app, db, io) => {
   let namespace = io.of("/api/v2/cards");
   app.get("/api/v2/cards", async (req, res, next) => {
@@ -46,11 +47,42 @@ module.exports = async (app, db, io) => {
   app.post("/api/v2/cards", async (req, res, next) => {
     const { listUuid, data } = req.body;
     const user = req.user;
+
     //we could potentially get all the data from the client
     //this can be an array of card objects
     //then we find the card we want to update we use the findOneAndUpdate method
-    let cardUuid = data[0]?.uuid;
-    if (cardUuid) {
+    let cardUuid;
+    if (Array.isArray(data)) {
+      cardUuid = data[0].uuid;
+    } else {
+      cardUuid = data.uuid;
+    }
+    if (cardUuid && listUuid && !Array.isArray(data)) {
+      // Exclude _id field from data
+      const { _id, ...updateData } = data;
+
+      let updatedCard = await db
+        .collection("cards")
+        .findOneAndUpdate(
+          { uuid: cardUuid },
+          { $set: { ...updateData, listUuid, list: [listUuid] } },
+          { returnDocument: "after", returnNewDocument: true }
+        );
+      namespace.emit("card", { type: "update", data: updatedCard });
+      let cardsId = new ObjectId(data._id);
+      let updatedList = await db
+        .collection("lists")
+        .findOneAndUpdate({ uuid: listUuid }, { $push: { cards: cardsId } });
+      console.log("updatedList", updatedList);
+      namespace.emit("list", { type: "update", data: updatedList });
+
+      return res.status(201).json({
+        message: "Card updated successfully",
+        success: true,
+        data: updatedCard,
+      });
+    } else if (cardUuid) {
+      console.log("updating card with listUuid", listUuid);
       //we can loop through the array and check the db for each card using their uuid
       const bulkData = data.map((card) => ({
         updateOne: {

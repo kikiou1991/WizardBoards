@@ -13,6 +13,7 @@ import { io, Socket } from "socket.io-client";
 import { WorkspaceContext, WorkspaceContextType } from "./WorkspaceContext";
 import { Boards } from "@/types";
 import projectConfig from "@/components/projectConfig";
+import { useSearchParams } from "next/navigation";
 
 export interface BoardContextType {
   boards: Boards[];
@@ -43,7 +44,17 @@ const BoardContextProvider = ({ children }: WorkspaceContextProviderProps) => {
   const [selectedBoard, setSelectedBoard] = useState("");
   const [isBoardSelectedGlobal, setIsBoardSelectedGlobal] = useState(false);
   const [favorites, setFavorites] = useState<Boards[]>([]);
+  const [boardsLoading, setBoardsLoading] = useState(false);
   //create the boards
+  const searchParams = useSearchParams();
+  useEffect(() => {
+    let board = searchParams.get("board");
+    if (board) {
+      setSelectedBoard(board);
+      setIsBoardSelectedGlobal(true);
+    }
+  }, [searchParams]);
+
   const createBoard = async (token: any, boardData: any) => {
     if (!boardData || !token) return;
     try {
@@ -97,9 +108,11 @@ const BoardContextProvider = ({ children }: WorkspaceContextProviderProps) => {
   };
 
   const getBoards = async () => {
+    setBoardsLoading(true);
     let res = await workspaceBoards.getBoards(token, selectedWorkspace);
     console.log("res", res?.data);
     setBoards(res?.data || []);
+    setBoardsLoading(false);
   };
 
   useEffect(() => {

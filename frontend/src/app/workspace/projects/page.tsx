@@ -32,6 +32,7 @@ import { listCards } from "@/lib/v2/cards";
 import CardDetails from "@/components/cardDetails";
 import { Cards } from "@/types";
 import { start } from "repl";
+import { useSearchParams } from "next/navigation";
 
 const Project = () => {
   const { token } = useContext(UserContext) as UserContextType;
@@ -56,7 +57,7 @@ const Project = () => {
   };
   const board = boards.find((board) => board.uuid === selectedBoard);
   const ref = useRef<HTMLDivElement | null>(null);
-
+  const searchParams = useSearchParams();
   const reOrder = (list: any, startIndex: number, endIndex: number) => {
     const result = Array.from(list);
     const [removed] = result.splice(startIndex, 1);
@@ -120,9 +121,8 @@ const Project = () => {
           return updatedLists;
         });
         console.log("lists", lists);
-        // listCards.createCard(token, updatedCards, updatedCards[0]?.listUuid);
+        listCards.createCard(token, updatedCards, updatedCards[0]?.listUuid);
       }
-      console.log("lists after block", lists);
     } else {
       console.log("Dragged to another list");
       // Remove the card from the source list
@@ -157,6 +157,7 @@ const Project = () => {
           ...card,
           position: index + 1,
         }));
+        //update the card in the db
         setLists((prevLists) => {
           // Find the source list
           const updatedSourceListIndex = prevLists.findIndex(
@@ -176,14 +177,22 @@ const Project = () => {
             ...prevLists[updatedDestListIndex],
             cards: updatedCards,
           };
+          console.log("updatedDestList", updatedDestList);
+          //fint the card that was dragged to the new list
+          const movedCard = updatedDestList.cards.find(
+            (card) => card.cardIndex === removedCard?.cardIndex
+          );
+
           // Create a new array with the updated source and destination lists
           const updatedLists = [...prevLists];
-          console.log("updatedLists", updatedLists);
           updatedLists[updatedSourceListIndex] = updatedSourceList;
-          updatedLists[updatedDestListIndex] = updatedDestList;
 
-          //might need a different approach, the same way we updated multiple cards with one api call we want to do the same with lists
-          //so we would use upDateMany on the backend and send back the updated list
+          updatedLists[updatedDestListIndex] = updatedDestList;
+          //update the card in the db
+          //wait for the card to be updated in the db
+          if (movedCard)
+            listCards.createCard(token, movedCard, movedCard?.listUuid);
+          //update the source list after the card is updated in the db
 
           return updatedLists;
         });
@@ -219,6 +228,7 @@ const Project = () => {
 
   //Custom hook to close the input field when clicking outside of it
   useOutsideClick(ref, toggleIsActive);
+
   return isBoardSelectedGlobal ? (
     <div className="relative grow  flex flex-col overflow-hidden ">
       <div className="relative w-full py-2 px-1 border-b-1 border-border items-center">
@@ -240,6 +250,7 @@ const Project = () => {
               showCardDetails={toggleCardDetails}
               key={list.uuid}
               name={list.title}
+              cards={list.cards}
               id={list.uuid}
             />
           ))}
