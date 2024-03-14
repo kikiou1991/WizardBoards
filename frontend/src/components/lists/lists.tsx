@@ -70,7 +70,6 @@ const Lists = ({ name, id, showCardDetails, cards: givenCards }: Props) => {
     }
   };
   const filteredCards = cards?.filter((card) => card.listUuid === id);
-  console.log("filteredCards", filteredCards);
   useEffect(() => {
     if (listRef.current) {
       // Scroll to the bottom when a new card is added

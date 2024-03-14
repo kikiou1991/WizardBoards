@@ -36,7 +36,7 @@ module.exports = async (app, db, io) => {
 
       return res.status(200).json({
         success: true,
-        message: "Board fetched successfully",
+        message: "Cards fetched successfully",
         data: fetchedCards,
       });
     } catch (error) {
@@ -132,6 +132,7 @@ module.exports = async (app, db, io) => {
           listUuid: listUuid,
           list: [listUuid],
           uuid: uuidv4(),
+          description: "",
         },
         { returnDocument: "after", returnNewDocument: true }
       );
@@ -200,5 +201,88 @@ module.exports = async (app, db, io) => {
       console.error("Failed to delete the card", error);
       next(error);
     }
-  });
+  }),
+    app.post("/api/v2/cards/comments", async (req, res, next) => {
+      try {
+        const { cardUuid, comment } = req.body;
+        const user = req.user;
+
+        if (!cardUuid || !message) {
+          return res.status(400).json({
+            message: "Invalid card or comment",
+            success: false,
+            data: null,
+          });
+        }
+        if (!user || !user._id) {
+          return res.status(400).json({
+            message: "Invalid user information",
+            success: false,
+            data: null,
+          });
+        }
+        const card = await db.collection("cards").findOne({ uuid: cardUuid });
+        if (!card) {
+          return res
+            .status(400)
+            .json({ message: "Invalid card UUID", success: false, data: null });
+        }
+        const result = await db
+          .collection("cards")
+          .updateOne({ uuid: cardUuid }, { $push: { comments: comment } });
+        namespace.emit("card", { type: "update", data: result });
+
+        return res.status(201).json({
+          message: "Message added successfully",
+          success: true,
+          data: result,
+        });
+      } catch (error) {
+        console.error("Failed to add message to the card", error);
+        next(error);
+      }
+    }),
+    app.post("/api/v2/cards/description", async (req, res, next) => {
+      try {
+        const { cardUuid, description } = req.body;
+        const user = req.user;
+
+        if (!cardUuid || !description) {
+          return res.status(400).json({
+            message: "Invalid card or description",
+            success: false,
+            data: null,
+          });
+        }
+        if (!user || !user._id) {
+          return res.status(400).json({
+            message: "Invalid user information",
+            success: false,
+            data: null,
+          });
+        }
+        const card = await db.collection("cards").findOne({ uuid: cardUuid });
+        if (!card) {
+          return res
+            .status(400)
+            .json({ message: "Invalid card UUID", success: false, data: null });
+        }
+        const result = await db
+          .collection("cards")
+          .updateOne({ uuid: cardUuid }, { $set: { description } });
+        const updatedCard = await db
+          .collection("cards")
+          .findOne({ uuid: cardUuid });
+        namespace.emit("desc", { type: "update", data: updatedCard });
+
+        return res.status(201).json({
+          message: "Description added successfully",
+          success: true,
+          data: updatedCard,
+        });
+      } catch (error) {
+        console.error("Failed to add description to the card", error);
+        next(error);
+      }
+    });
 };

@@ -110,7 +110,6 @@ const BoardContextProvider = ({ children }: WorkspaceContextProviderProps) => {
   const getBoards = async () => {
     setBoardsLoading(true);
     let res = await workspaceBoards.getBoards(token, selectedWorkspace);
-    console.log("res", res?.data);
     setBoards(res?.data || []);
     setBoardsLoading(false);
   };
@@ -140,23 +139,6 @@ const BoardContextProvider = ({ children }: WorkspaceContextProviderProps) => {
     // Fetch favorites when the component mounts
     fetchFavorites(token, workspaces);
   }, [token, workspaces]);
-
-  //useEffect re render the page when there is change to favorites ??????
-  // useEffect(() => {
-  //   const fetchAndUpdateFavorites = async () => {
-  //     if (localStorage['token'] && workspaces.length > 0) {
-  //       const newFavorites = [];
-  //       for (let workspace of workspaces) {
-  //         const res = await workspaceBoards.fetchBoard(localStorage['token'], workspace.uuid);
-  //         const favBoards = res?.data.filter((board: any) => board.isStared === true) || [];
-  //         newFavorites.push(...favBoards);
-  //       }
-  //       setFavorites(newFavorites);
-  //     }
-  //   };
-
-  //   fetchAndUpdateFavorites();
-  // }, [ favorites]);
 
   const socketRef = useRef<Socket | null>(null);
 

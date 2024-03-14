@@ -53,6 +53,7 @@ const CardContextProvider = ({ children }: CardContextProviderProps) => {
     try {
       const res = await listCards.fetchCard(token, listUuid);
       // Check if res.data is defined before using it
+      console.log("res", res.data);
       if (res && res.data) {
         setCards((prevCards) => {
           // Filter out cards for other lists
@@ -107,7 +108,6 @@ const CardContextProvider = ({ children }: CardContextProviderProps) => {
   useEffect(() => {
     if (!socketRef.current) {
       socketRef.current = io(`${projectConfig.apiBaseUrl}/v2/cards`, {});
-      console.log("connecting socket");
     }
 
     const socket = socketRef.current;
@@ -136,7 +136,6 @@ const CardContextProvider = ({ children }: CardContextProviderProps) => {
           });
         });
       } else if (data.type === "delete") {
-        console.log("running the socket to delete a card");
         setCards((prevCards) =>
           prevCards.filter((card) => card.uuid !== data.data.uuid)
         );

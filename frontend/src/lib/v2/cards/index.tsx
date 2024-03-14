@@ -71,4 +71,29 @@ export const listCards = {
       console.error("Error deleting card: ", error.message);
     }
   },
+  addDescription: async (token: any, cardUuid: string, description: string) => {
+    try {
+      const response = await fetch(
+        `${projectConfig.apiBaseUrl}/v2/cards/description`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            cardUuid,
+            description,
+          }),
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Failed to add description");
+      }
+      const data = await response.json();
+      return data;
+    } catch (error: any) {
+      console.error("Error adding description: ", error.message);
+    }
+  },
 };

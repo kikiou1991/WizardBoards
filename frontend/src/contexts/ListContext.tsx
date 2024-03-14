@@ -51,7 +51,6 @@ const ListContextProvider = ({ children }: WorkspaceContextProviderProps) => {
   //we are going to need to create the lists
 
   const createList = async (token: any, listData: any, boardUuid: string) => {
-    console.log("listData", listData);
     try {
       const res = await boardLists.createList(token, listData, boardUuid);
       if (res && res.newList) {
@@ -85,20 +84,17 @@ const ListContextProvider = ({ children }: WorkspaceContextProviderProps) => {
     if (!socketRef.current) {
       socketRef.current = io(`${projectConfig.apiBaseUrl}/v2/lists`, {});
     }
-    console.log("is this working?");
     const socket = socketRef.current;
 
     socket.on("list", (data: any) => {
       if (data.type === "create") {
         const newList = data.data;
         setLists((prevLists) => {
-          console.log("prevLists", prevLists);
           return [...prevLists, newList];
           // return [...prevLists, newList];
         });
       } else if (data.type === "update") {
         const updatedList = data.data;
-        console.log("list updated", updatedList);
         setLists((prevLists) => {
           return prevLists?.map((list) => {
             if (list.uuid === updatedList?.uuid) {

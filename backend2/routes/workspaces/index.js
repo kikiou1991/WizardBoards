@@ -13,8 +13,6 @@ module.exports = async (app, db, io) => {
           data: null,
         });
       }
-      console.log("user", user._id);
-      console.log("user", user.uuid);
       const workspaces = await db
         .collection("workspaces")
         .find({ users: user._id })
@@ -199,9 +197,9 @@ module.exports = async (app, db, io) => {
       let thisWorkspace = await db
         .collection("workspaces")
         .findOne({ uuid: workspaceUUID });
-      let workspaceUsers = thisWorkspace.users;
+      let workspaceUsers = thisWorkspace?.users;
       let fetchedUsers = [];
-      for (let i = 0; i < workspaceUsers.length; i++) {
+      for (let i = 0; i < workspaceUsers?.length; i++) {
         let user = await db
           .collection("users")
           .findOne({ _id: workspaceUsers[i] });

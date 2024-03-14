@@ -50,7 +50,9 @@ const CardDetails = ({
       date: "",
     },
   ] as any);
+  const selectedCard = cards.find((card) => card.uuid === uuid);
   //Functions
+
   const closeModal = () => {
     setIsHidden(true);
   };
@@ -73,13 +75,11 @@ const CardDetails = ({
     setIsMemberVisible(false);
   };
   const handleAddUser = (user: User) => {
-    console.log("user", user);
     setCurrentMembers([...currentMembers, user]);
     setCurrentUsers(currentUsers?.filter((u: User) => u.uuid !== user.uuid));
   };
 
   const removeMember = (user: User) => {
-    console.log("user", user);
     const updatedMembers = currentMembers.filter(
       (u: User) => u.uuid !== user.uuid
     );
@@ -147,7 +147,7 @@ const CardDetails = ({
                     <p className="font-semibold">Description</p>
                   </div>
                   {/* This should be a separate component?? */}
-                  <TextArea />
+                  <TextArea desc={selectedCard?.description} />
                   {/* <Input
                     placeholder="Write unit tests..."
                     type="text"

@@ -41,6 +41,7 @@ export interface Cards {
   title: string;
   _id: string;
   uuid: string;
+  description: string;
   cardIndex: number;
   listUuid: string;
   position: number;
