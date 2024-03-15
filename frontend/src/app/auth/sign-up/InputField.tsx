@@ -130,7 +130,7 @@ const InputField = () => {
           const result = await response.json();
           localStorage.setItem("token", result.token);
 
-          router.push("/landingpage");
+          router.push("/auth/sign-in");
         } else {
           // Handle error response
           errorMessage = "Sign up failed. Please try again.";

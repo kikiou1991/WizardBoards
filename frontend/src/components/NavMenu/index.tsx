@@ -87,7 +87,7 @@ const NavMenuDesktop = () => {
         </div>
 
         {/*DropDown For WorkSpaces */}
-        {workspaces.length > 0 && (
+        {workspaces.length > 0 ? (
           <Dropdown
             aria-label="aria class"
             key="workspacesDropdown"
@@ -139,6 +139,34 @@ const NavMenuDesktop = () => {
                     <Link href="/workspace/projects">{workspace.name}</Link>
                   </DropdownItem>
                 ))}
+              </DropdownSection>
+            </DropdownMenu>
+          </Dropdown>
+        ) : (
+          <Dropdown
+            placement="bottom-start"
+            aria-class="empty workspace"
+            className="text-foreground"
+          >
+            <DropdownTrigger aria-label="aria class">
+              <div className="flex gap-1 items-center hover:bg-secondaryBG p-2 rounded-md">
+                <p>Workspaces</p>
+                <Icon name="downarrow" classname={"bg-white"} />
+              </div>
+            </DropdownTrigger>
+            <DropdownMenu aria-label="aria class">
+              <DropdownSection
+                style={{ minWidth: "200px" }}
+                aria-label="empty workpsaces"
+              >
+                <DropdownItem
+                  aria-label="aria class"
+                  className={`flex flex-row items-center py-2 px-2 group/item h-10 `}
+                >
+                  <div>
+                    <p>Create your first workspace</p>
+                  </div>
+                </DropdownItem>
               </DropdownSection>
             </DropdownMenu>
           </Dropdown>
