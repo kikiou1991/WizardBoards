@@ -38,7 +38,7 @@ export const boardLists = {
         },
         body: JSON.stringify({
           boardUuid,
-          listUUID: listUuid,
+
           data: listData,
           //should contain the title and the listUuid, when it gets updated
         }),
@@ -48,7 +48,6 @@ export const boardLists = {
       }
 
       const newList = await response.json();
-      console.log("newList: ", newList);
       return { newList };
     } catch (error: any) {
       console.error("Error creating list: ", error.message);

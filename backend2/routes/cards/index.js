@@ -132,7 +132,7 @@ module.exports = async (app, db, io) => {
           listUuid: listUuid,
           list: [listUuid],
           uuid: uuidv4(),
-          description: "",
+          description: "Add a description for this card...",
         },
         { returnDocument: "after", returnNewDocument: true }
       );

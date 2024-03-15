@@ -21,7 +21,9 @@ const InputField = () => {
   console.log(user);
   const router = useRouter();
 
-  const { authenticated } = useContext(UserContext) as UserContextType;
+  const { authenticated, validateToken } = useContext(
+    UserContext
+  ) as UserContextType;
 
   if (authenticated) {
     router.replace(`/workspace/home`);
@@ -127,6 +129,7 @@ const InputField = () => {
           // Handle successful response
           const result = await response.json();
           localStorage.setItem("token", result.token);
+
           router.push("/landingpage");
         } else {
           // Handle error response

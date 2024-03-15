@@ -74,7 +74,7 @@ const TextArea = ({ value, desc, onSubmit }: TextAreaProps) => {
     };
   }, []);
   return (
-    <div>
+    <div className="ml-6">
       {isSubmitted ? (
         <div
           onDoubleClick={() => {
@@ -83,7 +83,7 @@ const TextArea = ({ value, desc, onSubmit }: TextAreaProps) => {
           }}
           onClick={() => setIsActive(true)}
         >
-          <p>{message}</p> {/* Transform value into a paragraph */}
+          <p>{message}</p>
         </div>
       ) : isActive ? (
         <div

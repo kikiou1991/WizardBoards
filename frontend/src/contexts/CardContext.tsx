@@ -129,7 +129,7 @@ const CardContextProvider = ({ children }: CardContextProviderProps) => {
         console.log("updatedCard", updatedCard);
         setCards((prevCards) => {
           return prevCards?.map((card) => {
-            if (card.uuid === updatedCard.uuid) {
+            if (card.uuid === updatedCard?.uuid) {
               return updatedCard;
             }
             return card;

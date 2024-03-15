@@ -186,7 +186,17 @@ const Project = () => {
           // Create a new array with the updated source and destination lists
           const updatedLists = [...prevLists];
           updatedLists[updatedSourceListIndex] = updatedSourceList;
-
+          console.log(
+            "updatedSourceList",
+            updatedLists[updatedSourceListIndex]
+          );
+          //we need to transfrom the cards array of objects to be only strings of each of their _id
+          const sourceCardIds = updatedSourceList.cards.map((card) => card._id);
+          const newSourceCards = {
+            ...updatedSourceList,
+            cards: sourceCardIds,
+          };
+          boardLists.createList(token, newSourceCards, selectedBoard);
           updatedLists[updatedDestListIndex] = updatedDestList;
           //update the card in the db
           //wait for the card to be updated in the db

@@ -24,6 +24,8 @@ export const userWorkspaces = {
     }
   },
   createWorkspace: async (token: any, workspaceData: any) => {
+    console.log("workspaceData", workspaceData);
+    console.log("token", token);
     try {
       const response = await fetch(
         `${projectConfig.apiBaseUrl}/v2/workspaces`,
@@ -38,10 +40,12 @@ export const userWorkspaces = {
           }),
         }
       );
+      console.log("response", response);
       if (!response.ok) {
         throw new Error("Failed to create workspace");
       }
       const data = await response.json();
+      console.log("data", data);
       return data;
     } catch (error: any) {
       console.error("Error creating workspace: ", error.message);

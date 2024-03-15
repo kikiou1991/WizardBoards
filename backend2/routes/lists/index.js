@@ -42,8 +42,8 @@ module.exports = async (app, db, io) => {
     }
   });
   app.post("/api/v2/lists", async (req, res, next) => {
-    const { boardUuid, listUUID, data } = req.body;
-
+    const { boardUuid, data } = req.body;
+    const listUUID = data.uuid;
     const user = req.user;
     if (!user || !user._id) {
       return res.status(400).json({
@@ -59,11 +59,13 @@ module.exports = async (app, db, io) => {
     }
     if (listUUID) {
       //turn the string data into ObjectID
-
+      const { _id, ...updateData } = data;
+      const newIds = updateData.cards.map((card) => new ObjectId(card));
+      console.log("newIds", newIds);
       let list = await db.collection("lists").findOneAndUpdate(
         { uuid: listUUID },
         {
-          $set: { ...data },
+          $set: { ...updateData, cards: newIds },
         },
         { returnDocument: "after", returnNewDocument: true }
       );

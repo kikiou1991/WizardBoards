@@ -31,6 +31,7 @@ module.exports = async (app, db, io) => {
   app.post("/api/v2/workspaces", async (req, res, next) => {
     try {
       const { data } = req.body;
+      console.log("server data", data);
 
       const user = req.user;
       if (!user || !user._id) {

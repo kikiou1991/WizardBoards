@@ -10,7 +10,7 @@ import {
 import { userWorkspaces } from "@/lib/v2/workspaces";
 import { Button, Input } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
-import { useContext, useEffect, useState } from "react";
+import { use, useContext, useEffect, useState } from "react";
 
 type LayoutProps = {
   title?: string;
@@ -26,10 +26,12 @@ export default function WorkspaceLayout({
     item: string;
   };
 }) {
-  const { createWorkspace, setWorkspaces } = useContext(
+  const { createWorkspace, setWorkspaces, addUserToWorkspace } = useContext(
     WorkspaceContext
   ) as WorkspaceContextType;
-  const { token, setToken } = useContext(UserContext) as UserContextType;
+  const { token, setToken, validateToken } = useContext(
+    UserContext
+  ) as UserContextType;
   const [name, setName] = useState("");
   const router = useRouter();
   const handleChange = (value: string) => {
@@ -40,18 +42,18 @@ export default function WorkspaceLayout({
       setToken(localStorage["token"]);
     }
   }, []);
+  useEffect(() => {
+    if (token) {
+      validateToken(token);
+    }
+  }, [token]);
+  console.log("name", name);
   const handleSumbit = async () => {
-    console.log("what is the issue?");
     try {
-      console.log("something happened");
-      const res = await userWorkspaces.createWorkspace(token, { name: name });
-      console.log("res", res);
-      if (!res) {
-        console.log("no res");
-        return;
-      }
+      console.log("creating workspace");
+      await createWorkspace(token, { name: name });
+
       console.log("setting the workspaces");
-      setWorkspaces(res.data);
       router.replace("/workspace/home");
     } catch (error: unknown) {
       console.error("Failed to create workspace", error);
@@ -72,7 +74,7 @@ export default function WorkspaceLayout({
             className="w-[60%] mb-5"
             onChange={(e) => handleChange(e.target.value)}
           />
-          <Button color="primary" onPressEnd={handleSumbit}>
+          <Button color="primary" onPress={handleSumbit}>
             Submit
           </Button>
         </PopUpBody>
