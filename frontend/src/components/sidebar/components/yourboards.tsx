@@ -8,6 +8,7 @@ import {
   DropdownMenu,
   DropdownSection,
   DropdownTrigger,
+  Divider,
 } from "@nextui-org/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -21,6 +22,7 @@ import {
 import NewBoardPopUp from "@/components/newboardpopup";
 import PopUpWrapper from "@/components/CustomPopUp/Wrapper";
 import PopUpBody from "@/components/CustomPopUp/Body";
+import { useRouter } from "next/navigation";
 
 const YourBoards = () => {
   const { token } = useContext(UserContext) as UserContextType;
@@ -41,10 +43,13 @@ const YourBoards = () => {
   const [isOpen, setIsOpen] = useState(true);
   const [popUpHeight, setPopUpHeight] = useState("100px");
   const [textVisible, setTextVisible] = useState(true);
+  const router = useRouter()
   const handleBoardChange = (boardId: string) => {
     setSelectedBoard(boardId);
     setIsBoardSelectedGlobal(true);
     setSelectedItemId(boardId); // Set the selected item ID
+    router.push(`/workspace/projects?board=${boardId}`);
+
   };
   const openDeleteMenu = () => {
     setPopUpHeight("350px");
@@ -93,7 +98,10 @@ const YourBoards = () => {
 
   return (
     <div>
+      <Divider className='mt-2' />
+
       <div className="flex relative flex-row pl-2 hover:cursor-pointer items-center">
+
         <h2 className="font-semibold flex-grow">Your Boards</h2>
 
         <Button

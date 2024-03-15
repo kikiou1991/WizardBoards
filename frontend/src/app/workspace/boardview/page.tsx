@@ -29,7 +29,7 @@ const BoardView = () => {
   const { selectedWorkspace, workspaces } = useContext(
     WorkspaceContext
   ) as WorkspaceContextType;
-  const { boards, setSelectedBoard, setIsBoardSelectedGlobal } = useContext(
+  const { boards, setSelectedBoard, setIsBoardSelectedGlobal, boardsLoading} = useContext(
     BoardContext
   ) as BoardContextType;
   const selectedWorkspaceName = workspaces.find(
@@ -48,10 +48,18 @@ const BoardView = () => {
     router.push(`/workspace/projects?board=${boardId}`);
   };
 
+
+  
   return (
     <div className="flex flex-col flex-wrap overflow-x-hidden overflow-y-auto p-3 gap-2 ">
-      <Spinner size="lg" color="primary" />
-      <WorkspaceHeader />
+    {boardsLoading ? (
+        <div className="grow flex items-center justify-center w-full h-full flex-col gap-6">
+          <Spinner size="lg" color="primary" />
+          <p className="font-bold">Boards loading... </p>
+          </div>
+
+    ) : (<>
+    <WorkspaceHeader />
       <div className="px-2 text-2xl font-bold text-foreground">
         <h2 className="">Boards</h2>
       </div>
@@ -85,6 +93,9 @@ const BoardView = () => {
           <div className="text-foreground">{"Create Your First Board"}</div>
         )}
       </div>
+    </>
+    )}
+      
     </div>
   );
 };

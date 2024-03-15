@@ -241,7 +241,7 @@ const Project = () => {
 
   return isBoardSelectedGlobal ? (
     <div className="relative grow  flex flex-col overflow-hidden ">
-      <div className="relative w-full py-2 px-1 border-b-1 border-border items-center">
+      <div className="relative w-full py-2 px-1 border-b-1 border-border items-center border-border">
         <BoardNav />
       </div>
       <div className="relative">

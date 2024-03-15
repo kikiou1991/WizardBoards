@@ -78,7 +78,7 @@ const CalendarFrame = () => {
         <div className="flex flex-row w-full h-full items-center">
           <div className="w-[20%] h-full flex flex-col justify-between items-center">
             {daysOfWeek.map((day) => (
-              <div className="h-[50px] bg-foreground w-full items-center flex justify-center border-b-1">
+              <div className="h-[50px] bg-foreground w-full items-center flex justify-center border-b-1 border-border">
                 {day}
               </div>
             ))}
