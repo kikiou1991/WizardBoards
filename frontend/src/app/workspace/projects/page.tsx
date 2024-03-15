@@ -51,20 +51,20 @@ const Project = () => {
   const [isActive, setIsActive] = useState(true);
   const [listTitle, setListTitle] = useState("");
   const [isHidden, setIsHidden] = useState(false);
-
-  const toggleCardDetails = () => {
-    setIsHidden(!isHidden);
-  };
-  const board = boards.find((board) => board.uuid === selectedBoard);
   const ref = useRef<HTMLDivElement | null>(null);
   const searchParams = useSearchParams();
+
+  const board = boards.find((board) => board.uuid === selectedBoard);
+
   const reOrder = (list: any, startIndex: number, endIndex: number) => {
     const result = Array.from(list);
     const [removed] = result.splice(startIndex, 1);
     result.splice(endIndex, 0, removed);
     return result;
   };
-
+  const toggleCardDetails = () => {
+    setIsHidden(!isHidden);
+  };
   const handleDragEnd = (result: DropResult) => {
     const { source, destination, draggableId } = result;
     if (!destination) return;

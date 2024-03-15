@@ -14,6 +14,7 @@ import {
 import { User } from "@/types";
 import { CardContext, CardContextType } from "@/contexts/CardContext";
 import TextArea from "../textareainput";
+import { listCards } from "@/lib/v2/cards";
 // import TextArea from '@atlaskit/textarea';
 
 //This board will depend on the data from the backend, when a card is clicked it will show the details of the card
@@ -52,7 +53,7 @@ const CardDetails = ({
   ] as any);
   const selectedCard = cards.find((card) => card.uuid === uuid);
   //Functions
-
+  console.log("selectedCard", selectedCard);
   const closeModal = () => {
     setIsHidden(true);
   };
@@ -77,6 +78,10 @@ const CardDetails = ({
   const handleAddUser = (user: User) => {
     setCurrentMembers([...currentMembers, user]);
     setCurrentUsers(currentUsers?.filter((u: User) => u.uuid !== user.uuid));
+    console.log("user is:", user);
+    if (selectedCard) {
+      listCards.addCardMember(token, selectedCard.uuid, user.uuid);
+    }
   };
 
   const removeMember = (user: User) => {

@@ -24,6 +24,7 @@ export const listCards = {
     }
   },
   createCard: async (token: any, cardData: any, listUuid: string) => {
+    console.log("cardData", cardData);
     try {
       const response = await fetch(`${projectConfig.apiBaseUrl}/v2/cards`, {
         method: "POST",
@@ -95,5 +96,30 @@ export const listCards = {
     } catch (error: any) {
       console.error("Error adding description: ", error.message);
     }
+  },
+  addCardMember: async (token: any, cardUuid: string, memberUuid: string) => {
+    console.log("cardUuid", cardUuid);
+    console.log("memberUuid", memberUuid);
+    try {
+      const response = await fetch(
+        `${projectConfig.apiBaseUrl}/v2/cards/member`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            cardUuid,
+            memberId: memberUuid,
+          }),
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Failed to add member");
+      }
+      const data = await response.json();
+      return data;
+    } catch (error: unknown) {}
   },
 };

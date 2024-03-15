@@ -31,7 +31,7 @@ module.exports = async (app, db, io) => {
       }
       let thisWorksSpaceBoards = workspace.boards;
       let fetchedBoards = [];
-      for (let i = 0; i < thisWorksSpaceBoards.length; i++) {
+      for (let i = 0; i < thisWorksSpaceBoards?.length; i++) {
         let board = await db
           .collection("boards")
           .findOne({ _id: thisWorksSpaceBoards[i] });

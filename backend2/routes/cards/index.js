@@ -59,15 +59,14 @@ module.exports = async (app, db, io) => {
     }
     if (cardUuid && listUuid && !Array.isArray(data)) {
       // Exclude _id field from data
-      const { _id, ...updateData } = data;
+      const { _id, ...updateData } = data; //exclude the _id field from the data
 
-      let updatedCard = await db
-        .collection("cards")
-        .findOneAndUpdate(
-          { uuid: cardUuid },
-          { $set: { ...updateData, listUuid, list: [listUuid] } },
-          { returnDocument: "after", returnNewDocument: true }
-        );
+      let updatedCard = await db.collection("cards").findOneAndUpdate(
+        { uuid: cardUuid },
+        { $set: { ...updateData, listUuid, list: [listUuid] } },
+
+        { returnDocument: "after", returnNewDocument: true }
+      );
       namespace.emit("card", { type: "update", data: updatedCard });
       let cardsId = new ObjectId(data._id);
       let updatedList = await db
@@ -129,6 +128,7 @@ module.exports = async (app, db, io) => {
           cardIndex,
           position,
           createdAt: new Date().toISOString(),
+          members: [],
           listUuid: listUuid,
           list: [listUuid],
           uuid: uuidv4(),
@@ -282,6 +282,41 @@ module.exports = async (app, db, io) => {
         });
       } catch (error) {
         console.error("Failed to add description to the card", error);
+        next(error);
+      }
+    }),
+    app.post("/api/v2/cards/member", async (req, res, next) => {
+      try {
+        const { cardUuid, memberId } = req.body;
+        const user = req.user;
+        if (!cardUuid || !memberId) {
+          return res.status(400).json({
+            message: "Invalid card or member",
+            success: false,
+            data: null,
+          });
+        }
+        if (!user || !user._id) {
+          return res.status(400).json({
+            message: "Invalid user information",
+            success: false,
+            data: null,
+          });
+        }
+        const card = await db.collection("cards").findOneAndUpdate(
+          {
+            uuid: cardUuid,
+          },
+          { $push: { members: memberId } }
+        );
+        namespace.emit("card", { type: "update", data: card });
+        return res.status(201).json({
+          message: "Member added successfully",
+          success: true,
+          data: card,
+        });
+      } catch (error) {
+        console.error("Failed to add member to the card", error);
         next(error);
       }
     });
