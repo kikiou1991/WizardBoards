@@ -53,7 +53,6 @@ const CardContextProvider = ({ children }: CardContextProviderProps) => {
     try {
       const res = await listCards.fetchCard(token, listUuid);
       // Check if res.data is defined before using it
-      console.log("res", res.data);
       if (res && res.data) {
         setCards((prevCards) => {
           // Filter out cards for other lists

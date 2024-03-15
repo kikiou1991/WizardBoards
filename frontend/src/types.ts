@@ -8,6 +8,7 @@ export interface Workspace {
 export interface User {
   _id: string;
   name: string;
+  image: string;
   email: string;
   uuid: string;
   workspaces: Workspace[];
@@ -46,6 +47,6 @@ export interface Cards {
   listUuid: string;
   position: number;
   list: string[];
-  users: User[];
+  members: string[];
   comments: Comment[];
 }

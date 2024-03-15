@@ -51,18 +51,37 @@ const CardDetails = ({
       date: "",
     },
   ] as any);
+  //Get the selected card from the cards array so we can render the relevant data
   const selectedCard = cards.find((card) => card.uuid === uuid);
+
+  //we want to find all the users who are currently memebers of the card
+  const members = selectedCard?.members;
+  //next we need to find the details of the members
+  //we got current users from the workspace
+  //we will filter the current users to find the members of the card
+  const currentMembersData = currentUsers?.filter((user: any) =>
+    members?.includes(user.uuid)
+  );
+  currentMembersData.map((member: User) => {
+    console.log(member);
+  });
+  //we need a new array of user objects where we dont want to include the members of the card
+  //we will use this array to render the usercards in the pop up
+  const nonMembers = currentUsers?.filter((user: User) => {
+    return !members?.includes(user.uuid);
+  });
   //Functions
-  console.log("selectedCard", selectedCard);
   const closeModal = () => {
     setIsHidden(true);
   };
+  //Fetch the users from the workspace
   const workspaceId = workspaces.find(
     (workspace) => workspace.uuid === selectedWorkspace
   )?._id;
   const fetchUsers = async (token: any) => {
     try {
       let res = await userList.getWorkspaceMembers(token, workspaceId);
+      //if one of the users is a member of this card alreadt we dont want to add it to the array
       setCurrentUsers(res?.users.data);
     } catch (error: unknown) {
       console.error("Error while trying to fetch users: ", error);
@@ -138,8 +157,8 @@ const CardDetails = ({
               For each of the users we will render the users avatar
           */}
           <div className="flex flex-row ml-2 min-h-[40px] gap-1 items-center">
-            {currentMembers?.length > 0 &&
-              currentMembers.map((currentMember: any) => (
+            {currentMembersData?.length > 0 &&
+              currentMembersData.map((currentMember: User) => (
                 <Avatar key={currentMember.uuid} src={currentMember.image} />
               ))}
           </div>
@@ -236,7 +255,7 @@ const CardDetails = ({
                       Members{" "}
                     </p>
                     <div className="">
-                      {currentMembers?.map((member: any) => {
+                      {currentMembersData?.map((member: any) => {
                         return (
                           <UserCard
                             key={member.uuid}
@@ -264,7 +283,7 @@ const CardDetails = ({
                     workspace.users is an array of user.uuids(strings) so then we would fetch the userdata from the backend
                      and render the usercard with the user data
                     */}
-                    {currentUsers?.map((user: any) => {
+                    {nonMembers?.map((user: any) => {
                       return (
                         <UserCard
                           key={user?.uuid}

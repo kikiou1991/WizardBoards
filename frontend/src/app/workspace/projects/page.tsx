@@ -14,7 +14,7 @@ import {
   Droppable,
   DropResult,
 } from "@hello-pangea/dnd";
-import { useContext, useEffect, useRef, useState } from "react";
+import { KeyboardEvent, useContext, useEffect, useRef, useState } from "react";
 import { UserContext, UserContextType } from "@/contexts/Usercontext";
 import Icon from "@/components/Icons";
 import useOutsideClick from "@/components/customHooks/useOutsideClick";
@@ -239,9 +239,15 @@ const Project = () => {
   //Custom hook to close the input field when clicking outside of it
   useOutsideClick(ref, toggleIsActive);
 
+  const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      handleSubmitList(token, listTitle);
+    }
+  };
+
   return isBoardSelectedGlobal ? (
     <div className="relative grow  flex flex-col overflow-hidden ">
-      <div className="relative w-full py-2 px-1 border-b-1 border-border items-center border-border">
+      <div className="relative w-full py-2 px-1 border-b-1 border-border items-center">
         <BoardNav />
       </div>
       <div className="relative">
@@ -279,6 +285,7 @@ const Project = () => {
                 onValueChange={(newValue: string) =>
                   handleValueChange(newValue)
                 }
+                onKeyDown={handleKeyDown}
                 className="bg-blue text-black font-semibold pt-2 mb-2"
                 placeholder="Enter a title for this list..."
                 style={{
