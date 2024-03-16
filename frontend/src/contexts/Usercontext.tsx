@@ -1,10 +1,6 @@
 "use client";
 import InputField from "@/app/auth/sign-in/InputField";
 import { userAuth } from "@/lib/auth/auth";
-import { workspaceBoards } from "@/lib/boards";
-import { listCards } from "@/lib/cards";
-import { boardLists } from "@/lib/lists";
-import { userWorkspaces } from "@/lib/workspaces";
 import { Modal, ModalBody, ModalContent, ModalHeader } from "@nextui-org/modal";
 import { Button, Link } from "@nextui-org/react";
 import { usePathname, useRouter } from "next/navigation";
