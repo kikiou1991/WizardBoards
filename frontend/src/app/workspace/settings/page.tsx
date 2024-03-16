@@ -3,14 +3,12 @@ import PopUpBody from "@/components/CustomPopUp/Body";
 import PopUpWrapper from "@/components/CustomPopUp/Wrapper";
 import Icon from "@/components/Icons";
 import useOutsideClick from "@/components/customHooks/useOutsideClick";
-import VisibilityModal from "@/components/modals/visibilityModal";
 import WorkspaceHeader from "@/components/workspaceHeader";
 import { UserContext, UserContextType } from "@/contexts/Usercontext";
 import {
   WorkspaceContext,
   WorkspaceContextType,
 } from "@/contexts/WorkspaceContext";
-import { workspaceBoards } from "@/lib/boards";
 import { Button } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import React, { useContext, useRef, useState } from "react";
