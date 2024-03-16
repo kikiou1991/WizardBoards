@@ -8,7 +8,7 @@ const { MongoClient } = require("mongodb");
 const jwt = require("jsonwebtoken");
 const io = new Server(server, {
   cors: {
-    origin: "wizardboards.co.uk",
+    origin: "https://wizardboards.co.uk",
     // origin: "http://localhost:3000"
     methods: ["GET", "POST"],
     credentials: true,
