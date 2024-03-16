@@ -24,7 +24,6 @@ export const listCards = {
     }
   },
   createCard: async (token: any, cardData: any, listUuid: string) => {
-    console.log("cardData", cardData);
     try {
       const response = await fetch(`${projectConfig.apiBaseUrl}/v2/cards`, {
         method: "POST",
@@ -98,8 +97,6 @@ export const listCards = {
     }
   },
   addCardMember: async (token: any, cardUuid: string, memberUuid: string) => {
-    console.log("cardUuid", cardUuid);
-    console.log("memberUuid", memberUuid);
     try {
       const response = await fetch(
         `${projectConfig.apiBaseUrl}/v2/cards/member`,

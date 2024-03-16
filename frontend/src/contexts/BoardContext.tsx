@@ -1,12 +1,19 @@
-'use client';
-import projectConfig from '@/components/projectConfig';
-import {UserContext, UserContextType} from '@/contexts/Usercontext';
-import {workspaceBoards} from '@/lib/v2/boards';
-import {Boards} from '@/types';
-import {useSearchParams} from 'next/navigation';
-import {ReactNode, createContext, useContext, useEffect, useRef, useState} from 'react';
-import {Socket, io} from 'socket.io-client';
-import {WorkspaceContext, WorkspaceContextType} from './WorkspaceContext';
+"use client";
+import projectConfig from "@/components/projectConfig";
+import { UserContext, UserContextType } from "@/contexts/Usercontext";
+import { workspaceBoards } from "@/lib/v2/boards";
+import { Boards } from "@/types";
+import { useSearchParams } from "next/navigation";
+import {
+  ReactNode,
+  createContext,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import { Socket, io } from "socket.io-client";
+import { WorkspaceContext, WorkspaceContextType } from "./WorkspaceContext";
 
 export interface BoardContextType {
   boards: Boards[];
@@ -30,18 +37,20 @@ interface WorkspaceContextProviderProps {
 //call the useContext
 const BoardContext = createContext<BoardContextType | null>(null);
 
-const BoardContextProvider = ({children}: WorkspaceContextProviderProps) => {
-  const {token} = useContext(UserContext) as UserContextType;
-  const {selectedWorkspace, localSelectedWorkspace, workspaces} = useContext(WorkspaceContext) as WorkspaceContextType;
+const BoardContextProvider = ({ children }: WorkspaceContextProviderProps) => {
+  const { token } = useContext(UserContext) as UserContextType;
+  const { selectedWorkspace, localSelectedWorkspace, workspaces } = useContext(
+    WorkspaceContext
+  ) as WorkspaceContextType;
   const [boards, setBoards] = useState<Boards[]>([]);
-  const [selectedBoard, setSelectedBoard] = useState('');
+  const [selectedBoard, setSelectedBoard] = useState("");
   const [isBoardSelectedGlobal, setIsBoardSelectedGlobal] = useState(false);
   const [favorites, setFavorites] = useState<Boards[]>([]);
   const [boardsLoading, setBoardsLoading] = useState(false);
   //create the boards
   const searchParams = useSearchParams();
   useEffect(() => {
-    let board = searchParams.get('board');
+    let board = searchParams.get("board");
     if (board) {
       setSelectedBoard(board);
       setIsBoardSelectedGlobal(true);
@@ -51,13 +60,17 @@ const BoardContextProvider = ({children}: WorkspaceContextProviderProps) => {
   const createBoard = async (token: any, boardData: any) => {
     if (!boardData || !token) return;
     try {
-      const {isStared, name, workspaceUuid, boardUuid, image} = boardData;
+      const { isStared, name, workspaceUuid, boardUuid, image } = boardData;
 
       if (!name) {
-        console.error('Board name is required');
+        console.error("Board name is required");
         return;
       }
-      const res = await workspaceBoards.createBoard(token, {isStared, name, workspaceUuid, boardUuid, image}, workspaceUuid);
+      const res = await workspaceBoards.createBoard(
+        token,
+        { isStared, name, workspaceUuid, boardUuid, image },
+        workspaceUuid
+      );
 
       if (res) {
         // setBoards((prevBoards) => {
@@ -74,17 +87,25 @@ const BoardContextProvider = ({children}: WorkspaceContextProviderProps) => {
         // });
       }
     } catch (error) {
-      console.error('Error creating the board', error);
+      console.error("Error creating the board", error);
     }
   };
   //Delete the board function
-  const deleteBoard = async (token: any, workspaceUuid: any, boardData: any) => {
+  const deleteBoard = async (
+    token: any,
+    workspaceUuid: any,
+    boardData: any
+  ) => {
     try {
-      const res = await workspaceBoards.deleteBoard(token, workspaceUuid, boardData);
+      const res = await workspaceBoards.deleteBoard(
+        token,
+        workspaceUuid,
+        boardData
+      );
       if (res?.status === true) {
       }
     } catch (error) {
-      console.error('Error creating a new board', error);
+      console.error("Error creating a new board", error);
     }
   };
 
@@ -113,7 +134,7 @@ const BoardContextProvider = ({children}: WorkspaceContextProviderProps) => {
         }
         setFavorites(favorites);
       } catch (error) {
-        console.error('Failed to fetch favorites', error);
+        console.error("Failed to fetch favorites", error);
       }
     };
 
@@ -126,12 +147,13 @@ const BoardContextProvider = ({children}: WorkspaceContextProviderProps) => {
   useEffect(() => {
     if (!socketRef.current) {
       socketRef.current = io(`${projectConfig.apiBaseUrl}/v2/boards`, {});
-      socketRef.current.on('board', (data) => {
-        console.log('data', data);
-        if (data?.type === 'update') {
+      socketRef.current.on("board", (data) => {
+        if (data?.type === "update") {
           setBoards((prevBoards) => {
             const updatedBoards = [...prevBoards];
-            const existingBoardIndex = updatedBoards.findIndex((board) => board.uuid === data.data.uuid);
+            const existingBoardIndex = updatedBoards.findIndex(
+              (board) => board.uuid === data.data.uuid
+            );
             if (existingBoardIndex !== -1) {
               updatedBoards[existingBoardIndex] = data.data;
             } else {
@@ -139,9 +161,9 @@ const BoardContextProvider = ({children}: WorkspaceContextProviderProps) => {
             }
             return updatedBoards;
           });
-        } else if (data?.type === 'delete') {
+        } else if (data?.type === "delete") {
           setBoards(boards.filter((board) => board.uuid !== data.data.uuid));
-        } else if (data?.type === 'create') {
+        } else if (data?.type === "create") {
           setBoards((prevBoards) => {
             const updatedBoards = [...prevBoards];
             updatedBoards.push(data.data);
@@ -185,7 +207,11 @@ const BoardContextProvider = ({children}: WorkspaceContextProviderProps) => {
     boardsLoading,
     setBoardsLoading,
   };
-  return <BoardContext.Provider value={contextValue}>{children}</BoardContext.Provider>;
+  return (
+    <BoardContext.Provider value={contextValue}>
+      {children}
+    </BoardContext.Provider>
+  );
 };
 
-export {BoardContext, BoardContextProvider};
+export { BoardContext, BoardContextProvider };

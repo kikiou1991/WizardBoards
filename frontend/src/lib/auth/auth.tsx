@@ -11,7 +11,6 @@ export const userAuth = {
       });
       let data = await response.json();
       return data;
-      console.log("data api call", data);
     } catch (error) {
       console.error("Error fetching workspaces", error);
     }

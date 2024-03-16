@@ -57,7 +57,6 @@ export const userList = {
         throw new Error("Failed to verify user email");
       }
       const data = await response.json();
-      console.log("data", data);
       return data;
     } catch (error: unknown) {
       console.error("Error while trying to verify user email: ", error);

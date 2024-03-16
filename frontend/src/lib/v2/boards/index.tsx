@@ -26,9 +26,6 @@ export const workspaceBoards = {
     }
   },
   createBoard: async (token: any, boardData: any, workspaceUuid: string) => {
-    console.log("workspaceUuid", workspaceUuid);
-    console.log("boardData", boardData);
-    console.log("board image", boardData.image);
     try {
       const { boardUuid } = boardData;
       const response = await fetch(`${projectConfig.apiBaseUrl}/v2/boards`, {
@@ -55,8 +52,6 @@ export const workspaceBoards = {
     }
   },
   deleteBoard: async (token: any, workspaceUuid: string, boardData: any) => {
-    console.log("workspaceUuid", workspaceUuid);
-    console.log("boardData", boardData);
     try {
       const response = await fetch(
         `${projectConfig.apiBaseUrl}/v2/boards/archive?workspaceUuid=${workspaceUuid}`,

@@ -18,7 +18,6 @@ const InputField = () => {
     password: "",
     passwordConfirm: "",
   });
-  console.log(user);
   const router = useRouter();
 
   const { authenticated, validateToken } = useContext(

@@ -83,7 +83,6 @@ const CardContextProvider = ({ children }: CardContextProviderProps) => {
   };
 
   const deleteCard = async (token: any, cardData: any, listUuid: string) => {
-    console.log("lets delete the card");
     try {
       const res = await listCards.deleteCard(token, cardData, listUuid);
       if (res?.status === true) {
@@ -112,9 +111,7 @@ const CardContextProvider = ({ children }: CardContextProviderProps) => {
     const socket = socketRef.current;
 
     socket.on("card", (data: any, uuid: string) => {
-      console.log("socket data", data);
       if (data.type === "create") {
-        console.log("running the socket to create a card");
         const newCard = data.data;
         // Check if the card already exists
         if (!cards.some((card) => card.uuid === newCard.uuid)) {
@@ -123,9 +120,7 @@ const CardContextProvider = ({ children }: CardContextProviderProps) => {
           });
         }
       } else if (data.type === "update") {
-        console.log("running the socket to update a card");
         const updatedCard = data.data;
-        console.log("updatedCard", updatedCard);
         setCards((prevCards) => {
           return prevCards?.map((card) => {
             if (card.uuid === updatedCard?.uuid) {
@@ -145,7 +140,6 @@ const CardContextProvider = ({ children }: CardContextProviderProps) => {
 
     return () => {
       if (socketRef.current) {
-        console.log("disconnecting socket");
         socketRef.current.disconnect();
         socketRef.current = null;
       }

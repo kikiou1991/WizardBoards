@@ -2,7 +2,6 @@
 
 import { Resend } from "resend";
 const resend = new Resend("re_CoUHpMeE_9FSFPGxEBWqJd7eCpUZ73M6U");
-console.log("this is the resend", resend);
 
 export const sendEmail = async (formData: any) => {
   const message = formData.get("message");

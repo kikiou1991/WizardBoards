@@ -44,21 +44,17 @@ const TextArea = ({ value, desc, onSubmit }: TextAreaProps) => {
   };
   const socketRef = useRef<Socket | null>(null);
   useEffect(() => {
-    console.log("is this working?");
     if (!socketRef.current) {
       socketRef.current = io(
         `${projectConfig.apiBaseUrl}/v2/cards/description`,
         {}
       );
-      console.log("connecting socket on", socketRef.current);
     }
 
     const socket = socketRef.current;
 
     socket.on("desc", (data: any) => {
-      console.log("the socket is running to update the card description");
       if (data.type === "update") {
-        console.log("data", data);
         if (data.data.uuid === cardUuid) {
           setEditValue(data.data.description);
         }
@@ -67,7 +63,6 @@ const TextArea = ({ value, desc, onSubmit }: TextAreaProps) => {
 
     return () => {
       if (socketRef.current) {
-        console.log("disconnecting socket");
         socketRef.current.disconnect();
         socketRef.current = null;
       }

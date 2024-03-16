@@ -57,7 +57,6 @@ const Settings = () => {
         }
 
         setIsSubmitted(true);
-        console.log("Workspace deleted successfully!");
       }
     } catch (err) {
       console.error("Failed to delete workspace!", err);

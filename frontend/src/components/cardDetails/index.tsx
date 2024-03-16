@@ -62,9 +62,7 @@ const CardDetails = ({
   const currentMembersData = currentUsers?.filter((user: any) =>
     members?.includes(user.uuid)
   );
-  currentMembersData.map((member: User) => {
-    console.log(member);
-  });
+
   //we need a new array of user objects where we dont want to include the members of the card
   //we will use this array to render the usercards in the pop up
   const nonMembers = currentUsers?.filter((user: User) => {
@@ -97,7 +95,6 @@ const CardDetails = ({
   const handleAddUser = (user: User) => {
     setCurrentMembers([...currentMembers, user]);
     setCurrentUsers(currentUsers?.filter((u: User) => u.uuid !== user.uuid));
-    console.log("user is:", user);
     if (selectedCard) {
       listCards.addCardMember(token, selectedCard.uuid, user.uuid);
     }

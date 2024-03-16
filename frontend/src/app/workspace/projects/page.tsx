@@ -68,7 +68,6 @@ const Project = () => {
   const handleDragEnd = (result: DropResult) => {
     const { source, destination, draggableId } = result;
     if (!destination) return;
-    console.log("dragged item: ", draggableId);
     const cardUuid = parseInt(draggableId);
 
     const startListId = source.droppableId;
@@ -113,18 +112,14 @@ const Project = () => {
             ...prevLists[updatedListIndex],
             cards: updatedCards,
           };
-          console.log("updatedList", updatedList);
           // Create a new array with the updated source list
           const updatedLists = [...prevLists];
-          console.log("updatedLists", updatedLists);
           // updatedLists[updatedListIndex] = updatedList;
           return updatedLists;
         });
-        console.log("lists", lists);
         listCards.createCard(token, updatedCards, updatedCards[0]?.listUuid);
       }
     } else {
-      console.log("Dragged to another list");
       // Remove the card from the source list
       sourceCards.splice(removedCardIndex, 1);
       //find the the destination list
@@ -177,7 +172,6 @@ const Project = () => {
             ...prevLists[updatedDestListIndex],
             cards: updatedCards,
           };
-          console.log("updatedDestList", updatedDestList);
           //fint the card that was dragged to the new list
           const movedCard = updatedDestList.cards.find(
             (card) => card.cardIndex === removedCard?.cardIndex
@@ -186,10 +180,6 @@ const Project = () => {
           // Create a new array with the updated source and destination lists
           const updatedLists = [...prevLists];
           updatedLists[updatedSourceListIndex] = updatedSourceList;
-          console.log(
-            "updatedSourceList",
-            updatedLists[updatedSourceListIndex]
-          );
           //we need to transfrom the cards array of objects to be only strings of each of their _id
           const sourceCardIds = updatedSourceList.cards.map((card) => card._id);
           const newSourceCards = {
@@ -208,7 +198,6 @@ const Project = () => {
         });
       }
     }
-    console.log("lists", lists);
     return lists;
   };
   const handleValueChange = (value: string) => {

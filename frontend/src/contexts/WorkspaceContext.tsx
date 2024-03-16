@@ -60,7 +60,7 @@ const WorkspaceContextProvider = ({
 
   const fetchWorkspaces = async (token: any) => {
     if (!token) {
-      console.log("Token is missing");
+      return;
     }
 
     try {
@@ -90,8 +90,6 @@ const WorkspaceContextProvider = ({
       const res = await userWorkspaces.createWorkspace(token, boardData);
 
       if (res) {
-        console.log("Workspace created successfully:", res);
-        // Update your local state or perform any other actions if needed
       } else {
         console.error("Failed to create workspace. Response:", res);
         // Handle the case when the server does not return the expected data
@@ -108,7 +106,6 @@ const WorkspaceContextProvider = ({
     try {
       const res = await userWorkspaces.deleteWorkspace(token, workspaceData);
       if (res?.status === true) {
-        console.log("Workspace deleted successfully:", res);
         setWorkspaces((prevWorkspaces) =>
           prevWorkspaces.filter(
             (workspace) => workspace.uuid !== workspaceData.uuid
@@ -129,7 +126,6 @@ const WorkspaceContextProvider = ({
         userUuid
       );
       if (res?.status === true) {
-        console.log("User added to workspace successfully:", res);
       }
     } catch (error) {
       console.error("Error adding user to workspace:", error);

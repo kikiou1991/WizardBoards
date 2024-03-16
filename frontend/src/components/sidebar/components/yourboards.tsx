@@ -43,13 +43,12 @@ const YourBoards = () => {
   const [isOpen, setIsOpen] = useState(true);
   const [popUpHeight, setPopUpHeight] = useState("100px");
   const [textVisible, setTextVisible] = useState(true);
-  const router = useRouter()
+  const router = useRouter();
   const handleBoardChange = (boardId: string) => {
     setSelectedBoard(boardId);
     setIsBoardSelectedGlobal(true);
     setSelectedItemId(boardId); // Set the selected item ID
     router.push(`/workspace/projects?board=${boardId}`);
-
   };
   const openDeleteMenu = () => {
     setPopUpHeight("350px");
@@ -63,7 +62,6 @@ const YourBoards = () => {
   const handleDelete = async (boardUuid: string) => {
     try {
       await deleteBoard(context?.token, selectedWorkspace, boardUuid);
-      console.log("deleting board?");
     } catch (error) {
       console.error("Error deleting board: ", error);
     }
@@ -98,10 +96,9 @@ const YourBoards = () => {
 
   return (
     <div>
-      <Divider className='mt-2' />
+      <Divider className="mt-2" />
 
       <div className="flex relative flex-row pl-2 hover:cursor-pointer items-center">
-
         <h2 className="font-semibold flex-grow">Your Boards</h2>
 
         <Button
