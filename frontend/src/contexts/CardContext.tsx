@@ -102,6 +102,7 @@ const CardContextProvider = ({ children }: CardContextProviderProps) => {
       }
     }
   }, [lists]);
+
   const socketRef = useRef<Socket | null>(null);
   useEffect(() => {
     if (!socketRef.current) {
