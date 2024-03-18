@@ -132,12 +132,14 @@ const CardDetails = ({
       if (data.type === "update") {
         console.log("updaeting the card memevers with the socket");
         const newCard = data.data;
+        console.log("new card", newCard);
+
         return newCard;
       } else {
         throw new Error("Failed to create card with socket");
       }
     });
-
+    console.log("current users", currentUsers);
     return () => {
       if (socketRef.current) {
         socketRef.current.disconnect();
