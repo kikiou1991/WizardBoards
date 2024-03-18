@@ -89,9 +89,9 @@ const Lists = ({ name, id, showCardDetails, cards: givenCards }: Props) => {
         className="sticky w-48 top-0 left-0 bg-inherit items-center justify-center py-2 px-2 "
         style={{ width: "260px", height: "40px" }}
       >
-        {name}
+        {name?.length > 20 ? name?.slice(0, 25) + "..." : name}
       </div>
-      <div ref={listRef} className="overflow-y-hidden py-1">
+      <div ref={listRef} className="overflow-y-auto py-1">
         <Droppable droppableId={id} direction="vertical">
           {(provided) => (
             <div
@@ -120,6 +120,7 @@ const Lists = ({ name, id, showCardDetails, cards: givenCards }: Props) => {
                 <Input
                   ref={ref}
                   value={cardTitle}
+                  maxLength={100}
                   onValueChange={(newValue: string) =>
                     handleValueChange(newValue)
                   }

@@ -33,6 +33,7 @@ import CardDetails from "@/components/cardDetails";
 import { Cards } from "@/types";
 import { start } from "repl";
 import { useSearchParams } from "next/navigation";
+import toast from "react-hot-toast";
 
 const Project = () => {
   const { token } = useContext(UserContext) as UserContextType;
@@ -54,6 +55,9 @@ const Project = () => {
   const ref = useRef<HTMLDivElement | null>(null);
   const searchParams = useSearchParams();
 
+  if (listTitle.length > 50) {
+    toast.error("List title must be less than 50 characters");
+  }
   const board = boards.find((board) => board.uuid === selectedBoard);
 
   const reOrder = (list: any, startIndex: number, endIndex: number) => {
@@ -271,6 +275,7 @@ const Project = () => {
             >
               <Input
                 value={listTitle}
+                maxLength={50}
                 onValueChange={(newValue: string) =>
                   handleValueChange(newValue)
                 }

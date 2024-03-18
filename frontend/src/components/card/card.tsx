@@ -41,7 +41,7 @@ const Cards = ({ name, index, showCardDetails }: Props) => {
           {...provided.dragHandleProps}
         >
           <div style={{ marginRight: "24px" }}>
-            {name?.length > 30 ? name?.slice(0, 45) + "..." : name}
+            {name?.length > 35 ? name?.slice(0, 45) + "..." : name}
           </div>
         </div>
       )}
