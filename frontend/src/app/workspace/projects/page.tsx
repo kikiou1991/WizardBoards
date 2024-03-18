@@ -30,7 +30,7 @@ import {
 import { boardLists } from "@/lib/v2/lists";
 import { listCards } from "@/lib/v2/cards";
 import CardDetails from "@/components/cardDetails";
-import { Cards } from "@/types";
+import { Cards, Lists as ListArr } from "@/types";
 import { start } from "repl";
 import { useSearchParams } from "next/navigation";
 import toast from "react-hot-toast";
@@ -58,14 +58,6 @@ const Project = () => {
   if (listTitle.length > 50) {
     toast.error("List title must be less than 50 characters");
   }
-  const board = boards.find((board) => board.uuid === selectedBoard);
-
-  const reOrder = (list: any, startIndex: number, endIndex: number) => {
-    const result = Array.from(list);
-    const [removed] = result.splice(startIndex, 1);
-    result.splice(endIndex, 0, removed);
-    return result;
-  };
   const toggleCardDetails = () => {
     setIsHidden(!isHidden);
   };
@@ -208,7 +200,7 @@ const Project = () => {
     setListTitle(value);
   };
 
-  const handleSubmitList = (token: any, listTitle: any) => {
+  const handleSubmitList = (token: string, listTitle: string) => {
     if (listTitle === "") {
       return;
     }
@@ -216,8 +208,8 @@ const Project = () => {
       createList(token, { title: listTitle }, selectedBoard);
       setListTitle("");
       toggleIsActive();
-    } catch (error: any) {
-      console.error("Error creating a new list: ", error.message);
+    } catch (error: unknown) {
+      toast.error("Error creating a new list. Please try again.");
     }
   };
 
@@ -254,7 +246,7 @@ const Project = () => {
       </div>
       <div className="flex w-full h-full overflow-x-auto items-start py-5 px-5 gap-5">
         <DragDropContext onDragEnd={handleDragEnd}>
-          {lists.map((list: any, key: any) => (
+          {lists?.map((list: ListArr) => (
             <Lists
               showCardDetails={toggleCardDetails}
               key={list.uuid}

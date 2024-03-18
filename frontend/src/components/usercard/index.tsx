@@ -1,10 +1,7 @@
+import { User } from "@/types";
 import { Avatar } from "@nextui-org/react";
 import React from "react";
 
-type User = {
-  fullName: string;
-  image: string;
-};
 interface UserData {
   user?: User | null;
   addUser?: () => void;
@@ -30,7 +27,7 @@ const UserCard = ({ user, addUser, removeUser }: UserData) => {
         src={user?.image}
       />
       <p className="text-black font-semibold">
-        {user ? user.fullName : "Anonymous..."}
+        {user ? user?.name : "Anonymous..."}
       </p>
     </div>
   );

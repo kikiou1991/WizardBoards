@@ -13,6 +13,7 @@ import PopUpBody from "../CustomPopUp/Body";
 import PopUpWrapper from "../CustomPopUp/Wrapper";
 import Icon from "../Icons";
 import useOutsideClick from "../customHooks/useOutsideClick";
+import { User } from "@/types";
 
 const BoardNav = () => {
   const { token } = useContext(UserContext) as UserContextType;
@@ -26,20 +27,20 @@ const BoardNav = () => {
   const [visibility, setVisibility] = useState("Private" as string);
   const [isVisible, setIsVisible] = useState(false);
   const [userInfoVisible, setUserInfoVisible] = useState(false);
-  const [currentUsers, setCurrentUsers] = useState([] as any);
+  const [currentUsers, setCurrentUsers] = useState([]);
   const [userCardContent, setUserCardContent] = useState([] as any);
   const ref = useRef(null);
   const [members, setMembers] = useState([] as any);
   const users = workspaces.find(
     (workspace) => workspace.uuid === selectedWorkspace
   )?.users;
-  const handleUserDataChange = (user: any) => {
+  const handleUserDataChange = (user: User) => {
     setUserCardContent(user);
   };
   const workspaceId = workspaces.find(
     (workspace) => workspace.uuid === selectedWorkspace
   )?._id;
-  const fetchUsers = async (token: any) => {
+  const fetchUsers = async (token: string) => {
     try {
       let res = await userList.getWorkspaceMembers(token, workspaceId);
       setCurrentUsers(res?.users.data);
@@ -186,7 +187,7 @@ const BoardNav = () => {
           </PopUpWrapper>
         </div>
         <AvatarGroup size="sm" className="hover:cursor-pointer">
-          {members?.map((user: any, index: any) => {
+          {members?.map((user: User, index: string) => {
             return (
               <Avatar
                 isBordered

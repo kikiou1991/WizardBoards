@@ -2,7 +2,7 @@
 import projectConfig from "@/components/projectConfig";
 import { UserContext, UserContextType } from "@/contexts/Usercontext";
 import { workspaceBoards } from "@/lib/v2/boards";
-import { Boards } from "@/types";
+import { Boards, Workspace } from "@/types";
 import { useSearchParams } from "next/navigation";
 import {
   ReactNode,
@@ -23,8 +23,8 @@ export interface BoardContextType {
   selectedBoard: string;
   setSelectedBoard: React.Dispatch<React.SetStateAction<string>>;
   setBoards: React.Dispatch<React.SetStateAction<Boards[]>>;
-  createBoard: (token: any, boardData: any) => void;
-  deleteBoard: (token: any, boardData: any, workspaceUuid: any) => void;
+  createBoard: (token: string, boardData: any) => void;
+  deleteBoard: (token: string, boardData: any, workspaceUuid: string) => void;
   isBoardSelectedGlobal: boolean;
   setIsBoardSelectedGlobal: React.Dispatch<React.SetStateAction<boolean>>;
   boardsLoading: boolean;
@@ -57,7 +57,7 @@ const BoardContextProvider = ({ children }: WorkspaceContextProviderProps) => {
     }
   }, [searchParams]);
 
-  const createBoard = async (token: any, boardData: any) => {
+  const createBoard = async (token: string, boardData: any) => {
     if (!boardData || !token) return;
     try {
       const { isStared, name, workspaceUuid, boardUuid, image } = boardData;
@@ -92,8 +92,8 @@ const BoardContextProvider = ({ children }: WorkspaceContextProviderProps) => {
   };
   //Delete the board function
   const deleteBoard = async (
-    token: any,
-    workspaceUuid: any,
+    token: string,
+    workspaceUuid: string,
     boardData: any
   ) => {
     try {
@@ -117,13 +117,13 @@ const BoardContextProvider = ({ children }: WorkspaceContextProviderProps) => {
   };
 
   useEffect(() => {
-    const fetchFavorites = async (token: any, workspaces: any) => {
+    const fetchFavorites = async (token: string, workspaces: any) => {
       try {
-        const favoritesPromises = await workspaces.map(
-          async (workspace: any) => {
+        const favoritesPromises = await workspaces?.map(
+          async (workspace: Workspace) => {
             const res = await workspaceBoards.getBoards(token, workspace.uuid);
 
-            return res?.data.filter((board: any) => board.isStared === true);
+            return res?.data.filter((board: Boards) => board.isStared === true);
           }
         );
         const favoritesArray = await Promise.all(favoritesPromises);

@@ -14,11 +14,12 @@ import Icon from "../Icons";
 import useOutsideClick from "../customHooks/useOutsideClick";
 import { CardContext, CardContextType } from "@/contexts/CardContext";
 import CardDetails from "../cardDetails";
+import { Cards as CardsArray } from "@/types";
 
 interface Props {
   name: string;
   id: string;
-  cards: any;
+  cards: CardsArray[];
   showCardDetails: () => void;
 }
 
@@ -46,7 +47,7 @@ const Lists = ({ name, id, showCardDetails, cards: givenCards }: Props) => {
     setCardTitle(value);
   };
 
-  const handleSubmitCard = (token: any, cardTitle: string) => {
+  const handleSubmitCard = (token: string, cardTitle: string) => {
     if (cardTitle === "") {
       // Handle empty title
       return;
