@@ -95,11 +95,10 @@ const CardDetails = ({
     setIsMemberVisible(false);
   };
   const handleAddUser = (user: User) => {
-    setCurrentMembers([...currentMembers, user]);
-    setCurrentUsers(currentUsers?.filter((u: User) => u.uuid !== user.uuid));
     if (selectedCard) {
       listCards.addCardMember(token, selectedCard.uuid, user.uuid);
     }
+    // setCurrentMembersData([...currentMembersData, user]);
   };
 
   const removeMember = (user: User) => {
@@ -139,7 +138,7 @@ const CardDetails = ({
       if (data.type === "update") {
         console.log("updaeting the card memevers with the socket");
         const newCard = data.data;
-        console.log("newCard", newCard);
+        return newCard;
       } else {
         throw new Error("Failed to create card with socket");
       }
@@ -172,7 +171,9 @@ const CardDetails = ({
             <div className="ml-4 py-2 mt-4 flex flex-row items-center">
               <Icon name="table" />
 
-              <div className="text-xl px-2 font-semibold">{title}</div>
+              <div className="text-xl px-2 font-semibold text-wrap">
+                {title?.length > 20 ? title?.slice(0, 45) + "..." : title}
+              </div>
               <Button
                 isIconOnly
                 className="bg-inherit absolute top-0 right-0 text-black hover:bg-white rounded-full"
