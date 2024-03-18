@@ -9,6 +9,7 @@ import Image from "next/image";
 import React, { useContext, useEffect, useState } from "react";
 import Icon from "../Icons";
 import { imageUrls } from "@/lib/imagesData";
+import toast from "react-hot-toast";
 interface Position {
   top?: number;
   left?: number;
@@ -55,6 +56,7 @@ const NewBoardPopUp = ({
         image: newBoardImg,
         workspaceUuid: localSelectedWorkspace,
       });
+      toast.success("Board created successfully");
       setBoardTitle("");
       setSelectedWorkspace("");
     } catch (error) {
@@ -67,7 +69,7 @@ const NewBoardPopUp = ({
     <div
       className={`container absolute z-50 overflow-y-auto right-0 ${
         isVisible ? "hidden" : "block"
-      } bg-background text-foreground border-foreground border-1 shadow-md rounded-lg w-[310px] h-[565px]`}
+      } bg-background text-foreground border-foreground border-1 shadow-md rounded-lg w-[310px] h-[565px] `}
       style={{ top, left }}
     >
       {" "}
