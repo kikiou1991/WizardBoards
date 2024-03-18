@@ -45,20 +45,14 @@ const CardDetails = ({
   ) as WorkspaceContextType;
   const [isMemberVisible, setIsMemberVisible] = useState(false);
   const [currentUsers, setCurrentUsers] = useState([] as any);
-  const [currentMembers, setCurrentMembers] = useState([] as any);
-  const [commentDetails, setCommentDetails] = useState([
-    {
-      user: "",
-      comment: "",
-      date: "",
-    },
-  ] as any);
+
   //Get the selected card from the cards array so we can render the relevant data
   let selectedCard = cards.find((card) => card.uuid === uuid);
 
   //we want to find all the users who are currently memebers of the card
   const members = selectedCard?.members;
   //next we need to find the details of the members
+
   //we got current users from the workspace
   //we will filter the current users to find the members of the card
   const currentMembersData = currentUsers?.filter((user: any) =>
@@ -96,7 +90,7 @@ const CardDetails = ({
   };
   const handleAddUser = (user: User) => {
     if (selectedCard) {
-      listCards.addCardMember(token, selectedCard.uuid, user.uuid);
+      listCards.cardMemberUpdate(token, selectedCard.uuid, user.uuid, "add");
     }
     // setCurrentMembersData([...currentMembersData, user]);
   };
@@ -107,7 +101,7 @@ const CardDetails = ({
     );
     if (selectedCard) {
       selectedCard.members = updatedMembers;
-      listCards.createCard(token, selectedCard, selectedCard.listUuid);
+      listCards.cardMemberUpdate(token, selectedCard.uuid, user.uuid, "remove");
     }
     // setCurrentMembers(updatedMembers);
     // setCurrentUsers([...currentUsers, user]);

@@ -286,7 +286,7 @@ module.exports = async (app, db, io) => {
     }),
     app.post("/api/v2/cards/member", async (req, res, next) => {
       try {
-        const { cardUuid, memberId } = req.body;
+        const { cardUuid, memberId, action } = req.body;
         const user = req.user;
         if (!cardUuid || !memberId) {
           return res.status(400).json({
@@ -302,11 +302,20 @@ module.exports = async (app, db, io) => {
             data: null,
           });
         }
+
+        let updateQuery;
+        if (action === "remove") {
+          updateQuery = { $pull: { members: memberId } };
+        } else if (action === "add") {
+          updateQuery = { $push: { members: memberId } };
+        }
+
         const card = await db.collection("cards").findOneAndUpdate(
           {
             uuid: cardUuid,
           },
-          { $push: { members: memberId } }
+          updateQuery,
+          { returnOriginal: false }
         );
         memberNamespace.emit("member", { type: "update", data: card });
         return res.status(201).json({
