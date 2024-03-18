@@ -39,7 +39,6 @@ const BoardNav = () => {
   const workspaceId = workspaces.find(
     (workspace) => workspace.uuid === selectedWorkspace
   )?._id;
-  console.log("workspaceId", workspaceId);
   const fetchUsers = async (token: any) => {
     try {
       let res = await userList.getWorkspaceMembers(token, workspaceId);
@@ -49,8 +48,6 @@ const BoardNav = () => {
       console.error("Error while trying to fetch users: ", error);
     }
   };
-  console.log("currentUsers", currentUsers);
-  console.log("members", members);
   const emailShortener = (email: string) => {
     if (email) {
       const atIndex = email.indexOf("@");

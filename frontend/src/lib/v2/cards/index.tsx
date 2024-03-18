@@ -96,7 +96,12 @@ export const listCards = {
       console.error("Error adding description: ", error.message);
     }
   },
-  addCardMember: async (token: any, cardUuid: string, memberUuid: string) => {
+  cardMemberUpdate: async (
+    token: any,
+    cardUuid: string,
+    memberUuid: string,
+    action: string
+  ) => {
     try {
       const response = await fetch(
         `${projectConfig.apiBaseUrl}/v2/cards/member`,
@@ -109,6 +114,7 @@ export const listCards = {
           body: JSON.stringify({
             cardUuid,
             memberId: memberUuid,
+            action,
           }),
         }
       );
