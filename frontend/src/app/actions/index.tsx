@@ -2,7 +2,7 @@
 
 import { Resend } from "resend";
 
-const resend = new Resend("re_XUYXyLAw_B74BvhcGsYDhVt57arcpSnUQ");
+const resend = new Resend("re_Y6zgo4Ad_9yN77TuHgtaQUTE3WuFMfLJ7");
 
 export const sendEmail = async (formData: any) => {
   const message = formData.get("message");
@@ -17,7 +17,7 @@ export const sendEmail = async (formData: any) => {
 
   resend.emails.send({
     from: "onboarding@resend.dev",
-    to: "gadorjani@windowslive.com",
+    to: "pogibrogaming@gmail.com",
     subject: subject,
     reply_to: senderEmail,
     text: message,
