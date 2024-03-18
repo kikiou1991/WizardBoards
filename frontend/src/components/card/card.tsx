@@ -29,7 +29,7 @@ const Cards = ({ name, index, showCardDetails }: Props) => {
     <Draggable draggableId={`${index}`} index={index} key={index}>
       {(provided) => (
         <div
-          className="w-60 rounded-md border-solid mt-2 border-2 py-2 hover:border-blue-500 hover:border-2 shadow-sm border-border bg-cards px-2  items-center overflow-x-hidden text-wrap flex relative"
+          className="w-60 rounded-md border-solid mt-2 border-2 py-2 hover:border-blue-500  hover:border-2 shadow-sm border-border bg-cards px-2  items-center overflow-x-hidden text-wrap flex relative"
           style={{
             minWidth: "242px",
             minHeight: "80px",
@@ -40,7 +40,9 @@ const Cards = ({ name, index, showCardDetails }: Props) => {
           ref={provided.innerRef}
           {...provided.dragHandleProps}
         >
-          <div style={{ marginRight: "24px" }}>{name}</div>
+          <div style={{ marginRight: "24px" }}>
+            {name?.length > 35 ? name?.slice(0, 45) + "..." : name}
+          </div>
         </div>
       )}
     </Draggable>

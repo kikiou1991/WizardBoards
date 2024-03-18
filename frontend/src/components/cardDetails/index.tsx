@@ -1,5 +1,5 @@
 import { Avatar, AvatarGroup, Button, Input } from "@nextui-org/react";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import Icon from "../Icons";
 import Comment from "../comment";
 import PopUpWrapper from "../CustomPopUp/Wrapper";
@@ -15,6 +15,8 @@ import { User } from "@/types";
 import { CardContext, CardContextType } from "@/contexts/CardContext";
 import TextArea from "../textareainput";
 import { listCards } from "@/lib/v2/cards";
+import projectConfig from "../projectConfig";
+import { Socket, io } from "socket.io-client";
 // import TextArea from '@atlaskit/textarea';
 
 //This board will depend on the data from the backend, when a card is clicked it will show the details of the card
@@ -52,7 +54,7 @@ const CardDetails = ({
     },
   ] as any);
   //Get the selected card from the cards array so we can render the relevant data
-  const selectedCard = cards.find((card) => card.uuid === uuid);
+  let selectedCard = cards.find((card) => card.uuid === uuid);
 
   //we want to find all the users who are currently memebers of the card
   const members = selectedCard?.members;
@@ -87,26 +89,28 @@ const CardDetails = ({
   };
   useEffect(() => {
     fetchUsers(token);
-  }, [token]);
+  }, [token, workspaceId]);
 
   const closeAddMember = () => {
     setIsMemberVisible(false);
   };
   const handleAddUser = (user: User) => {
-    setCurrentMembers([...currentMembers, user]);
-    setCurrentUsers(currentUsers?.filter((u: User) => u.uuid !== user.uuid));
     if (selectedCard) {
       listCards.addCardMember(token, selectedCard.uuid, user.uuid);
     }
+    // setCurrentMembersData([...currentMembersData, user]);
   };
 
   const removeMember = (user: User) => {
-    const updatedMembers = currentMembers.filter(
+    const updatedMembers = currentMembersData.filter(
       (u: User) => u.uuid !== user.uuid
     );
-
-    setCurrentMembers(updatedMembers);
-    setCurrentUsers([...currentUsers, user]);
+    if (selectedCard) {
+      selectedCard.members = updatedMembers;
+      listCards.createCard(token, selectedCard, selectedCard.listUuid);
+    }
+    // setCurrentMembers(updatedMembers);
+    // setCurrentUsers([...currentUsers, user]);
   };
   const handleDeleteCard = async () => {
     try {
@@ -121,9 +125,36 @@ const CardDetails = ({
     }
   };
 
+  const socketRef = useRef<Socket | null>(null);
+  useEffect(() => {
+    console.log("is this running?");
+    if (!socketRef.current) {
+      socketRef.current = io(`${projectConfig.apiBaseUrl}/v2/cards/member`, {});
+    }
+
+    const socket = socketRef.current;
+
+    socket.on("member", (data: any, uuid: string) => {
+      if (data.type === "update") {
+        console.log("updaeting the card memevers with the socket");
+        const newCard = data.data;
+        return newCard;
+      } else {
+        throw new Error("Failed to create card with socket");
+      }
+    });
+
+    return () => {
+      if (socketRef.current) {
+        socketRef.current.disconnect();
+        socketRef.current = null;
+      }
+    };
+  }, []);
+
   return (
     <div
-      className={`fixed inset-0 flex justify-center overflow-y-auto items-center z-20 bg-black bg-opacity-50 ${
+      className={`fixed inset-0 flex justify-center overflow-y-auto items-center z-50 bg-black bg-opacity-50 ${
         isHidden ? "block" : "hidden"
       }`}
     >
@@ -140,7 +171,9 @@ const CardDetails = ({
             <div className="ml-4 py-2 mt-4 flex flex-row items-center">
               <Icon name="table" />
 
-              <div className="text-xl px-2 font-semibold">{title}</div>
+              <div className="text-xl px-2 font-semibold text-wrap">
+                {title?.length > 20 ? title?.slice(0, 45) + "..." : title}
+              </div>
               <Button
                 isIconOnly
                 className="bg-inherit absolute top-0 right-0 text-black hover:bg-white rounded-full"

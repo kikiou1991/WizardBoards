@@ -25,6 +25,7 @@ import {
   WorkspaceContextType,
 } from "@/contexts/WorkspaceContext";
 import NewBoardPopUp from "../newboardpopup";
+import toast from "react-hot-toast";
 
 interface Workspace {
   uuid?: string;
@@ -82,6 +83,7 @@ const MyWorkSpaceModal = () => {
     }
     try {
       await createWorkspace(context?.token, { name: workSpaceTitle });
+      toast.success("Workspace created successfully");
       closeModals();
     } catch (error) {
       console.error("Error creating workspace:", error);

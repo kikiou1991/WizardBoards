@@ -2,6 +2,7 @@ const { v4: uuidv4 } = require("uuid");
 const { ObjectId } = require("mongodb");
 module.exports = async (app, db, io) => {
   let namespace = io.of("/api/v2/cards");
+  let memberNamespace = io.of("/api/v2/cards/member");
   app.get("/api/v2/cards", async (req, res, next) => {
     try {
       const listUuid = req.query.listUuid;
@@ -47,7 +48,6 @@ module.exports = async (app, db, io) => {
   app.post("/api/v2/cards", async (req, res, next) => {
     const { listUuid, data } = req.body;
     const user = req.user;
-
     //we could potentially get all the data from the client
     //this can be an array of card objects
     //then we find the card we want to update we use the findOneAndUpdate method
@@ -136,7 +136,6 @@ module.exports = async (app, db, io) => {
         },
         { returnDocument: "after", returnNewDocument: true }
       );
-      console.log("newcard", newcard);
       let list = await db
         .collection("lists")
         .findOneAndUpdate(
@@ -309,7 +308,7 @@ module.exports = async (app, db, io) => {
           },
           { $push: { members: memberId } }
         );
-        namespace.emit("card", { type: "update", data: card });
+        memberNamespace.emit("member", { type: "update", data: card });
         return res.status(201).json({
           message: "Member added successfully",
           success: true,
