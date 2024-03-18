@@ -24,9 +24,9 @@ export interface CardContextType {
   setCards: React.Dispatch<React.SetStateAction<Cards[]>>;
   isNewCardCreated: boolean;
   setIsNewCardCreated: React.Dispatch<React.SetStateAction<boolean>>;
-  fetchCards: (token: any, listUuid: string) => Promise<void>;
-  createCard: (token: any, cardData: any, listUuid: string) => Promise<void>;
-  deleteCard: (token: any, cardData: any, listUuid: string) => Promise<void>;
+  fetchCards: (token: string, listUuid: string) => Promise<void>;
+  createCard: (token: string, cardData: any, listUuid: string) => Promise<void>;
+  deleteCard: (token: string, cardData: any, listUuid: string) => Promise<void>;
   cardDetails: Cards;
   setCardDetails: React.Dispatch<React.SetStateAction<any>>;
   handleLogout: () => void;
@@ -69,7 +69,7 @@ const CardContextProvider = ({ children }: CardContextProviderProps) => {
       console.error("Failed to fetch cards", error);
     }
   };
-  const createCard = async (token: any, cardData: any, listUuid: string) => {
+  const createCard = async (token: string, cardData: any, listUuid: string) => {
     try {
       const res = await listCards.createCard(token, cardData, listUuid);
       // if (res && res.newCard) {
@@ -82,7 +82,7 @@ const CardContextProvider = ({ children }: CardContextProviderProps) => {
     }
   };
 
-  const deleteCard = async (token: any, cardData: any, listUuid: string) => {
+  const deleteCard = async (token: string, cardData: any, listUuid: string) => {
     try {
       const res = await listCards.deleteCard(token, cardData, listUuid);
       if (res?.status === true) {
@@ -111,7 +111,7 @@ const CardContextProvider = ({ children }: CardContextProviderProps) => {
 
     const socket = socketRef.current;
 
-    socket.on("card", (data: any, uuid: string) => {
+    socket.on("card", (data: any) => {
       if (data.type === "create") {
         const newCard = data.data;
         // Check if the card already exists

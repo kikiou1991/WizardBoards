@@ -8,6 +8,7 @@ export interface Workspace {
 export interface User {
   _id: string;
   name: string;
+  avatar: string;
   image: string;
   email: string;
   uuid: string;
@@ -19,6 +20,8 @@ export interface Boards {
   _id: string;
   name: string;
   uuid: string;
+  imageLink: string;
+
   isStared: boolean;
   workspace: Workspace;
   lists: Lists[];
@@ -26,7 +29,9 @@ export interface Boards {
 
 export interface Lists {
   _id: string;
+  title: string;
   name: string;
+
   uuid: string;
   boardId: string;
   cards: Cards[];

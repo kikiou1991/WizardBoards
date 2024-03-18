@@ -104,7 +104,7 @@ const YourBoards = () => {
 
         <Button
           onPress={handleVisible}
-          className="bg-inherit  ml-auto"
+          className="bg-inherit p-0 ml-auto"
           isIconOnly
         >
           <Icon name="addIcon" />
@@ -118,7 +118,7 @@ const YourBoards = () => {
       </div>
       <div className="pt-1 flex flex-col">
         {boards && boards.length > 0 ? (
-          <ul className=" ">
+          <ul className="">
             {orderBoardsByStar[0].map((board: any) => {
               return (
                 <li
@@ -179,11 +179,11 @@ const YourBoards = () => {
                     >
                       {" "}
                       <div className="flex flex-row w-full h-[50%] items-center justify-center pb-2">
-                        <h2 className="px-2 text-center">
+                        <h2 className="p-2 mt-6 text-center">
                           {textVisible ? board?.name : `Close ${board?.name}?`}
                         </h2>
                         <Button
-                          className="bg-inherit ml-auto text-black hover:bg-white rounded-full"
+                          className="bg-inherit absolute z-20 top-1 right-1 text-black hover:bg-white rounded-full"
                           isIconOnly
                           onClick={() => setIsOpen(!isOpen)}
                         >
@@ -205,7 +205,7 @@ const YourBoards = () => {
                               Once you close this board, you can't undo it!
                             </p>
                             <Button
-                              className="w-full hover:text-red-500 bg-inherit"
+                              className="w-full hover:text-red-500 bg-inherit mb-2"
                               onClick={() => handleDelete}
                             >
                               Close Board

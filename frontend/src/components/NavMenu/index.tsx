@@ -20,6 +20,7 @@ import Image from "next/image";
 import { UserContext, UserContextType } from "@/contexts/Usercontext";
 import NewBoardPopUp from "../newboardpopup";
 import { CardContext, CardContextType } from "@/contexts/CardContext";
+import { Boards, Workspace } from "@/types";
 
 const NavMenuDesktop = () => {
   const [isHovered, setIsHovered] = useState(false);
@@ -127,7 +128,7 @@ const NavMenuDesktop = () => {
                 </DropdownItem>
               </DropdownSection>
               <DropdownSection aria-label="aria class">
-                {workspaces.map((workspace: any) => (
+                {workspaces.map((workspace: Workspace) => (
                   <DropdownItem
                     aria-label="aria class"
                     key={workspace.uuid}
@@ -195,7 +196,7 @@ const NavMenuDesktop = () => {
               </DropdownSection>
             ) : (
               <DropdownSection aria-label="aria class">
-                {favorites.map((favorite: any) => (
+                {favorites.map((favorite: Boards) => (
                   <DropdownItem
                     aria-label="aria class"
                     key={favorite?.uuid}
