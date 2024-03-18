@@ -198,7 +198,7 @@ const NavMenuDesktop = () => {
                 {favorites.map((favorite: any) => (
                   <DropdownItem
                     aria-label="aria class"
-                    key={favorite.uuid}
+                    key={favorite?.uuid}
                     className={`flex flex-row items-center py-2 px-1 group/item h-10 `}
                     onMouseEnter={() => setIsHovered(true)}
                     onMouseLeave={() => setIsHovered(false)}
@@ -212,16 +212,16 @@ const NavMenuDesktop = () => {
                       >
                         <Image
                           className="rounded"
-                          src={favorite.imageLink}
+                          src={favorite?.imageLink}
                           width={40}
                           height={32}
                           alt="board-background"
                         />
                         <Link href="/workspace/projects">
                           <p>
-                            {favorite.name.length > 12
-                              ? `${favorite.name.substring(0, 12)}...`
-                              : favorite.name}
+                            {favorite?.name.length > 12
+                              ? `${favorite?.name.substring(0, 12)}...`
+                              : favorite?.name}
                           </p>
                           <p>{favorite?.workspace?.name}</p>
                         </Link>

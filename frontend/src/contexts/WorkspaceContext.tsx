@@ -89,6 +89,8 @@ const WorkspaceContextProvider = ({
 
       const res = await userWorkspaces.createWorkspace(token, boardData);
 
+      setWorkspaces((prevWorkspaces) => [...prevWorkspaces, res?.data]);
+
       if (res) {
       } else {
         console.error("Failed to create workspace. Response:", res);

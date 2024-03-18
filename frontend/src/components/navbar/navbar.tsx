@@ -113,8 +113,6 @@ const NavbarTop = () => {
       {/* Left navigation section while screensize is large */}
       <NavMenuDesktop />
 
-      {/* Need to add NavMenu for smaller screens where Workspaces +  Starred get combined into More with a drop down */}
-
       {/* Empty space between left and right sections */}
       <div className={` flex-grow `}></div>
       {/* <Button onClick={toggleModals} className='bg-white text-black'>
@@ -123,7 +121,7 @@ const NavbarTop = () => {
 
       {/* Right section with modal, calendar, notification, and profile */}
       <NavbarContent
-        className=" flex  bg-inherit gap-3 "
+        className=" flex bg-inherit gap-3 "
         style={{ flexGrow: "0" }}
       >
         {/* Model Section SearchBar */}
