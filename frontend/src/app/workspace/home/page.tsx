@@ -10,7 +10,7 @@ const Home = () => {
       </div>
       <h2>Workspaces or Last visited Boards?</h2>
       <h3>If you have any questions, please don't hesitate to get in touch!</h3>
-      <Button className="bg-primary" size="md">
+      <Button className="bg-primary mt-5 " size="md">
         <Link href="/workspace/contact" className="text-foreground">
           Contact Us
         </Link>
