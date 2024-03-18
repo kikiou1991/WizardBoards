@@ -115,7 +115,7 @@ const InputField = () => {
 
       <Button
         color="primary"
-        className="max-w-xs"
+        className="max-w-xs my-2 hover:bg-blue-700  "
         isDisabled={buttonDisabled}
         onPress={handleLogin}
       >
