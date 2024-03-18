@@ -82,7 +82,10 @@ const MyWorkSpaceModal = () => {
       return;
     }
     try {
-      await createWorkspace(context?.token, { name: workSpaceTitle });
+      const res = await createWorkspace(context?.token, {
+        name: workSpaceTitle,
+      });
+      console.log("Workspace created successfully", res);
       toast.success("Workspace created successfully");
       closeModals();
     } catch (error) {

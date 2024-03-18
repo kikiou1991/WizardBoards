@@ -119,19 +119,15 @@ const BoardContextProvider = ({ children }: WorkspaceContextProviderProps) => {
   useEffect(() => {
     const fetchFavorites = async (token: any, workspaces: any) => {
       try {
-        // Iterate over each workspace
-        let favorites: any[] = [];
-        for (let workspace of workspaces) {
-          // Fetch boards for the current workspace
-          const res = await workspaceBoards.getBoards(token, workspace.uuid);
-          // Filter out the boards that are marked as favorites
+        const favoritesPromises = await workspaces.map(
+          async (workspace: any) => {
+            const res = await workspaceBoards.getBoards(token, workspace.uuid);
 
-          res?.data.forEach((board: any) => {
-            if (board.isStared === true) {
-              favorites.push(board);
-            }
-          });
-        }
+            return res?.data.filter((board: any) => board.isStared === true);
+          }
+        );
+        const favoritesArray = await Promise.all(favoritesPromises);
+        const favorites = favoritesArray.flat();
         setFavorites(favorites);
       } catch (error) {
         console.error("Failed to fetch favorites", error);
@@ -140,7 +136,7 @@ const BoardContextProvider = ({ children }: WorkspaceContextProviderProps) => {
 
     // Fetch favorites when the component mounts
     fetchFavorites(token, workspaces);
-  }, [token, workspaces]);
+  }, [token, workspaces, boards]);
 
   const socketRef = useRef<Socket | null>(null);
 
