@@ -59,6 +59,24 @@ const MyWorkSpaceModal = () => {
     setWorkspaceModalOpen(false);
   };
 
+  const handleCreateBoard = async () => {
+    if (!boardTitle) {
+      return;
+    }
+    if (!selectedWorkspace) {
+      return;
+    }
+    try {
+      await createBoard(context?.token, {
+        name: boardTitle,
+        workspaceUuid: selectedWorkspace,
+      });
+      closeModals();
+    } catch (error) {
+      console.error("Error creating board:", error);
+    }
+  };
+
   const handleCreateWorkspace = async () => {
     if (!workSpaceTitle) {
       return;
@@ -67,7 +85,6 @@ const MyWorkSpaceModal = () => {
       const res = await createWorkspace(context?.token, {
         name: workSpaceTitle,
       });
-
       console.log("Workspace created successfully", res);
       toast.success("Workspace created successfully");
       closeModals();

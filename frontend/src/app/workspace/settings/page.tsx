@@ -21,7 +21,9 @@ const Settings = () => {
     selectedWorkspace,
     setSelectedWorkspace,
   } = useContext(WorkspaceContext) as WorkspaceContextType;
+  const [visibility, setVisibility] = useState("Private" as string);
   const [isVisible, setIsVisible] = useState(false);
+  const [iconName, setIconName] = useState("privateSymbol" as string);
   const [isOpen, setIsOpen] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const router = useRouter();
@@ -34,6 +36,15 @@ const Settings = () => {
     setIsVisible(false);
   };
 
+  const handleVisibilityChange = () => {
+    if (visibility === "Public") {
+      setVisibility("Private");
+      setIconName("privateSymbol");
+    } else {
+      setVisibility("Public");
+      setIconName("publicSymbol");
+    }
+  };
   const handleDelete = async () => {
     try {
       const workspaceToDelete = selectedWorkspace;
@@ -44,7 +55,7 @@ const Settings = () => {
         } else {
           router?.replace("/workspace/home");
         }
-        setIsOpen(false);
+
         setIsSubmitted(true);
       }
     } catch (err) {
@@ -58,7 +69,35 @@ const Settings = () => {
     <div className="w-full h-full overflow-hidden flex flex-col grow">
       <WorkspaceHeader />
       <div className="flex flex-col z-0  grow overflow-y-scroll h-full p-5 gap-2 w-full ">
-        <div className="text-foreground items-center font-semibold hover:cursor-pointer">
+        <div className="text-foreground items-center">
+          <div className="py-4 pl-3">Workspace visibility</div>
+          <div className="flex md:flex-row flex-col py-3 items-center">
+            <div className="flex justify-start md:flex-row flex-col items-center gap-2">
+              <div className="flex md:flex-row flex-col gap-1 mx-auto">
+                <div className="flex flex-row gap-1">
+                  <Icon name={iconName} />
+                  <p className="font-bold">{visibility}</p>
+                </div>
+                This Workspace is private. It is not visible to anyone outside
+                of this workspace
+              </div>
+            </div>
+            <Button
+              onClick={() => {
+                handleVisibilityChange();
+                setIsVisible(true);
+              }}
+              id="changeButton"
+              className="ml-auto"
+            >
+              Change
+            </Button>
+            <div ref={ref} className={`${isVisible ? "" : "hidden"} p-0 m-0`}>
+              {/* <VisibilityModal toggleModal={toggleModal} /> */}
+            </div>
+          </div>
+        </div>
+        <div className="text-foreground items-center hover:cursor-pointer">
           <p onClick={() => openPopUp()} className="text-red-500">
             Delete this workspace?
           </p>

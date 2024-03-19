@@ -66,7 +66,7 @@ const InputField = () => {
     );
   };
 
-  const handleChangeEmail = (value: string) => {
+  const handleChangeEmail = (value: any) => {
     validateEmail(value);
     setValidationState("valid");
     setEmail(value);
@@ -136,11 +136,12 @@ const InputField = () => {
           console.error(errorMessage, await response.text());
           toast.error(errorMessage);
         }
-      } catch (error: unknown) {
+      } catch (error: any) {
         // Handle fetch error
         setLoading(false);
         setButtonDisabled(false);
         errorMessage = "Sign up failed. Please try again.";
+        console.error(errorMessage, error.message);
         toast.error(errorMessage);
       }
     }

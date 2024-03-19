@@ -128,10 +128,9 @@ const CardDetails = ({
 
     const socket = socketRef.current;
 
-    socket.on("member", (data: any) => {
-      console.log("data from the socket", data);
+    socket.on("member", (data: any, uuid: string) => {
       if (data.type === "update") {
-        console.log("updating the card memevers with the socket");
+        console.log("updaeting the card memevers with the socket");
         const newCard = data.data;
         console.log("new card", newCard);
 
@@ -282,7 +281,7 @@ const CardDetails = ({
                       Members{" "}
                     </p>
                     <div className="">
-                      {currentMembersData?.map((member: User) => {
+                      {currentMembersData?.map((member: any) => {
                         return (
                           <UserCard
                             key={member.uuid}

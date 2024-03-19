@@ -86,8 +86,9 @@ const InputField = () => {
         // Handle other error responses
         const result = await response.json();
       }
-    } catch (error: unknown) {
+    } catch (error: any) {
       // Handle fetch error
+      console.error("Failed to log in user", error.message);
       toast.error("Failed to log in user");
     }
   };
