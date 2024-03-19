@@ -1,25 +1,41 @@
-import { Avatar, Textarea } from "@nextui-org/react";
-import React from "react";
+import { CardContext, CardContextType } from "@/contexts/CardContext";
+import { listCards } from "@/lib/v2/cards";
+import { User } from "@/types";
+import { Avatar, Card, Textarea } from "@nextui-org/react";
+import React, { useContext, useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 interface CommentProps {
   text?: string;
-  user?: string;
-  avatar?: string;
+  userId?: string;
+  members: User[];
 }
 
-const Comment = ({ text, avatar }: CommentProps) => {
+const Comment = ({ text, userId, members }: CommentProps) => {
+  const { cardDetails } = useContext(CardContext) as CardContextType;
+  const [avatar, setAvatar] = useState<string>("");
+  useEffect(() => {
+    if (userId) {
+      const user = members.find((member) => member._id === userId);
+      if (user) {
+        setAvatar(user?.image);
+      }
+    }
+  }, [userId, members]);
+  console.log("comment memebers", members);
+  console.log("comment userId", userId);
   return (
-    <div className="flex flex-row gap-3 items-center">
+    <div className="flex flex-row gap-3 items-start justify-start  py-1 w-30">
       <Avatar
-        as="button"
-        className="transition-transform p"
+        isBordered
+        color="primary"
+        className="w-[8%] "
         size="sm"
-        src={
-          avatar ||
-          "https://t3.ftcdn.net/jpg/03/46/83/96/240_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg"
-        }
+        src={avatar}
       />
-      <p className="">{text}</p>
+      <div className="w-[92%] ">
+        <p className="text-wrap ">{text}</p>
+      </div>
     </div>
   );
 };

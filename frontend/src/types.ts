@@ -33,8 +33,8 @@ export interface Lists {
 }
 export interface Comment {
   _id: string;
-  text: string;
-  user: User;
+  comment: string;
+  userUuid: string;
   createdAt: string;
 }
 

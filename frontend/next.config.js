@@ -32,6 +32,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "avatarfiles.alphacoders.com",
       },
+      {
+        protocol: "https",
+        hostname: "pbs.twimg.com",
+      },
     ],
   },
 };

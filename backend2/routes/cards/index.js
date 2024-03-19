@@ -4,6 +4,8 @@ module.exports = async (app, db, io) => {
   let namespace = io.of("/api/v2/cards");
   let memberNamespace = io.of("/api/v2/cards/member");
   let descNamespace = io.of("/api/v2/cards/description");
+  let commentNamespace = io.of("/api/v2/cards/comments");
+
   app.get("/api/v2/cards", async (req, res, next) => {
     try {
       const listUuid = req.query.listUuid;
@@ -130,6 +132,7 @@ module.exports = async (app, db, io) => {
           position,
           createdAt: new Date().toISOString(),
           members: [],
+          comments: [],
           listUuid: listUuid,
           list: [listUuid],
           uuid: uuidv4(),
@@ -202,12 +205,57 @@ module.exports = async (app, db, io) => {
       next(error);
     }
   }),
+    app.get("/api/v2/cards/comments", async (req, res, next) => {
+      try {
+        const cardUuid = req.query.cardUuid;
+        const user = req.user;
+        console.log("cardUuid", cardUuid);
+        if (!cardUuid) {
+          return res.status(400).json({
+            message: "Invalid card UUID",
+            success: false,
+            data: null,
+          });
+        }
+        if (!user || !user._id) {
+          return res.status(400).json({
+            message: "Invalid user information",
+            success: false,
+            data: null,
+          });
+        }
+        const card = await db.collection("cards").findOne({ uuid: cardUuid });
+        if (!card) {
+          return res
+            .status(400)
+            .json({ message: "Invalid card UUID", success: false, data: null });
+        }
+        let comments = [];
+        if (card.comments && card.comments.length > 0) {
+          for (let i = 0; i < card.comments.length; i++) {
+            let comment = await db
+              .collection("comments")
+              .findOne({ _id: card.comments[i] });
+            if (comment) {
+              comments.push(comment);
+            }
+          }
+        }
+        return res.status(200).json({
+          success: true,
+          message: "Comments fetched successfully",
+          data: comments,
+        });
+      } catch (error) {}
+    }),
     app.post("/api/v2/cards/comments", async (req, res, next) => {
       try {
         const { cardUuid, comment } = req.body;
         const user = req.user;
+        console.log("comment", comment);
+        console.log("user", user);
 
-        if (!cardUuid || !message) {
+        if (!cardUuid || !comment) {
           return res.status(400).json({
             message: "Invalid card or comment",
             success: false,
@@ -227,15 +275,28 @@ module.exports = async (app, db, io) => {
             .status(400)
             .json({ message: "Invalid card UUID", success: false, data: null });
         }
-        const result = await db
-          .collection("cards")
-          .updateOne({ uuid: cardUuid }, { $push: { comments: comment } });
-        namespace.emit("card", { type: "update", data: result });
 
+        const result = await db.collection("comments").insertOne(
+          {
+            uuid: uuidv4(),
+            userUuid: user._id,
+            comment: comment,
+            createdAt: new Date().toISOString(),
+          },
+          { returnOriginal: true }
+        );
+        const updatedCard = await db
+          .collection("cards")
+          .findOneAndUpdate(
+            { uuid: cardUuid },
+            { $push: { comments: result.insertedId } },
+            { returnOriginal: true }
+          );
+        commentNamespace.emit("comment", { type: "create", data: result });
         return res.status(201).json({
           message: "Message added successfully",
           success: true,
-          data: result,
+          data: updatedCard,
         });
       } catch (error) {
         console.error("Failed to add message to the card", error);

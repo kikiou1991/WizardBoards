@@ -185,13 +185,13 @@ const BoardNav = () => {
             </div>
           </PopUpWrapper>
         </div>
-        <AvatarGroup size="sm" className="hover:cursor-pointer">
+        <AvatarGroup size="sm" className="hover:cursor-pointer mr-2">
           {members?.map((user: any, index: any) => {
             return (
               <Avatar
                 isBordered
                 key={index}
-                src={user?.avatar}
+                src={user?.image}
                 onClick={() => {
                   setUserInfoVisible(true), handleUserDataChange(user);
                 }}

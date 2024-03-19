@@ -125,4 +125,52 @@ export const listCards = {
       return data;
     } catch (error: unknown) {}
   },
+  getComments: async (token: string, cardUuid: string) => {
+    try {
+      const response = await fetch(
+        `${
+          projectConfig.apiBaseUrl
+        }/v2/cards/comments?cardUuid=${encodeURIComponent(cardUuid)}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Failed to fetch comments");
+      }
+      const data = await response.json();
+      console.log("comments data is: ", data);
+      return data;
+    } catch (error: unknown) {}
+  },
+  addComment: async (token: string, cardUuid: string, comment: string) => {
+    console.log("comment is: ", comment, "cardUuid is: ", cardUuid);
+    try {
+      const response = await fetch(
+        `${projectConfig.apiBaseUrl}/v2/cards/comments`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            cardUuid,
+            comment,
+          }),
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Failed to add comment");
+      }
+      const data = await response.json();
+      return data;
+    } catch (error: unknown) {
+      console.error("Error adding comment: ", error);
+    }
+  },
 };

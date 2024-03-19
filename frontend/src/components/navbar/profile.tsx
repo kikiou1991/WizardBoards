@@ -37,7 +37,10 @@ const Profile = ({ name, email }: Props) => {
               className="transition-transform "
               name={name}
               size="sm"
-              src="https://t3.ftcdn.net/jpg/03/46/83/96/240_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg"
+              src={
+                userData?.image ||
+                "https://avatarfiles.alphacoders.com/324/324846.jpg"
+              }
             />
           </DropdownTrigger>
           <DropdownMenu aria-label="aria class ">

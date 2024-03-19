@@ -1,5 +1,11 @@
 import { Avatar, AvatarGroup, Button, Input } from "@nextui-org/react";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, {
+  KeyboardEvent,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import Icon from "../Icons";
 import Comment from "../comment";
 import PopUpWrapper from "../CustomPopUp/Wrapper";
@@ -11,12 +17,13 @@ import {
   WorkspaceContext,
   WorkspaceContextType,
 } from "@/contexts/WorkspaceContext";
-import { User } from "@/types";
+import { Comment as CommentArr, User } from "@/types";
 import { CardContext, CardContextType } from "@/contexts/CardContext";
 import TextArea from "../textareainput";
 import { listCards } from "@/lib/v2/cards";
 import projectConfig from "../projectConfig";
 import { Socket, io } from "socket.io-client";
+import toast from "react-hot-toast";
 // import TextArea from '@atlaskit/textarea';
 
 //This board will depend on the data from the backend, when a card is clicked it will show the details of the card
@@ -39,12 +46,34 @@ const CardDetails = ({
 }: CardDetailProps) => {
   //state and context imports
   const { user, token } = useContext(UserContext) as UserContextType;
-  const { cards, deleteCard } = useContext(CardContext) as CardContextType;
+  const { cards, deleteCard, cardDetails } = useContext(
+    CardContext
+  ) as CardContextType;
   const { selectedWorkspace, workspaces } = useContext(
     WorkspaceContext
   ) as WorkspaceContextType;
   const [isMemberVisible, setIsMemberVisible] = useState(false);
   const [currentUsers, setCurrentUsers] = useState([] as any);
+  const [comments, setComments] = useState<CommentArr[]>([]);
+  const [singleComment, setSingleComment] = useState("");
+  let cardUuid = cardDetails?.uuid;
+  const fetchComments = async (token: string, cardUuid: string) => {
+    try {
+      if (!cardUuid) return;
+      const response = await listCards.getComments(token, cardUuid);
+
+      if (response && response.data) {
+        setComments(response.data);
+      }
+    } catch (error: unknown) {
+      toast.error("Failed to fetch comments");
+    }
+  };
+  useEffect(() => {
+    if (cardUuid) {
+      fetchComments(token, cardUuid);
+    }
+  }, [cardUuid]);
 
   //Get the selected card from the cards array so we can render the relevant data
   let selectedCard = cards.find((card) => card.uuid === uuid);
@@ -88,11 +117,11 @@ const CardDetails = ({
   const closeAddMember = () => {
     setIsMemberVisible(false);
   };
+  //functions to add and remove a user from the card
   const handleAddUser = (user: User) => {
     if (selectedCard) {
       listCards.cardMemberUpdate(token, selectedCard.uuid, user.uuid, "add");
     }
-    // setCurrentMembersData([...currentMembersData, user]);
   };
 
   const removeMember = (user: User) => {
@@ -104,8 +133,6 @@ const CardDetails = ({
       listCards.cardMemberUpdate(token, selectedCard.uuid, user.uuid, "remove");
       currentMembersData = updatedMembers;
     }
-    // setCurrentMembers(updatedMembers);
-    // setCurrentUsers([...currentUsers, user]);
   };
   const handleDeleteCard = async () => {
     try {
@@ -119,6 +146,25 @@ const CardDetails = ({
       console.error("Failed to delete card:", error);
     }
   };
+
+  //function to add a comment to the card
+  const handleAddComment = async () => {
+    console.log("adding a comment");
+    try {
+      if (selectedCard) {
+        await listCards.addComment(token, selectedCard.uuid, singleComment);
+      }
+    } catch (error) {
+      toast.error("Failed to add comment:");
+    }
+  };
+
+  const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      handleAddComment();
+    }
+  };
+  //sockets for updating the members of the card and the comments
 
   const socketRef = useRef<Socket | null>(null);
   useEffect(() => {
@@ -149,7 +195,7 @@ const CardDetails = ({
 
   return (
     <div
-      className={`fixed inset-0 flex justify-center overflow-y-auto items-center z-50 bg-black bg-opacity-50 ${
+      className={`fixed inset-0 flex justify-center  items-center z-50 bg-black bg-opacity-50 ${
         isHidden ? "block" : "hidden"
       }`}
     >
@@ -197,18 +243,6 @@ const CardDetails = ({
                   </div>
                   {/* This should be a separate component?? */}
                   <TextArea desc={selectedCard?.description} />
-                  {/* <Input
-                    placeholder="Write unit tests..."
-                    type="text"
-                    classNames={{
-                      base: "max-w-full sm:max-w-[28rem] ml-9 h-10 bg-foreground",
-                      mainWrapper: "flex h-full w-full  bg-forground",
-                      input:
-                        "text-small font-semibold group-data-[focus=true]:text-background",
-                      inputWrapper:
-                        "dark:focus-within:!bg-foreground/70 data-[hover=true]:bg-foregound/80 h-full w-60  !cursor-text dark:focus-within:text-black bg-white hover:bg-foreground border-slate-100 rounded-md",
-                    }}
-                  ></Input> */}
                 </div>
               </div>
               <div className="h-[60%] ">
@@ -227,6 +261,8 @@ const CardDetails = ({
                   <Input
                     placeholder="Add a comment below..."
                     className="w-full"
+                    onChange={(e) => setSingleComment(e.target.value)}
+                    onKeyDown={handleKeyDown}
                     type="text"
                     classNames={{
                       base: "max-w-full sm:max-w-[28rem] h-10 bg-foreground",
@@ -238,8 +274,17 @@ const CardDetails = ({
                     }}
                   ></Input>
                 </div>
-                <div className="flex flex-col gap-4 min-h-[150px] mb-5">
-                  <Comment text={"Some comment made by user"} />
+                <div className="flex flex-col gap-4 min-h-[150px] mb-10">
+                  {comments?.map((comment) => {
+                    return (
+                      <Comment
+                        members={currentUsers}
+                        key={comment._id}
+                        text={comment.comment}
+                        userId={comment.userUuid}
+                      />
+                    );
+                  })}
                 </div>
               </div>
             </div>
