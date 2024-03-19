@@ -2,6 +2,7 @@
 backend/node_modules/
 backend2/node_modules/
 backend2/.env
+backend/.env
 
 # Ignore node_modules in the frontend directory
 frontend/node_modules/
