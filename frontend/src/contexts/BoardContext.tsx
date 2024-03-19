@@ -14,6 +14,7 @@ import {
 } from "react";
 import { Socket, io } from "socket.io-client";
 import { WorkspaceContext, WorkspaceContextType } from "./WorkspaceContext";
+import toast from "react-hot-toast";
 
 export interface BoardContextType {
   boards: Boards[];
@@ -71,23 +72,8 @@ const BoardContextProvider = ({ children }: WorkspaceContextProviderProps) => {
         { isStared, name, workspaceUuid, boardUuid, image },
         workspaceUuid
       );
-
-      if (res) {
-        // setBoards((prevBoards) => {
-        //   const updatedBoards = [...prevBoards];
-        //   const existingBoardIndex = updatedBoards.findIndex(
-        //     (board) => board.uuid === res.data.uuid
-        //   );
-        //   if (existingBoardIndex !== -1) {
-        //     updatedBoards[existingBoardIndex] = res.data;
-        //   } else {
-        //     updatedBoards.push(res.data);
-        //   }
-        //   return updatedBoards;
-        // });
-      }
     } catch (error) {
-      console.error("Error creating the board", error);
+      toast.error("Error creating the board");
     }
   };
   //Delete the board function
@@ -117,7 +103,7 @@ const BoardContextProvider = ({ children }: WorkspaceContextProviderProps) => {
   };
 
   useEffect(() => {
-    const fetchFavorites = async (token: string, workspaces: any) => {
+    const fetchFavorites = async (token: string, workspaces: Workspace[]) => {
       try {
         const favoritesPromises = await workspaces?.map(
           async (workspace: Workspace) => {
