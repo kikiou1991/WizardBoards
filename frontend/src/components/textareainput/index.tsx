@@ -1,5 +1,5 @@
 "use client";
-import { Button, Input, Textarea } from "@nextui-org/react";
+import { Button, Input, Textarea, card } from "@nextui-org/react";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import useOutsideClick from "../customHooks/useOutsideClick";
 import { CardContext, CardContextType } from "@/contexts/CardContext";
@@ -15,7 +15,9 @@ interface TextAreaProps {
 }
 
 const TextArea = ({ value, desc, onSubmit }: TextAreaProps) => {
-  const { cardDetails } = useContext(CardContext) as CardContextType;
+  const { cardDetails, setCardDetails } = useContext(
+    CardContext
+  ) as CardContextType;
 
   const [editValue, setEditValue] = useState("");
   const [isActive, setIsActive] = useState(false);
@@ -55,9 +57,7 @@ const TextArea = ({ value, desc, onSubmit }: TextAreaProps) => {
 
     socket.on("desc", (data: any) => {
       if (data.type === "update") {
-        if (data.data.uuid === cardUuid) {
-          setEditValue(data.data.description);
-        }
+        setCardDetails(data.data);
       }
     });
 

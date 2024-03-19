@@ -3,6 +3,7 @@ const { ObjectId } = require("mongodb");
 module.exports = async (app, db, io) => {
   let namespace = io.of("/api/v2/cards");
   let memberNamespace = io.of("/api/v2/cards/member");
+  let descNamespace = io.of("/api/v2/cards/description");
   app.get("/api/v2/cards", async (req, res, next) => {
     try {
       const listUuid = req.query.listUuid;
@@ -272,7 +273,7 @@ module.exports = async (app, db, io) => {
         const updatedCard = await db
           .collection("cards")
           .findOne({ uuid: cardUuid });
-        namespace.emit("desc", { type: "update", data: updatedCard });
+        descNamespace.emit("desc", { type: "update", data: updatedCard });
 
         return res.status(201).json({
           message: "Description added successfully",

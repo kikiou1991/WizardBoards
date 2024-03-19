@@ -50,18 +50,18 @@ const CardDetails = ({
   let selectedCard = cards.find((card) => card.uuid === uuid);
 
   //we want to find all the users who are currently memebers of the card
-  const members = selectedCard?.members;
+  let members = selectedCard?.members;
   //next we need to find the details of the members
 
   //we got current users from the workspace
   //we will filter the current users to find the members of the card
-  const currentMembersData = currentUsers?.filter((user: any) =>
+  let currentMembersData = currentUsers?.filter((user: any) =>
     members?.includes(user.uuid)
   );
 
   //we need a new array of user objects where we dont want to include the members of the card
   //we will use this array to render the usercards in the pop up
-  const nonMembers = currentUsers?.filter((user: User) => {
+  let nonMembers = currentUsers?.filter((user: User) => {
     return !members?.includes(user.uuid);
   });
   //Functions
@@ -102,6 +102,7 @@ const CardDetails = ({
     if (selectedCard) {
       selectedCard.members = updatedMembers;
       listCards.cardMemberUpdate(token, selectedCard.uuid, user.uuid, "remove");
+      currentMembersData = updatedMembers;
     }
     // setCurrentMembers(updatedMembers);
     // setCurrentUsers([...currentUsers, user]);
@@ -121,25 +122,23 @@ const CardDetails = ({
 
   const socketRef = useRef<Socket | null>(null);
   useEffect(() => {
-    console.log("is this running?");
     if (!socketRef.current) {
       socketRef.current = io(`${projectConfig.apiBaseUrl}/v2/cards/member`, {});
     }
 
     const socket = socketRef.current;
 
-    socket.on("member", (data: any, uuid: string) => {
+    socket.on("member", (data: any) => {
       if (data.type === "update") {
         console.log("updaeting the card memevers with the socket");
         const newCard = data.data;
         console.log("new card", newCard);
-
-        return newCard;
+        members = newCard.members;
+        console.log("members before", members);
       } else {
         throw new Error("Failed to create card with socket");
       }
     });
-    console.log("current users", currentUsers);
     return () => {
       if (socketRef.current) {
         socketRef.current.disconnect();

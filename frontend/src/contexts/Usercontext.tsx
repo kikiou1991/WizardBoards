@@ -62,7 +62,6 @@ const UserContextProvider = ({ children }: UserContextProviderProps) => {
       setAuthenticatedLoaded(true);
     }
   };
-
   const fetchUsers = async (token: any, selectedWorkspace: any) => {
     try {
       const res = await userList.getAllUsers(token);
