@@ -120,7 +120,7 @@ const BoardContextProvider = ({ children }: WorkspaceContextProviderProps) => {
       }
     };
 
-    // Fetch favorites when the component mounts
+    // Fetch favorites when the component mount
     fetchFavorites(token, workspaces);
   }, [token, workspaces, boards]);
 
