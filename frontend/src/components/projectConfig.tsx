@@ -1,5 +1,5 @@
 const projectConfig = {
-  apiBaseUrl: "https://wizardboards.co.uk/api",
+  apiBaseUrl: "https://www.wizardboards.co.uk/api",
 };
 
 export default projectConfig;
