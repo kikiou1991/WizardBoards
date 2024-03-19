@@ -5,11 +5,6 @@ import React, { useState } from "react";
 import toast from "react-hot-toast";
 
 const ContactPage = () => {
-  const [formData, setFormData] = useState({
-    email: "",
-    subject: "",
-    message: "",
-  });
   const [emailSubmitted, setEmailSubmitted] = useState(false);
 
   return (
