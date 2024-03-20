@@ -153,6 +153,7 @@ const CardDetails = ({
     try {
       if (selectedCard) {
         await listCards.addComment(token, selectedCard.uuid, singleComment);
+        setSingleComment("");
       }
     } catch (error) {
       toast.error("Failed to add comment:");
@@ -195,7 +196,7 @@ const CardDetails = ({
 
   return (
     <div
-      className={`fixed inset-0 flex justify-center  items-center z-50 bg-black bg-opacity-50 ${
+      className={`fixed inset-0 flex justify-center items-center z-50 bg-black bg-opacity-50 ${
         isHidden ? "block" : "hidden"
       }`}
     >
@@ -205,7 +206,7 @@ const CardDetails = ({
       >
         <div
           id="modal-content"
-          className="flex flex-col bg-foreground text-background rounded-lg w-[580px]"
+          className="flex flex-col bg-foreground text-background overflow-auto h-[620px] rounded-lg w-[580px]"
         >
           {" "}
           <div className="title bar relative flex flex-row items-center justify-between">
@@ -241,7 +242,6 @@ const CardDetails = ({
                     <Icon name="description" />
                     <p className="font-semibold">Description</p>
                   </div>
-                  {/* This should be a separate component?? */}
                   <TextArea desc={selectedCard?.description} />
                 </div>
               </div>
@@ -250,7 +250,6 @@ const CardDetails = ({
                   <Icon name="comments" />
                   <h3 className="font-semibold">Comments</h3>
                 </div>
-                {/* Below should be dynamic data */}
                 <div className="flex flex-row gap-2 my-2  items-center">
                   <Avatar
                     as="button"
@@ -266,9 +265,9 @@ const CardDetails = ({
                     type="text"
                     classNames={{
                       base: "max-w-full sm:max-w-[28rem] h-10 bg-foreground",
-                      mainWrapper: "flex h-full w-full  bg-forground",
+                      mainWrapper: "flex h-full w-full bg-forground",
                       input:
-                        "text-small font-semibold group-data-[focus=true]:text-background",
+                        "text-small font-semibold group-data-[focus=true]:text-black/70 placeholder:text-black-700/50 dark:placeholder:text-black/60",
                       inputWrapper:
                         "dark:focus-within:!bg-foreground/70 data-[hover=true]:bg-foregound/80 h-full w-60  !cursor-text dark:focus-within:text-black bg-white hover:bg-foreground border-slate-100 rounded-md",
                     }}
@@ -307,7 +306,7 @@ const CardDetails = ({
 
               <Button
                 size="sm"
-                className="bg-primary mr-2"
+                className="bg-primary text-white mr-2"
                 onClick={() => setIsMemberVisible(!isMemberVisible)}
               >
                 Member

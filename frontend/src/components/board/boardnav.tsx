@@ -28,6 +28,7 @@ const BoardNav = () => {
   const [userInfoVisible, setUserInfoVisible] = useState(false);
   const [currentUsers, setCurrentUsers] = useState([] as any);
   const [userCardContent, setUserCardContent] = useState([] as any);
+  console.log("userCardContent", userCardContent);
   const ref = useRef(null);
   const [members, setMembers] = useState([] as any);
   const users = workspaces.find(
@@ -161,10 +162,7 @@ const BoardNav = () => {
                   className="rounded-full 3xl hover:cursor-pointer border-2 border-white"
                   width={80}
                   height={90}
-                  src={
-                    userCardContent?.image ||
-                    "https://avatarfiles.alphacoders.com/324/324846.jpg"
-                  }
+                  src={userCardContent?.image}
                   alt="user-avatar"
                   onClick={() => {
                     console.log("display user details here");

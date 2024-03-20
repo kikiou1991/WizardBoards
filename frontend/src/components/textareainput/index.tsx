@@ -89,7 +89,7 @@ const TextArea = ({ value, desc, onSubmit }: TextAreaProps) => {
             value={editValue === "" ? message : editValue}
             style={{ resize: "none" }}
             onChange={(e) => setEditValue(e.target.value)}
-            className="w-full h-28 p-2 border-2 border-gray-300 rounded-md  bg-foreground focus:outline-none focus:border-blue-500"
+            className="w-full h-28 p-2 border-2 border-gray-300 rounded-md hover:bg-white bg-foreground text-background focus:outline-none focus:border-blue-500"
           />
           <Button
             color="primary"

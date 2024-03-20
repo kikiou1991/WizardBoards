@@ -280,19 +280,27 @@ const Project = () => {
                   handleValueChange(newValue)
                 }
                 onKeyDown={handleKeyDown}
-                className="bg-blue text-black font-semibold pt-2 mb-2"
+                className="bg-blue text-black font-semibold p-2 "
                 placeholder="Enter a title for this list..."
-                style={{
-                  height: "40px",
-                  padding: "5px",
-                }}
                 classNames={{
-                  base: "max-w-full sm:max-w-[24rem] h-10 items-center border-slate-200",
-                  mainWrapper: "flex h-full w-full justify-center  ",
-                  input:
-                    "text-small font-semibold group-data-[focus=true]:text-background",
-                  inputWrapper:
-                    "dark:focus-within:!bg-cards/70 data-[hover=true]:bg-cards h-full w-60  !cursor-text dark:focus-within:text-black bg-cards hover:bg-foreground border-slate-100 rounded-md",
+                  label: "text-black/50 dark:text-white/90",
+                  input: [
+                    "bg-transparent",
+                    "text-black/90 dark:text-white/90",
+                    "placeholder:text-default-700/50 dark:placeholder:text-white/60",
+                  ],
+                  innerWrapper: "bg-transparent",
+                  inputWrapper: [
+                    "shadow-xl",
+                    "bg-default-200/50",
+                    "dark:bg-default/60",
+                    "backdrop-blur-xl",
+                    "hover:bg-default-200/70",
+                    "dark:hover:bg-default/70",
+                    "group-data-[focused=true]:bg-default-200/50",
+                    "dark:group-data-[focused=true]:bg-default/60",
+                    "!cursor-text",
+                  ],
                 }}
               ></Input>
               <div className="flex justify-start items-center px-2 py-1">
