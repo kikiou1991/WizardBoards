@@ -149,12 +149,11 @@ const CardDetails = ({
 
   //function to add a comment to the card
   const handleAddComment = async () => {
-    console.log("adding a comment");
     try {
       if (selectedCard) {
         await listCards.addComment(token, selectedCard.uuid, singleComment);
-        setSingleComment("");
       }
+      setSingleComment("");
     } catch (error) {
       toast.error("Failed to add comment:");
     }
@@ -170,6 +169,31 @@ const CardDetails = ({
   const socketRef = useRef<Socket | null>(null);
   useEffect(() => {
     if (!socketRef.current) {
+      socketRef.current = io(
+        `${projectConfig.apiBaseUrl}/v2/cards/comments`,
+        {}
+      );
+    }
+
+    const socket = socketRef.current;
+
+    socket.on("comment", (data: any) => {
+      if (data.type === "create") {
+        const newCommentObj = data.data;
+        setComments((prevComments) => [...prevComments, newCommentObj]);
+      } else {
+        throw new Error("Failed to create card with socket");
+      }
+    });
+    return () => {
+      if (socketRef.current) {
+        socketRef.current.disconnect();
+        socketRef.current = null;
+      }
+    };
+  }, []);
+  useEffect(() => {
+    if (!socketRef.current) {
       socketRef.current = io(`${projectConfig.apiBaseUrl}/v2/cards/member`, {});
     }
 
@@ -177,11 +201,8 @@ const CardDetails = ({
 
     socket.on("member", (data: any) => {
       if (data.type === "update") {
-        console.log("updaeting the card memevers with the socket");
         const newCard = data.data;
-        console.log("new card", newCard);
         members = newCard.members;
-        console.log("members before", members);
       } else {
         throw new Error("Failed to create card with socket");
       }

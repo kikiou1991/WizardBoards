@@ -292,7 +292,10 @@ module.exports = async (app, db, io) => {
             { $push: { comments: result.insertedId } },
             { returnOriginal: true }
           );
-        commentNamespace.emit("comment", { type: "create", data: result });
+        const newComment = await db
+          .collection("comments")
+          .findOne({ _id: result.insertedId });
+        commentNamespace.emit("comment", { type: "create", data: newComment });
         return res.status(201).json({
           message: "Message added successfully",
           success: true,

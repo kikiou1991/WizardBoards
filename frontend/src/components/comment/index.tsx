@@ -22,8 +22,6 @@ const Comment = ({ text, userId, members }: CommentProps) => {
       }
     }
   }, [userId, members]);
-  console.log("comment memebers", members);
-  console.log("comment userId", userId);
   return (
     <div className="flex flex-row gap-3 items-start justify-start  py-1 w-30">
       <Avatar

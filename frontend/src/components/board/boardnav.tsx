@@ -28,7 +28,6 @@ const BoardNav = () => {
   const [userInfoVisible, setUserInfoVisible] = useState(false);
   const [currentUsers, setCurrentUsers] = useState([] as any);
   const [userCardContent, setUserCardContent] = useState([] as any);
-  console.log("userCardContent", userCardContent);
   const ref = useRef(null);
   const [members, setMembers] = useState([] as any);
   const users = workspaces.find(
