@@ -180,6 +180,7 @@ const CardDetails = ({
     socket.on("comment", (data: any) => {
       if (data.type === "create") {
         const newCommentObj = data.data;
+        console.log(newCommentObj);
         setComments((prevComments) => [...prevComments, newCommentObj]);
       } else {
         throw new Error("Failed to create card with socket");
@@ -192,6 +193,7 @@ const CardDetails = ({
       }
     };
   }, []);
+  console.log("comments", comments);
   useEffect(() => {
     if (!socketRef.current) {
       socketRef.current = io(`${projectConfig.apiBaseUrl}/v2/cards/member`, {});
